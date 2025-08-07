@@ -168,7 +168,26 @@ export default function HomePage() {
             {features.map((feature) => (
               <Card key={feature.title} className="group hover:shadow-lg transition-all hover:-translate-y-1">
                 <CardHeader>
-                  <div className={`inline-flex p-3 rounded-lg bg-gradient-to-br ${feature.gradient} text-white mb-4`}>
+                  <div 
+                    className="inline-flex p-3 rounded-lg text-white mb-4"
+                    style={{
+                      background: `linear-gradient(to bottom right, ${
+                        feature.title === 'AI-Powered Video Generation' ? 'rgb(147 51 234)' :
+                        feature.title === 'Interactive Learning Paths' ? 'rgb(37 99 235)' :
+                        feature.title === 'Professional Certifications' ? 'rgb(249 115 22)' :
+                        feature.title === 'Live Collaboration' ? 'rgb(34 197 94)' :
+                        feature.title === 'Advanced Analytics' ? 'rgb(99 102 241)' :
+                        'rgb(250 204 21)'
+                      }, ${
+                        feature.title === 'AI-Powered Video Generation' ? 'rgb(219 39 119)' :
+                        feature.title === 'Interactive Learning Paths' ? 'rgb(6 182 212)' :
+                        feature.title === 'Professional Certifications' ? 'rgb(239 68 68)' :
+                        feature.title === 'Live Collaboration' ? 'rgb(16 185 129)' :
+                        feature.title === 'Advanced Analytics' ? 'rgb(147 51 234)' :
+                        'rgb(249 115 22)'
+                      })`
+                    }}
+                  >
                     <feature.icon className="h-6 w-6" />
                   </div>
                   <CardTitle>{feature.title}</CardTitle>

@@ -229,7 +229,22 @@ export default function AIVideoGeneratorPage() {
                         : "border-border hover:border-primary/50"
                     }`}
                   >
-                    <div className={`absolute top-2 right-2 h-8 w-8 rounded-full bg-gradient-to-br ${engine.color} flex items-center justify-center`}>
+                    <div 
+                      className="absolute top-2 right-2 h-8 w-8 rounded-full flex items-center justify-center"
+                      style={{
+                        background: `linear-gradient(to bottom right, ${
+                          engine.id === VideoEngine.SORA ? 'rgb(147 51 234)' :
+                          engine.id === VideoEngine.RUNWAY_GEN3 ? 'rgb(37 99 235)' :
+                          engine.id === VideoEngine.LUMA_DREAM ? 'rgb(249 115 22)' :
+                          'rgb(34 197 94)'
+                        }, ${
+                          engine.id === VideoEngine.SORA ? 'rgb(219 39 119)' :
+                          engine.id === VideoEngine.RUNWAY_GEN3 ? 'rgb(6 182 212)' :
+                          engine.id === VideoEngine.LUMA_DREAM ? 'rgb(239 68 68)' :
+                          'rgb(16 185 129)'
+                        })`
+                      }}
+                    >
                       <engine.icon className="h-4 w-4 text-white" />
                     </div>
                     <div className="text-left">
