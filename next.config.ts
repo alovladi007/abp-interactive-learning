@@ -5,8 +5,6 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: '/abp-interactive-learning',
-  assetPrefix: '/abp-interactive-learning',
 };
 
 export default nextConfig;
