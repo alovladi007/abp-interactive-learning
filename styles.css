@@ -208,6 +208,7 @@ body {
     width: 100%;
     height: 400px;
     object-fit: cover;
+    background-color: #f0f0f0; /* Fallback background */
 }
 
 @keyframes fadeIn {
