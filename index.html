@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABP Interactive Learning - Advanced AI Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .container {
+            max-width: 1200px;
+            padding: 2rem;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .feature-desc {
+            opacity: 0.8;
+        }
+        .cta-section {
+            margin-top: 4rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            margin: 0.5rem;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: #333;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        .status {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+        .new-badge {
+            background: #ff6b6b;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="new-badge">✨ NEW: AI Video Generator</div>
+        <h1>ABP Interactive Learning</h1>
+        <p class="subtitle">Next-Generation AI-Powered Learning Platform</p>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🎬</div>
+                <h3 class="feature-title">AI Video Generator</h3>
+                <p class="feature-desc">Transform text into stunning videos with OpenAI Sora, Runway Gen-3, and more cutting-edge AI models.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3 class="feature-title">Advanced Learning</h3>
+                <p class="feature-desc">Interactive courses, certifications, and personalized learning paths powered by AI.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <h3 class="feature-title">Smart Features</h3>
+                <p class="feature-desc">Real-time collaboration, AI tutoring, and comprehensive analytics for optimal learning.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <a href="old-site/dashboard.html" class="btn">Try Demo Dashboard</a>
+            <a href="https://github.com/alovladi007/abp-interactive-learning" class="btn btn-secondary">View on GitHub</a>
+        </div>
+        
+        <div class="status">
+            <p><strong>🚧 Platform Status:</strong> We're deploying the new Next.js application. The full platform with AI Video Generator, advanced streaming, and e-commerce features is being configured for production.</p>
+            <p style="margin-top: 0.5rem;"><strong>What's New:</strong> Complete rebuild with React, TypeScript, AI video generation pipeline, multiple video engines (Sora, Runway, Luma), script & storyboard generation, and much more!</p>
+        </div>
+    </div>
+</body>
+</html>
