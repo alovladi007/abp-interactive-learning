@@ -30,6 +30,7 @@ import {
 
 const navigation = [
   { name: "Home", href: "/", icon: Home },
+  { name: "AI Video", href: "/ai-video-generator", icon: Sparkles },
   { name: "Videos", href: "/videos", icon: Video },
   { name: "Courses", href: "/courses", icon: BookOpen },
   { name: "Learning Path", href: "/learning-path", icon: GraduationCap },
