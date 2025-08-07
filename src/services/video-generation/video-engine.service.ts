@@ -26,7 +26,8 @@ export abstract class BaseVideoEngine {
 
   abstract generateVideo(
     frames: StoryboardFrame[],
-    settings: VideoSettings
+    settings: VideoSettings,
+    frameDurations: number[]
   ): Promise<VideoOutput>
 
   abstract checkStatus(jobId: string): Promise<{
@@ -37,12 +38,12 @@ export abstract class BaseVideoEngine {
 
   abstract estimateCost(duration: number, settings: VideoSettings): number
 
-  protected buildPrompt(frame: StoryboardFrame, settings: VideoSettings): string {
+  protected buildPrompt(frame: StoryboardFrame, settings: VideoSettings, duration: number): string {
     const { prompt, metadata } = frame
-    const { style, quality, fps } = settings
+    const { quality, fps } = settings
 
     return `${prompt} | cinematic ${metadata.style}, ${metadata.lighting}, ${metadata.colorGrade}
-    — ${quality} quality; duration ${frame.duration}s, ${fps} fps, seed:${frame.seed}, ar ${metadata.aspectRatio}`
+    — ${quality} quality; duration ${duration}s, ${fps} fps, seed:${frame.seed}, ar ${metadata.aspectRatio}`
   }
 }
 
@@ -50,11 +51,12 @@ export abstract class BaseVideoEngine {
 export class SoraEngine extends BaseVideoEngine {
   async generateVideo(
     frames: StoryboardFrame[],
-    settings: VideoSettings
+    settings: VideoSettings,
+    frameDurations: number[]
   ): Promise<VideoOutput> {
     // Sora can handle up to 60s in one generation
     const combinedPrompt = frames
-      .map((frame) => this.buildPrompt(frame, settings))
+      .map((frame, index) => this.buildPrompt(frame, settings, frameDurations[index]))
       .join(' | ')
 
     const response = await fetch(`${this.config.endpoint}/v1/video/generations`, {
@@ -155,14 +157,15 @@ export class SoraEngine extends BaseVideoEngine {
 export class RunwayGen3Engine extends BaseVideoEngine {
   async generateVideo(
     frames: StoryboardFrame[],
-    settings: VideoSettings
+    settings: VideoSettings,
+    frameDurations: number[]
   ): Promise<VideoOutput> {
     // Runway works with 5-10s clips
     const clips: string[] = []
     
-    for (const frame of frames) {
-      const prompt = this.buildRunwayPrompt(frame, settings)
-      const clipUrl = await this.generateClip(prompt, frame.duration)
+    for (let i = 0; i < frames.length; i++) {
+      const prompt = this.buildRunwayPrompt(frames[i], settings)
+      const clipUrl = await this.generateClip(prompt, frameDurations[i])
       clips.push(clipUrl)
     }
 
@@ -245,7 +248,8 @@ export class RunwayGen3Engine extends BaseVideoEngine {
 export class LumaDreamEngine extends BaseVideoEngine {
   async generateVideo(
     frames: StoryboardFrame[],
-    settings: VideoSettings
+    settings: VideoSettings,
+    frameDurations: number[]
   ): Promise<VideoOutput> {
     const prompt = frames
       .map((f) => `${f.prompt}, dream-like haze, ${f.metadata.style}`)
@@ -315,7 +319,8 @@ export class LumaDreamEngine extends BaseVideoEngine {
 export class AnimateDiffEngine extends BaseVideoEngine {
   async generateVideo(
     frames: StoryboardFrame[],
-    settings: VideoSettings
+    settings: VideoSettings,
+    frameDurations: number[]
   ): Promise<VideoOutput> {
     // This would connect to a self-hosted AnimateDiff instance
     const response = await fetch(`${this.config.endpoint}/generate`, {
@@ -325,13 +330,13 @@ export class AnimateDiffEngine extends BaseVideoEngine {
         'X-API-Key': this.config.apiKey,
       },
       body: JSON.stringify({
-        frames: frames.map((f) => ({
+        frames: frames.map((f, index) => ({
           prompt: `${f.prompt}, [AnimateDiff:v3_xl_motion-large]`,
           negative_prompt: f.negativePrompt,
-          seed: parseInt(f.seed),
+          seed: parseInt(f.seed.replace(/\D/g, '')),
           steps: 25,
           cfg_scale: 7.5,
-          duration: f.duration,
+          duration: frameDurations[index],
         })),
         fps: settings.fps,
         resolution: settings.resolution,
