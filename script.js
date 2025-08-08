@@ -125,6 +125,9 @@ function currentSlide(n) {
     startSlideshow();
 }
 
+// Make currentSlide globally accessible
+window.currentSlide = currentSlide;
+
 function startSlideshow() {
     slideInterval = setInterval(() => {
         nextSlide();
