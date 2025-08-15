@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutoring Videos - ABP Interactive Learning</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2><a href="index.html" style="color: white; text-decoration: none;">ABP Interactive Learning</a></h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">🏠 Home</a></li>
+                <li class="nav-item"><a href="dashboard.html" class="nav-link">📊 My Dashboard</a></li>
+                <li class="nav-item"><a href="academic-setup.html" class="nav-link">🎓 Academic Setup</a></li>
+                <li class="nav-item"><a href="library.html" class="nav-link">📚 My Library</a></li>
+                <li class="nav-item"><a href="tutoring-videos.html" class="nav-link active">🎬 Tutoring Videos</a></li>
+                <li class="nav-item"><a href="marketplace.html" class="nav-link">🛒 Marketplace</a></li>
+                <li class="nav-item"><a href="ai-generator.html" class="nav-link">🧠 AI Generator</a></li>
+                <li class="nav-item"><a href="quizzes.html" class="nav-link">📝 Quizzes & Tests</a></li>
+                <li class="nav-item"><a href="certifications.html" class="nav-link">🏆 Certifications</a></li>
+                <li class="nav-item"><a href="partners.html" class="nav-link">🤝 Partners</a></li>
+                <li class="nav-item"><a href="corporate.html" class="nav-link">💼 Corporate Hub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <div class="content-header">
+            <h1>🎬 Tutoring Videos</h1>
+            <p>Comprehensive tutoring content for all learning levels - 100 videos free, upgrade for unlimited access</p>
+            <div class="access-controls">
+                <div class="access-stats">
+                    <div class="free-counter">
+                        <i class="fas fa-gift"></i>
+                        <span>100 Free Videos Available</span>
+                    </div>
+                    <div class="video-counter">
+                        <i class="fas fa-video"></i>
+                        <span>500+ Total Videos</span>
+                    </div>
+                </div>
+                <button id="uploadBtn" class="btn btn-primary" onclick="toggleUploadModal()">
+                    <i class="fas fa-upload"></i> Upload Video
+                </button>
+            </div>
+        </div>
+
+        <div class="tutoring-container">
+            <!-- Free Access Section (First 100 Videos) -->
+            <div class="free-access-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-gift"></i> Free Access - First 100 Videos</h2>
+                    <p>Get started with our comprehensive collection of free tutoring videos</p>
+                </div>
+
+                <!-- Physics (Classical & Modern) - FREE -->
+                <div class="subject-category">
+                    <h3>🔬 Physics (Classical & Modern) - FREE</h3>
+                    <div class="video-grid">
+                        <div class="video-card free">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-play-circle"></i>
+                                <div class="video-duration">45:30</div>
+                                <div class="free-badge">FREE</div>
+                            </div>
+                            <div class="video-info">
+                                <h4>Classical Mechanics Basics</h4>
+                                <p>Newton's laws and motion dynamics</p>
+                                <div class="video-stats">
+                                    <span>Beginner Level</span>
+                                    <span>45 min</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card free">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-play-circle"></i>
+                                <div class="video-duration">38:15</div>
+                                <div class="free-badge">FREE</div>
+                            </div>
+                            <div class="video-info">
+                                <h4>Introduction to Modern Physics</h4>
+                                <p>Basic concepts of relativity and quantum</p>
+                                <div class="video-stats">
+                                    <span>Beginner Level</span>
+                                    <span>38 min</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card free">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-play-circle"></i>
+                                <div class="video-duration">42:20</div>
+                                <div class="free-badge">FREE</div>
+                            </div>
+                            <div class="video-info">
+                                <h4>Energy and Momentum</h4>
+                                <p>Conservation laws in physics</p>
+                                <div class="video-stats">
+                                    <span>Intermediate Level</span>
+                                    <span>42 min</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mathematics - FREE -->
+                <div class="subject-category">
+                    <h3>📐 Mathematics - FREE</h3>
+                    <div class="video-grid">
+                        <div class="video-card free">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-play-circle"></i>
+                                <div class="video-duration">35:45</div>
+                                <div class="free-badge">FREE</div>
+                            </div>
+                            <div class="video-info">
+                                <h4>Calculus Fundamentals</h4>
+                                <p>Derivatives and integrals basics</p>
+                                <div class="video-stats">
+                                    <span>Beginner Level</span>
+                                    <span>35 min</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card free">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-play-circle"></i>
+                                <div class="video-duration">40:30</div>
+                                <div class="free-badge">FREE</div>
+                            </div>
+                            <div class="video-info">
+                                <h4>Linear Algebra Basics</h4>
+                                <p>Vectors, matrices, and systems</p>
+                                <div class="video-stats">
+                                    <span>Intermediate Level</span>
+                                    <span>40 min</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card free">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-play-circle"></i>
+                                <div class="video-duration">33:15</div>
+                                <div class="free-badge">FREE</div>
+                            </div>
+                            <div class="video-info">
+                                <h4>Statistics Introduction</h4>
+                                <p>Probability and basic statistics</p>
+                                <div class="video-stats">
+                                    <span>Beginner Level</span>
+                                    <span>33 min</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Computer Science - FREE -->
+                <div class="subject-category">
+                    <h3>💻 Computer Science - FREE</h3>
+                    <div class="video-grid">
+                        <div class="video-card free">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-play-circle"></i>
+                                <div class="video-duration">50:20</div>
+                                <div class="free-badge">FREE</div>
+                            </div>
+                            <div class="video-info">
+                                <h4>Programming Fundamentals</h4>
+                                <p>Basic programming concepts and logic</p>
+                                <div class="video-stats">
+                                    <span>Beginner Level</span>
+                                    <span>50 min</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card free">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-play-circle"></i>
+                                <div class="video-duration">44:10</div>
+                                <div class="free-badge">FREE</div>
+                            </div>
+                            <div class="video-info">
+                                <h4>Data Structures Basics</h4>
+                                <p>Arrays, lists, and basic structures</p>
+                                <div class="video-stats">
+                                    <span>Intermediate Level</span>
+                                    <span>44 min</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Free Videos Counter -->
+                <div class="free-videos-summary">
+                    <div class="summary-card">
+                        <h3><i class="fas fa-info-circle"></i> Free Video Library Summary</h3>
+                        <p>You have access to <strong>100 free videos</strong> covering fundamental topics in:</p>
+                        <div class="free-subjects-grid">
+                            <div class="free-subject-item">
+                                <i class="fas fa-atom"></i>
+                                <span>Basic Physics (15 videos)</span>
+                            </div>
+                            <div class="free-subject-item">
+                                <i class="fas fa-calculator"></i>
+                                <span>Mathematics (20 videos)</span>
+                            </div>
+                            <div class="free-subject-item">
+                                <i class="fas fa-laptop-code"></i>
+                                <span>Computer Science (18 videos)</span>
+                            </div>
+                            <div class="free-subject-item">
+                                <i class="fas fa-flask"></i>
+                                <span>Chemistry (12 videos)</span>
+                            </div>
+                            <div class="free-subject-item">
+                                <i class="fas fa-dna"></i>
+                                <span>Biology (10 videos)</span>
+                            </div>
+                            <div class="free-subject-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Business Basics (8 videos)</span>
+                            </div>
+                            <div class="free-subject-item">
+                                <i class="fas fa-cogs"></i>
+                                <span>Engineering Intro (10 videos)</span>
+                            </div>
+                            <div class="free-subject-item">
+                                <i class="fas fa-plus"></i>
+                                <span>And 7 more subjects...</span>
+                            </div>
+                        </div>
+                        <div class="upgrade-prompt">
+                            <p><strong>Want access to 400+ more advanced videos?</strong></p>
+                            <a href="#pricing" class="btn btn-primary">Upgrade to Pro</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Premium Access Section (Videos 101+) -->
+            <div class="premium-access-section">
+                <div class="premium-header">
+                    <h2><i class="fas fa-crown"></i> Premium Access - Advanced Video Library</h2>
+                    <p>Unlock 400+ advanced videos with Pro or ProMax subscription</p>
+                    <div class="premium-access-button">
+                        <a href="premium-tutoring-videos.html" class="btn btn-primary btn-large">
+                            <i class="fas fa-crown"></i> View All Premium Videos (400+)
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Advanced Physics - PREMIUM -->
+                <div class="subject-category premium-locked">
+                    <h3>🔬 Advanced Physics & Quantum Mechanics - PREMIUM</h3>
+                    <div class="video-grid">
+                        <div class="video-card premium locked">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-lock"></i>
+                                <div class="video-duration">55:30</div>
+                                <div class="premium-badge">PRO</div>
+                            </div>
+                            <div class="video-info">
+                                <h4>Advanced Quantum Mechanics</h4>
+                                <p>Schrödinger equation and wave functions</p>
+                                <div class="video-stats">
+                                    <span>Expert Level</span>
+                                    <span>55 min</span>
+                                </div>
+                            </div>
+                            <div class="upgrade-overlay">
+                                <i class="fas fa-crown"></i>
+                                <p>Upgrade to Pro</p>
+                            </div>
+                        </div>
+                        <div class="video-card premium locked">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-lock"></i>
+                                <div class="video-duration">48:20</div>
+                                <div class="premium-badge">PRO</div>
+                            </div>
+                            <div class="video-info">
+                                <h4>Electromagnetic Field Theory</h4>
+                                <p>Maxwell's equations and applications</p>
+                                <div class="video-stats">
+                                    <span>Expert Level</span>
+                                    <span>48 min</span>
+                                </div>
+                            </div>
+                            <div class="upgrade-overlay">
+                                <i class="fas fa-crown"></i>
+                                <p>Upgrade to Pro</p>
+                            </div>
+                        </div>
+                        <div class="video-card premium locked">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-lock"></i>
+                                <div class="video-duration">52:15</div>
+                                <div class="premium-badge">PROMAX</div>
+                            </div>
+                            <div class="video-info">
+                                <h4>Quantum Field Theory</h4>
+                                <p>Advanced quantum mechanics concepts</p>
+                                <div class="video-stats">
+                                    <span>Expert Level</span>
+                                    <span>52 min</span>
+                                </div>
+                            </div>
+                            <div class="upgrade-overlay">
+                                <i class="fas fa-crown"></i>
+                                <p>Upgrade to ProMax</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Engineering - PREMIUM -->
+                <div class="subject-category premium-locked">
+                    <h3>⚙️ Advanced Engineering - PREMIUM</h3>
+                    <div class="video-grid">
+                        <div class="video-card premium locked">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-lock"></i>
+                                <div class="video-duration">47:45</div>
+                                <div class="premium-badge">PRO</div>
+                            </div>
+                            <div class="video-info">
+                                <h4>VLSI Design</h4>
+                                <p>Advanced integrated circuit design</p>
+                                <div class="video-stats">
+                                    <span>Expert Level</span>
+                                    <span>47 min</span>
+                                </div>
+                            </div>
+                            <div class="upgrade-overlay">
+                                <i class="fas fa-crown"></i>
+                                <p>Upgrade to Pro</p>
+                            </div>
+                        </div>
+                        <div class="video-card premium locked">
+                            <div class="video-thumbnail">
+                                <i class="fas fa-lock"></i>
+                                <div class="video-duration">53:30</div>
+                                <div class="premium-badge">PRO</div>
+                            </div>
+                            <div class="video-info">
+                                <h4>Signal Processing</h4>
+                                <p>Digital signal processing techniques</p>
+                                <div class="video-stats">
+                                    <span>Advanced Level</span>
+                                    <span>53 min</span>
+                                </div>
+                            </div>
+                            <div class="upgrade-overlay">
+                                <i class="fas fa-crown"></i>
+                                <p>Upgrade to Pro</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Premium Library Summary -->
+                <div class="premium-library-summary">
+                    <div class="summary-card premium">
+                        <h3><i class="fas fa-crown"></i> Premium Library - 400+ Advanced Videos</h3>
+                        <p>Unlock our complete collection of advanced tutoring videos covering all 60+ subjects:</p>
+                        <div class="premium-subjects-grid">
+                            <div class="premium-subject-column">
+                                <h4>🔬 Advanced Sciences</h4>
+                                <ul>
+                                    <li>Quantum Mechanics (25 videos)</li>
+                                    <li>Electromagnetics (20 videos)</li>
+                                    <li>Solid-State Physics (18 videos)</li>
+                                    <li>Materials Science (15 videos)</li>
+                                    <li>Nanotechnology (12 videos)</li>
+                                </ul>
+                            </div>
+                            <div class="premium-subject-column">
+                                <h4>⚙️ Engineering</h4>
+                                <ul>
+                                    <li>VLSI/ASIC Design (22 videos)</li>
+                                    <li>Signal Processing (18 videos)</li>
+                                    <li>Control Systems (16 videos)</li>
+                                    <li>Power Electronics (14 videos)</li>
+                                    <li>RF Engineering (12 videos)</li>
+                                </ul>
+                            </div>
+                            <div class="premium-subject-column">
+                                <h4>💻 Advanced Computing</h4>
+                                <ul>
+                                    <li>Machine Learning (30 videos)</li>
+                                    <li>Computer Architecture (20 videos)</li>
+                                    <li>Cybersecurity (18 videos)</li>
+                                    <li>Quantum Computing (15 videos)</li>
+                                    <li>Hardware Security (10 videos)</li>
+                                </ul>
+                            </div>
+                            <div class="premium-subject-column">
+                                <h4>�� Advanced Mathematics</h4>
+                                <ul>
+                                    <li>Numerical Methods (20 videos)</li>
+                                    <li>Optimization Theory (15 videos)</li>
+                                    <li>Stochastic Processes (12 videos)</li>
+                                    <li>Information Theory (10 videos)</li>
+                                    <li>Graph Theory (8 videos)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="premium-upgrade-section">
+                            <div class="upgrade-options">
+                                <div class="upgrade-option">
+                                    <h4>Pro - $19/month</h4>
+                                    <p>Access to 300+ advanced videos</p>
+                                    <a href="#pricing" class="btn btn-primary">Upgrade to Pro</a>
+                                </div>
+                                <div class="upgrade-option featured">
+                                    <h4>ProMax - $49/month</h4>
+                                    <p>Access to ALL 400+ videos + exclusive content</p>
+                                    <a href="#pricing" class="btn btn-primary">Upgrade to ProMax</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal for Tutors -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Upload New Tutoring Video</h2>
+                <span class="close" onclick="toggleUploadModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="videoUploadForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="videoTitle">Video Title</label>
+                        <input type="text" id="videoTitle" name="title" required placeholder="e.g., Advanced Quantum Mechanics">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="videoDescription">Description</label>
+                        <textarea id="videoDescription" name="description" rows="3" placeholder="Brief description of the video content"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="videoSubject">Subject Category</label>
+                        <select id="videoSubject" name="subject" required>
+                            <option value="">Select Subject</option>
+                            <option value="physics-basic">Physics (Basic - FREE)</option>
+                            <option value="physics-advanced">Physics (Advanced - PREMIUM)</option>
+                            <option value="mathematics-basic">Mathematics (Basic - FREE)</option>
+                            <option value="mathematics-advanced">Mathematics (Advanced - PREMIUM)</option>
+                            <option value="computer-science-basic">Computer Science (Basic - FREE)</option>
+                            <option value="computer-science-advanced">Computer Science (Advanced - PREMIUM)</option>
+                            <option value="engineering-basic">Engineering (Basic - FREE)</option>
+                            <option value="engineering-advanced">Engineering (Advanced - PREMIUM)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="videoLevel">Difficulty Level</label>
+                        <select id="videoLevel" name="level" required>
+                            <option value="">Select Level</option>
+                            <option value="beginner">Beginner (FREE)</option>
+                            <option value="intermediate">Intermediate (FREE/PRO)</option>
+                            <option value="advanced">Advanced (PRO)</option>
+                            <option value="expert">Expert (PROMAX)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="accessLevel">Access Level</label>
+                        <select id="accessLevel" name="accessLevel" required>
+                            <option value="">Select Access Level</option>
+                            <option value="free">Free (Videos 1-100)</option>
+                            <option value="pro">Pro Required (Videos 101-400)</option>
+                            <option value="promax">ProMax Required (Videos 401+)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="videoFile">Video File</label>
+                        <div class="file-upload-area">
+                            <input type="file" id="videoFile" name="video" accept="video/*" required>
+                            <div class="file-upload-text">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click to select video file or drag and drop</p>
+                                <p class="file-types">Supported formats: MP4, AVI, MOV, WMV (Max 2GB)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="toggleUploadModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload"></i> Upload Video
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+    <script>
+        function toggleUploadModal() {
+            const modal = document.getElementById('uploadModal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('uploadModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('videoUploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show upload progress
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+            submitBtn.disabled = true;
+            
+            // Simulate upload process
+            setTimeout(() => {
+                alert('Video uploaded successfully! Access level has been set according to your selection.');
+                toggleUploadModal();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                this.reset();
+            }, 3000);
+        });
+
+        // Handle premium video clicks
+        document.querySelectorAll('.video-card.locked').forEach(card => {
+            card.addEventListener('click', function() {
+                const badge = this.querySelector('.premium-badge').textContent;
+                const upgradeMessage = badge === 'PROMAX' ? 
+                    'This video requires ProMax subscription ($49/month). Would you like to upgrade?' :
+                    'This video requires Pro subscription ($19/month). Would you like to upgrade?';
+                
+                if (confirm(upgradeMessage)) {
+                    window.location.href = '#pricing';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
