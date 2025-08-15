@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Plans - ABP Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .pricing-hero {
+            background: linear-gradient(180deg, var(--secondary-bg) 0%, var(--primary-bg) 100%);
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            margin-top: 70px;
+        }
+        
+        .pricing-toggle {
+            display: inline-flex;
+            background: var(--card-bg);
+            border-radius: 50px;
+            padding: 0.25rem;
+            margin: 2rem 0;
+        }
+        
+        .toggle-btn {
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-weight: 600;
+        }
+        
+        .toggle-btn.active {
+            background: var(--gradient-secondary);
+            color: white;
+        }
+        
+        .pricing-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .pricing-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 2px solid var(--border-color);
+            position: relative;
+            transition: var(--transition-normal);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-accent);
+        }
+        
+        .pricing-card.featured {
+            border-color: var(--primary-accent);
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .price-display {
+            margin: 2rem 0;
+        }
+        
+        .price-amount {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .price-currency {
+            font-size: 1.5rem;
+            vertical-align: super;
+        }
+        
+        .price-period {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin: 2rem 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-icon {
+            color: var(--success-color);
+        }
+        
+        .feature-icon.disabled {
+            color: var(--text-muted);
+        }
+        
+        .comparison-table {
+            margin: 4rem 0;
+            overflow-x: auto;
+        }
+        
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th {
+            background: var(--secondary-bg);
+            padding: 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .comparison-table td {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .comparison-table tr:hover {
+            background: var(--hover-bg);
+        }
+        
+        .faq-section {
+            margin: 4rem 0;
+        }
+        
+        .faq-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .faq-question:hover {
+            background: var(--hover-bg);
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 1.5rem 1.5rem;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">ABP Learning</span>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#features" class="nav-link">
+                        <i class="fas fa-star"></i>
+                        <span>Features</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="pricing.html" class="nav-link active">
+                        <i class="fas fa-tags"></i>
+                        <span>Pricing</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="btn btn-outline" onclick="window.location.href='login.html'">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </button>
+                <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
+                    <i class="fas fa-rocket"></i>
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Pricing Hero -->
+    <section class="pricing-hero">
+        <h1 style="font-size: 3rem; margin-bottom: 1rem;">Choose Your Learning Plan</h1>
+        <p class="text-secondary" style="font-size: 1.2rem;">Unlock unlimited learning with our flexible pricing options</p>
+        
+        <div class="pricing-toggle">
+            <button class="toggle-btn active" onclick="togglePricing('monthly')">Monthly</button>
+            <button class="toggle-btn" onclick="togglePricing('annual')">Annual (Save 20%)</button>
+        </div>
+    </section>
+
+    <!-- Pricing Plans -->
+    <div class="pricing-container">
+        <div class="pricing-grid">
+            <!-- Free Plan -->
+            <div class="pricing-card">
+                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Free</h3>
+                <p class="text-secondary">Perfect for getting started</p>
+                
+                <div class="price-display">
+                    <span class="price-currency">$</span>
+                    <span class="price-amount" data-monthly="0" data-annual="0">0</span>
+                    <span class="price-period">/month</span>
+                </div>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>Access to 100 free videos</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>3 AI video generations per month</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>Basic quizzes and assessments</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>Community support</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-times feature-icon disabled"></i>
+                        <span class="text-muted">Premium content access</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-times feature-icon disabled"></i>
+                        <span class="text-muted">Certificates of completion</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-times feature-icon disabled"></i>
+                        <span class="text-muted">Priority support</span>
+                    </li>
+                </ul>
+                
+                <button class="btn btn-outline" style="width: 100%;">
+                    <i class="fas fa-arrow-right"></i>
+                    Get Started Free
+                </button>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="pricing-card featured">
+                <span class="popular-badge">MOST POPULAR</span>
+                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Pro</h3>
+                <p class="text-secondary">For serious learners</p>
+                
+                <div class="price-display">
+                    <span class="price-currency">$</span>
+                    <span class="price-amount" data-monthly="19" data-annual="15">19</span>
+                    <span class="price-period">/month</span>
+                </div>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>Access to 400+ premium videos</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>Unlimited AI video generations</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>Advanced quizzes with explanations</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>Certificates of completion</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>Download videos for offline viewing</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>Priority email support</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-times feature-icon disabled"></i>
+                        <span class="text-muted">1-on-1 mentorship</span>
+                    </li>
+                </ul>
+                
+                <button class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-crown"></i>
+                    Start Pro Trial
+                </button>
+            </div>
+
+            <!-- ProMax Plan -->
+            <div class="pricing-card">
+                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">ProMax</h3>
+                <p class="text-secondary">For teams and professionals</p>
+                
+                <div class="price-display">
+                    <span class="price-currency">$</span>
+                    <span class="price-amount" data-monthly="49" data-annual="39">49</span>
+                    <span class="price-period">/month</span>
+                </div>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>Everything in Pro, plus:</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>Access to all 60+ subjects</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>1-on-1 mentorship sessions</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>Corporate training features</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>API access for integrations</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>Custom learning paths</span>
+                    </li>
+                    <li class="feature-item">
+                        <i class="fas fa-check feature-icon"></i>
+                        <span>24/7 dedicated support</span>
+                    </li>
+                </ul>
+                
+                <button class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-rocket"></i>
+                    Start ProMax Trial
+                </button>
+            </div>
+        </div>
+
+        <!-- Feature Comparison Table -->
+        <div class="comparison-table">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Detailed Feature Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Features</th>
+                        <th>Free</th>
+                        <th>Pro</th>
+                        <th>ProMax</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Video Library Access</strong></td>
+                        <td>100 videos</td>
+                        <td>400+ videos</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AI Video Generation</strong></td>
+                        <td>3/month</td>
+                        <td>Unlimited</td>
+                        <td>Unlimited + Priority</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Quizzes & Assessments</strong></td>
+                        <td>Basic</td>
+                        <td>Advanced</td>
+                        <td>Custom + Analytics</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Certificates</strong></td>
+                        <td><i class="fas fa-times text-muted"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Download for Offline</strong></td>
+                        <td><i class="fas fa-times text-muted"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Learning Analytics</strong></td>
+                        <td>Basic</td>
+                        <td>Detailed</td>
+                        <td>Advanced + Export</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Support</strong></td>
+                        <td>Community</td>
+                        <td>Priority Email</td>
+                        <td>24/7 Dedicated</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Team Features</strong></td>
+                        <td><i class="fas fa-times text-muted"></i></td>
+                        <td><i class="fas fa-times text-muted"></i></td>
+                        <td><i class="fas fa-check text-success"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Can I switch plans anytime?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    <p class="text-secondary">Yes! You can upgrade or downgrade your plan at any time. When upgrading, you'll be charged the prorated difference. When downgrading, the remaining balance will be credited to your account.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Is there a free trial for Pro and ProMax plans?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    <p class="text-secondary">Yes! Both Pro and ProMax plans come with a 7-day free trial. No credit card required to start your trial.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>What payment methods do you accept?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    <p class="text-secondary">We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers for annual plans. All payments are processed securely through Stripe.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Can I get a refund?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    <p class="text-secondary">We offer a 30-day money-back guarantee for all paid plans. If you're not satisfied with our service, contact our support team for a full refund.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Do you offer student discounts?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    <p class="text-secondary">Yes! Students with a valid .edu email address can get 50% off on Pro and ProMax plans. Contact our support team with your student ID for verification.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div style="text-align: center; padding: 4rem 2rem; background: var(--card-bg); border-radius: 16px; margin: 4rem 0;">
+            <h2 style="margin-bottom: 1rem;">Ready to Start Learning?</h2>
+            <p class="text-secondary" style="margin-bottom: 2rem; font-size: 1.1rem;">Join millions of learners and transform your career today</p>
+            <button class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;" onclick="window.location.href='login.html'">
+                <i class="fas fa-rocket"></i>
+                Start Your Free Trial
+            </button>
+            <p class="text-muted" style="margin-top: 1rem;">No credit card required • Cancel anytime</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer bg-secondary">
+        <div class="container">
+            <div class="footer-bottom text-center p-3">
+                <p class="text-muted">&copy; 2024 ABP Interactive Learning. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function togglePricing(type) {
+            const toggleBtns = document.querySelectorAll('.toggle-btn');
+            toggleBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const priceElements = document.querySelectorAll('.price-amount');
+            priceElements.forEach(el => {
+                const price = type === 'monthly' ? el.dataset.monthly : el.dataset.annual;
+                el.textContent = price;
+            });
+            
+            const periodElements = document.querySelectorAll('.price-period');
+            periodElements.forEach(el => {
+                el.textContent = type === 'monthly' ? '/month' : '/month (billed annually)';
+            });
+        }
+        
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

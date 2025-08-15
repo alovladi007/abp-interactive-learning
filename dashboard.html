@@ -3,732 +3,675 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABP Interactive Learning - Dashboard</title>
+    <title>ABP Learning - Advanced Dashboard</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="dashboard.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation Header -->
+    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <h2>ABP Interactive Learning</h2>
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">ABP Learning</span>
+            </a>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search courses, videos, documents...">
             </div>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Dashboard</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Profile</a></li>
-                <li class="nav-item"><a href="#" class="nav-link logout-btn">Logout</a></li>
-            </ul>
+
+            <!-- User Menu -->
+            <div class="nav-actions">
+                <button class="btn-icon" data-tooltip="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <button class="btn-icon" data-tooltip="Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <div class="user-menu">
+                    <img src="https://ui-avatars.com/api/?name=John+Doe&background=00d4ff&color=fff" alt="User" class="user-avatar">
+                    <div class="user-info">
+                        <span class="user-name">John Doe</span>
+                        <span class="user-role">Premium Member</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
         </div>
     </nav>
 
     <!-- Dashboard Container -->
     <div class="dashboard-container">
-        <!-- Sidebar Navigation -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h3>Welcome, Student</h3>
-                <p>Ready to learn today?</p>
+                <h3>Welcome Back!</h3>
+                <p class="text-secondary">Ready to continue learning?</p>
             </div>
-            <nav class="sidebar-nav">
-                <a href="#dashboard" class="nav-item active" data-tab="dashboard">
-                    <i class="fas fa-home"></i> My Dashboard
-                </a>
-                <a href="#academic" class="nav-item" data-tab="academic">
-                    <i class="fas fa-graduation-cap"></i> Academic Setup
-                </a>
-                <a href="#library" class="nav-item" data-tab="library">
-                    <i class="fas fa-book"></i> My Library
-                </a>
-                <a href="#marketplace" class="nav-item" data-tab="marketplace">
-                    <i class="fas fa-shopping-cart"></i> Marketplace
-                </a>
-                <a href="#ai-generator" class="nav-item" data-tab="ai-generator">
-                    <i class="fas fa-robot"></i> AI Generator
-                </a>
-                <a href="#quizzes" class="nav-item" data-tab="quizzes">
-                    <i class="fas fa-question-circle"></i> Quizzes & Tests
-                </a>
-                <a href="#partners" class="nav-item" data-tab="partners">
-                    <i class="fas fa-handshake"></i> Partners
-                </a>
-                <a href="#corporate" class="nav-item" data-tab="corporate">
-                    <i class="fas fa-building"></i> Corporate Hub
-                </a>
-                <a href="#certifications" class="nav-item" data-tab="certifications">
-                    <i class="fas fa-certificate"></i> Certifications & Licenses
-                </a>
-                <a href="#tutoring" class="nav-item" data-tab="tutoring">
-                    <i class="fas fa-chalkboard-teacher"></i> Tutoring Videos
-                </a>
-            </nav>
+
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="#dashboard" class="sidebar-link active" data-feature="dashboard">
+                        <span class="sidebar-icon"><i class="fas fa-home"></i></span>
+                        <span>My Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="academic-setup.html" class="sidebar-link" data-feature="academic">
+                        <span class="sidebar-icon"><i class="fas fa-graduation-cap"></i></span>
+                        <span>Academic Setup</span>
+                        <span class="badge-new">NEW</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#library" class="sidebar-link" data-feature="library">
+                        <span class="sidebar-icon"><i class="fas fa-book"></i></span>
+                        <span>My Library</span>
+                        <span class="counter">128</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#marketplace" class="sidebar-link" data-feature="marketplace">
+                        <span class="sidebar-icon"><i class="fas fa-shopping-cart"></i></span>
+                        <span>Marketplace</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#ai-generator" class="sidebar-link" data-feature="ai">
+                        <span class="sidebar-icon"><i class="fas fa-robot"></i></span>
+                        <span>AI Generator</span>
+                        <span class="badge-hot">HOT</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#quizzes" class="sidebar-link" data-feature="quizzes">
+                        <span class="sidebar-icon"><i class="fas fa-question-circle"></i></span>
+                        <span>Quizzes & Tests</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#partners" class="sidebar-link" data-feature="partners">
+                        <span class="sidebar-icon"><i class="fas fa-handshake"></i></span>
+                        <span>Partners</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#corporate" class="sidebar-link" data-feature="corporate">
+                        <span class="sidebar-icon"><i class="fas fa-building"></i></span>
+                        <span>Corporate Hub</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="certifications.html" class="sidebar-link" data-feature="certifications">
+                        <span class="sidebar-icon"><i class="fas fa-certificate"></i></span>
+                        <span>Certifications</span>
+                        <span class="counter">5</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="tutoring-videos.html" class="sidebar-link" data-feature="tutoring">
+                        <span class="sidebar-icon"><i class="fas fa-video"></i></span>
+                        <span>Tutoring Videos</span>
+                        <span class="badge-premium">PRO</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="storage-info">
+                    <div class="storage-header">
+                        <i class="fas fa-cloud"></i>
+                        <span>Storage Used</span>
+                    </div>
+                    <div class="storage-bar">
+                        <div class="storage-fill" style="width: 65%"></div>
+                    </div>
+                    <span class="storage-text">6.5 GB of 10 GB</span>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    <i class="fas fa-crown"></i>
+                    Upgrade to ProMax
+                </button>
+            </div>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Dashboard Tab -->
-            <div id="dashboard" class="tab-content active">
-                <div class="content-header">
-                    <h1>My Dashboard</h1>
-                    <p>Overview of your learning progress and activities</p>
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <i class="fas fa-video"></i>
-                        <div class="stat-info">
-                            <h3>12</h3>
-                            <p>Videos Generated</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-book-open"></i>
-                        <div class="stat-info">
-                            <h3>8</h3>
-                            <p>Books in Library</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-trophy"></i>
-                        <div class="stat-info">
-                            <h3>3</h3>
-                            <p>Certificates Earned</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-clock"></i>
-                        <div class="stat-info">
-                            <h3>45h</h3>
-                            <p>Study Time</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="recent-activity">
-                    <h2>Recent Activity</h2>
-                    <div class="activity-list">
-                        <div class="activity-item">
-                            <i class="fas fa-play-circle"></i>
-                            <div class="activity-content">
-                                <h4>Completed: Quantum Mechanics Basics</h4>
-                                <p>2 hours ago</p>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <i class="fas fa-upload"></i>
-                            <div class="activity-content">
-                                <h4>Uploaded: Advanced Mathematics Chapter 5</h4>
-                                <p>1 day ago</p>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <i class="fas fa-certificate"></i>
-                            <div class="activity-content">
-                                <h4>Started: Machine Learning Certification Prep</h4>
-                                <p>3 days ago</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Academic Setup Tab -->
-            <div id="academic" class="tab-content">
-                <div class="content-header">
-                    <h1>Academic Setup</h1>
-                    <p>Configure your academic profile and subjects</p>
-                    <a href="academic-setup.html" class="btn btn-primary">
-                        <i class="fas fa-external-link-alt"></i> Learn More
-                    </a>
-                </div>
-                
-                <div class="academic-form">
-                    <div class="form-section">
-                        <h3>Education Level</h3>
-                        <select class="form-control">
-                            <option>Select Education Level</option>
-                            <option>Elementary School</option>
-                            <option>High School</option>
-                            <option>Undergraduate</option>
-                            <option>Graduate</option>
-                            <option>Professional</option>
+            <!-- Dashboard Overview -->
+            <section id="dashboard" class="content-section active">
+                <div class="section-header">
+                    <h1>Dashboard Overview</h1>
+                    <div class="header-actions">
+                        <select class="form-select">
+                            <option>Last 7 days</option>
+                            <option>Last 30 days</option>
+                            <option>Last 3 months</option>
                         </select>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3>Field of Study</h3>
-                        <select class="form-control">
-                            <option>Select Field</option>
-                            <option>Engineering</option>
-                            <option>Computer Science</option>
-                            <option>Mathematics</option>
-                            <option>Physics</option>
-                            <option>Chemistry</option>
-                            <option>Biology</option>
-                            <option>Economics</option>
-                            <option>Finance</option>
-                            <option>Business</option>
-                            <option>Medicine</option>
-                            <option>Law</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3>Current Subjects</h3>
-                        <div class="subjects-grid">
-                            <label class="subject-checkbox">
-                                <input type="checkbox" checked>
-                                <span>Mathematics</span>
-                            </label>
-                            <label class="subject-checkbox">
-                                <input type="checkbox">
-                                <span>Physics</span>
-                            </label>
-                            <label class="subject-checkbox">
-                                <input type="checkbox" checked>
-                                <span>Computer Science</span>
-                            </label>
-                            <label class="subject-checkbox">
-                                <input type="checkbox">
-                                <span>Engineering</span>
-                            </label>
-                            <label class="subject-checkbox">
-                                <input type="checkbox">
-                                <span>Chemistry</span>
-                            </label>
-                            <label class="subject-checkbox">
-                                <input type="checkbox">
-                                <span>Biology</span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3>Upload Syllabus</h3>
-                        <div class="upload-area">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p>Drag and drop your syllabus files here or click to browse</p>
-                            <input type="file" multiple accept=".pdf,.doc,.docx">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- My Library Tab -->
-            <div id="library" class="tab-content">
-                <div class="content-header">
-                    <h1>My Library</h1>
-                    <p>Your personal collection of books and research papers</p>
-                    <button class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add New Book
-                    </button>
-                </div>
-                
-                <div class="library-filters">
-                    <input type="search" placeholder="Search your library..." class="search-input">
-                    <select class="filter-select">
-                        <option>All Categories</option>
-                        <option>Textbooks</option>
-                        <option>Research Papers</option>
-                        <option>Reference Materials</option>
-                        <option>Personal Notes</option>
-                    </select>
-                </div>
-                
-                <div class="library-grid">
-                    <div class="book-card">
-                        <div class="book-cover">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <div class="book-info">
-                            <h4>Advanced Quantum Mechanics</h4>
-                            <p>by David J. Griffiths</p>
-                            <div class="book-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 65%"></div>
-                                </div>
-                                <span>65% Complete</span>
-                            </div>
-                            <div class="book-actions">
-                                <button class="btn btn-sm btn-primary">Continue Reading</button>
-                                <button class="btn btn-sm btn-outline">Generate Video</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="book-card">
-                        <div class="book-cover">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <div class="book-info">
-                            <h4>Machine Learning Fundamentals</h4>
-                            <p>by Andrew Ng</p>
-                            <div class="book-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 30%"></div>
-                                </div>
-                                <span>30% Complete</span>
-                            </div>
-                            <div class="book-actions">
-                                <button class="btn btn-sm btn-primary">Continue Reading</button>
-                                <button class="btn btn-sm btn-outline">Generate Video</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="book-card">
-                        <div class="book-cover">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                        <div class="book-info">
-                            <h4>Semiconductor Physics Research</h4>
-                            <p>Research Paper Collection</p>
-                            <div class="book-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 80%"></div>
-                                </div>
-                                <span>80% Complete</span>
-                            </div>
-                            <div class="book-actions">
-                                <button class="btn btn-sm btn-primary">Continue Reading</button>
-                                <button class="btn btn-sm btn-outline">Generate Video</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Marketplace Tab -->
-            <div id="marketplace" class="tab-content">
-                <div class="content-header">
-                    <h1>Marketplace</h1>
-                    <p>Discover and purchase books, courses, and learning materials</p>
-                </div>
-                
-                <div class="marketplace-categories">
-                    <div class="category-card">
-                        <i class="fas fa-graduation-cap"></i>
-                        <h3>Textbooks</h3>
-                        <p>Academic textbooks for all subjects</p>
-                    </div>
-                    <div class="category-card">
-                        <i class="fas fa-flask"></i>
-                        <h3>Research Papers</h3>
-                        <p>Latest research publications</p>
-                    </div>
-                    <div class="category-card">
-                        <i class="fas fa-laptop-code"></i>
-                        <h3>Online Courses</h3>
-                        <p>Interactive online learning</p>
-                    </div>
-                    <div class="category-card">
-                        <i class="fas fa-tools"></i>
-                        <h3>Study Tools</h3>
-                        <p>Learning aids and resources</p>
-                    </div>
-                </div>
-                
-                <div class="featured-items">
-                    <h2>Featured Items</h2>
-                    <div class="items-grid">
-                        <div class="item-card">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=250&fit=crop" alt="Physics Book">
-                            <div class="item-info">
-                                <h4>Modern Physics Textbook</h4>
-                                <p>Complete guide to modern physics concepts</p>
-                                <div class="item-price">$89.99</div>
-                                <button class="btn btn-primary">Add to Cart</button>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=200&h=250&fit=crop" alt="Data Science Course">
-                            <div class="item-info">
-                                <h4>Data Science Masterclass</h4>
-                                <p>Complete data science learning path</p>
-                                <div class="item-price">$199.99</div>
-                                <button class="btn btn-primary">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- AI Generator Tab -->
-            <div id="ai-generator" class="tab-content">
-                <div class="content-header">
-                    <h1>AI Video Generator</h1>
-                    <p>Transform your text content into interactive learning videos</p>
-                </div>
-                
-                <div class="generator-form">
-                    <div class="upload-section">
-                        <h3>Upload Content</h3>
-                        <div class="upload-area large">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <h4>Upload Text or Document</h4>
-                            <p>Supported formats: PDF, DOC, DOCX, TXT</p>
-                            <input type="file" accept=".pdf,.doc,.docx,.txt">
-                            <button class="btn btn-primary">Choose File</button>
-                        </div>
-                    </div>
-                    
-                    <div class="text-input-section">
-                        <h3>Or Paste Text Directly</h3>
-                        <textarea placeholder="Paste your text content here..." rows="10"></textarea>
-                    </div>
-                    
-                    <div class="generation-options">
-                        <h3>Video Options</h3>
-                        <div class="options-grid">
-                            <label class="option-item">
-                                <input type="radio" name="video-style" value="lecture" checked>
-                                <span>Lecture Style</span>
-                            </label>
-                            <label class="option-item">
-                                <input type="radio" name="video-style" value="interactive">
-                                <span>Interactive</span>
-                            </label>
-                            <label class="option-item">
-                                <input type="radio" name="video-style" value="animated">
-                                <span>Animated</span>
-                            </label>
-                            <label class="option-item">
-                                <input type="radio" name="video-style" value="presentation">
-                                <span>Presentation</span>
-                            </label>
-                        </div>
-                        
-                        <div class="difficulty-level">
-                            <label>Difficulty Level:</label>
-                            <select class="form-control">
-                                <option>Beginner</option>
-                                <option>Intermediate</option>
-                                <option>Advanced</option>
-                                <option>Expert</option>
-                            </select>
-                        </div>
-                        
-                        <button class="btn btn-primary btn-large">
-                            <i class="fas fa-magic"></i> Generate Interactive Video
+                        <button class="btn btn-outline">
+                            <i class="fas fa-download"></i>
+                            Export Report
                         </button>
                     </div>
                 </div>
-            </div>
 
-            <!-- Quizzes & Tests Tab -->
-            <div id="quizzes" class="tab-content">
-                <div class="content-header">
-                    <h1>Quizzes & Tests</h1>
-                    <p>Test your knowledge with AI-generated assessments</p>
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="stat-value">45</div>
+                        <div class="stat-label">Courses Enrolled</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>12% from last month</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-value">128h</div>
+                        <div class="stat-label">Learning Time</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>23% increase</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Certificates Earned</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>3 this month</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-value">4.8</div>
+                        <div class="stat-label">Average Score</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>0.3 improvement</span>
+                        </div>
+                    </div>
                 </div>
-                
+
+                <!-- Continue Learning Section -->
+                <div class="section-card">
+                    <div class="card-header">
+                        <h2>Continue Learning</h2>
+                        <a href="#" class="text-accent">View All →</a>
+                    </div>
+                    <div class="video-grid">
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <img src="images/slide1.webp" alt="Course">
+                                <span class="video-duration">23:45</span>
+                                <div class="progress-overlay">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 65%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="video-info">
+                                <h3 class="video-title">Advanced Machine Learning Concepts</h3>
+                                <div class="video-meta">
+                                    <span>Chapter 5 of 12</span>
+                                    <span>•</span>
+                                    <span>65% Complete</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm mt-2">Continue Watching</button>
+                            </div>
+                        </div>
+
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <img src="images/slide2.png" alt="Course">
+                                <span class="video-duration">45:12</span>
+                                <div class="progress-overlay">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 30%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="video-info">
+                                <h3 class="video-title">Quantum Computing Fundamentals</h3>
+                                <div class="video-meta">
+                                    <span>Chapter 3 of 15</span>
+                                    <span>•</span>
+                                    <span>30% Complete</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm mt-2">Continue Watching</button>
+                            </div>
+                        </div>
+
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <img src="images/slide3.png" alt="Course">
+                                <span class="video-duration">32:18</span>
+                                <div class="progress-overlay">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="video-info">
+                                <h3 class="video-title">Data Structures & Algorithms</h3>
+                                <div class="video-meta">
+                                    <span>Chapter 9 of 10</span>
+                                    <span>•</span>
+                                    <span>85% Complete</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm mt-2">Continue Watching</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="section-card">
+                    <div class="card-header">
+                        <h2>Recent Activity</h2>
+                        <a href="#" class="text-accent">View All →</a>
+                    </div>
+                    <div class="activity-timeline">
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Completed Quiz: JavaScript Advanced Concepts</h4>
+                                <p class="text-secondary">Score: 92% - Excellent performance!</p>
+                                <span class="activity-time">2 hours ago</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon info">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Added to Library: "Clean Code" by Robert Martin</h4>
+                                <p class="text-secondary">New book added to your reading list</p>
+                                <span class="activity-time">5 hours ago</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon warning">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Generated Video: "Introduction to Neural Networks"</h4>
+                                <p class="text-secondary">AI-generated video is ready to view</p>
+                                <span class="activity-time">1 day ago</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon primary">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Earned Certificate: Python for Data Science</h4>
+                                <p class="text-secondary">Congratulations on completing the course!</p>
+                                <span class="activity-time">3 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended Courses -->
+                <div class="section-card">
+                    <div class="card-header">
+                        <h2>Recommended for You</h2>
+                        <a href="#" class="text-accent">Browse All →</a>
+                    </div>
+                    <div class="product-grid">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/slide1.webp" alt="Course" style="width: 100%; height: 100%; object-fit: cover;">
+                                <span class="badge-new">NEW</span>
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">Advanced React Development</h3>
+                                <div class="product-rating">
+                                    <span class="stars">★★★★★</span>
+                                    <span>(2,341 reviews)</span>
+                                </div>
+                                <div class="product-meta">
+                                    <span><i class="fas fa-clock"></i> 42 hours</span>
+                                    <span><i class="fas fa-signal"></i> Advanced</span>
+                                </div>
+                                <div class="product-price">$89.99</div>
+                                <button class="btn btn-primary" style="width: 100%;">
+                                    <i class="fas fa-play"></i>
+                                    Start Learning
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/slide2.png" alt="Course" style="width: 100%; height: 100%; object-fit: cover;">
+                                <span class="badge-hot">TRENDING</span>
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">AI & Machine Learning Bootcamp</h3>
+                                <div class="product-rating">
+                                    <span class="stars">★★★★☆</span>
+                                    <span>(1,892 reviews)</span>
+                                </div>
+                                <div class="product-meta">
+                                    <span><i class="fas fa-clock"></i> 65 hours</span>
+                                    <span><i class="fas fa-signal"></i> Intermediate</span>
+                                </div>
+                                <div class="product-price">$149.99</div>
+                                <button class="btn btn-primary" style="width: 100%;">
+                                    <i class="fas fa-play"></i>
+                                    Start Learning
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/slide3.png" alt="Course" style="width: 100%; height: 100%; object-fit: cover;">
+                                <span class="badge-premium">PREMIUM</span>
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">Blockchain Development Mastery</h3>
+                                <div class="product-rating">
+                                    <span class="stars">★★★★★</span>
+                                    <span>(987 reviews)</span>
+                                </div>
+                                <div class="product-meta">
+                                    <span><i class="fas fa-clock"></i> 38 hours</span>
+                                    <span><i class="fas fa-signal"></i> Expert</span>
+                                </div>
+                                <div class="product-price">$199.99</div>
+                                <button class="btn btn-primary" style="width: 100%;">
+                                    <i class="fas fa-play"></i>
+                                    Start Learning
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="images/slide1.webp" alt="Course" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">Cloud Architecture on AWS</h3>
+                                <div class="product-rating">
+                                    <span class="stars">★★★★★</span>
+                                    <span>(3,456 reviews)</span>
+                                </div>
+                                <div class="product-meta">
+                                    <span><i class="fas fa-clock"></i> 55 hours</span>
+                                    <span><i class="fas fa-signal"></i> Intermediate</span>
+                                </div>
+                                <div class="product-price">$129.99</div>
+                                <button class="btn btn-primary" style="width: 100%;">
+                                    <i class="fas fa-play"></i>
+                                    Start Learning
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Other sections (Library, Marketplace, etc.) would be implemented similarly -->
+            <!-- For brevity, I'm showing the structure for key sections -->
+
+            <!-- AI Generator Section -->
+            <section id="ai-generator" class="content-section">
+                <div class="section-header">
+                    <h1>AI Video Generator</h1>
+                    <p class="text-secondary">Transform any content into engaging video lectures</p>
+                </div>
+
+                <div class="generator-container">
+                    <div class="upload-zone">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Upload Your Content</h3>
+                        <p class="text-secondary">Drag and drop files here or click to browse</p>
+                        <div class="supported-formats">
+                            <span class="format-badge">PDF</span>
+                            <span class="format-badge">DOCX</span>
+                            <span class="format-badge">TXT</span>
+                            <span class="format-badge">EPUB</span>
+                        </div>
+                        <button class="btn btn-primary mt-3">
+                            <i class="fas fa-upload"></i>
+                            Choose Files
+                        </button>
+                    </div>
+
+                    <div class="divider-or">
+                        <span>OR</span>
+                    </div>
+
+                    <div class="text-input-zone">
+                        <h3>Paste Text Content</h3>
+                        <textarea class="form-textarea" placeholder="Paste your text here to generate an AI video..." rows="10"></textarea>
+                        
+                        <div class="generation-options mt-3">
+                            <h4>Video Settings</h4>
+                            <div class="options-grid">
+                                <div class="option-group">
+                                    <label class="form-label">Video Style</label>
+                                    <select class="form-select">
+                                        <option>Animated Lecture</option>
+                                        <option>Whiteboard Animation</option>
+                                        <option>3D Visualization</option>
+                                        <option>Presentation Style</option>
+                                    </select>
+                                </div>
+                                <div class="option-group">
+                                    <label class="form-label">Voice Type</label>
+                                    <select class="form-select">
+                                        <option>Professional Male</option>
+                                        <option>Professional Female</option>
+                                        <option>Friendly Male</option>
+                                        <option>Friendly Female</option>
+                                    </select>
+                                </div>
+                                <div class="option-group">
+                                    <label class="form-label">Duration</label>
+                                    <select class="form-select">
+                                        <option>Auto (Recommended)</option>
+                                        <option>5-10 minutes</option>
+                                        <option>10-20 minutes</option>
+                                        <option>20-30 minutes</option>
+                                    </select>
+                                </div>
+                                <div class="option-group">
+                                    <label class="form-label">Language</label>
+                                    <select class="form-select">
+                                        <option>English</option>
+                                        <option>Spanish</option>
+                                        <option>French</option>
+                                        <option>German</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary btn-lg mt-4" style="width: 100%;">
+                            <i class="fas fa-magic"></i>
+                            Generate AI Video
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recent Generations -->
+                <div class="section-card mt-4">
+                    <div class="card-header">
+                        <h2>Recent Generations</h2>
+                        <a href="#" class="text-accent">View All →</a>
+                    </div>
+                    <div class="generations-list">
+                        <div class="generation-item">
+                            <div class="generation-thumbnail">
+                                <img src="images/slide1.webp" alt="Generated Video">
+                                <div class="generation-status success">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="generation-info">
+                                <h4>Introduction to Quantum Physics</h4>
+                                <p class="text-secondary">Generated 2 hours ago • 15:32 duration</p>
+                                <div class="generation-actions">
+                                    <button class="btn btn-sm btn-primary">Watch</button>
+                                    <button class="btn btn-sm btn-outline">Download</button>
+                                    <button class="btn btn-sm btn-outline">Share</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="generation-item">
+                            <div class="generation-thumbnail">
+                                <img src="images/slide2.png" alt="Generated Video">
+                                <div class="generation-status processing">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="generation-info">
+                                <h4>Advanced Calculus Chapter 3</h4>
+                                <p class="text-secondary">Processing... 65% complete</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 65%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quizzes Section -->
+            <section id="quizzes" class="content-section">
+                <div class="section-header">
+                    <h1>Quizzes & Assessments</h1>
+                    <p class="text-secondary">Test your knowledge with AI-powered assessments</p>
+                </div>
+
                 <div class="quiz-categories">
-                    <div class="quiz-category">
-                        <h3>Available Quizzes</h3>
-                        <div class="quiz-list">
-                            <div class="quiz-item">
-                                <div class="quiz-info">
-                                    <h4>Quantum Mechanics Quiz</h4>
-                                    <p>15 questions • 30 minutes</p>
-                                    <div class="quiz-stats">
-                                        <span class="difficulty easy">Easy</span>
-                                        <span class="attempts">3 attempts left</span>
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary">Start Quiz</button>
-                            </div>
-                            
-                            <div class="quiz-item">
-                                <div class="quiz-info">
-                                    <h4>Machine Learning Fundamentals</h4>
-                                    <p>25 questions • 45 minutes</p>
-                                    <div class="quiz-stats">
-                                        <span class="difficulty medium">Medium</span>
-                                        <span class="attempts">5 attempts left</span>
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary">Start Quiz</button>
-                            </div>
-                            
-                            <div class="quiz-item">
-                                <div class="quiz-info">
-                                    <h4>Advanced Mathematics</h4>
-                                    <p>20 questions • 60 minutes</p>
-                                    <div class="quiz-stats">
-                                        <span class="difficulty hard">Hard</span>
-                                        <span class="attempts">2 attempts left</span>
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary">Start Quiz</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="quiz-results">
-                        <h3>Recent Results</h3>
-                        <div class="results-list">
-                            <div class="result-item">
-                                <div class="result-info">
-                                    <h4>Physics Basics Quiz</h4>
-                                    <p>Completed 2 days ago</p>
-                                </div>
-                                <div class="result-score">
-                                    <span class="score">85%</span>
-                                    <span class="grade pass">Pass</span>
-                                </div>
-                            </div>
-                            
-                            <div class="result-item">
-                                <div class="result-info">
-                                    <h4>Chemistry Fundamentals</h4>
-                                    <p>Completed 1 week ago</p>
-                                </div>
-                                <div class="result-score">
-                                    <span class="score">92%</span>
-                                    <span class="grade excellent">Excellent</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <button class="category-btn active">All Quizzes</button>
+                    <button class="category-btn">In Progress</button>
+                    <button class="category-btn">Completed</button>
+                    <button class="category-btn">Recommended</button>
                 </div>
-            </div>
 
-            <!-- Partners Tab -->
-            <div id="partners" class="tab-content">
-                <div class="content-header">
-                    <h1>Partners</h1>
-                    <p>Connect with authors, researchers, and educational institutions</p>
-                </div>
-                
-                <div class="partners-grid">
-                    <div class="partner-category">
-                        <h3>Authors & Publishers</h3>
-                        <div class="partner-list">
-                            <div class="partner-card">
-                                <div class="partner-avatar">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div class="partner-info">
-                                    <h4>Dr. Sarah Johnson</h4>
-                                    <p>Physics Author</p>
-                                    <div class="partner-stats">
-                                        <span>15 Books Published</span>
-                                        <span>4.8★ Rating</span>
-                                    </div>
-                                </div>
-                                <button class="btn btn-outline">View Profile</button>
-                            </div>
-                            
-                            <div class="partner-card">
-                                <div class="partner-avatar">
-                                    <i class="fas fa-building"></i>
-                                </div>
-                                <div class="partner-info">
-                                    <h4>Academic Press</h4>
-                                    <p>Educational Publisher</p>
-                                    <div class="partner-stats">
-                                        <span>500+ Titles</span>
-                                        <span>4.6★ Rating</span>
-                                    </div>
-                                </div>
-                                <button class="btn btn-outline">View Catalog</button>
-                            </div>
+                <div class="quiz-grid mt-4">
+                    <div class="quiz-card">
+                        <div class="quiz-header">
+                            <span class="quiz-badge easy">Easy</span>
+                            <span class="quiz-badge">15 Questions</span>
                         </div>
-                    </div>
-                    
-                    <div class="partner-category">
-                        <h3>Research Institutions</h3>
-                        <div class="partner-list">
-                            <div class="partner-card">
-                                <div class="partner-avatar">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                                <div class="partner-info">
-                                    <h4>MIT Research Lab</h4>
-                                    <p>Technology Research</p>
-                                    <div class="partner-stats">
-                                        <span>200+ Papers</span>
-                                        <span>Premium Access</span>
-                                    </div>
-                                </div>
-                                <button class="btn btn-outline">Access Papers</button>
-                            </div>
+                        <h3 class="quiz-title">JavaScript Fundamentals</h3>
+                        <p class="quiz-description">Test your knowledge of JavaScript basics including variables, functions, and control flow.</p>
+                        <div class="quiz-meta">
+                            <span><i class="fas fa-clock"></i> 30 minutes</span>
+                            <span><i class="fas fa-users"></i> 5,234 taken</span>
                         </div>
+                        <div class="quiz-score">
+                            <span class="score-label">Best Score:</span>
+                            <span class="score-value">92%</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-play"></i>
+                            Start Quiz
+                        </button>
                     </div>
-                </div>
-            </div>
 
-            <!-- Corporate Hub Tab -->
-            <div id="corporate" class="tab-content">
-                <div class="content-header">
-                    <h1>Corporate Hub</h1>
-                    <p>Enterprise training and recruitment solutions</p>
-                </div>
-                
-                <div class="corporate-sections">
-                    <div class="corporate-card">
-                        <i class="fas fa-building"></i>
-                        <h3>Company Training Programs</h3>
-                        <p>Customized training solutions for your organization</p>
-                        <ul>
-                            <li>Employee skill development</li>
-                            <li>Technical training modules</li>
-                            <li>Progress tracking and analytics</li>
-                            <li>Certification programs</li>
-                        </ul>
-                        <button class="btn btn-primary">Learn More</button>
-                    </div>
-                    
-                    <div class="corporate-card">
-                        <i class="fas fa-users"></i>
-                        <h3>Recruitment & Assessment</h3>
-                        <p>AI-powered candidate evaluation and testing</p>
-                        <ul>
-                            <li>Technical skill assessments</li>
-                            <li>Behavioral interviews</li>
-                            <li>Lockdown screen testing</li>
-                            <li>Live human proctoring</li>
-                        </ul>
-                        <button class="btn btn-primary">Get Started</button>
-                    </div>
-                    
-                    <div class="corporate-card">
-                        <i class="fas fa-chart-line"></i>
-                        <h3>Analytics & Reporting</h3>
-                        <p>Comprehensive insights into learning and performance</p>
-                        <ul>
-                            <li>Learning progress tracking</li>
-                            <li>Performance analytics</li>
-                            <li>Custom reporting</li>
-                            <li>ROI measurement</li>
-                        </ul>
-                        <button class="btn btn-primary">View Demo</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Certifications & Licenses Tab -->
-            <div id="certifications" class="tab-content">
-                <div class="content-header">
-                    <h1>Certifications & Licenses</h1>
-                    <p>Prepare for professional certifications and licensing exams</p>
-                    <a href="certifications.html" class="btn btn-primary">
-                        <i class="fas fa-external-link-alt"></i> View All Certifications
-                    </a>
-                </div>
-                
-                <div class="certification-categories">
-                    <!-- Featured Certifications -->
-                    <div class="cert-category">
-                        <h3>Featured Certifications</h3>
-                        <div class="cert-grid">
-                            <div class="cert-card">
-                                <div class="cert-icon">
-                                    <i class="fas fa-shield-alt"></i>
-                                </div>
-                                <div class="cert-content">
-                                    <h4>CISSP Certification</h4>
-                                    <p>Certified Information Systems Security Professional</p>
-                                    <div class="cert-features">
-                                        <span class="feature">Security Management</span>
-                                        <span class="feature">Risk Assessment</span>
-                                        <span class="feature">Cryptography</span>
-                                    </div>
-                                    <div class="cert-price">$449</div>
-                                    <button class="btn btn-primary">Enroll Now</button>
-                                </div>
-                            </div>
-                            
-                            <div class="cert-card">
-                                <div class="cert-icon">
-                                    <i class="fas fa-brain"></i>
-                                </div>
-                                <div class="cert-content">
-                                    <h4>AWS ML Specialty</h4>
-                                    <p>AWS Certified Machine Learning - Specialty</p>
-                                    <div class="cert-features">
-                                        <span class="feature">ML Algorithms</span>
-                                        <span class="feature">Data Engineering</span>
-                                        <span class="feature">Model Deployment</span>
-                                    </div>
-                                    <div class="cert-price">$349</div>
-                                    <button class="btn btn-primary">Enroll Now</button>
-                                </div>
-                            </div>
+                    <div class="quiz-card">
+                        <div class="quiz-header">
+                            <span class="quiz-badge medium">Medium</span>
+                            <span class="quiz-badge">25 Questions</span>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tutoring Videos Tab -->
-            <div id="tutoring" class="tab-content">
-                <div class="content-header">
-                    <h1>Tutoring Videos</h1>
-                    <p>Exclusive tutoring content for advanced learning (Owner/Tutor Access Only)</p>
-                    <div class="access-badge">
-                        <i class="fas fa-crown"></i>
-                        <span>Premium Access</span>
-                    </div>
-                </div>
-                
-                <div class="tutoring-subjects">
-                    <!-- Featured Subjects -->
-                    <div class="subject-section">
-                        <h3>Featured Subjects</h3>
-                        <div class="video-grid">
-                            <div class="video-card">
-                                <div class="video-thumbnail">
-                                    <i class="fas fa-play-circle"></i>
-                                    <div class="video-duration">45:30</div>
-                                </div>
-                                <div class="video-info">
-                                    <h4>Quantum Mechanics Principles</h4>
-                                    <p>Wave-particle duality and uncertainty</p>
-                                    <div class="video-stats">
-                                        <span>Expert Level</span>
-                                        <span>45 min</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="video-card">
-                                <div class="video-thumbnail">
-                                    <i class="fas fa-play-circle"></i>
-                                    <div class="video-duration">55:45</div>
-                                </div>
-                                <div class="video-info">
-                                    <h4>Machine Learning Algorithms</h4>
-                                    <p>Deep learning and neural networks</p>
-                                    <div class="video-stats">
-                                        <span>Expert Level</span>
-                                        <span>55 min</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="video-card">
-                                <div class="video-thumbnail">
-                                    <i class="fas fa-play-circle"></i>
-                                    <div class="video-duration">48:20</div>
-                                </div>
-                                <div class="video-info">
-                                    <h4>VLSI Design Fundamentals</h4>
-                                    <p>IC design and layout techniques</p>
-                                    <div class="video-stats">
-                                        <span>Expert Level</span>
-                                        <span>48 min</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <h3 class="quiz-title">Machine Learning Concepts</h3>
+                        <p class="quiz-description">Evaluate your understanding of ML algorithms, neural networks, and deep learning.</p>
+                        <div class="quiz-meta">
+                            <span><i class="fas fa-clock"></i> 45 minutes</span>
+                            <span><i class="fas fa-users"></i> 2,891 taken</span>
                         </div>
+                        <div class="quiz-score">
+                            <span class="score-label">Best Score:</span>
+                            <span class="score-value">85%</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-play"></i>
+                            Start Quiz
+                        </button>
+                    </div>
+
+                    <div class="quiz-card">
+                        <div class="quiz-header">
+                            <span class="quiz-badge hard">Hard</span>
+                            <span class="quiz-badge">30 Questions</span>
+                        </div>
+                        <h3 class="quiz-title">Advanced Data Structures</h3>
+                        <p class="quiz-description">Challenge yourself with complex data structure problems and algorithmic thinking.</p>
+                        <div class="quiz-meta">
+                            <span><i class="fas fa-clock"></i> 60 minutes</span>
+                            <span><i class="fas fa-users"></i> 1,456 taken</span>
+                        </div>
+                        <div class="quiz-score">
+                            <span class="score-label">Best Score:</span>
+                            <span class="score-value">Not Attempted</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-play"></i>
+                            Start Quiz
+                        </button>
                     </div>
                 </div>
-            </div>
+            </section>
         </main>
     </div>
 
+    <!-- User Dropdown Menu -->
+    <div class="dropdown-menu user-dropdown" style="display: none;">
+        <a href="#profile" class="dropdown-item">
+            <i class="fas fa-user"></i>
+            <span>My Profile</span>
+        </a>
+        <a href="#settings" class="dropdown-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="#billing" class="dropdown-item">
+            <i class="fas fa-credit-card"></i>
+            <span>Billing</span>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="login.html" class="dropdown-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
     <script src="dashboard.js"></script>
 </body>
 </html>

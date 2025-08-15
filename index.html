@@ -3,47 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABP Interactive Learning - Transform Your Learning Experience</title>
+    <title>ABP Interactive Learning - AI-Powered Education Platform</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation Header -->
+    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <h2>ABP Interactive Learning</h2>
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">ABP Learning</span>
+            </a>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search courses, videos, topics...">
             </div>
+
+            <!-- Navigation Menu -->
             <ul class="nav-menu">
-                <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
-                <li class="nav-item"><a href="#samples" class="nav-link">Learning Samples</a></li>
-                <li class="nav-item"><a href="#pricing" class="nav-link">Pricing</a></li>
-                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
-                <li class="nav-item"><a href="dashboard.html" class="nav-link login-btn">Login</a></li>
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#features" class="nav-link">
+                        <i class="fas fa-star"></i>
+                        <span>Features</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#samples" class="nav-link">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Learning Samples</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="pricing.html" class="nav-link">
+                        <i class="fas fa-tags"></i>
+                        <span>Pricing</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>Contact</span>
+                    </a>
+                </li>
             </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+
+            <!-- Action Buttons -->
+            <div class="nav-actions">
+                <button class="btn btn-outline" onclick="window.location.href='login.html'">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </button>
+                <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
+                    <i class="fas fa-rocket"></i>
+                    Get Started
+                </button>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
+    <section class="hero">
         <div class="hero-container">
-            <div class="hero-content">
-                <h1>Transform Your Learning Experience</h1>
-                <p>Upload any text or chapter and watch it come to life through AI-powered interactive video lectures. Perfect for students, professionals, and lifelong learners.</p>
+            <div class="hero-content fade-in">
+                <h1>Transform Your Learning with AI-Powered Education</h1>
+                <p>Experience the future of education with our advanced platform that combines YouTube-style video learning, Amazon-like marketplace, and UWorld-quality assessments.</p>
+                
                 <div class="hero-buttons">
-                    <a href="dashboard.html" class="btn btn-primary">Get Started Free</a>
-                    <a href="#samples" class="btn btn-secondary">View Samples</a>
+                    <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
+                        <i class="fas fa-play"></i>
+                        Start Learning Free
+                    </button>
+                    <button class="btn btn-outline" onclick="playDemoVideo()">
+                        <i class="fas fa-video"></i>
+                        Watch Demo
+                    </button>
+                </div>
+
+                <!-- Stats -->
+                <div class="hero-stats mt-4">
+                    <div class="stat-item">
+                        <span class="stat-number">500K+</span>
+                        <span class="stat-label">Active Learners</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Video Courses</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">Success Rate</span>
+                    </div>
                 </div>
             </div>
-            <div class="hero-images">
-                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=300&fit=crop" alt="Microchip Technology" class="hero-img">
-                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop" alt="Data Visualization" class="hero-img">
+
+            <div class="hero-visual">
+                <div class="hero-card scale-in">
+                    <div class="video-preview">
+                        <img src="images/slide1.webp" alt="AI Learning Platform" style="width: 100%; border-radius: 12px;">
+                        <div class="play-overlay">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -51,179 +123,473 @@
     <!-- Features Section -->
     <section id="features" class="features">
         <div class="container">
-            <h2>Powerful Learning Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <i class="fas fa-video"></i>
-                    <h3>AI Video Generation</h3>
-                    <p>Transform any text into engaging interactive video lectures with advanced AI technology.</p>
+            <h2 class="text-center mb-4">Powerful Features for Modern Learning</h2>
+            
+            <div class="content-grid">
+                <!-- AI Video Generator -->
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <h3 class="card-title">AI Video Generator</h3>
+                        <span class="card-badge">NEW</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Transform any text, document, or idea into engaging video lectures using advanced AI technology.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="text-accent">Powered by GPT-4 & DALL-E</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <i class="fas fa-graduation-cap"></i>
-                    <h3>Academic Integration</h3>
-                    <p>Seamlessly integrate with your academic curriculum and syllabus for personalized learning.</p>
+
+                <!-- Academic Setup -->
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <h3 class="card-title">Academic Setup</h3>
+                        <span class="card-badge">POPULAR</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Complete curriculum management with syllabus tracking, assignment scheduling, and grade analytics.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="text-accent">K-12 to PhD</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <i class="fas fa-library"></i>
-                    <h3>Personal Library</h3>
-                    <p>Build your own digital library with books, research papers, and learning materials.</p>
+
+                <!-- Digital Library -->
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <h3 class="card-title">Digital Library</h3>
+                        <span class="card-badge">500K+ Books</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Access millions of books, research papers, and educational resources in one centralized location.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="text-accent">PDF, EPUB, Audio</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <i class="fas fa-quiz"></i>
-                    <h3>Interactive Quizzes</h3>
-                    <p>Test your knowledge with AI-generated quizzes and assessments tailored to your content.</p>
+
+                <!-- Marketplace -->
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <h3 class="card-title">Course Marketplace</h3>
+                        <span class="card-badge">Amazon-style</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Buy, sell, and share educational content with millions of learners worldwide.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="text-accent">Earn while teaching</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <i class="fas fa-certificate"></i>
-                    <h3>Certifications</h3>
-                    <p>Prepare for professional certifications with comprehensive study materials and practice exams.</p>
+
+                <!-- Quizzes & Tests -->
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <h3 class="card-title">Smart Assessments</h3>
+                        <span class="card-badge">UWorld Quality</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Advanced testing system with detailed explanations, performance tracking, and adaptive learning.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="text-accent">AI-powered analysis</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <i class="fas fa-users"></i>
-                    <h3>Corporate Training</h3>
-                    <p>Enterprise solutions for employee training and skill development programs.</p>
+
+                <!-- Certifications -->
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <h3 class="card-title">Certifications</h3>
+                        <span class="card-badge">Industry Recognized</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Earn professional certifications and licenses that are recognized by top companies globally.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="text-accent">Blockchain verified</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Interactive Learning Samples -->
-    <section id="samples" class="samples">
+    <!-- Learning Samples Section (YouTube-style) -->
+    <section id="samples" class="samples bg-secondary">
         <div class="container">
-            <h2>Interactive Learning Samples</h2>
-            <div class="samples-grid">
-                <div class="sample-card">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop" alt="Physics Sample">
-                    <div class="sample-content">
-                        <h3>Quantum Mechanics</h3>
-                        <p>Explore the fundamentals of quantum physics through interactive visualizations.</p>
-                        <button class="btn btn-outline">Watch Sample</button>
+            <h2 class="text-center mb-4">Popular Learning Videos</h2>
+            
+            <div class="video-grid">
+                <!-- Video Card 1 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="images/slide2.png" alt="AI Fundamentals">
+                        <span class="video-duration">15:42</span>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Introduction to Artificial Intelligence & Machine Learning</h3>
+                        <div class="video-meta">
+                            <span>Dr. Sarah Chen</span>
+                            <span>•</span>
+                            <span>2.3M views</span>
+                            <span>•</span>
+                            <span>2 days ago</span>
+                        </div>
                     </div>
                 </div>
-                <div class="sample-card">
-                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=200&fit=crop" alt="Engineering Sample">
-                    <div class="sample-content">
-                        <h3>Semiconductor Physics</h3>
-                        <p>Understand semiconductor devices and their applications in modern technology.</p>
-                        <button class="btn btn-outline">Watch Sample</button>
+
+                <!-- Video Card 2 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="images/slide3.png" alt="Data Science">
+                        <span class="video-duration">23:18</span>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Complete Data Science Roadmap 2024 - From Zero to Hero</h3>
+                        <div class="video-meta">
+                            <span>Tech Academy</span>
+                            <span>•</span>
+                            <span>856K views</span>
+                            <span>•</span>
+                            <span>1 week ago</span>
+                        </div>
                     </div>
                 </div>
-                <div class="sample-card">
-                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=300&h=200&fit=crop" alt="Data Science Sample">
-                    <div class="sample-content">
-                        <h3>Machine Learning</h3>
-                        <p>Learn ML algorithms and their practical implementations through visual examples.</p>
-                        <button class="btn btn-outline">Watch Sample</button>
+
+                <!-- Video Card 3 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="images/slide1.webp" alt="Web Development">
+                        <span class="video-duration">45:00</span>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Build a Full-Stack App with React, Node.js & MongoDB</h3>
+                        <div class="video-meta">
+                            <span>CodeMaster Pro</span>
+                            <span>•</span>
+                            <span>1.2M views</span>
+                            <span>•</span>
+                            <span>3 days ago</span>
+                        </div>
                     </div>
                 </div>
-                <div class="sample-card">
-                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=300&h=200&fit=crop" alt="Mathematics Sample">
-                    <div class="sample-content">
-                        <h3>Advanced Mathematics</h3>
-                        <p>Master complex mathematical concepts with step-by-step visual explanations.</p>
-                        <button class="btn btn-outline">Watch Sample</button>
+
+                <!-- Video Card 4 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="images/slide2.png" alt="Quantum Computing">
+                        <span class="video-duration">18:30</span>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Quantum Computing Explained - The Future of Technology</h3>
+                        <div class="video-meta">
+                            <span>FutureTech</span>
+                            <span>•</span>
+                            <span>523K views</span>
+                            <span>•</span>
+                            <span>5 days ago</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 5 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="images/slide3.png" alt="Blockchain">
+                        <span class="video-duration">32:15</span>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Blockchain Development: Smart Contracts & DApps</h3>
+                        <div class="video-meta">
+                            <span>CryptoLearn</span>
+                            <span>•</span>
+                            <span>342K views</span>
+                            <span>•</span>
+                            <span>1 day ago</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 6 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="images/slide1.webp" alt="Cybersecurity">
+                        <span class="video-duration">28:45</span>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Ethical Hacking: Complete Penetration Testing Course</h3>
+                        <div class="video-meta">
+                            <span>SecureCode</span>
+                            <span>•</span>
+                            <span>789K views</span>
+                            <span>•</span>
+                            <span>4 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button class="btn btn-primary" onclick="window.location.href='tutoring-videos.html'">
+                    <i class="fas fa-th"></i>
+                    Browse All Videos
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Marketplace (Amazon-style) -->
+    <section class="marketplace">
+        <div class="container">
+            <h2 class="text-center mb-4">Featured Courses & Materials</h2>
+            
+            <div class="product-grid">
+                <!-- Product Card 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/slide2.png" alt="Python Course" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Complete Python Bootcamp</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(4,523 reviews)</span>
+                        </div>
+                        <div class="product-price">$89.99</div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/slide3.png" alt="JavaScript Course" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Advanced JavaScript Mastery</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span>(3,891 reviews)</span>
+                        </div>
+                        <div class="product-price">$79.99</div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/slide1.webp" alt="Data Science Bundle" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Data Science Bundle Pack</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(5,102 reviews)</span>
+                        </div>
+                        <div class="product-price">$149.99</div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/slide2.png" alt="AWS Certification" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">AWS Cloud Certification Prep</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(2,847 reviews)</span>
+                        </div>
+                        <div class="product-price">$99.99</div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing">
+    <!-- Statistics Section -->
+    <section class="statistics bg-secondary">
         <div class="container">
-            <h2>Choose Your Learning Plan</h2>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>Free</h3>
-                        <div class="price">$0<span>/month</span></div>
+            <h2 class="text-center mb-4">Platform Statistics</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Basic topics only</li>
-                        <li><i class="fas fa-check"></i> 3 videos per month</li>
-                        <li><i class="fas fa-check"></i> Standard processing</li>
-                        <li><i class="fas fa-check"></i> Community support</li>
-                        <li><i class="fas fa-times"></i> Advanced topics</li>
-                        <li><i class="fas fa-times"></i> Priority support</li>
-                    </ul>
-                    <button class="btn btn-outline">Get Started</button>
+                    <div class="stat-value">500,000+</div>
+                    <div class="stat-label">Active Students</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>23% this month</span>
+                    </div>
                 </div>
-                <div class="pricing-card featured">
-                    <div class="pricing-header">
-                        <h3>Pro</h3>
-                        <div class="price">$19<span>/month</span></div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-video"></i>
                     </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Unlimited videos</li>
-                        <li><i class="fas fa-check"></i> Advanced topic support</li>
-                        <li><i class="fas fa-check"></i> Faster processing</li>
-                        <li><i class="fas fa-check"></i> Priority email support</li>
-                        <li><i class="fas fa-check"></i> Quiz generation</li>
-                        <li><i class="fas fa-check"></i> Personal library</li>
-                    </ul>
-                    <button class="btn btn-primary">Choose Pro</button>
+                    <div class="stat-value">10,000+</div>
+                    <div class="stat-label">Video Courses</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>150 new this week</span>
+                    </div>
                 </div>
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>ProMax</h3>
-                        <div class="price">$49<span>/month</span></div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-certificate"></i>
                     </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Everything in Pro</li>
-                        <li><i class="fas fa-check"></i> Corporate features</li>
-                        <li><i class="fas fa-check"></i> API access</li>
-                        <li><i class="fas fa-check"></i> White-label options</li>
-                        <li><i class="fas fa-check"></i> Dedicated support</li>
-                        <li><i class="fas fa-check"></i> Custom integrations</li>
-                    </ul>
-                    <button class="btn btn-outline">Choose ProMax</button>
+                    <div class="stat-value">25,000+</div>
+                    <div class="stat-label">Certificates Issued</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>18% growth</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-value">4.8/5</div>
+                    <div class="stat-label">Average Rating</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>From 50K+ reviews</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="text-center mb-4">Get in Touch</h2>
+            
+            <div class="contact-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1000px; margin: 0 auto;">
+                <div class="contact-info">
+                    <h3 class="mb-3">Contact Information</h3>
+                    <div class="contact-item mb-2">
+                        <i class="fas fa-envelope text-accent"></i>
+                        <span>support@abplearning.com</span>
+                    </div>
+                    <div class="contact-item mb-2">
+                        <i class="fas fa-phone text-accent"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                    <div class="contact-item mb-2">
+                        <i class="fas fa-map-marker-alt text-accent"></i>
+                        <span>123 Learning Street, Education City, EC 12345</span>
+                    </div>
+                    
+                    <div class="social-links mt-3" style="display: flex; gap: 1rem;">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-input" placeholder="Your Name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-input" rows="4" placeholder="Your message..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer bg-secondary">
         <div class="container">
-            <div class="footer-content">
+            <div class="footer-content" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; padding: 3rem 0;">
                 <div class="footer-section">
-                    <h3>ABP Interactive Learning</h3>
-                    <p>Transforming education through AI-powered interactive learning experiences.</p>
+                    <h3 class="mb-3">ABP Learning</h3>
+                    <p class="text-secondary">Transforming education through AI-powered learning experiences.</p>
+                    <div class="mt-3">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-download"></i>
+                            Download App
+                        </button>
+                    </div>
                 </div>
+                
                 <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#pricing">Pricing</a></li>
-                        <li><a href="dashboard.html">Dashboard</a></li>
+                    <h4 class="mb-3">Quick Links</h4>
+                    <ul style="list-style: none;">
+                        <li class="mb-2"><a href="dashboard.html" class="text-secondary">Dashboard</a></li>
+                        <li class="mb-2"><a href="tutoring-videos.html" class="text-secondary">Video Library</a></li>
+                        <li class="mb-2"><a href="certifications.html" class="text-secondary">Certifications</a></li>
+                        <li class="mb-2"><a href="pricing.html" class="text-secondary">Pricing Plans</a></li>
                     </ul>
                 </div>
+                
                 <div class="footer-section">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
+                    <h4 class="mb-3">Resources</h4>
+                    <ul style="list-style: none;">
+                        <li class="mb-2"><a href="#" class="text-secondary">Help Center</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary">Community</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary">Blog</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary">API Documentation</a></li>
                     </ul>
                 </div>
+                
                 <div class="footer-section">
-                    <h4>Connect</h4>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    <h4 class="mb-3">Newsletter</h4>
+                    <p class="text-secondary mb-3">Subscribe to get updates on new courses and features.</p>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="email" class="form-input" placeholder="Your email" style="flex: 1;">
+                        <button class="btn btn-primary">Subscribe</button>
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 ABP Interactive Learning. All rights reserved.</p>
+            
+            <div class="footer-bottom text-center p-3 border-top">
+                <p class="text-muted">&copy; 2024 ABP Interactive Learning. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="script.js"></script>
 </body>
 </html>
