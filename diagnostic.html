@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Diagnostic</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .diagnostic-info {
+            padding: 2rem;
+            margin: 2rem;
+            border: 2px solid var(--primary-accent, cyan);
+            border-radius: 12px;
+        }
+        .css-var-test {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+        .computed-styles {
+            font-family: monospace;
+            font-size: 14px;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="diagnostic-info">
+        <h1>Dark Theme Diagnostic</h1>
+        
+        <div class="css-var-test">
+            <h2>CSS Variables Test</h2>
+            <p>If the dark theme is working, you should see:</p>
+            <ul>
+                <li>Black background (#0f0f0f)</li>
+                <li>White text</li>
+                <li>Dark gray cards (#202020)</li>
+                <li>Cyan accents</li>
+            </ul>
+        </div>
+
+        <div class="css-var-test">
+            <h3>Current Computed Styles:</h3>
+            <div class="computed-styles" id="computed"></div>
+        </div>
+
+        <div class="css-var-test">
+            <h3>Test Components:</h3>
+            <button class="btn btn-primary">Primary Button</button>
+            <button class="btn btn-outline">Outline Button</button>
+            
+            <div class="card" style="margin-top: 1rem; padding: 1rem;">
+                <h4>This is a card</h4>
+                <p class="text-secondary">Secondary text color</p>
+            </div>
+        </div>
+
+        <div class="css-var-test">
+            <h3>Quick Navigation:</h3>
+            <p><a href="index.html">Homepage</a> | <a href="dashboard.html">Dashboard</a> | <a href="login.html">Login</a> | <a href="pricing.html">Pricing</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Display computed styles
+        const computed = document.getElementById('computed');
+        const bodyStyles = window.getComputedStyle(document.body);
+        const rootStyles = window.getComputedStyle(document.documentElement);
+        
+        computed.innerHTML = `
+            <strong>Body Background:</strong> ${bodyStyles.backgroundColor}<br>
+            <strong>Body Color:</strong> ${bodyStyles.color}<br>
+            <strong>--primary-bg:</strong> ${rootStyles.getPropertyValue('--primary-bg')}<br>
+            <strong>--card-bg:</strong> ${rootStyles.getPropertyValue('--card-bg')}<br>
+            <strong>--text-primary:</strong> ${rootStyles.getPropertyValue('--text-primary')}<br>
+            <strong>--primary-accent:</strong> ${rootStyles.getPropertyValue('--primary-accent')}<br>
+            <br>
+            <strong>Stylesheets loaded:</strong><br>
+            ${Array.from(document.styleSheets).map(sheet => sheet.href || 'inline').join('<br>')}
+        `;
+    </script>
+</body>
+</html>
