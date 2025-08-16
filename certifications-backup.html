@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certifications - ABP Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">ABP Learning</span>
+            </a>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search certifications...">
+            </div>
+            
+            <div class="nav-actions">
+                <button class="btn-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">2</span>
+                </button>
+                <div class="user-menu">
+                    <img src="https://ui-avatars.com/api/?name=Student&background=667eea&color=fff" alt="User" class="user-avatar">
+                    <div class="user-info">
+                        <span class="user-name">Student</span>
+                        <span class="user-role">Pro Member</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Navigation</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="dashboard.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-home"></i></span>
+                        <span>My Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="academic-setup.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-graduation-cap"></i></span>
+                        <span>Academic Setup</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="library.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-book"></i></span>
+                        <span>My Library</span>
+                        <span class="counter">128</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="marketplace.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-shopping-cart"></i></span>
+                        <span>Marketplace</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="ai-generator.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-robot"></i></span>
+                        <span>AI Generator</span>
+                        <span class="badge-hot">HOT</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="quizzes.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-question-circle"></i></span>
+                        <span>Quizzes & Tests</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="partners.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-handshake"></i></span>
+                        <span>Partners</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="corporate.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-building"></i></span>
+                        <span>Corporate Hub</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="certifications.html" class="sidebar-link active">
+                        <span class="sidebar-icon"><i class="fas fa-certificate"></i></span>
+                        <span>Certifications</span>
+                        <span class="counter">15</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="tutoring-videos.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-video"></i></span>
+                        <span>Tutoring Videos</span>
+                        <span class="badge-premium">PRO</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1><i class="fas fa-certificate"></i> Certifications & Licenses</h1>
+                <p>Professional certification preparation and exam registration</p>
+            </div>
+
+            <!-- Certification Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">Certifications</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value">10K+</div>
+                    <div class="stat-label">Certified Students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-value">92%</div>
+                    <div class="stat-label">Pass Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-value">4.9</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="section-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h2>Browse by Category</h2>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-shield-alt"></i> Cybersecurity
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-cloud"></i> Cloud Computing
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-code"></i> Programming
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-database"></i> Data Science
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-cogs"></i> Engineering
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-gavel"></i> Legal
+                    </button>
+                </div>
+            </div>
+
+            <!-- Featured Certifications -->
+            <div class="section-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h2>Featured Certifications</h2>
+                    <span class="badge-hot">POPULAR</span>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                    <!-- AWS Solutions Architect -->
+                    <div class="card">
+                        <div style="padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #ff9900 0%, #ff6600 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fab fa-aws" style="font-size: 1.5rem; color: white;"></i>
+                                </div>
+                                <div>
+                                    <h3>AWS Solutions Architect</h3>
+                                    <p class="text-secondary">Professional Level</p>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                                <span class="badge" style="background: var(--secondary-bg); color: var(--text-primary); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">
+                                    <i class="fas fa-clock"></i> 3 months
+                                </span>
+                                <span class="badge" style="background: var(--secondary-bg); color: var(--text-primary); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">
+                                    <i class="fas fa-signal"></i> Advanced
+                                </span>
+                                <span class="badge" style="background: var(--success-color); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">
+                                    <i class="fas fa-check"></i> 95% Pass Rate
+                                </span>
+                            </div>
+                            
+                            <p class="text-secondary" style="margin-bottom: 1rem;">Design and deploy scalable systems on AWS cloud platform</p>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <span style="font-size: 1.5rem; font-weight: 600; color: var(--primary-accent);">$399</span>
+                                    <span class="text-secondary" style="text-decoration: line-through; margin-left: 0.5rem;">$599</span>
+                                </div>
+                                <button class="btn btn-primary">Enroll Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CISSP -->
+                    <div class="card">
+                        <div style="padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-shield-alt" style="font-size: 1.5rem; color: white;"></i>
+                                </div>
+                                <div>
+                                    <h3>CISSP Certification</h3>
+                                    <p class="text-secondary">Security Professional</p>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                                <span class="badge" style="background: var(--secondary-bg); color: var(--text-primary); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">
+                                    <i class="fas fa-clock"></i> 4 months
+                                </span>
+                                <span class="badge" style="background: var(--secondary-bg); color: var(--text-primary); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">
+                                    <i class="fas fa-signal"></i> Expert
+                                </span>
+                                <span class="badge" style="background: var(--success-color); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">
+                                    <i class="fas fa-check"></i> 92% Pass Rate
+                                </span>
+                            </div>
+                            
+                            <p class="text-secondary" style="margin-bottom: 1rem;">Information Systems Security Professional certification</p>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <span style="font-size: 1.5rem; font-weight: 600; color: var(--primary-accent);">$449</span>
+                                    <span class="text-secondary" style="text-decoration: line-through; margin-left: 0.5rem;">$699</span>
+                                </div>
+                                <button class="btn btn-primary">Enroll Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Google ML Engineer -->
+                    <div class="card">
+                        <div style="padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fab fa-google" style="font-size: 1.5rem; color: white;"></i>
+                                </div>
+                                <div>
+                                    <h3>Google ML Engineer</h3>
+                                    <p class="text-secondary">Machine Learning</p>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                                <span class="badge" style="background: var(--secondary-bg); color: var(--text-primary); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">
+                                    <i class="fas fa-clock"></i> 3 months
+                                </span>
+                                <span class="badge" style="background: var(--secondary-bg); color: var(--text-primary); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">
+                                    <i class="fas fa-signal"></i> Advanced
+                                </span>
+                                <span class="badge" style="background: var(--success-color); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">
+                                    <i class="fas fa-check"></i> 90% Pass Rate
+                                </span>
+                            </div>
+                            
+                            <p class="text-secondary" style="margin-bottom: 1rem;">Build and deploy ML models on Google Cloud Platform</p>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <span style="font-size: 1.5rem; font-weight: 600; color: var(--primary-accent);">$299</span>
+                                    <span class="text-secondary" style="text-decoration: line-through; margin-left: 0.5rem;">$499</span>
+                                </div>
+                                <button class="btn btn-primary">Enroll Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional Certifications -->
+            <div class="section-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h2>Professional Certifications</h2>
+                    <button class="btn btn-outline btn-sm">View All</button>
+                </div>
+                
+                <!-- Tab Navigation -->
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+                    <button class="btn btn-outline btn-sm" style="border-bottom: 2px solid var(--primary-accent); color: var(--primary-accent);">
+                        <i class="fas fa-shield-alt"></i> Cybersecurity
+                    </button>
+                    <button class="btn btn-outline btn-sm">
+                        <i class="fas fa-cloud"></i> Cloud
+                    </button>
+                    <button class="btn btn-outline btn-sm">
+                        <i class="fas fa-database"></i> Data Science
+                    </button>
+                    <button class="btn btn-outline btn-sm">
+                        <i class="fas fa-cogs"></i> Engineering
+                    </button>
+                    <button class="btn btn-outline btn-sm">
+                        <i class="fas fa-gavel"></i> Legal
+                    </button>
+                </div>
+
+                <!-- Certification List -->
+                <div style="margin-top: 1.5rem;">
+                    <!-- CompTIA Security+ -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: var(--secondary-bg); border-radius: 8px; margin-bottom: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: var(--card-bg); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-plus" style="color: var(--primary-accent);"></i>
+                            </div>
+                            <div>
+                                <h4>CompTIA Security+</h4>
+                                <p class="text-secondary">Entry-level cybersecurity certification</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 2rem;">
+                            <div style="text-align: center;">
+                                <p class="text-secondary" style="font-size: 0.85rem;">Duration</p>
+                                <p style="font-weight: 600;">2 months</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <p class="text-secondary" style="font-size: 0.85rem;">Level</p>
+                                <p style="font-weight: 600;">Beginner</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <p style="font-size: 1.25rem; font-weight: 600; color: var(--primary-accent);">$249</p>
+                            </div>
+                            <button class="btn btn-primary">Enroll</button>
+                        </div>
+                    </div>
+
+                    <!-- CEH -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: var(--secondary-bg); border-radius: 8px; margin-bottom: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: var(--card-bg); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user-secret" style="color: var(--danger-color);"></i>
+                            </div>
+                            <div>
+                                <h4>Certified Ethical Hacker (CEH)</h4>
+                                <p class="text-secondary">Ethical hacking and penetration testing</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 2rem;">
+                            <div style="text-align: center;">
+                                <p class="text-secondary" style="font-size: 0.85rem;">Duration</p>
+                                <p style="font-weight: 600;">3 months</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <p class="text-secondary" style="font-size: 0.85rem;">Level</p>
+                                <p style="font-weight: 600;">Intermediate</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <p style="font-size: 1.25rem; font-weight: 600; color: var(--primary-accent);">$349</p>
+                            </div>
+                            <button class="btn btn-primary">Enroll</button>
+                        </div>
+                    </div>
+
+                    <!-- CCSP -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: var(--secondary-bg); border-radius: 8px; margin-bottom: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: var(--card-bg); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-cloud-lock" style="color: var(--secondary-accent);"></i>
+                            </div>
+                            <div>
+                                <h4>CCSP - Cloud Security Professional</h4>
+                                <p class="text-secondary">Advanced cloud security certification</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 2rem;">
+                            <div style="text-align: center;">
+                                <p class="text-secondary" style="font-size: 0.85rem;">Duration</p>
+                                <p style="font-weight: 600;">4 months</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <p class="text-secondary" style="font-size: 0.85rem;">Level</p>
+                                <p style="font-weight: 600;">Advanced</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <p style="font-size: 1.25rem; font-weight: 600; color: var(--primary-accent);">$399</p>
+                            </div>
+                            <button class="btn btn-primary">Enroll</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exam Preparation -->
+            <div class="section-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h2>Graduate & Professional Exams</h2>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                    <!-- GRE -->
+                    <div class="card" style="text-align: center; padding: 1.5rem;">
+                        <i class="fas fa-user-graduate" style="font-size: 3rem; color: var(--primary-accent); margin-bottom: 1rem;"></i>
+                        <h3>GRE Preparation</h3>
+                        <p class="text-secondary" style="margin: 1rem 0;">Graduate Record Examination</p>
+                        <p style="font-size: 1.25rem; font-weight: 600; color: var(--primary-accent); margin-bottom: 1rem;">$199</p>
+                        <button class="btn btn-primary" style="width: 100%;">Start Prep</button>
+                    </div>
+
+                    <!-- MCAT -->
+                    <div class="card" style="text-align: center; padding: 1.5rem;">
+                        <i class="fas fa-stethoscope" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 1rem;"></i>
+                        <h3>MCAT Preparation</h3>
+                        <p class="text-secondary" style="margin: 1rem 0;">Medical College Admission Test</p>
+                        <p style="font-size: 1.25rem; font-weight: 600; color: var(--primary-accent); margin-bottom: 1rem;">$399</p>
+                        <button class="btn btn-primary" style="width: 100%;">Start Prep</button>
+                    </div>
+
+                    <!-- Patent Bar -->
+                    <div class="card" style="text-align: center; padding: 1.5rem;">
+                        <i class="fas fa-gavel" style="font-size: 3rem; color: var(--warning-color); margin-bottom: 1rem;"></i>
+                        <h3>Patent Bar Exam</h3>
+                        <p class="text-secondary" style="margin: 1rem 0;">USPTO Registration</p>
+                        <p style="font-size: 1.25rem; font-weight: 600; color: var(--primary-accent); margin-bottom: 1rem;">$299</p>
+                        <button class="btn btn-primary" style="width: 100%;">Start Prep</button>
+                    </div>
+
+                    <!-- PE License -->
+                    <div class="card" style="text-align: center; padding: 1.5rem;">
+                        <i class="fas fa-hard-hat" style="font-size: 3rem; color: var(--success-color); margin-bottom: 1rem;"></i>
+                        <h3>PE License</h3>
+                        <p class="text-secondary" style="margin: 1rem 0;">Professional Engineer</p>
+                        <p style="font-size: 1.25rem; font-weight: 600; color: var(--primary-accent); margin-bottom: 1rem;">$349</p>
+                        <button class="btn btn-primary" style="width: 100%;">Start Prep</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Your Progress -->
+            <div class="section-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h2>Your Certification Journey</h2>
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                    <!-- Active Certification -->
+                    <div style="display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem; background: var(--secondary-bg); border-radius: 12px; margin-bottom: 1rem;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-shield-alt" style="font-size: 1.5rem; color: white;"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <h4>CISSP - In Progress</h4>
+                            <p class="text-secondary">Started 2 weeks ago • Exam in 3 months</p>
+                            <div class="progress-bar" style="margin-top: 0.5rem;">
+                                <div class="progress-fill" style="width: 35%;"></div>
+                            </div>
+                            <p class="text-muted" style="font-size: 0.85rem; margin-top: 0.25rem;">35% Complete - 42 hours studied</p>
+                        </div>
+                        <button class="btn btn-primary">Continue Learning</button>
+                    </div>
+
+                    <!-- Completed Certification -->
+                    <div style="display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem; background: var(--secondary-bg); border-radius: 12px; opacity: 0.8;">
+                        <div style="width: 60px; height: 60px; background: var(--success-color); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-check" style="font-size: 1.5rem; color: white;"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <h4>CompTIA Security+ - Completed</h4>
+                            <p class="text-secondary">Certified on Oct 15, 2024 • Score: 820/900</p>
+                        </div>
+                        <button class="btn btn-outline btn-sm">View Certificate</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
