@@ -7,6 +7,120 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .library-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+            overflow-x: auto;
+        }
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            position: relative;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        .tab-btn:hover {
+            color: var(--text-primary);
+        }
+        .tab-btn.active {
+            color: var(--primary-accent);
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-accent);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .course-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            border-color: var(--primary-accent);
+        }
+        .course-type-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-prep { background: var(--warning-color); color: white; }
+        .badge-qbank { background: var(--success-color); color: white; }
+        .badge-bundle { background: var(--primary-accent); color: white; }
+        .badge-course { background: var(--info-color); color: white; }
+        .badge-cert { background: #ff6b6b; color: white; }
+        .progress-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .filter-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .filter-dropdown {
+            padding: 0.75rem 1rem;
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .quick-stat-card {
+            background: var(--secondary-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .quick-stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -27,7 +141,7 @@
             <div class="nav-actions">
                 <button class="btn-icon">
                     <i class="fas fa-bell"></i>
-                    <span class="notification-badge">3</span>
+                    <span class="notification-badge">5</span>
                 </button>
                 <div class="user-menu">
                     <img src="https://ui-avatars.com/api/?name=Student&background=667eea&color=fff" alt="User" class="user-avatar">
@@ -64,7 +178,7 @@
                     <a href="library.html" class="sidebar-link active">
                         <span class="sidebar-icon"><i class="fas fa-book"></i></span>
                         <span>My Library</span>
-                        <span class="counter">128</span>
+                        <span class="counter">156</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -120,196 +234,454 @@
                     </a>
                 </li>
             </ul>
+            
+            <div class="sidebar-footer">
+                <div class="storage-info">
+                    <i class="fas fa-database"></i>
+                    <div>
+                        <div class="storage-text">Storage Used</div>
+                        <div class="storage-bar">
+                            <div class="storage-progress" style="width: 65%;"></div>
+                        </div>
+                        <div class="storage-text">6.5 GB of 10 GB</div>
+                    </div>
+                </div>
+            </div>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
             <div class="content-header">
                 <h1><i class="fas fa-book"></i> My Library</h1>
-                <p>Access all your saved courses, videos, and learning materials</p>
+                <p>Access all your enrolled courses, test prep materials, and learning resources</p>
             </div>
 
-            <!-- Library Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="quick-stat-card">
+                    <div class="quick-stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
                         <i class="fas fa-book-open"></i>
                     </div>
-                    <div class="stat-value">128</div>
-                    <div class="stat-label">Total Items</div>
+                    <div>
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Active Courses</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <div class="quick-stat-card">
+                    <div class="quick-stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Question Banks</div>
+                    </div>
+                </div>
+                <div class="quick-stat-card">
+                    <div class="quick-stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div>
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Certifications</div>
+                    </div>
+                </div>
+                <div class="quick-stat-card">
+                    <div class="quick-stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white;">
                         <i class="fas fa-video"></i>
                     </div>
-                    <div class="stat-value">87</div>
-                    <div class="stat-label">Videos</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                        <i class="fas fa-file-alt"></i>
+                    <div>
+                        <div class="stat-value">45</div>
+                        <div class="stat-label">Video Courses</div>
                     </div>
-                    <div class="stat-value">32</div>
-                    <div class="stat-label">Documents</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-                        <i class="fas fa-check-circle"></i>
+                <div class="quick-stat-card">
+                    <div class="quick-stat-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white;">
+                        <i class="fas fa-book"></i>
                     </div>
-                    <div class="stat-value">9</div>
-                    <div class="stat-label">Completed</div>
+                    <div>
+                        <div class="stat-value">86</div>
+                        <div class="stat-label">E-Books</div>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Library Tabs -->
+            <div class="library-tabs">
+                <button class="tab-btn active" onclick="switchTab('all')">
+                    <i class="fas fa-th"></i> All Resources
+                </button>
+                <button class="tab-btn" onclick="switchTab('test-prep')">
+                    <i class="fas fa-graduation-cap"></i> Test Prep Courses
+                </button>
+                <button class="tab-btn" onclick="switchTab('question-banks')">
+                    <i class="fas fa-question-circle"></i> Question Banks
+                </button>
+                <button class="tab-btn" onclick="switchTab('courses')">
+                    <i class="fas fa-play-circle"></i> Video Courses
+                </button>
+                <button class="tab-btn" onclick="switchTab('certifications')">
+                    <i class="fas fa-certificate"></i> Certifications
+                </button>
+                <button class="tab-btn" onclick="switchTab('ebooks')">
+                    <i class="fas fa-book"></i> E-Books
+                </button>
+                <button class="tab-btn" onclick="switchTab('downloads')">
+                    <i class="fas fa-download"></i> Downloads
+                </button>
             </div>
 
             <!-- Filter Section -->
-            <div class="section-card" style="margin-top: 2rem;">
-                <div class="card-header">
-                    <h2>Filter Library</h2>
-                </div>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                    <select class="form-select" style="flex: 1; min-width: 200px;">
-                        <option>All Categories</option>
-                        <option>Programming</option>
-                        <option>Data Science</option>
-                        <option>Mathematics</option>
-                        <option>Business</option>
-                    </select>
-                    <select class="form-select" style="flex: 1; min-width: 200px;">
-                        <option>All Types</option>
-                        <option>Videos</option>
-                        <option>Documents</option>
-                        <option>Quizzes</option>
-                    </select>
-                    <select class="form-select" style="flex: 1; min-width: 200px;">
-                        <option>Sort by: Recently Added</option>
-                        <option>Sort by: Title</option>
-                        <option>Sort by: Progress</option>
-                        <option>Sort by: Duration</option>
-                    </select>
+            <div class="filter-section">
+                <select class="filter-dropdown">
+                    <option>All Categories</option>
+                    <option>Medical</option>
+                    <option>Engineering</option>
+                    <option>Business</option>
+                    <option>Law</option>
+                    <option>Technology</option>
+                </select>
+                <select class="filter-dropdown">
+                    <option>Sort by: Recently Added</option>
+                    <option>Sort by: Progress</option>
+                    <option>Sort by: Name</option>
+                    <option>Sort by: Expiry Date</option>
+                </select>
+                <select class="filter-dropdown">
+                    <option>Status: All</option>
+                    <option>Status: In Progress</option>
+                    <option>Status: Not Started</option>
+                    <option>Status: Completed</option>
+                </select>
+            </div>
+
+            <!-- Tab Content: All Resources -->
+            <div id="all" class="tab-content active">
+                <div class="library-grid">
+                    <!-- MCAT Prep Bundle -->
+                    <div class="course-card">
+                        <span class="course-type-badge badge-bundle">BUNDLE</span>
+                        <div class="book-cover" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="fas fa-stethoscope" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4>MCAT Complete Bundle</h4>
+                        <p class="text-secondary">Full course + 10,000 Q-Bank</p>
+                        <div class="book-meta">
+                            <span><i class="fas fa-clock"></i> 150+ hours</span>
+                            <span><i class="fas fa-calendar"></i> Expires: Aug 2025</span>
+                        </div>
+                        <div class="progress-section">
+                            <div class="progress-stats">
+                                <span>Progress</span>
+                                <span>35%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 35%;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                                <span class="text-secondary" style="font-size: 0.875rem;">3,500 questions completed</span>
+                                <span class="text-secondary" style="font-size: 0.875rem;">52 hours watched</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">Continue Learning</button>
+                    </div>
+
+                    <!-- USMLE Step 1 Q-Bank -->
+                    <div class="course-card">
+                        <span class="course-type-badge badge-qbank">Q-BANK</span>
+                        <div class="book-cover" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <i class="fas fa-user-md" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4>USMLE Step 1 QBank</h4>
+                        <p class="text-secondary">15,000+ practice questions</p>
+                        <div class="book-meta">
+                            <span><i class="fas fa-question"></i> 15,000 Qs</span>
+                            <span><i class="fas fa-calendar"></i> Expires: Dec 2024</span>
+                        </div>
+                        <div class="progress-section">
+                            <div class="progress-stats">
+                                <span>Completed</span>
+                                <span>2,100/15,000</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 14%;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                                <span class="text-secondary" style="font-size: 0.875rem;">Avg Score: 72%</span>
+                                <span class="text-secondary" style="font-size: 0.875rem;">12,900 remaining</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">Practice Now</button>
+                    </div>
+
+                    <!-- CFA Level 1 -->
+                    <div class="course-card">
+                        <span class="course-type-badge badge-prep">TEST PREP</span>
+                        <div class="book-cover" style="background: linear-gradient(135deg, #ff9900 0%, #ff6600 100%);">
+                            <i class="fas fa-chart-pie" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4>CFA Level 1 Prep</h4>
+                        <p class="text-secondary">Complete preparation course</p>
+                        <div class="book-meta">
+                            <span><i class="fas fa-video"></i> 90 hours</span>
+                            <span><i class="fas fa-calendar"></i> Expires: Jun 2025</span>
+                        </div>
+                        <div class="progress-section">
+                            <div class="progress-stats">
+                                <span>Progress</span>
+                                <span>62%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 62%;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                                <span class="text-secondary" style="font-size: 0.875rem;">Ethics: Complete</span>
+                                <span class="text-secondary" style="font-size: 0.875rem;">34 hours remaining</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">Resume Course</button>
+                    </div>
+
+                    <!-- LSAT Bundle -->
+                    <div class="course-card">
+                        <span class="course-type-badge badge-bundle">BUNDLE</span>
+                        <div class="book-cover" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                            <i class="fas fa-balance-scale" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4>LSAT Complete Package</h4>
+                        <p class="text-secondary">Course + 7,000 questions + 70 tests</p>
+                        <div class="book-meta">
+                            <span><i class="fas fa-book"></i> Full access</span>
+                            <span><i class="fas fa-calendar"></i> Expires: Mar 2025</span>
+                        </div>
+                        <div class="progress-section">
+                            <div class="progress-stats">
+                                <span>Progress</span>
+                                <span>18%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 18%;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                                <span class="text-secondary" style="font-size: 0.875rem;">Logic Games: 45%</span>
+                                <span class="text-secondary" style="font-size: 0.875rem;">12 tests completed</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">Continue Prep</button>
+                    </div>
+
+                    <!-- AWS Solutions Architect -->
+                    <div class="course-card">
+                        <span class="course-type-badge badge-cert">CERTIFICATION</span>
+                        <div class="book-cover" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                            <i class="fab fa-aws" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4>AWS Solutions Architect</h4>
+                        <p class="text-secondary">Professional certification prep</p>
+                        <div class="book-meta">
+                            <span><i class="fas fa-trophy"></i> Pro level</span>
+                            <span><i class="fas fa-calendar"></i> Expires: Sep 2024</span>
+                        </div>
+                        <div class="progress-section">
+                            <div class="progress-stats">
+                                <span>Progress</span>
+                                <span>78%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 78%;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                                <span class="text-secondary" style="font-size: 0.875rem;">Ready for exam</span>
+                                <span class="text-secondary" style="font-size: 0.875rem;">Mock score: 82%</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">Take Practice Exam</button>
+                    </div>
+
+                    <!-- NCLEX-RN -->
+                    <div class="course-card">
+                        <span class="course-type-badge badge-qbank">Q-BANK</span>
+                        <div class="book-cover" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                            <i class="fas fa-user-nurse" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4>NCLEX-RN Question Bank</h4>
+                        <p class="text-secondary">Next Gen NCLEX format</p>
+                        <div class="book-meta">
+                            <span><i class="fas fa-question"></i> 10,000 Qs</span>
+                            <span><i class="fas fa-calendar"></i> Expires: Feb 2025</span>
+                        </div>
+                        <div class="progress-section">
+                            <div class="progress-stats">
+                                <span>Completed</span>
+                                <span>4,200/10,000</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 42%;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                                <span class="text-secondary" style="font-size: 0.875rem;">CAT ready: Yes</span>
+                                <span class="text-secondary" style="font-size: 0.875rem;">Avg: 78%</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">Start CAT Simulation</button>
+                    </div>
+
+                    <!-- Python Programming -->
+                    <div class="course-card">
+                        <span class="course-type-badge badge-course">COURSE</span>
+                        <div class="book-cover" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="fab fa-python" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4>Python Masterclass</h4>
+                        <p class="text-secondary">Complete Python programming</p>
+                        <div class="book-meta">
+                            <span><i class="fas fa-video"></i> 45 hours</span>
+                            <span><i class="fas fa-infinity"></i> Lifetime</span>
+                        </div>
+                        <div class="progress-section">
+                            <div class="progress-stats">
+                                <span>Progress</span>
+                                <span>91%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 91%;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                                <span class="text-secondary" style="font-size: 0.875rem;">41/45 modules</span>
+                                <span class="text-secondary" style="font-size: 0.875rem;">Certificate ready</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">Complete Course</button>
+                    </div>
+
+                    <!-- GRE Bundle -->
+                    <div class="course-card">
+                        <span class="course-type-badge badge-bundle">BUNDLE</span>
+                        <div class="book-cover" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <i class="fas fa-chart-bar" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4>GRE Complete Prep</h4>
+                        <p class="text-secondary">Verbal + Quant + AWA</p>
+                        <div class="book-meta">
+                            <span><i class="fas fa-book"></i> Full prep</span>
+                            <span><i class="fas fa-calendar"></i> Expires: May 2025</span>
+                        </div>
+                        <div class="progress-section">
+                            <div class="progress-stats">
+                                <span>Progress</span>
+                                <span>23%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 23%;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                                <span class="text-secondary" style="font-size: 0.875rem;">Verbal: 155</span>
+                                <span class="text-secondary" style="font-size: 0.875rem;">Quant: 162</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">Study Now</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Library Grid -->
-            <div class="library-grid" style="margin-top: 2rem;">
-                <!-- Book Card 1 -->
-                <div class="book-card">
-                    <div class="book-cover">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="book-info">
-                        <h4>Advanced Python Programming</h4>
-                        <p class="text-secondary">Dr. Sarah Johnson</p>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 75%;"></div>
+            <!-- Tab Content: Test Prep Courses -->
+            <div id="test-prep" class="tab-content">
+                <div class="library-grid">
+                    <!-- Test prep courses will be shown here -->
+                    <div class="course-card">
+                        <span class="course-type-badge badge-prep">TEST PREP</span>
+                        <div class="book-cover" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="fas fa-stethoscope" style="font-size: 3rem;"></i>
                         </div>
-                        <p class="text-muted" style="font-size: 0.85rem;">75% Complete</p>
-                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">
-                            <i class="fas fa-play"></i> Continue
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Book Card 2 -->
-                <div class="book-card">
-                    <div class="book-cover" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="book-info">
-                        <h4>Data Analysis Fundamentals</h4>
-                        <p class="text-secondary">Prof. Michael Chen</p>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 100%;"></div>
+                        <h4>MCAT Complete Course</h4>
+                        <p class="text-secondary">150+ hours of video content</p>
+                        <div class="progress-section">
+                            <div class="progress-stats">
+                                <span>Progress</span>
+                                <span>35%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 35%;"></div>
+                            </div>
                         </div>
-                        <p class="text-muted" style="font-size: 0.85rem;">Completed</p>
-                        <button class="btn btn-outline btn-sm" style="width: 100%; margin-top: 1rem;">
-                            <i class="fas fa-redo"></i> Review
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Book Card 3 -->
-                <div class="book-card">
-                    <div class="book-cover" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <div class="book-info">
-                        <h4>Machine Learning Basics</h4>
-                        <p class="text-secondary">Emily Rodriguez</p>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 30%;"></div>
-                        </div>
-                        <p class="text-muted" style="font-size: 0.85rem;">30% Complete</p>
-                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">
-                            <i class="fas fa-play"></i> Continue
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Book Card 4 -->
-                <div class="book-card">
-                    <div class="book-cover" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <div class="book-info">
-                        <h4>SQL Masterclass</h4>
-                        <p class="text-secondary">James Wilson</p>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;"></div>
-                        </div>
-                        <p class="text-muted" style="font-size: 0.85rem;">Not Started</p>
-                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">
-                            <i class="fas fa-play"></i> Start
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Book Card 5 -->
-                <div class="book-card">
-                    <div class="book-cover" style="background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);">
-                        <i class="fas fa-palette"></i>
-                    </div>
-                    <div class="book-info">
-                        <h4>UI/UX Design Principles</h4>
-                        <p class="text-secondary">Lisa Anderson</p>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 60%;"></div>
-                        </div>
-                        <p class="text-muted" style="font-size: 0.85rem;">60% Complete</p>
-                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">
-                            <i class="fas fa-play"></i> Continue
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Book Card 6 -->
-                <div class="book-card">
-                    <div class="book-cover" style="background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="book-info">
-                        <h4>Cybersecurity Essentials</h4>
-                        <p class="text-secondary">Robert Brown</p>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 45%;"></div>
-                        </div>
-                        <p class="text-muted" style="font-size: 0.85rem;">45% Complete</p>
-                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">
-                            <i class="fas fa-play"></i> Continue
-                        </button>
+                        <button class="btn btn-primary btn-sm" style="width: 100%; margin-top: 1rem;">Continue</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Load More -->
-            <div style="text-align: center; margin-top: 3rem;">
-                <button class="btn btn-outline">
-                    <i class="fas fa-plus"></i> Load More Items
-                </button>
+            <!-- Tab Content: Question Banks -->
+            <div id="question-banks" class="tab-content">
+                <div class="library-grid">
+                    <!-- Question banks will be shown here -->
+                </div>
+            </div>
+
+            <!-- Other tab contents... -->
+            <div id="courses" class="tab-content">
+                <div class="library-grid">
+                    <!-- Video courses will be shown here -->
+                </div>
+            </div>
+
+            <div id="certifications" class="tab-content">
+                <div class="library-grid">
+                    <!-- Certifications will be shown here -->
+                </div>
+            </div>
+
+            <div id="ebooks" class="tab-content">
+                <div class="library-grid">
+                    <!-- E-books will be shown here -->
+                </div>
+            </div>
+
+            <div id="downloads" class="tab-content">
+                <div class="library-grid">
+                    <!-- Downloads will be shown here -->
+                </div>
             </div>
         </main>
     </div>
 
     <script src="script.js"></script>
     <script src="dashboard.js"></script>
+    <script>
+        function switchTab(tabName) {
+            // Remove active class from all tabs and contents
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            event.target.closest('.tab-btn').classList.add('active');
+            
+            // Show corresponding content
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Simulate adding test prep to library when enrolled
+        function addToLibrary(courseName, type) {
+            // This would typically make an API call to add the course to user's library
+            console.log(`Adding ${courseName} (${type}) to library`);
+            
+            // Show notification
+            const notification = document.createElement('div');
+            notification.className = 'notification success';
+            notification.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>${courseName} has been added to your library!</span>
+            `;
+            document.body.appendChild(notification);
+            
+            // Update library counter
+            const counter = document.querySelector('.sidebar-link.active .counter');
+            if (counter) {
+                const currentCount = parseInt(counter.textContent);
+                counter.textContent = currentCount + 1;
+            }
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
