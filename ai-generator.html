@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Video Generator - ABP Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">ABP Learning</span>
+            </a>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search AI tools...">
+            </div>
+            
+            <div class="nav-actions">
+                <button class="btn-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="user-menu">
+                    <img src="https://ui-avatars.com/api/?name=Student&background=667eea&color=fff" alt="User" class="user-avatar">
+                    <div class="user-info">
+                        <span class="user-name">Student</span>
+                        <span class="user-role">Pro Member</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Navigation</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="dashboard.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-home"></i></span>
+                        <span>My Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="academic-setup.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-graduation-cap"></i></span>
+                        <span>Academic Setup</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="library.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-book"></i></span>
+                        <span>My Library</span>
+                        <span class="counter">128</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="marketplace.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-shopping-cart"></i></span>
+                        <span>Marketplace</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="ai-generator.html" class="sidebar-link active">
+                        <span class="sidebar-icon"><i class="fas fa-robot"></i></span>
+                        <span>AI Generator</span>
+                        <span class="badge-hot">HOT</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="quizzes.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-question-circle"></i></span>
+                        <span>Quizzes & Tests</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="partners.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-handshake"></i></span>
+                        <span>Partners</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="corporate.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-building"></i></span>
+                        <span>Corporate Hub</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="certifications.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-certificate"></i></span>
+                        <span>Certifications</span>
+                        <span class="counter">5</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="tutoring-videos.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-video"></i></span>
+                        <span>Tutoring Videos</span>
+                        <span class="badge-premium">PRO</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1><i class="fas fa-robot"></i> AI Video Generator</h1>
+                <p>Transform your text and documents into engaging educational videos powered by AI</p>
+            </div>
+
+            <!-- AI Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="stat-value">1,247</div>
+                    <div class="stat-label">Videos Generated</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-value">3,892</div>
+                    <div class="stat-label">Hours Saved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <div class="stat-value">Unlimited</div>
+                    <div class="stat-label">AI Credits (Pro)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="stat-value">95+</div>
+                    <div class="stat-label">Languages</div>
+                </div>
+            </div>
+
+            <!-- Generator Section -->
+            <div class="section-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h2>Create New AI Video</h2>
+                </div>
+                
+                <!-- Input Methods -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                    <!-- Upload Section -->
+                    <div>
+                        <h3 style="margin-bottom: 1rem;">📄 Upload Document</h3>
+                        <div class="upload-area" style="cursor: pointer;">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h4>Drop files here or click to browse</h4>
+                            <p>Supports PDF, DOCX, TXT, PPT (Max 50MB)</p>
+                            <input type="file" hidden accept=".pdf,.docx,.txt,.ppt,.pptx">
+                        </div>
+                    </div>
+                    
+                    <!-- Text Input Section -->
+                    <div>
+                        <h3 style="margin-bottom: 1rem;">✍️ Enter Text</h3>
+                        <textarea class="form-input" style="width: 100%; height: 200px; resize: vertical;" 
+                                  placeholder="Paste or type your content here..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Generation Options -->
+                <div style="background: var(--secondary-bg); padding: 2rem; border-radius: 12px;">
+                    <h3 style="margin-bottom: 1.5rem;">🎬 Video Generation Options</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <!-- Voice Selection -->
+                        <div>
+                            <label class="form-label">AI Voice</label>
+                            <select class="form-select">
+                                <option>Emma (Female, US English)</option>
+                                <option>James (Male, British English)</option>
+                                <option>Sofia (Female, Spanish)</option>
+                                <option>Chen (Male, Mandarin)</option>
+                                <option>Aria (Female, Neural Voice)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Video Style -->
+                        <div>
+                            <label class="form-label">Video Style</label>
+                            <select class="form-select">
+                                <option>Educational Presentation</option>
+                                <option>Animated Explainer</option>
+                                <option>Whiteboard Animation</option>
+                                <option>3D Graphics</option>
+                                <option>Documentary Style</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Duration -->
+                        <div>
+                            <label class="form-label">Target Duration</label>
+                            <select class="form-select">
+                                <option>Auto (Based on content)</option>
+                                <option>5-10 minutes</option>
+                                <option>10-15 minutes</option>
+                                <option>15-30 minutes</option>
+                                <option>30+ minutes</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Language -->
+                        <div>
+                            <label class="form-label">Output Language</label>
+                            <select class="form-select">
+                                <option>English</option>
+                                <option>Spanish</option>
+                                <option>French</option>
+                                <option>German</option>
+                                <option>Chinese</option>
+                                <option>Japanese</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced Options -->
+                    <div style="margin-top: 2rem;">
+                        <h4 style="margin-bottom: 1rem;">Advanced Options</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" checked>
+                                <span>Add subtitles</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" checked>
+                                <span>Include quiz questions</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox">
+                                <span>Add background music</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox">
+                                <span>Generate transcript</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Generate Button -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <button class="btn btn-primary btn-lg">
+                            <i class="fas fa-magic"></i> Generate AI Video
+                        </button>
+                        <p class="text-muted" style="margin-top: 0.5rem;">
+                            Estimated time: 2-5 minutes
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Generations -->
+            <div class="section-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h2>Recent AI Videos</h2>
+                    <button class="btn btn-outline btn-sm">View All</button>
+                </div>
+                
+                <div class="video-grid">
+                    <!-- Video 1 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <i class="fas fa-play-circle"></i>
+                            <span class="video-duration">12:45</span>
+                        </div>
+                        <div class="video-info">
+                            <h4>Introduction to Machine Learning</h4>
+                            <p class="text-secondary">Generated 2 hours ago</p>
+                            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-play"></i> Play
+                                </button>
+                                <button class="btn btn-outline btn-sm">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="btn btn-outline btn-sm">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Video 2 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <i class="fas fa-play-circle"></i>
+                            <span class="video-duration">8:30</span>
+                        </div>
+                        <div class="video-info">
+                            <h4>Python Basics Tutorial</h4>
+                            <p class="text-secondary">Generated yesterday</p>
+                            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-play"></i> Play
+                                </button>
+                                <button class="btn btn-outline btn-sm">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="btn btn-outline btn-sm">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Video 3 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <i class="fas fa-play-circle"></i>
+                            <span class="video-duration">15:20</span>
+                        </div>
+                        <div class="video-info">
+                            <h4>Data Structures Explained</h4>
+                            <p class="text-secondary">Generated 3 days ago</p>
+                            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-play"></i> Play
+                                </button>
+                                <button class="btn btn-outline btn-sm">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="btn btn-outline btn-sm">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
