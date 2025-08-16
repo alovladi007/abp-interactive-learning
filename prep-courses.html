@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prep Courses - ABP Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .prep-category {
+            margin-bottom: 2rem;
+        }
+        .prep-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .prep-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        .prep-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+        .prep-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .prep-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            border-color: var(--primary-accent);
+        }
+        .package-options {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .package-btn {
+            flex: 1;
+            padding: 0.5rem;
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .package-btn.active {
+            background: var(--primary-accent);
+            color: white;
+            border-color: var(--primary-accent);
+        }
+        .package-btn:hover {
+            border-color: var(--primary-accent);
+        }
+        .price-display {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .price-main {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-accent);
+        }
+        .price-original {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+        .feature-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .badge-new {
+            background: var(--success-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-popular {
+            background: var(--warning-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">ABP Learning</span>
+            </a>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search prep courses...">
+            </div>
+            
+            <div class="nav-actions">
+                <button class="btn-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">2</span>
+                </button>
+                <div class="user-menu">
+                    <img src="https://ui-avatars.com/api/?name=Student&background=667eea&color=fff" alt="User" class="user-avatar">
+                    <div class="user-info">
+                        <span class="user-name">Student</span>
+                        <span class="user-role">Pro Member</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Navigation</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="dashboard.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-home"></i></span>
+                        <span>My Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="academic-setup.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-graduation-cap"></i></span>
+                        <span>Academic Setup</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="library.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-book"></i></span>
+                        <span>My Library</span>
+                        <span class="counter">128</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="prep-courses.html" class="sidebar-link active">
+                        <span class="sidebar-icon"><i class="fas fa-book-open"></i></span>
+                        <span>Prep Courses</span>
+                        <span class="badge-new">NEW</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="marketplace.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-shopping-cart"></i></span>
+                        <span>Marketplace</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="ai-generator.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-robot"></i></span>
+                        <span>AI Generator</span>
+                        <span class="badge-hot">HOT</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="quizzes.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-question-circle"></i></span>
+                        <span>Quizzes & Tests</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="partners.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-handshake"></i></span>
+                        <span>Partners</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="corporate.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-building"></i></span>
+                        <span>Corporate Hub</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="certifications.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-certificate"></i></span>
+                        <span>Certifications</span>
+                        <span class="counter">50+</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="tutoring-videos.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-video"></i></span>
+                        <span>Tutoring Videos</span>
+                        <span class="badge-premium">PRO</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1><i class="fas fa-book-open"></i> Test Prep Courses & Question Banks</h1>
+                <p>Comprehensive preparation with expert courses and extensive question banks</p>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">Prep Courses</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div class="stat-value">100K+</div>
+                    <div class="stat-label">Practice Questions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-value">95%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value">50K+</div>
+                    <div class="stat-label">Students</div>
+                </div>
+            </div>
+
+            <!-- High School Test Prep -->
+            <div class="section-card prep-category" style="margin-top: 2rem;">
+                <div class="prep-header">
+                    <div class="prep-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <div>
+                        <h2 style="margin: 0;">High School Test Prep</h2>
+                        <p class="text-secondary" style="margin: 0;">College admission and AP exam preparation</p>
+                    </div>
+                </div>
+                
+                <div class="prep-grid">
+                    <!-- SAT Prep -->
+                    <div class="prep-card">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <h3><i class="fas fa-graduation-cap"></i> SAT® Prep</h3>
+                            <span class="badge-popular">POPULAR</span>
+                        </div>
+                        <p class="text-secondary">Complete SAT preparation with adaptive learning</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'sat', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'sat', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'sat', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 60+ hours of video lessons</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 5,000+ practice questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 10 full-length practice tests</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Personalized study plan</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$299</span>
+                            <span class="price-original">$399</span>
+                            <span class="text-secondary">• Save $100</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- ACT Prep -->
+                    <div class="prep-card">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <h3><i class="fas fa-pencil-alt"></i> ACT® Prep</h3>
+                            <span class="badge-popular">POPULAR</span>
+                        </div>
+                        <p class="text-secondary">Master the ACT with comprehensive prep</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'act', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'act', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'act', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 50+ hours of content</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 4,000+ practice questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 8 practice tests</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Science reasoning focus</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$279</span>
+                            <span class="price-original">$379</span>
+                            <span class="text-secondary">• Save $100</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- AP Prep -->
+                    <div class="prep-card">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <h3><i class="fas fa-award"></i> AP® Exam Prep</h3>
+                            <span class="badge-new">NEW</span>
+                        </div>
+                        <p class="text-secondary">All AP subjects - Choose your courses</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'ap', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'ap', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'ap', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 20+ AP subjects available</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 2,000+ questions per subject</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Free-response practice</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Score prediction</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$199</span>
+                            <span class="text-secondary">per subject</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Choose Subjects</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Graduate School Test Prep -->
+            <div class="section-card prep-category">
+                <div class="prep-header">
+                    <div class="prep-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div>
+                        <h2 style="margin: 0;">Graduate School Test Prep</h2>
+                        <p class="text-secondary" style="margin: 0;">Advanced degree admission exams</p>
+                    </div>
+                </div>
+                
+                <div class="prep-grid">
+                    <!-- GRE Prep -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-chart-bar"></i> GRE® General</h3>
+                        <p class="text-secondary">Graduate Record Examination prep</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'gre', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'gre', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'gre', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Verbal & Quantitative prep</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 5,000+ practice questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> AWA essay grading</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 6 practice tests</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$349</span>
+                            <span class="price-original">$449</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- Physics GRE -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-atom"></i> Physics GRE®</h3>
+                        <p class="text-secondary">Subject test specialized prep</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'pgre', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'pgre', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'pgre', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> All physics topics covered</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 2,000+ practice problems</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 4 full practice exams</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Problem-solving videos</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$299</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- Math GRE -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-calculator"></i> Math GRE®</h3>
+                        <p class="text-secondary">Mathematics subject test prep</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'mgre', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'mgre', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'mgre', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Calculus to Abstract Algebra</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 2,500+ problems</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Topic-wise breakdown</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 5 practice tests</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$299</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional School Test Prep -->
+            <div class="section-card prep-category">
+                <div class="prep-header">
+                    <div class="prep-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div>
+                        <h2 style="margin: 0;">Professional School Test Prep</h2>
+                        <p class="text-secondary" style="margin: 0;">Medical, dental, pharmacy, and other professional programs</p>
+                    </div>
+                </div>
+                
+                <div class="prep-grid">
+                    <!-- MCAT Prep -->
+                    <div class="prep-card">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <h3><i class="fas fa-stethoscope"></i> MCAT®</h3>
+                            <span class="badge-popular">BEST SELLER</span>
+                        </div>
+                        <p class="text-secondary">Medical College Admission Test</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'mcat', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'mcat', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'mcat', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 150+ hours of content</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 10,000+ AAMC-style questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 15 full-length exams</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> CARS daily practice</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$799</span>
+                            <span class="price-original">$999</span>
+                            <span class="text-secondary">• Save $200</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- DAT Prep -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-tooth"></i> DAT®</h3>
+                        <p class="text-secondary">Dental Admission Test</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'dat', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'dat', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'dat', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Perceptual ability training</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 5,000+ practice questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 10 practice tests</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Biology & chemistry focus</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$599</span>
+                            <span class="price-original">$799</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- PCAT Prep -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-pills"></i> PCAT®</h3>
+                        <p class="text-secondary">Pharmacy College Admission Test</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'pcat', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'pcat', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'pcat', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Pharmacy-focused content</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 4,000+ practice questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 8 practice tests</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Writing sample prep</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$499</span>
+                            <span class="price-original">$699</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- OAT Prep -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-eye"></i> OAT®</h3>
+                        <p class="text-secondary">Optometry Admission Test</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'oat', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'oat', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'oat', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Physics & optics focus</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 3,500+ practice questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 6 full-length tests</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Reading comprehension</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$449</span>
+                            <span class="price-original">$649</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- PA-CAT Prep -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-user-nurse"></i> PA-CAT®</h3>
+                        <p class="text-secondary">Physician Assistant College Admission Test</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'pacat', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'pacat', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'pacat', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Medical knowledge base</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 3,000+ practice questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 5 practice exams</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Critical thinking focus</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$399</span>
+                            <span class="price-original">$599</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- GRE Psychology -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-brain"></i> GRE® Psychology</h3>
+                        <p class="text-secondary">Psychology subject test</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'psygre', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'psygre', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'psygre', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> All psychology domains</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 2,500+ practice questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 4 practice tests</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Research methods focus</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$279</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legal Test Prep -->
+            <div class="section-card prep-category">
+                <div class="prep-header">
+                    <div class="prep-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <div>
+                        <h2 style="margin: 0;">Legal Test Prep</h2>
+                        <p class="text-secondary" style="margin: 0;">Law school admission and bar examinations</p>
+                    </div>
+                </div>
+                
+                <div class="prep-grid">
+                    <!-- LSAT Prep -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-balance-scale"></i> LSAT®</h3>
+                        <p class="text-secondary">Law School Admission Test</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'lsat', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'lsat', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'lsat', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Logic games mastery</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 7,000+ practice questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 70+ practice tests</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Writing sample prep</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$499</span>
+                            <span class="price-original">$699</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- Bar Exam Prep -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-university"></i> Bar Exam</h3>
+                        <p class="text-secondary">Multistate & state-specific prep</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'bar', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'bar', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'bar', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> MBE, MEE, MPT prep</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 10,000+ MBE questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Essay grading service</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> State-specific materials</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$1,299</span>
+                            <span class="price-original">$1,599</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- Patent Bar Prep -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-lightbulb"></i> Patent Bar</h3>
+                        <p class="text-secondary">USPTO registration examination</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'patent', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'patent', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'patent', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> MPEP coverage</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 2,000+ practice questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> AIA updates included</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Simulated exams</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$599</span>
+                            <span class="price-original">$799</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- LLM Bar Prep -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-globe"></i> LLM Bar Exam</h3>
+                        <p class="text-secondary">For foreign-trained lawyers</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'llm', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'llm', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'llm', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> US law fundamentals</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 5,000+ practice questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Legal writing workshop</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> NY/CA bar focus</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$999</span>
+                            <span class="price-original">$1,299</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finance Test Prep -->
+            <div class="section-card prep-category">
+                <div class="prep-header">
+                    <div class="prep-icon" style="background: linear-gradient(135deg, #ff9900 0%, #ff6600 100%);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h2 style="margin: 0;">Finance Test Prep</h2>
+                        <p class="text-secondary" style="margin: 0;">Professional finance certifications</p>
+                    </div>
+                </div>
+                
+                <div class="prep-grid">
+                    <!-- CFA Prep -->
+                    <div class="prep-card">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <h3><i class="fas fa-chart-pie"></i> CFA®</h3>
+                            <span class="badge-popular">TOP RATED</span>
+                        </div>
+                        <p class="text-secondary">Chartered Financial Analyst</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'cfa', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'cfa', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'cfa', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> All 3 levels available</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 6,000+ questions per level</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Mock exams</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Ethics focus</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$699</span>
+                            <span class="price-original">$899</span>
+                            <span class="text-secondary">per level</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- CMT Prep -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-chart-area"></i> CMT®</h3>
+                        <p class="text-secondary">Chartered Market Technician</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'cmt', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'cmt', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'cmt', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Technical analysis mastery</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 3,000+ practice questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Chart pattern recognition</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 3 levels included</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$549</span>
+                            <span class="price-original">$749</span>
+                            <span class="text-secondary">per level</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+
+                    <!-- FRM Prep -->
+                    <div class="prep-card">
+                        <h3><i class="fas fa-shield-alt"></i> FRM®</h3>
+                        <p class="text-secondary">Financial Risk Manager</p>
+                        
+                        <div class="package-options">
+                            <button class="package-btn" onclick="updatePrice(this, 'frm', 'course')">Course Only</button>
+                            <button class="package-btn" onclick="updatePrice(this, 'frm', 'qbank')">Q-Bank Only</button>
+                            <button class="package-btn active" onclick="updatePrice(this, 'frm', 'bundle')">Bundle</button>
+                        </div>
+                        
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Risk management focus</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> 4,000+ practice questions</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Part I & II coverage</li>
+                            <li><i class="fas fa-check" style="color: var(--success-color);"></i> Practice exams</li>
+                        </ul>
+                        
+                        <div class="price-display">
+                            <span class="price-main">$599</span>
+                            <span class="price-original">$799</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="dashboard.js"></script>
+    <script>
+        function updatePrice(button, exam, type) {
+            // Remove active class from siblings
+            const siblings = button.parentElement.querySelectorAll('.package-btn');
+            siblings.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Update price based on selection
+            const card = button.closest('.prep-card');
+            const priceDisplay = card.querySelector('.price-display');
+            
+            // Sample price logic (you can customize this)
+            const prices = {
+                'sat': { course: 199, qbank: 149, bundle: 299 },
+                'act': { course: 179, qbank: 149, bundle: 279 },
+                'mcat': { course: 599, qbank: 399, bundle: 799 },
+                'cfa': { course: 499, qbank: 399, bundle: 699 },
+                // Add more pricing as needed
+            };
+            
+            // Update the display (this is a simplified example)
+            if (prices[exam]) {
+                const price = prices[exam][type];
+                if (price) {
+                    priceDisplay.querySelector('.price-main').textContent = `$${price}`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
