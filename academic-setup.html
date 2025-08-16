@@ -3,381 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academic Setup - ABP Interactive Learning</title>
+    <title>Academic Setup - ABP Learning Platform</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="dashboard.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation Header -->
+    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <h2><a href="index.html" style="color: white; text-decoration: none;">ABP Interactive Learning</a></h2>
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">ABP Learning</span>
+            </a>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search courses...">
             </div>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="home.html" class="nav-link">🏠 Home</a></li>
-                <li class="nav-item"><a href="dashboard.html" class="nav-link">📊 My Dashboard</a></li>
-                <li class="nav-item"><a href="academic-setup.html" class="nav-link active">🎓 Academic Setup</a></li>
-                <li class="nav-item"><a href="library.html" class="nav-link">📚 My Library</a></li>
-                <li class="nav-item"><a href="tutoring-videos.html" class="nav-link">🎬 Tutoring Videos</a></li>
-                <li class="nav-item"><a href="marketplace.html" class="nav-link">🛒 Marketplace</a></li>
-                <li class="nav-item"><a href="ai-generator.html" class="nav-link">🧠 AI Generator</a></li>
-                <li class="nav-item"><a href="quizzes.html" class="nav-link">📝 Quizzes & Tests</a></li>
-                <li class="nav-item"><a href="certifications.html" class="nav-link">🏆 Certifications</a></li>
-                <li class="nav-item"><a href="partners.html" class="nav-link">🤝 Partners</a></li>
-                <li class="nav-item"><a href="corporate.html" class="nav-link">💼 Corporate Hub</a></li>
-            </ul>
+            
+            <div class="nav-actions">
+                <button class="btn-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="user-menu">
+                    <img src="https://ui-avatars.com/api/?name=Student&background=667eea&color=fff" alt="User" class="user-avatar">
+                    <div class="user-info">
+                        <span class="user-name">Student</span>
+                        <span class="user-role">Pro Member</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <div class="page-container">
-        <div class="content-header">
-            <h1>🎓 Academic Setup</h1>
-            <p>Configure your academic profile to get personalized course recommendations and study materials</p>
-        </div>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Navigation</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="dashboard.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-home"></i></span>
+                        <span>My Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="academic-setup.html" class="sidebar-link active">
+                        <span class="sidebar-icon"><i class="fas fa-graduation-cap"></i></span>
+                        <span>Academic Setup</span>
+                        <span class="badge-new">NEW</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="library.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-book"></i></span>
+                        <span>My Library</span>
+                        <span class="counter">128</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="marketplace.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-shopping-cart"></i></span>
+                        <span>Marketplace</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="ai-generator.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-robot"></i></span>
+                        <span>AI Generator</span>
+                        <span class="badge-hot">HOT</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="quizzes.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-question-circle"></i></span>
+                        <span>Quizzes & Tests</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="partners.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-handshake"></i></span>
+                        <span>Partners</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="corporate.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-building"></i></span>
+                        <span>Corporate Hub</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="certifications.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-certificate"></i></span>
+                        <span>Certifications</span>
+                        <span class="counter">5</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="tutoring-videos.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-video"></i></span>
+                        <span>Tutoring Videos</span>
+                        <span class="badge-premium">PRO</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
 
-        <div class="academic-setup-container">
-            <!-- Education Level Section -->
-            <div class="setup-section">
-                <h2>📚 Education Level</h2>
-                <div class="education-levels">
-                    <div class="level-card">
-                        <input type="radio" name="education-level" id="elementary" value="elementary">
-                        <label for="elementary" class="level-label">
-                            <i class="fas fa-child"></i>
-                            <h3>Elementary School</h3>
-                            <p>Grades K-5 • Ages 5-11</p>
-                            <ul>
-                                <li>Basic Math & Science</li>
-                                <li>Reading & Writing</li>
-                                <li>Social Studies</li>
-                            </ul>
-                        </label>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1><i class="fas fa-graduation-cap"></i> Academic Setup</h1>
+                <p>Configure your academic profile for personalized learning experience</p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-university"></i>
                     </div>
-                    <div class="level-card">
-                        <input type="radio" name="education-level" id="highschool" value="highschool">
-                        <label for="highschool" class="level-label">
-                            <i class="fas fa-school"></i>
-                            <h3>High School</h3>
-                            <p>Grades 9-12 • Ages 14-18</p>
-                            <ul>
-                                <li>Advanced Mathematics</li>
-                                <li>Sciences (Physics, Chemistry, Biology)</li>
-                                <li>AP & Honors Courses</li>
-                                <li>SAT/ACT Preparation</li>
-                            </ul>
-                        </label>
+                    <div class="stat-value">Undergraduate</div>
+                    <div class="stat-label">Current Level</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-book-open"></i>
                     </div>
-                    <div class="level-card">
-                        <input type="radio" name="education-level" id="undergraduate" value="undergraduate" checked>
-                        <label for="undergraduate" class="level-label">
-                            <i class="fas fa-university"></i>
-                            <h3>Undergraduate</h3>
-                            <p>Bachelor's Degree • Ages 18-22</p>
-                            <ul>
-                                <li>Major-specific Coursework</li>
-                                <li>Research Projects</li>
-                                <li>Internship Preparation</li>
-                                <li>Graduate School Prep</li>
-                            </ul>
-                        </label>
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Active Courses</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-brain"></i>
                     </div>
-                    <div class="level-card">
-                        <input type="radio" name="education-level" id="graduate" value="graduate">
-                        <label for="graduate" class="level-label">
-                            <i class="fas fa-graduation-cap"></i>
-                            <h3>Graduate</h3>
-                            <p>Master's/PhD • Ages 22+</p>
-                            <ul>
-                                <li>Advanced Research</li>
-                                <li>Thesis/Dissertation</li>
-                                <li>Specialized Coursework</li>
-                                <li>Academic Publications</li>
-                            </ul>
-                        </label>
+                    <div class="stat-value">Computer Science</div>
+                    <div class="stat-label">Primary Field</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="fas fa-trophy"></i>
                     </div>
-                    <div class="level-card">
-                        <input type="radio" name="education-level" id="professional" value="professional">
-                        <label for="professional" class="level-label">
-                            <i class="fas fa-briefcase"></i>
-                            <h3>Professional</h3>
-                            <p>Working Professional</p>
-                            <ul>
-                                <li>Skill Development</li>
-                                <li>Career Advancement</li>
-                                <li>Professional Certifications</li>
-                                <li>Industry Training</li>
-                            </ul>
-                        </label>
+                    <div class="stat-value">3.8</div>
+                    <div class="stat-label">GPA</div>
+                </div>
+            </div>
+
+            <!-- Education Level Selection -->
+            <div class="section-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h2>Education Level</h2>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <label class="level-option">
+                        <input type="radio" name="education-level" value="highschool">
+                        <div class="level-card-new">
+                            <i class="fas fa-school" style="font-size: 2rem; color: var(--primary-accent); margin-bottom: 0.5rem;"></i>
+                            <h4>High School</h4>
+                            <p class="text-secondary">Grades 9-12</p>
+                        </div>
+                    </label>
+                    
+                    <label class="level-option">
+                        <input type="radio" name="education-level" value="undergraduate" checked>
+                        <div class="level-card-new">
+                            <i class="fas fa-university" style="font-size: 2rem; color: var(--primary-accent); margin-bottom: 0.5rem;"></i>
+                            <h4>Undergraduate</h4>
+                            <p class="text-secondary">Bachelor's Degree</p>
+                        </div>
+                    </label>
+                    
+                    <label class="level-option">
+                        <input type="radio" name="education-level" value="graduate">
+                        <div class="level-card-new">
+                            <i class="fas fa-graduation-cap" style="font-size: 2rem; color: var(--primary-accent); margin-bottom: 0.5rem;"></i>
+                            <h4>Graduate</h4>
+                            <p class="text-secondary">Master's/PhD</p>
+                        </div>
+                    </label>
+                    
+                    <label class="level-option">
+                        <input type="radio" name="education-level" value="professional">
+                        <div class="level-card-new">
+                            <i class="fas fa-briefcase" style="font-size: 2rem; color: var(--primary-accent); margin-bottom: 0.5rem;"></i>
+                            <h4>Professional</h4>
+                            <p class="text-secondary">Working Professional</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Field of Study -->
+            <div class="section-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h2>Field of Study</h2>
+                    <button class="btn btn-outline btn-sm">Add Field</button>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 1.5rem;">
+                    <!-- Engineering & Technology -->
+                    <div>
+                        <h3 style="color: var(--primary-accent); margin-bottom: 1rem;">
+                            <i class="fas fa-cogs"></i> Engineering & Technology
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="field" value="electrical">
+                                <span>Electrical Engineering</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="field" value="computer-eng">
+                                <span>Computer Engineering</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="field" value="mechanical">
+                                <span>Mechanical Engineering</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="field" value="biomedical">
+                                <span>Biomedical Engineering</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Computer Science & IT -->
+                    <div>
+                        <h3 style="color: var(--secondary-accent); margin-bottom: 1rem;">
+                            <i class="fas fa-laptop-code"></i> Computer Science & IT
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="field" value="cs" checked>
+                                <span>Computer Science</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="field" value="software">
+                                <span>Software Engineering</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="field" value="data-science">
+                                <span>Data Science</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="field" value="ai">
+                                <span>Artificial Intelligence</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Sciences -->
+                    <div>
+                        <h3 style="color: var(--success-color); margin-bottom: 1rem;">
+                            <i class="fas fa-flask"></i> Sciences
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="field" value="physics">
+                                <span>Physics</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="field" value="chemistry">
+                                <span>Chemistry</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="field" value="biology">
+                                <span>Biology</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="field" value="mathematics">
+                                <span>Mathematics</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Field of Study Section -->
-            <div class="setup-section">
-                <h2>🔬 Field of Study</h2>
-                <div class="field-selection">
-                    <div class="field-categories">
-                        <div class="field-category">
-                            <h3>⚙️ Engineering & Technology</h3>
-                            <div class="field-options">
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="electrical-engineering">
-                                    <span>Electrical Engineering</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="computer-engineering">
-                                    <span>Computer Engineering</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="mechanical-engineering">
-                                    <span>Mechanical Engineering</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="chemical-engineering">
-                                    <span>Chemical Engineering</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="biomedical-engineering">
-                                    <span>Biomedical Engineering</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="field-category">
-                            <h3>💻 Computer Science & IT</h3>
-                            <div class="field-options">
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="computer-science" checked>
-                                    <span>Computer Science</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="software-engineering">
-                                    <span>Software Engineering</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="data-science">
-                                    <span>Data Science</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="cybersecurity">
-                                    <span>Cybersecurity</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="artificial-intelligence">
-                                    <span>Artificial Intelligence</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="field-category">
-                            <h3>🔬 Sciences</h3>
-                            <div class="field-options">
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="physics">
-                                    <span>Physics</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="chemistry">
-                                    <span>Chemistry</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="biology">
-                                    <span>Biology</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="mathematics">
-                                    <span>Mathematics</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="materials-science">
-                                    <span>Materials Science</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="field-category">
-                            <h3>💼 Business & Economics</h3>
-                            <div class="field-options">
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="business-administration">
-                                    <span>Business Administration</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="economics">
-                                    <span>Economics</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="finance">
-                                    <span>Finance</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="marketing">
-                                    <span>Marketing</span>
-                                </label>
-                                <label class="field-option">
-                                    <input type="checkbox" name="field" value="management">
-                                    <span>Management</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Current Courses -->
+            <div class="section-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h2>Current Courses</h2>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Add Course
+                    </button>
                 </div>
-            </div>
-
-            <!-- Current Courses Section -->
-            <div class="setup-section">
-                <h2>�� Current Courses</h2>
-                <div class="courses-input">
-                    <div class="course-entry">
-                        <input type="text" placeholder="Course Name (e.g., Advanced Quantum Mechanics)" class="course-input">
-                        <input type="text" placeholder="Course Code (e.g., PHYS 4501)" class="course-code">
-                        <select class="course-semester">
-                            <option>Fall 2025</option>
-                            <option>Spring 2025</option>
-                            <option>Summer 2025</option>
-                        </select>
-                        <button class="btn btn-outline btn-sm">Add Course</button>
-                    </div>
-                    <div class="current-courses-list">
-                        <div class="course-item">
-                            <div class="course-info">
-                                <h4>Advanced Quantum Mechanics</h4>
-                                <p>PHYS 4501 • Fall 2025</p>
-                            </div>
-                            <button class="btn btn-sm btn-outline">Remove</button>
+                
+                <div class="course-list" style="margin-top: 1.5rem;">
+                    <div class="course-item" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: var(--secondary-bg); border-radius: 8px; margin-bottom: 1rem;">
+                        <div>
+                            <h4>Data Structures & Algorithms</h4>
+                            <p class="text-secondary">CS 2110 • Fall 2024 • 4 Credits</p>
                         </div>
-                        <div class="course-item">
-                            <div class="course-info">
-                                <h4>Machine Learning Algorithms</h4>
-                                <p>CS 4780 • Fall 2025</p>
-                            </div>
-                            <button class="btn btn-sm btn-outline">Remove</button>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-outline btn-sm">Edit</button>
+                            <button class="btn btn-outline btn-sm">Remove</button>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Syllabus Upload Section -->
-            <div class="setup-section">
-                <h2>📄 Upload Syllabus</h2>
-                <p>Upload your course syllabi to get personalized study recommendations and materials</p>
-                <div class="syllabus-upload">
-                    <div class="upload-area large">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <h3>Upload Syllabus Files</h3>
-                        <p>Drag and drop your syllabus files here or click to browse</p>
-                        <p class="file-types">Supported formats: PDF, DOC, DOCX</p>
-                        <input type="file" multiple accept=".pdf,.doc,.docx" id="syllabus-upload">
-                        <button class="btn btn-primary">Choose Files</button>
                     </div>
                     
-                    <div class="uploaded-files">
-                        <h3>Uploaded Syllabi</h3>
-                        <div class="file-list">
-                            <div class="file-item">
-                                <i class="fas fa-file-pdf"></i>
-                                <div class="file-info">
-                                    <h4>Advanced_Quantum_Mechanics_Syllabus.pdf</h4>
-                                    <p>Uploaded 2 days ago • 2.3 MB</p>
-                                </div>
-                                <div class="file-actions">
-                                    <button class="btn btn-sm btn-outline">View</button>
-                                    <button class="btn btn-sm btn-outline">Remove</button>
-                                </div>
-                            </div>
-                            <div class="file-item">
-                                <i class="fas fa-file-word"></i>
-                                <div class="file-info">
-                                    <h4>ML_Algorithms_Course_Outline.docx</h4>
-                                    <p>Uploaded 1 week ago • 1.8 MB</p>
-                                </div>
-                                <div class="file-actions">
-                                    <button class="btn btn-sm btn-outline">View</button>
-                                    <button class="btn btn-sm btn-outline">Remove</button>
-                                </div>
-                            </div>
+                    <div class="course-item" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: var(--secondary-bg); border-radius: 8px; margin-bottom: 1rem;">
+                        <div>
+                            <h4>Machine Learning</h4>
+                            <p class="text-secondary">CS 4780 • Fall 2024 • 3 Credits</p>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-outline btn-sm">Edit</button>
+                            <button class="btn btn-outline btn-sm">Remove</button>
+                        </div>
+                    </div>
+                    
+                    <div class="course-item" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: var(--secondary-bg); border-radius: 8px; margin-bottom: 1rem;">
+                        <div>
+                            <h4>Database Systems</h4>
+                            <p class="text-secondary">CS 3200 • Fall 2024 • 3 Credits</p>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-outline btn-sm">Edit</button>
+                            <button class="btn btn-outline btn-sm">Remove</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Recommended Courses Section -->
-            <div class="setup-section">
-                <h2>💡 Recommended Courses & Study Materials</h2>
-                <p>Based on your academic profile, here are our recommendations:</p>
-                <div class="recommendations">
-                    <div class="recommendation-category">
-                        <h3>🎯 Recommended Courses</h3>
-                        <div class="recommendation-list">
-                            <div class="recommendation-item">
-                                <i class="fas fa-atom"></i>
-                                <div class="recommendation-content">
-                                    <h4>Solid-State Physics</h4>
-                                    <p>Perfect complement to your Quantum Mechanics course</p>
-                                    <div class="recommendation-tags">
-                                        <span class="tag">Physics</span>
-                                        <span class="tag">Advanced</span>
-                                    </div>
-                                </div>
-                                <a href="tutoring-videos.html" class="btn btn-outline btn-sm">View Videos</a>
-                            </div>
-                            <div class="recommendation-item">
-                                <i class="fas fa-robot"></i>
-                                <div class="recommendation-content">
-                                    <h4>Deep Learning Fundamentals</h4>
-                                    <p>Builds on your ML Algorithms foundation</p>
-                                    <div class="recommendation-tags">
-                                        <span class="tag">AI/ML</span>
-                                        <span class="tag">Intermediate</span>
-                                    </div>
-                                </div>
-                                <a href="tutoring-videos.html" class="btn btn-outline btn-sm">View Videos</a>
+            <!-- Upload Syllabus -->
+            <div class="section-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h2>Upload Syllabus</h2>
+                </div>
+                
+                <div class="upload-area" style="margin-top: 1.5rem; cursor: pointer;">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drop syllabus files here or click to browse</h3>
+                    <p>Supports PDF, DOC, DOCX • Max 10MB per file</p>
+                    <input type="file" hidden multiple accept=".pdf,.doc,.docx">
+                </div>
+                
+                <div class="uploaded-files" style="margin-top: 1.5rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: var(--secondary-bg); border-radius: 8px; margin-bottom: 0.5rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-file-pdf" style="font-size: 1.5rem; color: var(--danger-color);"></i>
+                            <div>
+                                <p style="font-weight: 500;">CS2110_Syllabus.pdf</p>
+                                <p class="text-secondary" style="font-size: 0.9rem;">Uploaded 2 days ago • 1.2 MB</p>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="recommendation-category">
-                        <h3>📚 Study Materials</h3>
-                        <div class="recommendation-list">
-                            <div class="recommendation-item">
-                                <i class="fas fa-book"></i>
-                                <div class="recommendation-content">
-                                    <h4>Griffiths - Introduction to Quantum Mechanics</h4>
-                                    <p>Essential textbook for your quantum mechanics course</p>
-                                    <div class="recommendation-tags">
-                                        <span class="tag">Textbook</span>
-                                        <span class="tag">Required</span>
-                                    </div>
-                                </div>
-                                <a href="marketplace.html" class="btn btn-outline btn-sm">View in Store</a>
-                            </div>
-                            <div class="recommendation-item">
-                                <i class="fas fa-file-alt"></i>
-                                <div class="recommendation-content">
-                                    <h4>Recent ML Research Papers</h4>
-                                    <p>Latest developments in machine learning algorithms</p>
-                                    <div class="recommendation-tags">
-                                        <span class="tag">Research</span>
-                                        <span class="tag">Current</span>
-                                    </div>
-                                </div>
-                                <a href="marketplace.html" class="btn btn-outline btn-sm">Browse Papers</a>
-                            </div>
-                        </div>
+                        <button class="btn btn-outline btn-sm">Remove</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Save Settings -->
-            <div class="setup-actions">
-                <button class="btn btn-primary btn-large">Save Academic Profile</button>
-                <button class="btn btn-outline btn-large">Reset to Defaults</button>
+            <!-- Learning Preferences -->
+            <div class="section-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h2>Learning Preferences</h2>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                    <div>
+                        <label class="form-label">Preferred Learning Style</label>
+                        <select class="form-select">
+                            <option>Visual (Videos, Diagrams)</option>
+                            <option>Reading/Writing</option>
+                            <option>Hands-on Practice</option>
+                            <option>Audio/Verbal</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Study Session Duration</label>
+                        <select class="form-select">
+                            <option>30 minutes</option>
+                            <option>1 hour</option>
+                            <option>2 hours</option>
+                            <option>3+ hours</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Difficulty Preference</label>
+                        <select class="form-select">
+                            <option>Start Easy, Progress Gradually</option>
+                            <option>Mixed Difficulty</option>
+                            <option>Challenge Me</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Study Goals</label>
+                        <select class="form-select">
+                            <option>Exam Preparation</option>
+                            <option>Skill Development</option>
+                            <option>Career Advancement</option>
+                            <option>Personal Interest</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <!-- Save Actions -->
+            <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                <button class="btn btn-outline btn-lg">Reset to Defaults</button>
+                <button class="btn btn-primary btn-lg">
+                    <i class="fas fa-save"></i> Save Academic Profile
+                </button>
+            </div>
+        </main>
     </div>
 
+    <script src="script.js"></script>
     <script src="dashboard.js"></script>
 </body>
 </html>
