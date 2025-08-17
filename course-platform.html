@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Platform - E.U.R.E.K.A</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <style>
+        :root {
+            --sidebar-width: 320px;
+            --video-height: 70vh;
+        }
+        
+        .course-platform {
+            display: flex;
+            height: calc(100vh - 60px);
+            background: #0f0f0f;
+        }
+        
+        /* Course Sidebar */
+        .course-sidebar {
+            width: var(--sidebar-width);
+            background: #1a1a1a;
+            border-right: 1px solid #2a2a2a;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .course-sidebar.collapsed {
+            width: 0;
+            overflow: hidden;
+        }
+        
+        .course-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .course-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .course-progress {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Module List */
+        .module-list {
+            padding: 1rem 0;
+        }
+        
+        .module-item {
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .module-header {
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .module-header:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .module-header.active {
+            background: rgba(102, 126, 234, 0.2);
+        }
+        
+        .module-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+        
+        .module-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+        }
+        
+        .module-details {
+            flex: 1;
+        }
+        
+        .module-name {
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+        
+        .module-meta {
+            font-size: 0.85rem;
+            color: #888;
+        }
+        
+        .module-expand {
+            color: #888;
+            transition: transform 0.3s ease;
+        }
+        
+        .module-item.expanded .module-expand {
+            transform: rotate(180deg);
+        }
+        
+        /* Lesson List */
+        .lesson-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #0f0f0f;
+        }
+        
+        .module-item.expanded .lesson-list {
+            max-height: 1000px;
+        }
+        
+        .lesson-item {
+            padding: 0.75rem 1.5rem 0.75rem 4rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .lesson-item:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .lesson-item.active {
+            background: rgba(102, 126, 234, 0.15);
+            border-left-color: #667eea;
+        }
+        
+        .lesson-item.completed {
+            opacity: 0.7;
+        }
+        
+        .lesson-status {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #43e97b;
+        }
+        
+        .lesson-status.completed {
+            background: #43e97b;
+            border-color: #43e97b;
+            color: white;
+        }
+        
+        .lesson-status.in-progress {
+            border-color: #f093fb;
+            background: rgba(240, 147, 251, 0.2);
+        }
+        
+        .lesson-info {
+            flex: 1;
+        }
+        
+        .lesson-name {
+            color: #fff;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .lesson-duration {
+            color: #888;
+            font-size: 0.8rem;
+        }
+        
+        .lesson-type {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .lesson-type.video {
+            background: rgba(74, 207, 254, 0.2);
+            color: #4acffe;
+        }
+        
+        .lesson-type.quiz {
+            background: rgba(240, 147, 251, 0.2);
+            color: #f093fb;
+        }
+        
+        .lesson-type.reading {
+            background: rgba(67, 233, 123, 0.2);
+            color: #43e97b;
+        }
+        
+        .lesson-type.assignment {
+            background: rgba(255, 184, 0, 0.2);
+            color: #ffb800;
+        }
+        
+        /* Main Content Area */
+        .course-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* Video Player Area */
+        .video-container {
+            height: var(--video-height);
+            background: #000;
+            position: relative;
+        }
+        
+        .video-player {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Video Controls Overlay */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+        
+        .video-container:hover .video-overlay {
+            opacity: 1;
+        }
+        
+        .video-controls {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .video-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .video-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+        
+        .video-btn.active {
+            background: #667eea;
+            border-color: #667eea;
+        }
+        
+        /* Content Tabs */
+        .content-tabs {
+            background: #1a1a1a;
+            border-top: 1px solid #2a2a2a;
+            display: flex;
+            padding: 0 2rem;
+            gap: 2rem;
+            overflow-x: auto;
+        }
+        
+        .tab-btn {
+            padding: 1rem 0;
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 0.95rem;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .tab-btn:hover {
+            color: #fff;
+        }
+        
+        .tab-btn.active {
+            color: #667eea;
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #667eea;
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            background: #0f0f0f;
+        }
+        
+        .tab-pane {
+            display: none;
+        }
+        
+        .tab-pane.active {
+            display: block;
+        }
+        
+        /* Overview Tab */
+        .lesson-overview {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .overview-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #1a1a1a;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .overview-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .overview-content {
+            color: #ccc;
+            line-height: 1.8;
+        }
+        
+        .learning-objectives {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .learning-objectives li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .learning-objectives li:last-child {
+            border-bottom: none;
+        }
+        
+        .objective-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(67, 233, 123, 0.2);
+            color: #43e97b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 0.25rem;
+        }
+        
+        /* Resources Tab */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .resource-card {
+            padding: 1.5rem;
+            background: #1a1a1a;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-4px);
+            border-color: #667eea;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+        }
+        
+        .resource-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .resource-icon.pdf {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .resource-icon.slides {
+            background: rgba(251, 146, 60, 0.2);
+            color: #fb923c;
+        }
+        
+        .resource-icon.code {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        
+        .resource-icon.link {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+        
+        .resource-name {
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .resource-meta {
+            font-size: 0.85rem;
+            color: #888;
+        }
+        
+        /* Notes Tab */
+        .notes-editor {
+            background: #1a1a1a;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            padding: 1.5rem;
+        }
+        
+        .notes-toolbar {
+            display: flex;
+            gap: 0.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #2a2a2a;
+            margin-bottom: 1rem;
+        }
+        
+        .toolbar-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            background: #0f0f0f;
+            border: 1px solid #2a2a2a;
+            color: #888;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .toolbar-btn:hover {
+            color: #fff;
+            border-color: #667eea;
+        }
+        
+        .notes-textarea {
+            width: 100%;
+            min-height: 400px;
+            background: #0f0f0f;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 1rem;
+            color: #fff;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            resize: vertical;
+        }
+        
+        .notes-timestamp {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #2a2a2a;
+            font-size: 0.85rem;
+            color: #888;
+        }
+        
+        /* Q&A Tab */
+        .qa-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .ask-question {
+            padding: 1.5rem;
+            background: #1a1a1a;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            margin-bottom: 2rem;
+        }
+        
+        .question-input {
+            width: 100%;
+            padding: 1rem;
+            background: #0f0f0f;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+        
+        .qa-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .qa-item {
+            padding: 1.5rem;
+            background: #1a1a1a;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .qa-header {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .qa-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .qa-meta {
+            flex: 1;
+        }
+        
+        .qa-author {
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+        
+        .qa-time {
+            font-size: 0.85rem;
+            color: #888;
+        }
+        
+        .qa-content {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .qa-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .qa-action {
+            padding: 0.5rem 1rem;
+            background: #0f0f0f;
+            border: 1px solid #2a2a2a;
+            border-radius: 6px;
+            color: #888;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .qa-action:hover {
+            color: #fff;
+            border-color: #667eea;
+        }
+        
+        /* AI Assistant */
+        .ai-assistant {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+        }
+        
+        .ai-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .ai-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .ai-chat {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 400px;
+            height: 500px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+        }
+        
+        .ai-chat.active {
+            display: flex;
+        }
+        
+        .ai-header {
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .ai-title {
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .ai-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .ai-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .ai-message {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .ai-message.user {
+            align-self: flex-end;
+            background: #667eea;
+            color: white;
+        }
+        
+        .ai-message.assistant {
+            align-self: flex-start;
+            background: #2a2a2a;
+            color: #ccc;
+        }
+        
+        .ai-input-area {
+            padding: 1rem;
+            border-top: 1px solid #2a2a2a;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .ai-input {
+            flex: 1;
+            padding: 0.75rem;
+            background: #0f0f0f;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            color: white;
+        }
+        
+        .ai-send {
+            padding: 0.75rem 1.5rem;
+            background: #667eea;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .course-sidebar {
+                position: fixed;
+                z-index: 100;
+                left: -100%;
+                transition: left 0.3s ease;
+            }
+            
+            .course-sidebar.mobile-open {
+                left: 0;
+            }
+            
+            .ai-chat {
+                width: 90vw;
+                right: 5vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <button class="btn-icon" id="toggleSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <span class="logo-text">E.U.R.E.K.A</span>
+            </a>
+            
+            <div class="nav-actions">
+                <button class="video-btn" onclick="toggleFullscreen()">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <button class="video-btn" onclick="adjustSpeed()">
+                    <i class="fas fa-tachometer-alt"></i>
+                </button>
+                <button class="video-btn" onclick="toggleCaptions()">
+                    <i class="fas fa-closed-captioning"></i>
+                </button>
+                <button class="video-btn" onclick="toggleSettings()">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="course-platform">
+        <!-- Course Sidebar -->
+        <aside class="course-sidebar" id="courseSidebar">
+            <div class="course-header">
+                <div class="course-title">SAT® Complete Prep Course</div>
+                <div class="course-meta" style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">
+                    <i class="fas fa-clock"></i> 60 hours • 156 lessons
+                </div>
+                <div class="course-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 35%;"></div>
+                    </div>
+                    <span class="progress-text">35%</span>
+                </div>
+            </div>
+            
+            <div class="module-list">
+                <!-- Module 1 -->
+                <div class="module-item expanded">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="module-details">
+                                <div class="module-name">Module 1: SAT Overview & Strategy</div>
+                                <div class="module-meta">8 lessons • 2.5 hours</div>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down module-expand"></i>
+                    </div>
+                    <div class="lesson-list">
+                        <div class="lesson-item active">
+                            <div class="lesson-status completed">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="lesson-info">
+                                <div class="lesson-name">Introduction to the SAT</div>
+                                <div class="lesson-duration">15:30</div>
+                            </div>
+                            <span class="lesson-type video">Video</span>
+                        </div>
+                        <div class="lesson-item">
+                            <div class="lesson-status in-progress"></div>
+                            <div class="lesson-info">
+                                <div class="lesson-name">Understanding the Scoring System</div>
+                                <div class="lesson-duration">12:45</div>
+                            </div>
+                            <span class="lesson-type video">Video</span>
+                        </div>
+                        <div class="lesson-item">
+                            <div class="lesson-status"></div>
+                            <div class="lesson-info">
+                                <div class="lesson-name">Test-Taking Strategies</div>
+                                <div class="lesson-duration">18:20</div>
+                            </div>
+                            <span class="lesson-type video">Video</span>
+                        </div>
+                        <div class="lesson-item">
+                            <div class="lesson-status"></div>
+                            <div class="lesson-info">
+                                <div class="lesson-name">Strategy Quiz</div>
+                                <div class="lesson-duration">10 questions</div>
+                            </div>
+                            <span class="lesson-type quiz">Quiz</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Module 2 -->
+                <div class="module-item">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="module-details">
+                                <div class="module-name">Module 2: Mathematics Section</div>
+                                <div class="module-meta">24 lessons • 8 hours</div>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down module-expand"></i>
+                    </div>
+                    <div class="lesson-list">
+                        <!-- Lessons would go here -->
+                    </div>
+                </div>
+                
+                <!-- Module 3 -->
+                <div class="module-item">
+                    <div class="module-header" onclick="toggleModule(this)">
+                        <div class="module-info">
+                            <div class="module-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <div class="module-details">
+                                <div class="module-name">Module 3: Reading & Writing</div>
+                                <div class="module-meta">20 lessons • 6.5 hours</div>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down module-expand"></i>
+                    </div>
+                    <div class="lesson-list">
+                        <!-- Lessons would go here -->
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="course-content">
+            <!-- Video Player -->
+            <div class="video-container">
+                <video class="video-player" id="courseVideo" controls>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay">
+                    <div class="video-controls">
+                        <button class="video-btn" onclick="previousLesson()">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button class="video-btn" onclick="rewind10()">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                        <button class="video-btn" onclick="forward10()">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                        <button class="video-btn" onclick="nextLesson()">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                    </div>
+                    <div class="video-controls">
+                        <button class="video-btn" onclick="addBookmark()">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                        <button class="video-btn active" onclick="toggleAutoplay()">
+                            <i class="fas fa-play-circle"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content Tabs -->
+            <div class="content-tabs">
+                <button class="tab-btn active" onclick="switchTab('overview')">
+                    <i class="fas fa-info-circle"></i> Overview
+                </button>
+                <button class="tab-btn" onclick="switchTab('resources')">
+                    <i class="fas fa-folder"></i> Resources
+                </button>
+                <button class="tab-btn" onclick="switchTab('notes')">
+                    <i class="fas fa-sticky-note"></i> Notes
+                </button>
+                <button class="tab-btn" onclick="switchTab('qa')">
+                    <i class="fas fa-comments"></i> Q&A
+                </button>
+                <button class="tab-btn" onclick="switchTab('transcript')">
+                    <i class="fas fa-file-alt"></i> Transcript
+                </button>
+            </div>
+            
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Overview Tab -->
+                <div class="tab-pane active" id="overview">
+                    <div class="lesson-overview">
+                        <div class="overview-section">
+                            <h2 class="overview-title">
+                                <i class="fas fa-bullseye"></i> Learning Objectives
+                            </h2>
+                            <ul class="learning-objectives">
+                                <li>
+                                    <div class="objective-icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div>Understand the structure and format of the SAT exam</div>
+                                </li>
+                                <li>
+                                    <div class="objective-icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div>Learn how the SAT is scored and what constitutes a good score</div>
+                                </li>
+                                <li>
+                                    <div class="objective-icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div>Identify the different sections and question types</div>
+                                </li>
+                                <li>
+                                    <div class="objective-icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div>Develop effective time management strategies</div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="overview-section">
+                            <h2 class="overview-title">
+                                <i class="fas fa-book"></i> Lesson Summary
+                            </h2>
+                            <div class="overview-content">
+                                <p>This introductory lesson provides a comprehensive overview of the SAT exam, including its structure, scoring system, and importance in college admissions. You'll learn about the different sections of the test, the types of questions you'll encounter, and fundamental strategies for success.</p>
+                                <p>We'll cover the recent changes to the SAT format, including the shift to digital testing, and how these changes affect your preparation strategy. By the end of this lesson, you'll have a clear understanding of what to expect on test day.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="overview-section">
+                            <h2 class="overview-title">
+                                <i class="fas fa-tasks"></i> Practice Exercises
+                            </h2>
+                            <div class="overview-content">
+                                <p>Complete the following exercises to reinforce your understanding:</p>
+                                <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                                    <li>Take the diagnostic quiz to assess your current level</li>
+                                    <li>Review the SAT format worksheet</li>
+                                    <li>Complete the time management exercise</li>
+                                    <li>Practice with 10 sample questions from each section</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Resources Tab -->
+                <div class="tab-pane" id="resources">
+                    <div class="resources-grid">
+                        <div class="resource-card">
+                            <div class="resource-icon pdf">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="resource-name">SAT Overview Guide</div>
+                            <div class="resource-meta">PDF • 2.5 MB</div>
+                        </div>
+                        <div class="resource-card">
+                            <div class="resource-icon slides">
+                                <i class="fas fa-file-powerpoint"></i>
+                            </div>
+                            <div class="resource-name">Lesson Slides</div>
+                            <div class="resource-meta">PPT • 5.8 MB</div>
+                        </div>
+                        <div class="resource-card">
+                            <div class="resource-icon code">
+                                <i class="fas fa-file-code"></i>
+                            </div>
+                            <div class="resource-name">Practice Problems</div>
+                            <div class="resource-meta">Interactive • Online</div>
+                        </div>
+                        <div class="resource-card">
+                            <div class="resource-icon link">
+                                <i class="fas fa-link"></i>
+                            </div>
+                            <div class="resource-name">Additional Resources</div>
+                            <div class="resource-meta">External Links</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notes Tab -->
+                <div class="tab-pane" id="notes">
+                    <div class="notes-editor">
+                        <div class="notes-toolbar">
+                            <button class="toolbar-btn"><i class="fas fa-bold"></i></button>
+                            <button class="toolbar-btn"><i class="fas fa-italic"></i></button>
+                            <button class="toolbar-btn"><i class="fas fa-underline"></i></button>
+                            <button class="toolbar-btn"><i class="fas fa-list-ul"></i></button>
+                            <button class="toolbar-btn"><i class="fas fa-list-ol"></i></button>
+                            <button class="toolbar-btn"><i class="fas fa-highlighter"></i></button>
+                        </div>
+                        <textarea class="notes-textarea" placeholder="Take notes here..."></textarea>
+                        <div class="notes-timestamp">
+                            <i class="fas fa-clock"></i> Auto-saved 2 minutes ago
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Q&A Tab -->
+                <div class="tab-pane" id="qa">
+                    <div class="qa-container">
+                        <div class="ask-question">
+                            <input type="text" class="question-input" placeholder="Ask a question about this lesson...">
+                            <button class="btn btn-primary">Post Question</button>
+                        </div>
+                        
+                        <div class="qa-list">
+                            <div class="qa-item">
+                                <div class="qa-header">
+                                    <div class="qa-avatar">JD</div>
+                                    <div class="qa-meta">
+                                        <div class="qa-author">John Doe</div>
+                                        <div class="qa-time">2 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="qa-content">
+                                    How much time should I allocate for each section during the actual test?
+                                </div>
+                                <div class="qa-actions">
+                                    <button class="qa-action">
+                                        <i class="fas fa-reply"></i> Reply
+                                    </button>
+                                    <button class="qa-action">
+                                        <i class="fas fa-thumbs-up"></i> Helpful (5)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Transcript Tab -->
+                <div class="tab-pane" id="transcript">
+                    <div class="lesson-overview">
+                        <div class="overview-section">
+                            <h2 class="overview-title">
+                                <i class="fas fa-file-alt"></i> Video Transcript
+                            </h2>
+                            <div class="overview-content" style="font-family: monospace; line-height: 2;">
+                                <p>[00:00] Welcome to the SAT preparation course...</p>
+                                <p>[00:15] In this lesson, we'll cover the fundamental aspects of the SAT...</p>
+                                <p>[00:30] The SAT consists of two main sections...</p>
+                                <!-- More transcript content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- AI Assistant -->
+    <div class="ai-assistant">
+        <div class="ai-chat" id="aiChat">
+            <div class="ai-header">
+                <div class="ai-title">
+                    <i class="fas fa-robot"></i> EUREKA AI Tutor
+                </div>
+                <button class="ai-close" onclick="toggleAI()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="ai-messages" id="aiMessages">
+                <div class="ai-message assistant">
+                    Hi! I'm your AI tutor. I can help you understand concepts, solve problems, or answer any questions about this lesson.
+                </div>
+            </div>
+            <div class="ai-input-area">
+                <input type="text" class="ai-input" placeholder="Ask me anything..." id="aiInput">
+                <button class="ai-send" onclick="sendAIMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+        <button class="ai-toggle" onclick="toggleAI()">
+            <i class="fas fa-robot"></i>
+        </button>
+    </div>
+    
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script>
+        // Initialize video player
+        const player = new Plyr('#courseVideo', {
+            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+            settings: ['captions', 'quality', 'speed'],
+            speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] }
+        });
+        
+        // Toggle module expansion
+        function toggleModule(element) {
+            const moduleItem = element.closest('.module-item');
+            moduleItem.classList.toggle('expanded');
+        }
+        
+        // Toggle sidebar
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
+            const sidebar = document.getElementById('courseSidebar');
+            sidebar.classList.toggle('collapsed');
+            sidebar.classList.toggle('mobile-open');
+        });
+        
+        // Switch tabs
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+        }
+        
+        // Video controls
+        function previousLesson() {
+            console.log('Previous lesson');
+        }
+        
+        function nextLesson() {
+            console.log('Next lesson');
+        }
+        
+        function rewind10() {
+            player.currentTime -= 10;
+        }
+        
+        function forward10() {
+            player.currentTime += 10;
+        }
+        
+        function toggleFullscreen() {
+            player.fullscreen.toggle();
+        }
+        
+        function adjustSpeed() {
+            const speeds = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+            const currentSpeed = player.speed;
+            const currentIndex = speeds.indexOf(currentSpeed);
+            const nextIndex = (currentIndex + 1) % speeds.length;
+            player.speed = speeds[nextIndex];
+        }
+        
+        function toggleCaptions() {
+            const track = player.captions.active;
+            player.captions.active = !track;
+        }
+        
+        function toggleSettings() {
+            player.settings.toggle();
+        }
+        
+        function addBookmark() {
+            const currentTime = player.currentTime;
+            console.log('Bookmark added at', currentTime);
+            // Save bookmark to backend
+        }
+        
+        function toggleAutoplay() {
+            console.log('Toggle autoplay');
+        }
+        
+        // AI Assistant
+        function toggleAI() {
+            const aiChat = document.getElementById('aiChat');
+            aiChat.classList.toggle('active');
+        }
+        
+        function sendAIMessage() {
+            const input = document.getElementById('aiInput');
+            const messages = document.getElementById('aiMessages');
+            
+            if (input.value.trim()) {
+                // Add user message
+                const userMsg = document.createElement('div');
+                userMsg.className = 'ai-message user';
+                userMsg.textContent = input.value;
+                messages.appendChild(userMsg);
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const aiMsg = document.createElement('div');
+                    aiMsg.className = 'ai-message assistant';
+                    aiMsg.textContent = 'I understand your question. Let me help you with that...';
+                    messages.appendChild(aiMsg);
+                    messages.scrollTop = messages.scrollHeight;
+                }, 1000);
+                
+                input.value = '';
+                messages.scrollTop = messages.scrollHeight;
+            }
+        }
+        
+        // Enter key to send message
+        document.getElementById('aiInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendAIMessage();
+            }
+        });
+    </script>
+</body>
+</html>
