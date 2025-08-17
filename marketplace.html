@@ -3,222 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Marketplace - E.U.R.E.K.A Platform</title>
+    <title>Marketplace - E.U.R.E.K.A Platform</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Enhanced Marketplace Styles within EUREKA Framework */
-        .filter-bar {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .filter-row {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        
-        .filter-select {
-            padding: 0.5rem 1rem;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            background: white;
-            cursor: pointer;
-            min-width: 150px;
-        }
-        
-        .price-range {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .price-input {
-            width: 80px;
-            padding: 0.5rem;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-        }
-        
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .stat-label {
-            color: #666;
-            margin-top: 0.5rem;
-        }
-        
-        .course-view-toggle {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .view-btn {
-            padding: 0.5rem 1rem;
-            border: 1px solid #e0e0e0;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        
-        .view-btn.active {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-        
-        .product-card {
-            position: relative;
-            transition: all 0.3s;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .wishlist-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: white;
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            z-index: 10;
-        }
-        
-        .wishlist-btn:hover {
-            background: #ff6b6b;
-            color: white;
-        }
-        
-        .ai-recommendation {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-        }
-        
-        .recommendation-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .rec-card {
-            background: rgba(255,255,255,0.1);
-            padding: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .rec-card:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .learning-path {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-        }
-        
-        .path-progress {
-            background: #e0e0e0;
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-        
-        .path-fill {
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            height: 100%;
-            transition: width 1s ease;
-        }
-        
-        .instructor-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-        
-        .instructor-stats {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        .quick-preview {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-        
-        .product-image:hover .quick-preview {
-            opacity: 1;
-        }
-        
-        .comparison-tool {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            padding: 1rem;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            display: none;
-            z-index: 1000;
-        }
-        
-        .comparison-tool.active {
-            display: block;
-        }
-    </style>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -233,17 +21,16 @@
             
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search courses, instructors, topics..." id="searchInput" onkeyup="searchCourses()">
+                <input type="text" placeholder="Search marketplace...">
             </div>
             
             <div class="nav-actions">
-                <button class="btn-icon" onclick="toggleCart()">
+                <button class="btn-icon">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="notification-badge" id="cartCount">0</span>
+                    <span class="notification-badge">2</span>
                 </button>
                 <button class="btn-icon">
                     <i class="fas fa-bell"></i>
-                    <span class="notification-badge">3</span>
                 </button>
                 <div class="user-menu">
                     <img src="https://ui-avatars.com/api/?name=Student&background=667eea&color=fff" alt="User" class="user-avatar">
@@ -258,7 +45,7 @@
     </nav>
 
     <div class="dashboard-container">
-        <!-- Sidebar (keeping existing) -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h3>Navigation</h3>
@@ -338,146 +125,33 @@
             </ul>
         </aside>
 
-        <!-- Enhanced Main Content -->
+        <!-- Main Content -->
         <main class="main-content">
             <div class="content-header">
                 <h1><i class="fas fa-shopping-cart"></i> Course Marketplace</h1>
-                <p>Discover and purchase premium courses from top instructors worldwide</p>
+                <p>Discover and purchase premium courses from top instructors</p>
             </div>
 
-            <!-- Statistics Bar -->
-            <div class="stats-bar">
-                <div class="stat-card">
-                    <div class="stat-number">15,000+</div>
-                    <div class="stat-label">Active Courses</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">3,500+</div>
-                    <div class="stat-label">Expert Instructors</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">500K+</div>
-                    <div class="stat-label">Happy Students</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">4.8★</div>
-                    <div class="stat-label">Average Rating</div>
-                </div>
-            </div>
-
-            <!-- AI Recommendations Section -->
-            <div class="ai-recommendation">
-                <h2>🤖 AI-Powered Recommendations for You</h2>
-                <p>Based on your learning history and interests</p>
-                <div class="recommendation-grid">
-                    <div class="rec-card">
-                        <strong>Python Advanced</strong>
-                        <p style="font-size: 0.9rem; opacity: 0.9;">Match: 95%</p>
-                    </div>
-                    <div class="rec-card">
-                        <strong>Data Structures</strong>
-                        <p style="font-size: 0.9rem; opacity: 0.9;">Match: 92%</p>
-                    </div>
-                    <div class="rec-card">
-                        <strong>Web APIs</strong>
-                        <p style="font-size: 0.9rem; opacity: 0.9;">Match: 88%</p>
-                    </div>
-                    <div class="rec-card">
-                        <strong>Cloud Computing</strong>
-                        <p style="font-size: 0.9rem; opacity: 0.9;">Match: 85%</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Learning Path Progress -->
-            <div class="learning-path">
-                <h3>📚 Your Learning Path: Full Stack Developer</h3>
-                <div class="path-progress">
-                    <div class="path-fill" style="width: 35%;"></div>
-                </div>
-                <p>35% Complete • 8 courses remaining • Estimated: 3 months</p>
-            </div>
-
-            <!-- Advanced Filter Bar -->
-            <div class="filter-bar">
-                <div class="filter-row">
-                    <select class="filter-select" onchange="filterCourses()">
-                        <option>All Categories</option>
-                        <option>Programming</option>
-                        <option>Data Science</option>
-                        <option>Business</option>
-                        <option>Design</option>
-                    </select>
-                    
-                    <select class="filter-select" onchange="filterCourses()">
-                        <option>All Levels</option>
-                        <option>Beginner</option>
-                        <option>Intermediate</option>
-                        <option>Advanced</option>
-                    </select>
-                    
-                    <select class="filter-select" onchange="filterCourses()">
-                        <option>Rating 4+</option>
-                        <option>Rating 4.5+</option>
-                        <option>Rating 4.8+</option>
-                    </select>
-                    
-                    <div class="price-range">
-                        <input type="number" class="price-input" placeholder="Min $">
-                        <span>-</span>
-                        <input type="number" class="price-input" placeholder="Max $">
-                    </div>
-                    
-                    <select class="filter-select" onchange="sortCourses()">
-                        <option>Sort: Popularity</option>
-                        <option>Sort: Price Low-High</option>
-                        <option>Sort: Price High-Low</option>
-                        <option>Sort: Newest</option>
-                        <option>Sort: Rating</option>
-                    </select>
-                    
-                    <button class="btn btn-outline" onclick="clearFilters()">
-                        <i class="fas fa-times"></i> Clear
-                    </button>
-                </div>
-            </div>
-
-            <!-- Category Buttons with Icons -->
+            <!-- Category Buttons -->
             <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;">
-                <button class="btn btn-primary" onclick="showCategory('trending')">
+                <button class="btn btn-primary">
                     <i class="fas fa-fire"></i> Trending
                 </button>
-                <button class="btn btn-outline" onclick="showCategory('programming')">
+                <button class="btn btn-outline">
                     <i class="fas fa-code"></i> Programming
                 </button>
-                <button class="btn btn-outline" onclick="showCategory('data-science')">
+                <button class="btn btn-outline">
                     <i class="fas fa-chart-line"></i> Data Science
                 </button>
-                <button class="btn btn-outline" onclick="showCategory('business')">
+                <button class="btn btn-outline">
                     <i class="fas fa-briefcase"></i> Business
                 </button>
-                <button class="btn btn-outline" onclick="showCategory('design')">
+                <button class="btn btn-outline">
                     <i class="fas fa-paint-brush"></i> Design
                 </button>
-                <button class="btn btn-outline" onclick="showCategory('languages')">
+                <button class="btn btn-outline">
                     <i class="fas fa-language"></i> Languages
                 </button>
-                <button class="btn btn-outline" onclick="showCategory('marketing')">
-                    <i class="fas fa-bullhorn"></i> Marketing
-                </button>
-            </div>
-
-            <!-- View Toggle -->
-            <div class="course-view-toggle">
-                <button class="view-btn active" onclick="setView('grid')">
-                    <i class="fas fa-th"></i> Grid
-                </button>
-                <button class="view-btn" onclick="setView('list')">
-                    <i class="fas fa-list"></i> List
-                </button>
-                <span style="margin-left: auto; color: #666;">
-                    Showing <strong id="courseCount">156</strong> courses
-                </span>
             </div>
 
             <!-- Featured Banner -->
@@ -485,7 +159,7 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                     <div>
                         <h2 style="color: white;">🎉 Black Friday Sale!</h2>
-                        <p style="opacity: 0.9;">Get up to 90% off on premium courses. Limited time offer!</p>
+                        <p style="opacity: 0.9;">Get 50% off on all premium courses. Limited time offer!</p>
                     </div>
                     <button class="btn" style="background: white; color: #667eea;">
                         View Deals <i class="fas fa-arrow-right"></i>
@@ -493,28 +167,19 @@
                 </div>
             </div>
 
-            <!-- Enhanced Product Grid -->
-            <div class="product-grid" id="courseGrid">
-                <!-- Enhanced Product Card 1 -->
+            <!-- Product Grid -->
+            <div class="product-grid">
+                <!-- Product Card 1 -->
                 <div class="product-card">
-                    <button class="wishlist-btn" onclick="toggleWishlist(1)">
-                        <i class="far fa-heart"></i>
-                    </button>
                     <div class="product-badge">BESTSELLER</div>
                     <div class="product-image">
                         <img src="images/slide2.png" alt="Course">
-                        <div class="quick-preview">
-                            <i class="fas fa-play-circle"></i> Preview Available
-                        </div>
                     </div>
                     <div class="product-info">
-                        <h3>Complete Web Development Bootcamp 2024</h3>
+                        <h3>Complete Web Development Bootcamp</h3>
                         <div class="product-instructor">
                             <img src="https://ui-avatars.com/api/?name=Angela+Yu&size=24" alt="Instructor">
-                            <span>Dr. Angela Yu</span>
-                            <span style="color: #667eea; font-size: 0.8rem;">
-                                <i class="fas fa-check-circle"></i> Verified
-                            </span>
+                            <span>Angela Yu</span>
                         </div>
                         <div class="product-rating">
                             <div class="stars">
@@ -529,49 +194,29 @@
                         <div class="product-meta">
                             <span><i class="fas fa-clock"></i> 65 hours</span>
                             <span><i class="fas fa-signal"></i> All Levels</span>
-                            <span><i class="fas fa-users"></i> 245K students</span>
-                        </div>
-                        <div class="instructor-stats">
-                            <span><i class="fas fa-certificate"></i> Certificate</span>
-                            <span><i class="fas fa-infinity"></i> Lifetime access</span>
-                            <span><i class="fas fa-mobile"></i> Mobile</span>
                         </div>
                         <div class="product-price">
                             <span class="price-current">$19.99</span>
-                            <span class="price-original">$199.99</span>
-                            <span class="price-discount">90% off</span>
+                            <span class="price-original">$89.99</span>
+                            <span class="price-discount">78% off</span>
                         </div>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn btn-primary" style="flex: 1;" onclick="addToCart(1)">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button class="btn btn-outline" onclick="compareAdd(1)">
-                                <i class="fas fa-balance-scale"></i>
-                            </button>
-                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
                     </div>
                 </div>
 
-                <!-- Enhanced Product Card 2 -->
+                <!-- Product Card 2 -->
                 <div class="product-card">
-                    <button class="wishlist-btn" onclick="toggleWishlist(2)">
-                        <i class="far fa-heart"></i>
-                    </button>
-                    <div class="product-badge" style="background: #ff6b6b;">HOT & NEW</div>
+                    <div class="product-badge" style="background: #ff6b6b;">NEW</div>
                     <div class="product-image">
                         <img src="images/slide3.png" alt="Course">
-                        <div class="quick-preview">
-                            <i class="fas fa-play-circle"></i> Preview Available
-                        </div>
                     </div>
                     <div class="product-info">
-                        <h3>Machine Learning A-Z: Python & R in Data Science</h3>
+                        <h3>Machine Learning A-Z: Python & R</h3>
                         <div class="product-instructor">
                             <img src="https://ui-avatars.com/api/?name=Kirill+Eremenko&size=24" alt="Instructor">
                             <span>Kirill Eremenko</span>
-                            <span style="color: #667eea; font-size: 0.8rem;">
-                                <i class="fas fa-award"></i> Top Rated
-                            </span>
                         </div>
                         <div class="product-rating">
                             <div class="stars">
@@ -586,43 +231,25 @@
                         <div class="product-meta">
                             <span><i class="fas fa-clock"></i> 45 hours</span>
                             <span><i class="fas fa-signal"></i> Intermediate</span>
-                            <span><i class="fas fa-users"></i> 189K students</span>
-                        </div>
-                        <div class="instructor-stats">
-                            <span><i class="fas fa-project-diagram"></i> 25 Projects</span>
-                            <span><i class="fas fa-code"></i> Exercises</span>
-                            <span><i class="fas fa-download"></i> Resources</span>
                         </div>
                         <div class="product-price">
                             <span class="price-current">$24.99</span>
-                            <span class="price-original">$199.99</span>
-                            <span class="price-discount">88% off</span>
+                            <span class="price-original">$99.99</span>
+                            <span class="price-discount">75% off</span>
                         </div>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn btn-primary" style="flex: 1;" onclick="addToCart(2)">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button class="btn btn-outline" onclick="compareAdd(2)">
-                                <i class="fas fa-balance-scale"></i>
-                            </button>
-                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
                     </div>
                 </div>
 
-                <!-- Enhanced Product Card 3 -->
+                <!-- Product Card 3 -->
                 <div class="product-card">
-                    <button class="wishlist-btn" onclick="toggleWishlist(3)">
-                        <i class="far fa-heart"></i>
-                    </button>
-                    <div class="product-badge" style="background: #4caf50;">UPDATED</div>
                     <div class="product-image">
                         <img src="images/slide1.webp" alt="Course">
-                        <div class="quick-preview">
-                            <i class="fas fa-play-circle"></i> Preview Available
-                        </div>
                     </div>
                     <div class="product-info">
-                        <h3>React - The Complete Guide 2024 (incl. Next.js, Redux)</h3>
+                        <h3>React - The Complete Guide 2024</h3>
                         <div class="product-instructor">
                             <img src="https://ui-avatars.com/api/?name=Max+S&size=24" alt="Instructor">
                             <span>Maximilian Schwarzmüller</span>
@@ -640,34 +267,21 @@
                         <div class="product-meta">
                             <span><i class="fas fa-clock"></i> 48 hours</span>
                             <span><i class="fas fa-signal"></i> All Levels</span>
-                            <span><i class="fas fa-users"></i> 312K students</span>
-                        </div>
-                        <div class="instructor-stats">
-                            <span><i class="fas fa-language"></i> 12 Languages</span>
-                            <span><i class="fas fa-closed-captioning"></i> Subtitles</span>
                         </div>
                         <div class="product-price">
                             <span class="price-current">$17.99</span>
-                            <span class="price-original">$189.99</span>
-                            <span class="price-discount">91% off</span>
+                            <span class="price-original">$84.99</span>
+                            <span class="price-discount">79% off</span>
                         </div>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn btn-primary" style="flex: 1;" onclick="addToCart(3)">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button class="btn btn-outline" onclick="compareAdd(3)">
-                                <i class="fas fa-balance-scale"></i>
-                            </button>
-                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
                     </div>
                 </div>
 
                 <!-- Product Card 4 -->
                 <div class="product-card">
-                    <button class="wishlist-btn" onclick="toggleWishlist(4)">
-                        <i class="far fa-heart"></i>
-                    </button>
-                    <div class="product-badge" style="background: #667eea;">PRO</div>
+                    <div class="product-badge" style="background: #4caf50;">PRO</div>
                     <div class="product-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; height: 200px;">
                         <i class="fas fa-chart-pie" style="font-size: 4rem; color: white;"></i>
                     </div>
@@ -693,25 +307,17 @@
                         </div>
                         <div class="product-price">
                             <span class="price-current">$29.99</span>
-                            <span class="price-original">$249.99</span>
-                            <span class="price-discount">88% off</span>
+                            <span class="price-original">$149.99</span>
+                            <span class="price-discount">80% off</span>
                         </div>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn btn-primary" style="flex: 1;" onclick="addToCart(4)">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button class="btn btn-outline" onclick="compareAdd(4)">
-                                <i class="fas fa-balance-scale"></i>
-                            </button>
-                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
                     </div>
                 </div>
 
                 <!-- Product Card 5 -->
                 <div class="product-card">
-                    <button class="wishlist-btn" onclick="toggleWishlist(5)">
-                        <i class="far fa-heart"></i>
-                    </button>
                     <div class="product-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; height: 200px;">
                         <i class="fas fa-mobile-alt" style="font-size: 4rem; color: white;"></i>
                     </div>
@@ -719,7 +325,7 @@
                         <h3>iOS & Swift Development Bootcamp</h3>
                         <div class="product-instructor">
                             <img src="https://ui-avatars.com/api/?name=Angela+Yu&size=24" alt="Instructor">
-                            <span>Dr. Angela Yu</span>
+                            <span>Angela Yu</span>
                         </div>
                         <div class="product-rating">
                             <div class="stars">
@@ -737,25 +343,17 @@
                         </div>
                         <div class="product-price">
                             <span class="price-current">$22.99</span>
-                            <span class="price-original">$194.99</span>
-                            <span class="price-discount">88% off</span>
+                            <span class="price-original">$94.99</span>
+                            <span class="price-discount">76% off</span>
                         </div>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn btn-primary" style="flex: 1;" onclick="addToCart(5)">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button class="btn btn-outline" onclick="compareAdd(5)">
-                                <i class="fas fa-balance-scale"></i>
-                            </button>
-                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
                     </div>
                 </div>
 
                 <!-- Product Card 6 -->
                 <div class="product-card">
-                    <button class="wishlist-btn" onclick="toggleWishlist(6)">
-                        <i class="far fa-heart"></i>
-                    </button>
                     <div class="product-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); display: flex; align-items: center; justify-content: center; height: 200px;">
                         <i class="fas fa-brain" style="font-size: 4rem; color: white;"></i>
                     </div>
@@ -781,17 +379,12 @@
                         </div>
                         <div class="product-price">
                             <span class="price-current">$34.99</span>
-                            <span class="price-original">$299.99</span>
-                            <span class="price-discount">88% off</span>
+                            <span class="price-original">$199.99</span>
+                            <span class="price-discount">83% off</span>
                         </div>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn btn-primary" style="flex: 1;" onclick="addToCart(6)">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                            <button class="btn btn-outline" onclick="compareAdd(6)">
-                                <i class="fas fa-balance-scale"></i>
-                            </button>
-                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
                     </div>
                 </div>
             </div>
@@ -809,159 +402,7 @@
         </main>
     </div>
 
-    <!-- Comparison Tool -->
-    <div class="comparison-tool" id="comparisonTool">
-        <h4>Compare Courses</h4>
-        <div id="compareList"></div>
-        <button class="btn btn-primary" onclick="showComparison()">Compare Now</button>
-        <button class="btn btn-outline" onclick="clearComparison()">Clear</button>
-    </div>
-
     <script src="script.js"></script>
     <script src="dashboard.js"></script>
-    <script>
-        // Enhanced Marketplace JavaScript
-        let cart = [];
-        let wishlist = [];
-        let compareList = [];
-
-        function addToCart(courseId) {
-            if (!cart.includes(courseId)) {
-                cart.push(courseId);
-                updateCartCount();
-                showNotification('Course added to cart!');
-            }
-        }
-
-        function updateCartCount() {
-            document.getElementById('cartCount').textContent = cart.length;
-        }
-
-        function toggleWishlist(courseId) {
-            const btn = event.currentTarget;
-            const icon = btn.querySelector('i');
-            
-            if (wishlist.includes(courseId)) {
-                wishlist = wishlist.filter(id => id !== courseId);
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-            } else {
-                wishlist.push(courseId);
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-                showNotification('Added to wishlist!');
-            }
-        }
-
-        function compareAdd(courseId) {
-            if (compareList.length < 3 && !compareList.includes(courseId)) {
-                compareList.push(courseId);
-                document.getElementById('comparisonTool').classList.add('active');
-                updateCompareList();
-            } else if (compareList.includes(courseId)) {
-                compareList = compareList.filter(id => id !== courseId);
-                updateCompareList();
-            } else {
-                showNotification('Maximum 3 courses for comparison');
-            }
-        }
-
-        function updateCompareList() {
-            const listEl = document.getElementById('compareList');
-            listEl.innerHTML = compareList.map(id => `Course ${id}`).join(', ');
-            
-            if (compareList.length === 0) {
-                document.getElementById('comparisonTool').classList.remove('active');
-            }
-        }
-
-        function searchCourses() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            // Implement search logic
-            console.log('Searching for:', searchTerm);
-        }
-
-        function filterCourses() {
-            // Implement filter logic
-            console.log('Filtering courses...');
-        }
-
-        function sortCourses() {
-            // Implement sort logic
-            console.log('Sorting courses...');
-        }
-
-        function showCategory(category) {
-            // Update active button
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(btn => {
-                if (btn.textContent.toLowerCase().includes(category.split('-')[0])) {
-                    btn.classList.add('btn-primary');
-                    btn.classList.remove('btn-outline');
-                } else if (!btn.textContent.includes('Add to Cart')) {
-                    btn.classList.remove('btn-primary');
-                    btn.classList.add('btn-outline');
-                }
-            });
-            
-            // Filter courses by category
-            console.log('Showing category:', category);
-        }
-
-        function setView(viewType) {
-            const buttons = document.querySelectorAll('.view-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // Change grid layout
-            const grid = document.getElementById('courseGrid');
-            if (viewType === 'list') {
-                grid.style.gridTemplateColumns = '1fr';
-            } else {
-                grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(300px, 1fr))';
-            }
-        }
-
-        function clearFilters() {
-            // Reset all filters
-            document.querySelectorAll('.filter-select').forEach(select => {
-                select.selectedIndex = 0;
-            });
-            document.querySelectorAll('.price-input').forEach(input => {
-                input.value = '';
-            });
-            filterCourses();
-        }
-
-        function showNotification(message) {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: #667eea;
-                color: white;
-                padding: 1rem 2rem;
-                border-radius: 8px;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-                z-index: 10000;
-                animation: slideUp 0.3s ease;
-            `;
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            // Remove after 3 seconds
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCartCount();
-        });
-    </script>
 </body>
 </html>
