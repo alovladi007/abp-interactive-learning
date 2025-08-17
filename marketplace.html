@@ -464,10 +464,26 @@
                 </button>
             </div>
 
-            <!-- Sort Bar -->
+            <!-- Sort and Filter Bar -->
             <div class="sort-bar">
                 <div class="sort-options">
-                    <span style="color: #666; font-size: 0.9rem;">Sort by:</span>
+                    <span style="color: #666; font-size: 0.9rem;">Category:</span>
+                    <select class="sort-select" onchange="filterCategory(this.value)">
+                        <option value="all">All Categories</option>
+                        <option value="trending">🔥 Trending</option>
+                        <option value="programming">💻 Programming</option>
+                        <option value="data-science">📊 Data Science</option>
+                        <option value="ai-ml">🤖 AI & ML</option>
+                        <option value="business">💼 Business</option>
+                        <option value="design">🎨 Design</option>
+                        <option value="marketing">📣 Marketing</option>
+                        <option value="languages">🌐 Languages</option>
+                        <option value="music">🎵 Music</option>
+                        <option value="health">💗 Health & Fitness</option>
+                        <option value="personal">🎓 Personal Development</option>
+                    </select>
+                    
+                    <span style="color: #666; font-size: 0.9rem; margin-left: 1rem;">Sort by:</span>
                     <select class="sort-select" onchange="sortCourses(this.value)">
                         <option value="popular">Most Popular</option>
                         <option value="rating">Highest Rated</option>
@@ -484,46 +500,6 @@
                         <i class="fas fa-list"></i>
                     </button>
                 </div>
-            </div>
-
-            <!-- Category Buttons -->
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;">
-                <button class="btn btn-primary" onclick="filterCategory('trending', this)">
-                    <i class="fas fa-fire"></i> Trending
-                </button>
-                <button class="btn btn-outline" onclick="filterCategory('programming', this)">
-                    <i class="fas fa-code"></i> Programming
-                </button>
-                <button class="btn btn-outline" onclick="filterCategory('data-science', this)">
-                    <i class="fas fa-chart-line"></i> Data Science
-                </button>
-                <button class="btn btn-outline" onclick="filterCategory('ai-ml', this)">
-                    <i class="fas fa-robot"></i> AI & ML
-                </button>
-                <button class="btn btn-outline" onclick="filterCategory('business', this)">
-                    <i class="fas fa-briefcase"></i> Business
-                </button>
-                <button class="btn btn-outline" onclick="filterCategory('design', this)">
-                    <i class="fas fa-paint-brush"></i> Design
-                </button>
-                <button class="btn btn-outline" onclick="filterCategory('marketing', this)">
-                    <i class="fas fa-bullhorn"></i> Marketing
-                </button>
-                <button class="btn btn-outline" onclick="filterCategory('languages', this)">
-                    <i class="fas fa-language"></i> Languages
-                </button>
-                <button class="btn btn-outline" onclick="filterCategory('music', this)">
-                    <i class="fas fa-music"></i> Music
-                </button>
-                <button class="btn btn-outline" onclick="filterCategory('photography', this)">
-                    <i class="fas fa-camera"></i> Photography
-                </button>
-                <button class="btn btn-outline" onclick="filterCategory('health', this)">
-                    <i class="fas fa-heartbeat"></i> Health
-                </button>
-                <button class="btn btn-outline" onclick="filterCategory('personal', this)">
-                    <i class="fas fa-user-graduate"></i> Personal Dev
-                </button>
             </div>
 
             <!-- Featured Banner -->
@@ -865,18 +841,18 @@
         });
 
         // Category filter functionality
-        function filterCategory(category, btn) {
-            // Update active button
-            const buttons = btn.parentElement.querySelectorAll('.btn');
-            buttons.forEach(b => {
-                b.classList.remove('btn-primary');
-                b.classList.add('btn-outline');
-            });
-            btn.classList.remove('btn-outline');
-            btn.classList.add('btn-primary');
-            
+        function filterCategory(category) {
             // Apply filter logic here
             console.log('Filtering by category:', category);
+            
+            // You can add visual feedback or filter the courses here
+            if (category === 'all') {
+                // Show all courses
+                console.log('Showing all categories');
+            } else {
+                // Filter by specific category
+                console.log('Filtering to:', category);
+            }
         }
 
         // Sort functionality
