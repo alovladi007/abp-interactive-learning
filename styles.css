@@ -98,13 +98,8 @@ body {
 .logo-text {
     font-size: 1.4rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #667eea 0%, #00f2fe 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: 3px;
-    font-family: 'Orbitron', 'Roboto', sans-serif;
-    text-transform: uppercase;
+    color: var(--text-primary);
+    letter-spacing: 1px;
 }
 
 .nav-menu {
