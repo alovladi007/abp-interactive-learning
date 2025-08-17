@@ -1,4 +1,6 @@
-# ABP Interactive Learning Platform
+# E.U.R.E.K.A - Enhanced Understanding via Research, Education, Knowledge & Analytics
+
+Explore Ideas. Master Knowledge. Drive Innovation.
 
 A comprehensive AI-powered interactive learning platform that transforms text into engaging video lectures. Perfect for students, professionals, and lifelong learners.
 
