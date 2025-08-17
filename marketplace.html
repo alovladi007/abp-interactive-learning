@@ -40,34 +40,6 @@
             background: #f5f5f5;
         }
         
-        .filter-pills {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .filter-pill {
-            padding: 0.4rem 1rem;
-            background: transparent;
-            border: 1px solid #d0d0d0;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .filter-pill:hover {
-            border-color: #667eea;
-            color: #667eea;
-        }
-        
-        .filter-pill.active {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-        
         .recommended-banner {
             background: white;
             border: 1px solid #e0e0e0;
@@ -492,25 +464,6 @@
                 </button>
             </div>
 
-            <!-- Filter Pills -->
-            <div class="filter-pills">
-                <span class="filter-pill active" onclick="filterBy('all')">All Courses</span>
-                <span class="filter-pill" onclick="filterBy('trending')">
-                    <i class="fas fa-fire"></i> Trending
-                </span>
-                <span class="filter-pill" onclick="filterBy('new')">
-                    <i class="fas fa-sparkles"></i> New
-                </span>
-                <span class="filter-pill" onclick="filterBy('bestseller')">
-                    <i class="fas fa-award"></i> Bestsellers
-                </span>
-                <span class="filter-pill" onclick="filterBy('beginner')">Beginner Friendly</span>
-                <span class="filter-pill" onclick="filterBy('advanced')">Advanced</span>
-                <span class="filter-pill" onclick="filterBy('certification')">
-                    <i class="fas fa-certificate"></i> With Certificate
-                </span>
-            </div>
-
             <!-- Sort Bar -->
             <div class="sort-bar">
                 <div class="sort-options">
@@ -535,22 +488,22 @@
 
             <!-- Category Buttons -->
             <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;">
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" onclick="filterCategory('trending', this)">
                     <i class="fas fa-fire"></i> Trending
                 </button>
-                <button class="btn btn-outline">
+                <button class="btn btn-outline" onclick="filterCategory('programming', this)">
                     <i class="fas fa-code"></i> Programming
                 </button>
-                <button class="btn btn-outline">
+                <button class="btn btn-outline" onclick="filterCategory('data-science', this)">
                     <i class="fas fa-chart-line"></i> Data Science
                 </button>
-                <button class="btn btn-outline">
+                <button class="btn btn-outline" onclick="filterCategory('business', this)">
                     <i class="fas fa-briefcase"></i> Business
                 </button>
-                <button class="btn btn-outline">
+                <button class="btn btn-outline" onclick="filterCategory('design', this)">
                     <i class="fas fa-paint-brush"></i> Design
                 </button>
-                <button class="btn btn-outline">
+                <button class="btn btn-outline" onclick="filterCategory('languages', this)">
                     <i class="fas fa-language"></i> Languages
                 </button>
             </div>
@@ -893,19 +846,19 @@
             }
         });
 
-        // Filter functionality
-        function filterBy(filter) {
-            const pills = document.querySelectorAll('.filter-pill');
-            pills.forEach(pill => {
-                pill.classList.remove('active');
-                if (pill.textContent.toLowerCase().includes(filter) || 
-                    (filter === 'all' && pill.textContent.includes('All Courses'))) {
-                    pill.classList.add('active');
-                }
+        // Category filter functionality
+        function filterCategory(category, btn) {
+            // Update active button
+            const buttons = btn.parentElement.querySelectorAll('.btn');
+            buttons.forEach(b => {
+                b.classList.remove('btn-primary');
+                b.classList.add('btn-outline');
             });
+            btn.classList.remove('btn-outline');
+            btn.classList.add('btn-primary');
             
             // Apply filter logic here
-            console.log('Filtering by:', filter);
+            console.log('Filtering by category:', category);
         }
 
         // Sort functionality
