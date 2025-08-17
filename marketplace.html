@@ -3,10 +3,547 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketplace - E.U.R.E.K.A Platform</title>
+    <title>Course Marketplace - E.U.R.E.K.A Platform</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Advanced Marketplace Styles */
+        .marketplace-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .marketplace-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,133.3C960,128,1056,96,1152,90.7C1248,85,1344,107,1392,117.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+        
+        .advanced-search {
+            display: flex;
+            background: white;
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .advanced-search input {
+            flex: 1;
+            border: none;
+            padding: 15px 20px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .advanced-search button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+        
+        .advanced-search button:hover {
+            transform: scale(1.05);
+        }
+        
+        .stats-bar {
+            background: white;
+            padding: 30px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+        
+        .stat-item {
+            animation: fadeIn 1s ease;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .filter-section {
+            background: #f8f9fa;
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .filter-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filter-dropdown {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-dropdown:hover {
+            border-color: #667eea;
+        }
+        
+        .active-filters {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .filter-tag {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .filter-tag i {
+            cursor: pointer;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .course-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 10;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .badge-bestseller {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .badge-new {
+            background: #4ecdc4;
+            color: white;
+        }
+        
+        .badge-trending {
+            background: #ffd93d;
+            color: #333;
+        }
+        
+        .course-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .course-content {
+            padding: 20px;
+        }
+        
+        .course-category {
+            color: #667eea;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .course-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            line-height: 1.4;
+        }
+        
+        .course-instructor {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .instructor-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #667eea;
+        }
+        
+        .instructor-name {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .course-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .stars {
+            color: #ffd700;
+        }
+        
+        .course-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .course-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .course-price {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .price-current {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .price-original {
+            font-size: 16px;
+            color: #999;
+            text-decoration: line-through;
+        }
+        
+        .course-action {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-cart, .btn-wishlist {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-cart {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-wishlist {
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .btn-wishlist.active {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .recommendation-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 60px 0;
+        }
+        
+        .recommendation-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .recommendation-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .recommendation-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .recommendation-carousel {
+            position: relative;
+            overflow: hidden;
+            padding: 0 60px;
+        }
+        
+        .carousel-track {
+            display: flex;
+            gap: 30px;
+            transition: transform 0.5s ease;
+        }
+        
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        
+        .carousel-btn.prev {
+            left: 10px;
+        }
+        
+        .carousel-btn.next {
+            right: 10px;
+        }
+        
+        .learning-path-section {
+            padding: 60px 0;
+            background: white;
+        }
+        
+        .path-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .path-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .path-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s infinite;
+        }
+        
+        .path-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .path-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .path-description {
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .path-progress {
+            background: rgba(255,255,255,0.3);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-fill {
+            background: white;
+            height: 100%;
+            width: 0%;
+            transition: width 1s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .ai-recommendation-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px auto;
+            max-width: 1200px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .ai-text h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .ai-text p {
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .btn-ai {
+            background: white;
+            color: #667eea;
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .btn-ai:hover {
+            transform: scale(1.05);
+        }
+        
+        .ai-illustration {
+            width: 200px;
+            height: 200px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="white" opacity="0.2"/></svg>');
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -19,18 +556,14 @@
                 <span class="logo-text">E.U.R.E.K.A</span>
             </a>
             
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search marketplace...">
-            </div>
-            
             <div class="nav-actions">
-                <button class="btn-icon">
+                <button class="btn-icon" id="cartBtn">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="notification-badge">2</span>
+                    <span class="notification-badge" id="cartCount">0</span>
                 </button>
                 <button class="btn-icon">
                     <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
                 </button>
                 <div class="user-menu">
                     <img src="https://ui-avatars.com/api/?name=Student&background=667eea&color=fff" alt="User" class="user-avatar">
@@ -44,365 +577,655 @@
         </div>
     </nav>
 
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h3>Navigation</h3>
-            </div>
-            <ul class="sidebar-menu">
-                <li class="sidebar-item">
-                    <a href="dashboard.html" class="sidebar-link">
-                        <span class="sidebar-icon"><i class="fas fa-home"></i></span>
-                        <span>My Dashboard</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="academic-setup.html" class="sidebar-link">
-                        <span class="sidebar-icon"><i class="fas fa-lightbulb"></i></span>
-                        <span>Academic Setup</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="library.html" class="sidebar-link">
-                        <span class="sidebar-icon"><i class="fas fa-book"></i></span>
-                        <span>My Library</span>
-                        <span class="counter">128</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="prep-courses.html" class="sidebar-link">
-                        <span class="sidebar-icon"><i class="fas fa-book-open"></i></span>
-                        <span>Prep Courses</span>
-                        <span class="badge-new">NEW</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="marketplace.html" class="sidebar-link active">
-                        <span class="sidebar-icon"><i class="fas fa-shopping-cart"></i></span>
-                        <span>Marketplace</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="ai-generator.html" class="sidebar-link">
-                        <span class="sidebar-icon"><i class="fas fa-robot"></i></span>
-                        <span>AI Generator</span>
-                        <span class="badge-hot">HOT</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="quizzes.html" class="sidebar-link">
-                        <span class="sidebar-icon"><i class="fas fa-question-circle"></i></span>
-                        <span>Quizzes & Tests</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="partners.html" class="sidebar-link">
-                        <span class="sidebar-icon"><i class="fas fa-handshake"></i></span>
-                        <span>Partners</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="corporate.html" class="sidebar-link">
-                        <span class="sidebar-icon"><i class="fas fa-building"></i></span>
-                        <span>Corporate Hub</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="certifications.html" class="sidebar-link">
-                        <span class="sidebar-icon"><i class="fas fa-certificate"></i></span>
-                        <span>Certifications</span>
-                        <span class="counter">5</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="tutoring-videos.html" class="sidebar-link">
-                        <span class="sidebar-icon"><i class="fas fa-video"></i></span>
-                        <span>Tutoring Videos</span>
-                        <span class="badge-premium">PRO</span>
-                    </a>
-                </li>
-            </ul>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="content-header">
-                <h1><i class="fas fa-shopping-cart"></i> Course Marketplace</h1>
-                <p>Discover and purchase premium courses from top instructors</p>
-            </div>
-
-            <!-- Category Buttons -->
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;">
-                <button class="btn btn-primary">
-                    <i class="fas fa-fire"></i> Trending
-                </button>
-                <button class="btn btn-outline">
-                    <i class="fas fa-code"></i> Programming
-                </button>
-                <button class="btn btn-outline">
-                    <i class="fas fa-chart-line"></i> Data Science
-                </button>
-                <button class="btn btn-outline">
-                    <i class="fas fa-briefcase"></i> Business
-                </button>
-                <button class="btn btn-outline">
-                    <i class="fas fa-paint-brush"></i> Design
-                </button>
-                <button class="btn btn-outline">
-                    <i class="fas fa-language"></i> Languages
-                </button>
-            </div>
-
-            <!-- Featured Banner -->
-            <div class="section-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-bottom: 2rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                    <div>
-                        <h2 style="color: white;">🎉 Black Friday Sale!</h2>
-                        <p style="opacity: 0.9;">Get 50% off on all premium courses. Limited time offer!</p>
-                    </div>
-                    <button class="btn" style="background: white; color: #667eea;">
-                        View Deals <i class="fas fa-arrow-right"></i>
+    <!-- Hero Section -->
+    <section class="marketplace-hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Discover Premium Courses</h1>
+            <p class="hero-subtitle">Learn from top instructors worldwide and advance your career with our AI-powered course recommendations</p>
+            
+            <div class="search-container">
+                <div class="advanced-search">
+                    <input type="text" placeholder="Search for courses, instructors, or skills..." id="searchInput">
+                    <button onclick="searchCourses()">
+                        <i class="fas fa-search"></i> Search
                     </button>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Product Grid -->
-            <div class="product-grid">
-                <!-- Product Card 1 -->
-                <div class="product-card">
-                    <div class="product-badge">BESTSELLER</div>
-                    <div class="product-image">
-                        <img src="images/slide2.png" alt="Course">
-                    </div>
-                    <div class="product-info">
-                        <h3>Complete Web Development Bootcamp</h3>
-                        <div class="product-instructor">
-                            <img src="https://ui-avatars.com/api/?name=Angela+Yu&size=24" alt="Instructor">
-                            <span>Angela Yu</span>
-                        </div>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <span>4.7 (128,456 ratings)</span>
-                        </div>
-                        <div class="product-meta">
-                            <span><i class="fas fa-clock"></i> 65 hours</span>
-                            <span><i class="fas fa-signal"></i> All Levels</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="price-current">$19.99</span>
-                            <span class="price-original">$89.99</span>
-                            <span class="price-discount">78% off</span>
-                        </div>
-                        <button class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product Card 2 -->
-                <div class="product-card">
-                    <div class="product-badge" style="background: #ff6b6b;">NEW</div>
-                    <div class="product-image">
-                        <img src="images/slide3.png" alt="Course">
-                    </div>
-                    <div class="product-info">
-                        <h3>Machine Learning A-Z: Python & R</h3>
-                        <div class="product-instructor">
-                            <img src="https://ui-avatars.com/api/?name=Kirill+Eremenko&size=24" alt="Instructor">
-                            <span>Kirill Eremenko</span>
-                        </div>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span>4.9 (89,234 ratings)</span>
-                        </div>
-                        <div class="product-meta">
-                            <span><i class="fas fa-clock"></i> 45 hours</span>
-                            <span><i class="fas fa-signal"></i> Intermediate</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="price-current">$24.99</span>
-                            <span class="price-original">$99.99</span>
-                            <span class="price-discount">75% off</span>
-                        </div>
-                        <button class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="images/slide1.webp" alt="Course">
-                    </div>
-                    <div class="product-info">
-                        <h3>React - The Complete Guide 2024</h3>
-                        <div class="product-instructor">
-                            <img src="https://ui-avatars.com/api/?name=Max+S&size=24" alt="Instructor">
-                            <span>Maximilian Schwarzmüller</span>
-                        </div>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <span>4.8 (156,789 ratings)</span>
-                        </div>
-                        <div class="product-meta">
-                            <span><i class="fas fa-clock"></i> 48 hours</span>
-                            <span><i class="fas fa-signal"></i> All Levels</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="price-current">$17.99</span>
-                            <span class="price-original">$84.99</span>
-                            <span class="price-discount">79% off</span>
-                        </div>
-                        <button class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="product-card">
-                    <div class="product-badge" style="background: #4caf50;">PRO</div>
-                    <div class="product-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; height: 200px;">
-                        <i class="fas fa-chart-pie" style="font-size: 4rem; color: white;"></i>
-                    </div>
-                    <div class="product-info">
-                        <h3>Data Science & Analytics Masterclass</h3>
-                        <div class="product-instructor">
-                            <img src="https://ui-avatars.com/api/?name=Jose+Portilla&size=24" alt="Instructor">
-                            <span>Jose Portilla</span>
-                        </div>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span>5.0 (45,678 ratings)</span>
-                        </div>
-                        <div class="product-meta">
-                            <span><i class="fas fa-clock"></i> 80 hours</span>
-                            <span><i class="fas fa-signal"></i> Advanced</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="price-current">$29.99</span>
-                            <span class="price-original">$149.99</span>
-                            <span class="price-discount">80% off</span>
-                        </div>
-                        <button class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product Card 5 -->
-                <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; height: 200px;">
-                        <i class="fas fa-mobile-alt" style="font-size: 4rem; color: white;"></i>
-                    </div>
-                    <div class="product-info">
-                        <h3>iOS & Swift Development Bootcamp</h3>
-                        <div class="product-instructor">
-                            <img src="https://ui-avatars.com/api/?name=Angela+Yu&size=24" alt="Instructor">
-                            <span>Angela Yu</span>
-                        </div>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <span>4.7 (67,890 ratings)</span>
-                        </div>
-                        <div class="product-meta">
-                            <span><i class="fas fa-clock"></i> 55 hours</span>
-                            <span><i class="fas fa-signal"></i> Beginner</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="price-current">$22.99</span>
-                            <span class="price-original">$94.99</span>
-                            <span class="price-discount">76% off</span>
-                        </div>
-                        <button class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product Card 6 -->
-                <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); display: flex; align-items: center; justify-content: center; height: 200px;">
-                        <i class="fas fa-brain" style="font-size: 4rem; color: white;"></i>
-                    </div>
-                    <div class="product-info">
-                        <h3>Deep Learning & Neural Networks</h3>
-                        <div class="product-instructor">
-                            <img src="https://ui-avatars.com/api/?name=Andrew+Ng&size=24" alt="Instructor">
-                            <span>Andrew Ng</span>
-                        </div>
-                        <div class="product-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span>5.0 (234,567 ratings)</span>
-                        </div>
-                        <div class="product-meta">
-                            <span><i class="fas fa-clock"></i> 60 hours</span>
-                            <span><i class="fas fa-signal"></i> Advanced</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="price-current">$34.99</span>
-                            <span class="price-original">$199.99</span>
-                            <span class="price-discount">83% off</span>
-                        </div>
-                        <button class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                    </div>
-                </div>
+    <!-- Statistics Bar -->
+    <section class="stats-bar">
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number" data-target="15000">0</span>
+                <span class="stat-label">Active Courses</span>
             </div>
-
-            <!-- Pagination -->
-            <div style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 3rem;">
-                <button class="btn btn-outline">Previous</button>
-                <button class="btn btn-primary">1</button>
-                <button class="btn btn-outline">2</button>
-                <button class="btn btn-outline">3</button>
-                <button class="btn btn-outline">...</button>
-                <button class="btn btn-outline">12</button>
-                <button class="btn btn-outline">Next</button>
+            <div class="stat-item">
+                <span class="stat-number" data-target="500000">0</span>
+                <span class="stat-label">Happy Students</span>
             </div>
-        </main>
+            <div class="stat-item">
+                <span class="stat-number" data-target="3500">0</span>
+                <span class="stat-label">Expert Instructors</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="95">0</span>
+                <span class="stat-label">% Satisfaction Rate</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="filter-container">
+            <div class="filter-group">
+                <label>Category:</label>
+                <select class="filter-dropdown" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="programming">Programming</option>
+                    <option value="data-science">Data Science</option>
+                    <option value="business">Business</option>
+                    <option value="design">Design</option>
+                    <option value="marketing">Marketing</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Level:</label>
+                <select class="filter-dropdown" id="levelFilter">
+                    <option value="">All Levels</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                    <option value="expert">Expert</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Price:</label>
+                <select class="filter-dropdown" id="priceFilter">
+                    <option value="">Any Price</option>
+                    <option value="free">Free</option>
+                    <option value="0-50">$0 - $50</option>
+                    <option value="50-100">$50 - $100</option>
+                    <option value="100+">$100+</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Rating:</label>
+                <select class="filter-dropdown" id="ratingFilter">
+                    <option value="">Any Rating</option>
+                    <option value="4.5">4.5+ Stars</option>
+                    <option value="4.0">4.0+ Stars</option>
+                    <option value="3.5">3.5+ Stars</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Sort by:</label>
+                <select class="filter-dropdown" id="sortFilter">
+                    <option value="popularity">Most Popular</option>
+                    <option value="rating">Highest Rated</option>
+                    <option value="newest">Newest</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                </select>
+            </div>
+            
+            <div class="active-filters" id="activeFilters">
+                <!-- Active filter tags will appear here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Recommendation Banner -->
+    <div class="ai-recommendation-banner">
+        <div class="ai-content">
+            <div class="ai-text">
+                <h3>🤖 Get AI-Powered Course Recommendations</h3>
+                <p>Let our advanced AI analyze your learning style and goals to suggest the perfect courses for you</p>
+                <button class="btn-ai" onclick="getAIRecommendations()">
+                    Get Personalized Recommendations
+                </button>
+            </div>
+            <div class="ai-illustration"></div>
+        </div>
     </div>
 
-    <script src="script.js"></script>
-    <script src="dashboard.js"></script>
+    <!-- Trending Courses Section -->
+    <section class="recommendation-section">
+        <div class="recommendation-header">
+            <h2 class="recommendation-title">🔥 Trending This Week</h2>
+            <p class="recommendation-subtitle">Most popular courses among learners like you</p>
+        </div>
+        
+        <div class="recommendation-carousel">
+            <button class="carousel-btn prev" onclick="moveCarousel(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="carousel-btn next" onclick="moveCarousel(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <div class="carousel-track" id="trendingCarousel">
+                <!-- Trending courses will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Courses Grid -->
+    <section class="courses-section">
+        <div class="courses-grid" id="coursesGrid">
+            <!-- Courses will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- Learning Paths Section -->
+    <section class="learning-path-section">
+        <div class="recommendation-header">
+            <h2 class="recommendation-title">🎯 Recommended Learning Paths</h2>
+            <p class="recommendation-subtitle">Structured paths to achieve your career goals</p>
+        </div>
+        
+        <div class="path-container">
+            <div class="path-card">
+                <div class="path-icon">🚀</div>
+                <h3 class="path-title">Full Stack Developer</h3>
+                <p class="path-description">Master front-end and back-end development with 12 comprehensive courses</p>
+                <div class="path-progress">
+                    <div class="progress-fill" style="width: 35%;"></div>
+                </div>
+                <small>35% Complete • 8 courses remaining</small>
+            </div>
+            
+            <div class="path-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <div class="path-icon">📊</div>
+                <h3 class="path-title">Data Scientist</h3>
+                <p class="path-description">Learn Python, ML, and data analysis with 15 expert-led courses</p>
+                <div class="path-progress">
+                    <div class="progress-fill" style="width: 0%;"></div>
+                </div>
+                <small>Not Started • 15 courses</small>
+            </div>
+            
+            <div class="path-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <div class="path-icon">🎨</div>
+                <h3 class="path-title">UX/UI Designer</h3>
+                <p class="path-description">Design beautiful interfaces with 10 hands-on courses</p>
+                <div class="path-progress">
+                    <div class="progress-fill" style="width: 60%;"></div>
+                </div>
+                <small>60% Complete • 4 courses remaining</small>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Course data structure
+        const courses = [
+            {
+                id: 1,
+                title: "Complete Python Bootcamp: From Zero to Hero",
+                instructor: "Dr. Angela Yu",
+                category: "Programming",
+                level: "Beginner",
+                price: 89.99,
+                originalPrice: 199.99,
+                rating: 4.8,
+                students: 125000,
+                duration: "42 hours",
+                lectures: 385,
+                image: "https://via.placeholder.com/400x200/667eea/ffffff?text=Python",
+                badges: ["bestseller", "trending"],
+                description: "Learn Python like a Professional! Start from basics and go to creating your own applications and games!"
+            },
+            {
+                id: 2,
+                title: "Advanced Machine Learning with TensorFlow",
+                instructor: "Andrew Ng",
+                category: "Data Science",
+                level: "Advanced",
+                price: 149.99,
+                originalPrice: 299.99,
+                rating: 4.9,
+                students: 85000,
+                duration: "65 hours",
+                lectures: 450,
+                image: "https://via.placeholder.com/400x200/764ba2/ffffff?text=ML",
+                badges: ["new"],
+                description: "Master advanced machine learning techniques with TensorFlow 2.0"
+            },
+            {
+                id: 3,
+                title: "React - The Complete Guide 2024",
+                instructor: "Maximilian Schwarzmüller",
+                category: "Web Development",
+                level: "Intermediate",
+                price: 79.99,
+                originalPrice: 189.99,
+                rating: 4.7,
+                students: 200000,
+                duration: "48 hours",
+                lectures: 490,
+                image: "https://via.placeholder.com/400x200/61dafb/ffffff?text=React",
+                badges: ["bestseller"],
+                description: "Dive in and learn React.js from scratch! Learn Reactjs, Hooks, Redux, React Router, and more!"
+            },
+            {
+                id: 4,
+                title: "AWS Certified Solutions Architect",
+                instructor: "Stephane Maarek",
+                category: "Cloud Computing",
+                level: "Intermediate",
+                price: 99.99,
+                originalPrice: 249.99,
+                rating: 4.6,
+                students: 150000,
+                duration: "35 hours",
+                lectures: 290,
+                image: "https://via.placeholder.com/400x200/ff9900/ffffff?text=AWS",
+                badges: ["trending"],
+                description: "Pass the AWS Certified Solutions Architect Associate Certification SAA-C03"
+            },
+            {
+                id: 5,
+                title: "Digital Marketing Masterclass",
+                instructor: "Phil Ebiner",
+                category: "Marketing",
+                level: "Beginner",
+                price: 69.99,
+                originalPrice: 149.99,
+                rating: 4.5,
+                students: 95000,
+                duration: "28 hours",
+                lectures: 235,
+                image: "https://via.placeholder.com/400x200/4ecdc4/ffffff?text=Marketing",
+                badges: ["new"],
+                description: "Learn Digital Marketing Strategy, Social Media Marketing, SEO, YouTube, Email, Facebook Marketing, and more!"
+            },
+            {
+                id: 6,
+                title: "UI/UX Design Bootcamp",
+                instructor: "Daniel Scott",
+                category: "Design",
+                level: "Beginner",
+                price: 89.99,
+                originalPrice: 199.99,
+                rating: 4.7,
+                students: 75000,
+                duration: "38 hours",
+                lectures: 320,
+                image: "https://via.placeholder.com/400x200/f093fb/ffffff?text=Design",
+                badges: ["bestseller", "trending"],
+                description: "Become a UX/UI designer! Master mobile and web design, User Interface + User Experience, and more"
+            }
+        ];
+
+        let cart = [];
+        let wishlist = [];
+        let currentCarouselPosition = 0;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCourses();
+            loadTrendingCourses();
+            animateStats();
+            setupFilters();
+        });
+
+        // Load courses into grid
+        function loadCourses(filteredCourses = courses) {
+            const grid = document.getElementById('coursesGrid');
+            grid.innerHTML = '';
+            
+            filteredCourses.forEach(course => {
+                const card = createCourseCard(course);
+                grid.appendChild(card);
+            });
+        }
+
+        // Create course card element
+        function createCourseCard(course) {
+            const card = document.createElement('div');
+            card.className = 'course-card';
+            
+            const badgesHtml = course.badges.map(badge => {
+                const badgeClass = `badge-${badge}`;
+                const badgeText = badge.charAt(0).toUpperCase() + badge.slice(1);
+                return `<span class="badge ${badgeClass}">${badgeText}</span>`;
+            }).join('');
+            
+            const isInWishlist = wishlist.includes(course.id);
+            
+            card.innerHTML = `
+                <div class="course-badge">${badgesHtml}</div>
+                <img src="${course.image}" alt="${course.title}" class="course-image">
+                <div class="course-content">
+                    <div class="course-category">${course.category}</div>
+                    <h3 class="course-title">${course.title}</h3>
+                    <div class="course-instructor">
+                        <img src="https://ui-avatars.com/api/?name=${course.instructor}&background=667eea&color=fff" 
+                             alt="${course.instructor}" class="instructor-avatar">
+                        <span class="instructor-name">${course.instructor}</span>
+                    </div>
+                    <div class="course-meta">
+                        <div class="course-rating">
+                            <span class="stars">${getStars(course.rating)}</span>
+                            <span>${course.rating}</span>
+                            <span>(${formatNumber(course.students)})</span>
+                        </div>
+                        <span class="course-level">${course.level}</span>
+                    </div>
+                    <div class="course-stats">
+                        <span><i class="fas fa-clock"></i> ${course.duration}</span>
+                        <span><i class="fas fa-video"></i> ${course.lectures} lectures</span>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-price">
+                            <span class="price-current">$${course.price}</span>
+                            <span class="price-original">$${course.originalPrice}</span>
+                        </div>
+                        <div class="course-action">
+                            <button class="btn-cart" onclick="addToCart(${course.id})">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                            <button class="btn-wishlist ${isInWishlist ? 'active' : ''}" 
+                                    onclick="toggleWishlist(${course.id})">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Load trending courses carousel
+        function loadTrendingCourses() {
+            const carousel = document.getElementById('trendingCarousel');
+            const trendingCourses = courses.filter(c => c.badges.includes('trending'));
+            
+            carousel.innerHTML = '';
+            trendingCourses.forEach(course => {
+                const card = createCourseCard(course);
+                card.style.minWidth = '350px';
+                carousel.appendChild(card);
+            });
+        }
+
+        // Cart functions
+        function addToCart(courseId) {
+            if (!cart.includes(courseId)) {
+                cart.push(courseId);
+                updateCartCount();
+                showNotification('Course added to cart!');
+            }
+        }
+
+        function updateCartCount() {
+            document.getElementById('cartCount').textContent = cart.length;
+        }
+
+        // Wishlist functions
+        function toggleWishlist(courseId) {
+            const index = wishlist.indexOf(courseId);
+            if (index > -1) {
+                wishlist.splice(index, 1);
+                showNotification('Removed from wishlist');
+            } else {
+                wishlist.push(courseId);
+                showNotification('Added to wishlist!');
+            }
+            loadCourses();
+        }
+
+        // Search function
+        function searchCourses() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = courses.filter(course => 
+                course.title.toLowerCase().includes(searchTerm) ||
+                course.instructor.toLowerCase().includes(searchTerm) ||
+                course.category.toLowerCase().includes(searchTerm) ||
+                course.description.toLowerCase().includes(searchTerm)
+            );
+            loadCourses(filtered);
+        }
+
+        // Filter setup
+        function setupFilters() {
+            const filters = ['categoryFilter', 'levelFilter', 'priceFilter', 'ratingFilter', 'sortFilter'];
+            filters.forEach(filterId => {
+                document.getElementById(filterId).addEventListener('change', applyFilters);
+            });
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const category = document.getElementById('categoryFilter').value;
+            const level = document.getElementById('levelFilter').value;
+            const priceRange = document.getElementById('priceFilter').value;
+            const minRating = document.getElementById('ratingFilter').value;
+            const sortBy = document.getElementById('sortFilter').value;
+            
+            let filtered = [...courses];
+            
+            // Apply category filter
+            if (category) {
+                filtered = filtered.filter(c => c.category.toLowerCase() === category);
+            }
+            
+            // Apply level filter
+            if (level) {
+                filtered = filtered.filter(c => c.level.toLowerCase() === level);
+            }
+            
+            // Apply price filter
+            if (priceRange) {
+                if (priceRange === 'free') {
+                    filtered = filtered.filter(c => c.price === 0);
+                } else if (priceRange === '0-50') {
+                    filtered = filtered.filter(c => c.price > 0 && c.price <= 50);
+                } else if (priceRange === '50-100') {
+                    filtered = filtered.filter(c => c.price > 50 && c.price <= 100);
+                } else if (priceRange === '100+') {
+                    filtered = filtered.filter(c => c.price > 100);
+                }
+            }
+            
+            // Apply rating filter
+            if (minRating) {
+                filtered = filtered.filter(c => c.rating >= parseFloat(minRating));
+            }
+            
+            // Apply sorting
+            switch(sortBy) {
+                case 'rating':
+                    filtered.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'newest':
+                    filtered.sort((a, b) => b.id - a.id);
+                    break;
+                case 'price-low':
+                    filtered.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filtered.sort((a, b) => b.price - a.price);
+                    break;
+                default: // popularity
+                    filtered.sort((a, b) => b.students - a.students);
+            }
+            
+            loadCourses(filtered);
+            updateActiveFilters();
+        }
+
+        // Update active filters display
+        function updateActiveFilters() {
+            const activeFilters = document.getElementById('activeFilters');
+            activeFilters.innerHTML = '';
+            
+            const filters = [
+                { id: 'categoryFilter', label: 'Category' },
+                { id: 'levelFilter', label: 'Level' },
+                { id: 'priceFilter', label: 'Price' },
+                { id: 'ratingFilter', label: 'Rating' }
+            ];
+            
+            filters.forEach(filter => {
+                const value = document.getElementById(filter.id).value;
+                if (value) {
+                    const tag = document.createElement('span');
+                    tag.className = 'filter-tag';
+                    tag.innerHTML = `
+                        ${filter.label}: ${value}
+                        <i class="fas fa-times" onclick="clearFilter('${filter.id}')"></i>
+                    `;
+                    activeFilters.appendChild(tag);
+                }
+            });
+        }
+
+        // Clear individual filter
+        function clearFilter(filterId) {
+            document.getElementById(filterId).value = '';
+            applyFilters();
+        }
+
+        // Carousel navigation
+        function moveCarousel(direction) {
+            const carousel = document.getElementById('trendingCarousel');
+            const cardWidth = 380; // card width + gap
+            currentCarouselPosition += direction * cardWidth;
+            
+            // Limit carousel position
+            const maxPosition = 0;
+            const minPosition = -(carousel.children.length - 3) * cardWidth;
+            currentCarouselPosition = Math.max(minPosition, Math.min(maxPosition, currentCarouselPosition));
+            
+            carousel.style.transform = `translateX(${currentCarouselPosition}px)`;
+        }
+
+        // Get AI recommendations
+        function getAIRecommendations() {
+            showNotification('Analyzing your learning profile...');
+            setTimeout(() => {
+                // Simulate AI recommendation
+                const recommended = courses.filter(c => c.rating >= 4.7);
+                loadCourses(recommended);
+                showNotification('Here are your personalized recommendations!');
+            }, 2000);
+        }
+
+        // Utility functions
+        function getStars(rating) {
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+            const emptyStars = 5 - fullStars - halfStar;
+            
+            let stars = '★'.repeat(fullStars);
+            if (halfStar) stars += '☆';
+            stars += '☆'.repeat(emptyStars);
+            
+            return stars;
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Animate statistics
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            
+            stats.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-target'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const updateStat = () => {
+                    if (current < target) {
+                        current += increment;
+                        stat.textContent = Math.floor(current).toLocaleString();
+                        requestAnimationFrame(updateStat);
+                    } else {
+                        stat.textContent = target.toLocaleString();
+                        if (stat.getAttribute('data-target') === '95') {
+                            stat.textContent += '%';
+                        }
+                    }
+                };
+                
+                // Start animation when in viewport
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        updateStat();
+                        observer.disconnect();
+                    }
+                });
+                
+                observer.observe(stat);
+            });
+        }
+
+        // Add animations CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
