@@ -1381,11 +1381,6 @@
             }
         }
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadCourseInfo();
-        });
-
         // Initialize video player
         const player = new Plyr('#courseVideo', {
             controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
@@ -1506,6 +1501,9 @@
                 sendAIMessage();
             }
         });
+        
+        // Load course info when page loads
+        loadCourseInfo();
     </script>
 </body>
 </html>

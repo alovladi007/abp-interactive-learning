@@ -1173,11 +1173,6 @@
             }
         }
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadExamInfo();
-        });
-
         // Timer functionality
         let timeRemaining = 60 * 60; // Default 60 minutes
         let timerInterval;
@@ -1461,6 +1456,9 @@
                 console.log('Submitting exam...');
             }
         }
+        
+        // Load exam info when page loads
+        loadExamInfo();
     </script>
 </body>
 </html>
