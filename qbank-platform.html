@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q-Bank Platform - E.U.R.E.K.A</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <style>
+        .qbank-container {
+            display: flex;
+            height: calc(100vh - 60px);
+            background: #0f0f0f;
+        }
+        
+        /* Left Sidebar - Question Navigator */
+        .question-nav {
+            width: 280px;
+            background: #1a1a1a;
+            border-right: 1px solid #2a2a2a;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .nav-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .exam-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .exam-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .timer-display {
+            padding: 1rem 1.5rem;
+            background: #0f0f0f;
+            border-bottom: 1px solid #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .timer-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #667eea;
+            font-family: 'Monaco', monospace;
+        }
+        
+        .timer-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .timer-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: #2a2a2a;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .timer-btn:hover {
+            color: #fff;
+            background: #3a3a3a;
+        }
+        
+        /* Question Grid */
+        .question-grid {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .question-btn {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            border: 2px solid #2a2a2a;
+            background: #0f0f0f;
+            color: #888;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .question-btn:hover {
+            transform: scale(1.05);
+            border-color: #667eea;
+        }
+        
+        .question-btn.current {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .question-btn.answered {
+            background: rgba(67, 233, 123, 0.2);
+            border-color: #43e97b;
+            color: #43e97b;
+        }
+        
+        .question-btn.marked {
+            background: rgba(251, 146, 60, 0.2);
+            border-color: #fb923c;
+            color: #fb923c;
+        }
+        
+        .question-btn.marked::after {
+            content: '🚩';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            font-size: 0.8rem;
+        }
+        
+        /* Legend */
+        .nav-legend {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #2a2a2a;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .legend-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            border: 2px solid;
+        }
+        
+        /* Main Content Area */
+        .question-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* Question Header */
+        .question-header {
+            padding: 1.5rem 2rem;
+            background: #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .question-info {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .question-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .question-tags {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .tag.difficulty-easy {
+            background: rgba(67, 233, 123, 0.2);
+            color: #43e97b;
+        }
+        
+        .tag.difficulty-medium {
+            background: rgba(251, 146, 60, 0.2);
+            color: #fb923c;
+        }
+        
+        .tag.difficulty-hard {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .tag.topic {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+        }
+        
+        .question-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
+            background: #0f0f0f;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .action-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .action-btn.active {
+            background: rgba(251, 146, 60, 0.2);
+            border-color: #fb923c;
+            color: #fb923c;
+        }
+        
+        /* Question Body */
+        .question-body {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            background: #0f0f0f;
+        }
+        
+        .question-text {
+            max-width: 900px;
+            margin: 0 auto;
+            color: #fff;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        .question-figure {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .question-figure img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .question-figure-caption {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #888;
+            font-style: italic;
+        }
+        
+        /* Answer Options */
+        .answer-options {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .answer-option {
+            padding: 1.25rem;
+            background: #1a1a1a;
+            border: 2px solid #2a2a2a;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+        }
+        
+        .answer-option:hover {
+            border-color: #667eea;
+            transform: translateX(4px);
+        }
+        
+        .answer-option.selected {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+        }
+        
+        .answer-option.correct {
+            background: rgba(67, 233, 123, 0.1);
+            border-color: #43e97b;
+        }
+        
+        .answer-option.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+        }
+        
+        .answer-label {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #2a2a2a;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .answer-option.selected .answer-label {
+            background: #667eea;
+        }
+        
+        .answer-option.correct .answer-label {
+            background: #43e97b;
+        }
+        
+        .answer-option.incorrect .answer-label {
+            background: #ef4444;
+        }
+        
+        .answer-text {
+            flex: 1;
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        /* Explanation Section */
+        .explanation-section {
+            max-width: 900px;
+            margin: 2rem auto 0;
+            padding: 1.5rem;
+            background: #1a1a1a;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            display: none;
+        }
+        
+        .explanation-section.show {
+            display: block;
+        }
+        
+        .explanation-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .explanation-content {
+            color: #ccc;
+            line-height: 1.8;
+        }
+        
+        .solution-steps {
+            margin-top: 1rem;
+            padding-left: 1.5rem;
+            list-style: none;
+            counter-reset: step;
+        }
+        
+        .solution-steps li {
+            counter-increment: step;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .solution-steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: -1.5rem;
+            width: 24px;
+            height: 24px;
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        /* Navigation Footer */
+        .question-footer {
+            padding: 1.5rem 2rem;
+            background: #1a1a1a;
+            border-top: 1px solid #2a2a2a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
+            background: #0f0f0f;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .submit-btn {
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* Right Sidebar - Tools */
+        .tools-sidebar {
+            width: 320px;
+            background: #1a1a1a;
+            border-left: 1px solid #2a2a2a;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        
+        .tools-sidebar.collapsed {
+            width: 0;
+            overflow: hidden;
+        }
+        
+        .tools-header {
+            padding: 1rem 1.5rem;
+            background: #0f0f0f;
+            border-bottom: 1px solid #2a2a2a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .tools-title {
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .tools-tabs {
+            display: flex;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .tool-tab {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tool-tab:hover {
+            color: #fff;
+        }
+        
+        .tool-tab.active {
+            color: #667eea;
+        }
+        
+        .tool-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #667eea;
+        }
+        
+        .tool-content {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        
+        .tool-pane {
+            display: none;
+        }
+        
+        .tool-pane.active {
+            display: block;
+        }
+        
+        /* Calculator */
+        .calculator {
+            background: #0f0f0f;
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .calc-display {
+            background: #000;
+            color: #43e97b;
+            font-family: 'Monaco', monospace;
+            font-size: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: right;
+            margin-bottom: 1rem;
+            min-height: 50px;
+        }
+        
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .calc-btn {
+            padding: 1rem;
+            background: #2a2a2a;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .calc-btn:hover {
+            background: #3a3a3a;
+        }
+        
+        .calc-btn.operator {
+            background: #667eea;
+        }
+        
+        .calc-btn.operator:hover {
+            background: #764ba2;
+        }
+        
+        /* Notes */
+        .notes-area {
+            background: #0f0f0f;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            padding: 1rem;
+        }
+        
+        .notes-textarea {
+            width: 100%;
+            min-height: 300px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            resize: vertical;
+        }
+        
+        /* Formula Sheet */
+        .formula-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .formula-card {
+            background: #0f0f0f;
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .formula-title {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .formula-content {
+            color: #ccc;
+            font-family: 'Monaco', monospace;
+        }
+        
+        /* Performance Stats Modal */
+        .stats-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .stats-modal.show {
+            display: flex;
+        }
+        
+        .stats-content {
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            background: #1a1a1a;
+            border-radius: 16px;
+            overflow-y: auto;
+        }
+        
+        .stats-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px 16px 0 0;
+        }
+        
+        .stats-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-body {
+            padding: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: #0f0f0f;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .tools-sidebar {
+                position: fixed;
+                right: 0;
+                z-index: 100;
+                height: 100%;
+                transform: translateX(100%);
+            }
+            
+            .tools-sidebar.open {
+                transform: translateX(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .question-nav {
+                position: fixed;
+                left: 0;
+                z-index: 100;
+                height: 100%;
+                transform: translateX(-100%);
+            }
+            
+            .question-nav.open {
+                transform: translateX(0);
+            }
+            
+            .question-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <button class="btn-icon" onclick="toggleQuestionNav()">
+                <i class="fas fa-th"></i>
+            </button>
+            
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <span class="logo-text">E.U.R.E.K.A Q-Bank</span>
+            </a>
+            
+            <div class="nav-actions">
+                <button class="btn-icon" onclick="toggleTools()">
+                    <i class="fas fa-tools"></i>
+                </button>
+                <button class="btn-icon" onclick="showStats()">
+                    <i class="fas fa-chart-bar"></i>
+                </button>
+                <button class="btn-icon" onclick="toggleFullscreen()">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="qbank-container">
+        <!-- Question Navigator -->
+        <aside class="question-nav" id="questionNav">
+            <div class="nav-header">
+                <div class="exam-title">SAT Mathematics Practice</div>
+                <div class="exam-meta">
+                    <span><i class="fas fa-question-circle"></i> 50 Questions</span>
+                    <span><i class="fas fa-clock"></i> 60 min</span>
+                </div>
+            </div>
+            
+            <div class="timer-display">
+                <div class="timer-value" id="timer">45:32</div>
+                <div class="timer-controls">
+                    <button class="timer-btn" onclick="pauseTimer()">
+                        <i class="fas fa-pause"></i>
+                    </button>
+                    <button class="timer-btn" onclick="resetTimer()">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="question-grid">
+                <button class="question-btn current" onclick="goToQuestion(1)">1</button>
+                <button class="question-btn answered" onclick="goToQuestion(2)">2</button>
+                <button class="question-btn answered" onclick="goToQuestion(3)">3</button>
+                <button class="question-btn marked" onclick="goToQuestion(4)">4</button>
+                <button class="question-btn" onclick="goToQuestion(5)">5</button>
+                <button class="question-btn" onclick="goToQuestion(6)">6</button>
+                <button class="question-btn" onclick="goToQuestion(7)">7</button>
+                <button class="question-btn" onclick="goToQuestion(8)">8</button>
+                <button class="question-btn" onclick="goToQuestion(9)">9</button>
+                <button class="question-btn" onclick="goToQuestion(10)">10</button>
+                <!-- More question buttons -->
+            </div>
+            
+            <div class="nav-legend">
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #667eea; border-color: #667eea;"></div>
+                    <span>Current</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: rgba(67, 233, 123, 0.2); border-color: #43e97b;"></div>
+                    <span>Answered</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: rgba(251, 146, 60, 0.2); border-color: #fb923c;"></div>
+                    <span>Marked</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #0f0f0f; border-color: #2a2a2a;"></div>
+                    <span>Not Visited</span>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Question Area -->
+        <main class="question-content">
+            <div class="question-header">
+                <div class="question-info">
+                    <div class="question-number">Question 1 of 50</div>
+                    <div class="question-tags">
+                        <span class="tag difficulty-medium">Medium</span>
+                        <span class="tag topic">Algebra</span>
+                        <span class="tag topic">Linear Equations</span>
+                    </div>
+                </div>
+                <div class="question-actions">
+                    <button class="action-btn" onclick="toggleMark()">
+                        <i class="fas fa-flag"></i> Mark
+                    </button>
+                    <button class="action-btn" onclick="reportIssue()">
+                        <i class="fas fa-exclamation-triangle"></i> Report
+                    </button>
+                </div>
+            </div>
+            
+            <div class="question-body">
+                <div class="question-text">
+                    <p>If <span class="math">3x + 2y = 18</span> and <span class="math">x - y = 1</span>, what is the value of <span class="math">x + y</span>?</p>
+                    
+                    <div class="question-figure">
+                        <canvas id="graphCanvas" width="400" height="300" style="background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 8px;"></canvas>
+                        <div class="question-figure-caption">Graph showing the system of equations</div>
+                    </div>
+                </div>
+                
+                <div class="answer-options">
+                    <div class="answer-option" onclick="selectAnswer(this, 'A')">
+                        <div class="answer-label">A</div>
+                        <div class="answer-text">5</div>
+                    </div>
+                    <div class="answer-option" onclick="selectAnswer(this, 'B')">
+                        <div class="answer-label">B</div>
+                        <div class="answer-text">6</div>
+                    </div>
+                    <div class="answer-option" onclick="selectAnswer(this, 'C')">
+                        <div class="answer-label">C</div>
+                        <div class="answer-text">7</div>
+                    </div>
+                    <div class="answer-option" onclick="selectAnswer(this, 'D')">
+                        <div class="answer-label">D</div>
+                        <div class="answer-text">8</div>
+                    </div>
+                </div>
+                
+                <div class="explanation-section" id="explanation">
+                    <div class="explanation-header">
+                        <i class="fas fa-lightbulb"></i> Solution Explanation
+                    </div>
+                    <div class="explanation-content">
+                        <p>To solve this system of equations, we can use the substitution method:</p>
+                        <ol class="solution-steps">
+                            <li>From the second equation: <span class="math">x = y + 1</span></li>
+                            <li>Substitute into the first equation: <span class="math">3(y + 1) + 2y = 18</span></li>
+                            <li>Simplify: <span class="math">3y + 3 + 2y = 18</span></li>
+                            <li>Combine like terms: <span class="math">5y + 3 = 18</span></li>
+                            <li>Solve for y: <span class="math">y = 3</span></li>
+                            <li>Find x: <span class="math">x = 3 + 1 = 4</span></li>
+                            <li>Therefore: <span class="math">x + y = 4 + 3 = 7</span></li>
+                        </ol>
+                        <p><strong>Answer: C (7)</strong></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question-footer">
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="previousQuestion()" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <button class="nav-btn" onclick="nextQuestion()">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div>
+                    <button class="submit-btn" onclick="checkAnswer()">
+                        Check Answer
+                    </button>
+                    <button class="submit-btn" onclick="submitExam()" style="display: none;">
+                        Submit Exam
+                    </button>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Tools Sidebar -->
+        <aside class="tools-sidebar" id="toolsSidebar">
+            <div class="tools-header">
+                <span class="tools-title">Tools & Resources</span>
+                <button class="btn-icon" onclick="toggleTools()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="tools-tabs">
+                <button class="tool-tab active" onclick="switchTool('calculator')">
+                    <i class="fas fa-calculator"></i> Calculator
+                </button>
+                <button class="tool-tab" onclick="switchTool('notes')">
+                    <i class="fas fa-sticky-note"></i> Notes
+                </button>
+                <button class="tool-tab" onclick="switchTool('formulas')">
+                    <i class="fas fa-superscript"></i> Formulas
+                </button>
+            </div>
+            
+            <div class="tool-content">
+                <!-- Calculator -->
+                <div class="tool-pane active" id="calculator">
+                    <div class="calculator">
+                        <div class="calc-display" id="calcDisplay">0</div>
+                        <div class="calc-buttons">
+                            <button class="calc-btn" onclick="clearCalc()">C</button>
+                            <button class="calc-btn" onclick="appendCalc('(')">(</button>
+                            <button class="calc-btn" onclick="appendCalc(')')">)</button>
+                            <button class="calc-btn operator" onclick="appendCalc('/')">÷</button>
+                            
+                            <button class="calc-btn" onclick="appendCalc('7')">7</button>
+                            <button class="calc-btn" onclick="appendCalc('8')">8</button>
+                            <button class="calc-btn" onclick="appendCalc('9')">9</button>
+                            <button class="calc-btn operator" onclick="appendCalc('*')">×</button>
+                            
+                            <button class="calc-btn" onclick="appendCalc('4')">4</button>
+                            <button class="calc-btn" onclick="appendCalc('5')">5</button>
+                            <button class="calc-btn" onclick="appendCalc('6')">6</button>
+                            <button class="calc-btn operator" onclick="appendCalc('-')">−</button>
+                            
+                            <button class="calc-btn" onclick="appendCalc('1')">1</button>
+                            <button class="calc-btn" onclick="appendCalc('2')">2</button>
+                            <button class="calc-btn" onclick="appendCalc('3')">3</button>
+                            <button class="calc-btn operator" onclick="appendCalc('+')">+</button>
+                            
+                            <button class="calc-btn" onclick="appendCalc('0')">0</button>
+                            <button class="calc-btn" onclick="appendCalc('.')">.</button>
+                            <button class="calc-btn" onclick="deleteCalc()">←</button>
+                            <button class="calc-btn operator" onclick="calculate()">=</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notes -->
+                <div class="tool-pane" id="notes">
+                    <div class="notes-area">
+                        <textarea class="notes-textarea" placeholder="Take notes here..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- Formulas -->
+                <div class="tool-pane" id="formulas">
+                    <div class="formula-list">
+                        <div class="formula-card">
+                            <div class="formula-title">Quadratic Formula</div>
+                            <div class="formula-content">x = (-b ± √(b² - 4ac)) / 2a</div>
+                        </div>
+                        <div class="formula-card">
+                            <div class="formula-title">Distance Formula</div>
+                            <div class="formula-content">d = √((x₂ - x₁)² + (y₂ - y₁)²)</div>
+                        </div>
+                        <div class="formula-card">
+                            <div class="formula-title">Slope Formula</div>
+                            <div class="formula-content">m = (y₂ - y₁) / (x₂ - x₁)</div>
+                        </div>
+                        <div class="formula-card">
+                            <div class="formula-title">Circle Area</div>
+                            <div class="formula-content">A = πr²</div>
+                        </div>
+                        <div class="formula-card">
+                            <div class="formula-title">Pythagorean Theorem</div>
+                            <div class="formula-content">a² + b² = c²</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    
+    <!-- Performance Stats Modal -->
+    <div class="stats-modal" id="statsModal">
+        <div class="stats-content">
+            <div class="stats-header">
+                <h2 class="stats-title">Your Performance</h2>
+                <p>Real-time analytics and progress tracking</p>
+            </div>
+            <div class="stats-body">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">73%</div>
+                        <div class="stat-label">Accuracy Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">42</div>
+                        <div class="stat-label">Questions Attempted</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1:24</div>
+                        <div class="stat-label">Avg. Time per Question</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Questions Marked</div>
+                    </div>
+                </div>
+                
+                <canvas id="performanceChart" width="400" height="200"></canvas>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="closeStats()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script>
+        // Timer functionality
+        let timeRemaining = 45 * 60 + 32; // 45:32 in seconds
+        let timerInterval;
+        let isPaused = false;
+        
+        function updateTimer() {
+            if (!isPaused && timeRemaining > 0) {
+                timeRemaining--;
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                document.getElementById('timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+        
+        function pauseTimer() {
+            isPaused = !isPaused;
+            event.target.innerHTML = isPaused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
+        }
+        
+        function resetTimer() {
+            timeRemaining = 60 * 60; // Reset to 60 minutes
+            updateTimer();
+        }
+        
+        // Start timer
+        timerInterval = setInterval(updateTimer, 1000);
+        
+        // Question navigation
+        let currentQuestion = 1;
+        let answers = {};
+        let markedQuestions = new Set();
+        
+        function goToQuestion(num) {
+            currentQuestion = num;
+            // Update UI
+            document.querySelectorAll('.question-btn').forEach(btn => {
+                btn.classList.remove('current');
+            });
+            event.target.classList.add('current');
+            
+            // Load question content (would fetch from backend)
+            loadQuestion(num);
+        }
+        
+        function loadQuestion(num) {
+            // This would load question from backend
+            console.log('Loading question', num);
+        }
+        
+        function selectAnswer(element, choice) {
+            // Clear previous selection
+            document.querySelectorAll('.answer-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Mark selected
+            element.classList.add('selected');
+            answers[currentQuestion] = choice;
+            
+            // Update question button
+            const questionBtn = document.querySelector(`.question-btn:nth-child(${currentQuestion})`);
+            questionBtn.classList.add('answered');
+        }
+        
+        function checkAnswer() {
+            // Show explanation
+            document.getElementById('explanation').classList.add('show');
+            
+            // Mark correct/incorrect
+            const correctAnswer = 'C'; // This would come from backend
+            document.querySelectorAll('.answer-option').forEach(opt => {
+                const label = opt.querySelector('.answer-label').textContent;
+                if (label === correctAnswer) {
+                    opt.classList.add('correct');
+                } else if (opt.classList.contains('selected')) {
+                    opt.classList.add('incorrect');
+                }
+            });
+        }
+        
+        function toggleMark() {
+            const btn = event.target;
+            const questionBtn = document.querySelector(`.question-btn:nth-child(${currentQuestion})`);
+            
+            if (markedQuestions.has(currentQuestion)) {
+                markedQuestions.delete(currentQuestion);
+                questionBtn.classList.remove('marked');
+                btn.classList.remove('active');
+            } else {
+                markedQuestions.add(currentQuestion);
+                questionBtn.classList.add('marked');
+                btn.classList.add('active');
+            }
+        }
+        
+        function previousQuestion() {
+            if (currentQuestion > 1) {
+                goToQuestion(currentQuestion - 1);
+            }
+        }
+        
+        function nextQuestion() {
+            if (currentQuestion < 50) {
+                goToQuestion(currentQuestion + 1);
+            }
+        }
+        
+        // Tools functionality
+        function toggleQuestionNav() {
+            document.getElementById('questionNav').classList.toggle('open');
+        }
+        
+        function toggleTools() {
+            document.getElementById('toolsSidebar').classList.toggle('collapsed');
+        }
+        
+        function switchTool(tool) {
+            // Update tabs
+            document.querySelectorAll('.tool-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.tool-pane').forEach(pane => {
+                pane.classList.remove('active');
+            });
+            document.getElementById(tool).classList.add('active');
+        }
+        
+        // Calculator
+        let calcDisplay = '0';
+        
+        function updateCalcDisplay() {
+            document.getElementById('calcDisplay').textContent = calcDisplay;
+        }
+        
+        function clearCalc() {
+            calcDisplay = '0';
+            updateCalcDisplay();
+        }
+        
+        function appendCalc(value) {
+            if (calcDisplay === '0') {
+                calcDisplay = value;
+            } else {
+                calcDisplay += value;
+            }
+            updateCalcDisplay();
+        }
+        
+        function deleteCalc() {
+            if (calcDisplay.length > 1) {
+                calcDisplay = calcDisplay.slice(0, -1);
+            } else {
+                calcDisplay = '0';
+            }
+            updateCalcDisplay();
+        }
+        
+        function calculate() {
+            try {
+                calcDisplay = eval(calcDisplay).toString();
+            } catch (e) {
+                calcDisplay = 'Error';
+            }
+            updateCalcDisplay();
+        }
+        
+        // Stats
+        function showStats() {
+            document.getElementById('statsModal').classList.add('show');
+            drawPerformanceChart();
+        }
+        
+        function closeStats() {
+            document.getElementById('statsModal').classList.remove('show');
+        }
+        
+        function drawPerformanceChart() {
+            const canvas = document.getElementById('performanceChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Simple bar chart
+            ctx.fillStyle = '#667eea';
+            ctx.fillRect(50, 100, 60, 100);
+            ctx.fillRect(130, 80, 60, 120);
+            ctx.fillRect(210, 120, 60, 80);
+            ctx.fillRect(290, 60, 60, 140);
+            
+            // Labels
+            ctx.fillStyle = '#888';
+            ctx.font = '12px sans-serif';
+            ctx.fillText('Easy', 65, 220);
+            ctx.fillText('Medium', 135, 220);
+            ctx.fillText('Hard', 220, 220);
+            ctx.fillText('Expert', 295, 220);
+        }
+        
+        // Draw graph on canvas
+        function drawGraph() {
+            const canvas = document.getElementById('graphCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw axes
+            ctx.strokeStyle = '#2a2a2a';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(40, 260);
+            ctx.lineTo(360, 260);
+            ctx.moveTo(40, 40);
+            ctx.lineTo(40, 260);
+            ctx.stroke();
+            
+            // Draw grid
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 1;
+            for (let i = 80; i < 360; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(i, 40);
+                ctx.lineTo(i, 260);
+                ctx.stroke();
+            }
+            for (let i = 80; i < 260; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(40, i);
+                ctx.lineTo(360, i);
+                ctx.stroke();
+            }
+            
+            // Draw lines for equations
+            ctx.strokeStyle = '#667eea';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(40, 220);
+            ctx.lineTo(360, 100);
+            ctx.stroke();
+            
+            ctx.strokeStyle = '#43e97b';
+            ctx.beginPath();
+            ctx.moveTo(40, 180);
+            ctx.lineTo(360, 140);
+            ctx.stroke();
+            
+            // Draw intersection point
+            ctx.fillStyle = '#fb923c';
+            ctx.beginPath();
+            ctx.arc(200, 150, 5, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+        
+        // Initialize graph
+        drawGraph();
+        
+        // Render math with KaTeX
+        document.querySelectorAll('.math').forEach(elem => {
+            katex.render(elem.textContent, elem, {
+                throwOnError: false
+            });
+        });
+        
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        function reportIssue() {
+            alert('Issue reported. Thank you for your feedback!');
+        }
+        
+        function submitExam() {
+            if (confirm('Are you sure you want to submit the exam?')) {
+                // Submit to backend
+                console.log('Submitting exam...');
+            }
+        }
+    </script>
+</body>
+</html>
