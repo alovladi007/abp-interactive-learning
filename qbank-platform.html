@@ -774,10 +774,10 @@
         <!-- Question Navigator -->
         <aside class="question-nav" id="questionNav">
             <div class="nav-header">
-                <div class="exam-title">SAT Mathematics Practice</div>
+                <div class="exam-title" id="examTitle">Loading Exam...</div>
                 <div class="exam-meta">
-                    <span><i class="fas fa-question-circle"></i> 50 Questions</span>
-                    <span><i class="fas fa-clock"></i> 60 min</span>
+                    <span><i class="fas fa-question-circle"></i> <span id="questionCount">--</span> Questions</span>
+                    <span><i class="fas fa-clock"></i> <span id="examDuration">--</span> min</span>
                 </div>
             </div>
             
@@ -1046,8 +1046,140 @@
     
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script>
+        // Exam data mapping
+        const examData = {
+            'sat': {
+                title: 'SAT Mathematics Practice',
+                questions: 58,
+                duration: 80,
+                sections: ['Algebra', 'Problem Solving', 'Data Analysis', 'Advanced Math'],
+                difficulty: 'Medium'
+            },
+            'act': {
+                title: 'ACT Mathematics Practice',
+                questions: 60,
+                duration: 60,
+                sections: ['Pre-Algebra', 'Algebra', 'Geometry', 'Trigonometry'],
+                difficulty: 'Medium'
+            },
+            'gre': {
+                title: 'GRE Quantitative Practice',
+                questions: 40,
+                duration: 70,
+                sections: ['Arithmetic', 'Algebra', 'Geometry', 'Data Analysis'],
+                difficulty: 'Hard'
+            },
+            'gmat': {
+                title: 'GMAT Quantitative Practice',
+                questions: 31,
+                duration: 62,
+                sections: ['Problem Solving', 'Data Sufficiency'],
+                difficulty: 'Hard'
+            },
+            'mcat': {
+                title: 'MCAT Science Practice',
+                questions: 59,
+                duration: 95,
+                sections: ['Biology', 'Chemistry', 'Physics', 'Psychology'],
+                difficulty: 'Expert'
+            },
+            'lsat': {
+                title: 'LSAT Logical Reasoning',
+                questions: 50,
+                duration: 70,
+                sections: ['Logical Reasoning', 'Logic Games', 'Reading Comp'],
+                difficulty: 'Hard'
+            },
+            'dat': {
+                title: 'DAT Perceptual Ability',
+                questions: 90,
+                duration: 60,
+                sections: ['Keyholes', 'View Recognition', 'Angle Ranking', 'Paper Folding'],
+                difficulty: 'Hard'
+            },
+            'pcat': {
+                title: 'PCAT Quantitative Practice',
+                questions: 48,
+                duration: 45,
+                sections: ['Basic Math', 'Algebra', 'Statistics', 'Pre-Calculus'],
+                difficulty: 'Medium'
+            },
+            'cfa': {
+                title: 'CFA Level I Practice',
+                questions: 180,
+                duration: 270,
+                sections: ['Ethics', 'Quantitative', 'Economics', 'Financial Reporting'],
+                difficulty: 'Expert'
+            },
+            'default': {
+                title: 'Practice Questions',
+                questions: 50,
+                duration: 60,
+                sections: ['Section 1', 'Section 2', 'Section 3'],
+                difficulty: 'Medium'
+            }
+        };
+
+        // Get exam from URL parameter
+        function getExamFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const course = urlParams.get('course');
+            return course ? course.toLowerCase() : 'default';
+        }
+
+        // Load exam information
+        function loadExamInfo() {
+            const examId = getExamFromURL();
+            const exam = examData[examId] || examData['default'];
+            
+            // Update exam header
+            document.getElementById('examTitle').textContent = exam.title;
+            document.getElementById('questionCount').textContent = exam.questions;
+            document.getElementById('examDuration').textContent = exam.duration;
+            
+            // Update page title
+            document.title = `${exam.title} - E.U.R.E.K.A Q-Bank`;
+            
+            // Set timer
+            timeRemaining = exam.duration * 60;
+            updateTimer();
+            
+            // Update question grid
+            updateQuestionGrid(exam.questions);
+        }
+
+        // Update question grid
+        function updateQuestionGrid(count) {
+            const grid = document.querySelector('.question-grid');
+            grid.innerHTML = '';
+            
+            for (let i = 1; i <= Math.min(count, 50); i++) {
+                const btn = document.createElement('button');
+                btn.className = 'question-btn';
+                if (i === 1) btn.classList.add('current');
+                if (i === 2 || i === 3) btn.classList.add('answered');
+                if (i === 4) btn.classList.add('marked');
+                btn.textContent = i;
+                btn.onclick = () => goToQuestion(i);
+                grid.appendChild(btn);
+            }
+            
+            // Add "..." if more than 50 questions
+            if (count > 50) {
+                const more = document.createElement('div');
+                more.style.cssText = 'grid-column: span 5; text-align: center; color: #888; padding: 1rem;';
+                more.textContent = `... and ${count - 50} more questions`;
+                grid.appendChild(more);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadExamInfo();
+        });
+
         // Timer functionality
-        let timeRemaining = 45 * 60 + 32; // 45:32 in seconds
+        let timeRemaining = 60 * 60; // Default 60 minutes
         let timerInterval;
         let isPaused = false;
         
