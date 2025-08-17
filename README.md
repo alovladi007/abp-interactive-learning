@@ -1,4 +1,4 @@
-# E.U.R.E.K.A - Enhanced Understanding via Research, Education, Knowledge & Analytics
+# E.U.R.E.K.A - Empowering Universal Research, Education, Knowledge & Achievement
 
 Explore Ideas. Master Knowledge. Drive Innovation.
 
