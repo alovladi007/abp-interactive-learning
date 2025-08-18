@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: qbank-postgres
+    environment:
+      POSTGRES_DB: qbank
+      POSTGRES_USER: qbank_user
+      POSTGRES_PASSWORD: qbank_secure_pass_2024
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - qbank-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U qbank_user -d qbank"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: qbank-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - qbank-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: qbank-backend
+    environment:
+      DATABASE_URL: postgresql://qbank_user:qbank_secure_pass_2024@postgres:5432/qbank
+      REDIS_URL: redis://redis:6379
+      SECRET_KEY: qbank-secret-key-2024-secure
+      IRT_MODEL: 3PL
+      EXPOSURE_RATE_MAX: 0.25
+      MIN_RESPONSES_FOR_CALIBRATION: 30
+      PYTHONUNBUFFERED: 1
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - qbank-network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  nginx:
+    image: nginx:alpine
+    container_name: qbank-nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./frontend:/usr/share/nginx/html:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+    networks:
+      - qbank-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  qbank-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

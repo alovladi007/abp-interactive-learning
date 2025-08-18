@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QBank Analytics Dashboard - IRT Adaptive Testing</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .stat-label {
+            color: #888;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .stat-change {
+            font-size: 0.9rem;
+            color: #4caf50;
+        }
+        
+        .stat-change.negative {
+            color: #f44336;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .chart-card h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        
+        .full-width-chart {
+            grid-column: 1 / -1;
+        }
+        
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+        
+        .table-card h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: #f5f5f5;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .filter-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .filter-group label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+        }
+        
+        .filter-group select,
+        .filter-group input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .irt-curve {
+            height: 400px;
+        }
+        
+        .info-tooltip {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 12px;
+            cursor: help;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>QBank Analytics Dashboard</h1>
+            <p>IRT Adaptive Testing System with Sympson-Hetter Exposure Control</p>
+        </div>
+        
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label>Date Range</label>
+                <input type="date" id="dateFrom" value="2024-01-01">
+            </div>
+            <div class="filter-group">
+                <label>To</label>
+                <input type="date" id="dateTo" value="2024-12-31">
+            </div>
+            <div class="filter-group">
+                <label>Subject</label>
+                <select id="subjectFilter">
+                    <option value="all">All Subjects</option>
+                    <option value="mathematics">Mathematics</option>
+                    <option value="science">Science</option>
+                    <option value="english">English</option>
+                    <option value="history">History</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Test Type</label>
+                <select id="testTypeFilter">
+                    <option value="all">All Types</option>
+                    <option value="sat">SAT</option>
+                    <option value="act">ACT</option>
+                    <option value="gre">GRE</option>
+                    <option value="gmat">GMAT</option>
+                </select>
+            </div>
+            <button class="btn" onclick="applyFilters()">Apply Filters</button>
+        </div>
+        
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Questions</div>
+                <div class="stat-value">5,247</div>
+                <div class="stat-change">+127 this month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Active Sessions</div>
+                <div class="stat-value">342</div>
+                <div class="stat-change">+15% from yesterday</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg Ability Estimate</div>
+                <div class="stat-value">0.42</div>
+                <div class="stat-change">θ ± 0.31 SE</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Calibration Quality</div>
+                <div class="stat-value">94.3%</div>
+                <div class="stat-change">Excellent</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Exposure Rate</div>
+                <div class="stat-value">18.2%</div>
+                <div class="stat-change">Within limits</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Response Time</div>
+                <div class="stat-value">62.4s</div>
+                <div class="stat-change negative">+5s from avg</div>
+            </div>
+        </div>
+        
+        <!-- Charts -->
+        <div class="charts-grid">
+            <!-- IRT Characteristic Curves -->
+            <div class="chart-card full-width-chart">
+                <h3>Item Characteristic Curves (3PL Model) <span class="info-tooltip" title="Shows probability of correct response vs ability">?</span></h3>
+                <div id="irtCurves" class="irt-curve"></div>
+            </div>
+            
+            <!-- Ability Distribution -->
+            <div class="chart-card">
+                <h3>Ability Distribution (θ)</h3>
+                <div class="chart-container">
+                    <canvas id="abilityChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Test Information Function -->
+            <div class="chart-card">
+                <h3>Test Information Function</h3>
+                <div class="chart-container">
+                    <canvas id="informationChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Exposure Rates -->
+            <div class="chart-card">
+                <h3>Item Exposure Rates</h3>
+                <div class="chart-container">
+                    <canvas id="exposureChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Performance by Topic -->
+            <div class="chart-card">
+                <h3>Performance by Topic</h3>
+                <div class="chart-container">
+                    <canvas id="topicChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Item Analysis Table -->
+        <div class="table-card">
+            <h3>Item Analysis Report</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Subject</th>
+                        <th>Discrimination (a)</th>
+                        <th>Difficulty (b)</th>
+                        <th>Guessing (c)</th>
+                        <th>Exposure Rate</th>
+                        <th>Infit</th>
+                        <th>Outfit</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#1247</td>
+                        <td>Mathematics</td>
+                        <td>1.42</td>
+                        <td>0.23</td>
+                        <td>0.22</td>
+                        <td>15.3%</td>
+                        <td>0.98</td>
+                        <td>1.02</td>
+                        <td><span class="badge badge-success">Good</span></td>
+                    </tr>
+                    <tr>
+                        <td>#1248</td>
+                        <td>Science</td>
+                        <td>0.87</td>
+                        <td>-0.54</td>
+                        <td>0.25</td>
+                        <td>22.1%</td>
+                        <td>1.12</td>
+                        <td>1.08</td>
+                        <td><span class="badge badge-success">Good</span></td>
+                    </tr>
+                    <tr>
+                        <td>#1249</td>
+                        <td>English</td>
+                        <td>0.45</td>
+                        <td>1.82</td>
+                        <td>0.18</td>
+                        <td>8.7%</td>
+                        <td>1.35</td>
+                        <td>1.42</td>
+                        <td><span class="badge badge-warning">Review</span></td>
+                    </tr>
+                    <tr>
+                        <td>#1250</td>
+                        <td>Mathematics</td>
+                        <td>2.13</td>
+                        <td>-1.23</td>
+                        <td>0.20</td>
+                        <td>26.4%</td>
+                        <td>0.92</td>
+                        <td>0.95</td>
+                        <td><span class="badge badge-danger">Overexposed</span></td>
+                    </tr>
+                    <tr>
+                        <td>#1251</td>
+                        <td>History</td>
+                        <td>1.67</td>
+                        <td>0.45</td>
+                        <td>0.24</td>
+                        <td>19.2%</td>
+                        <td>1.05</td>
+                        <td>0.98</td>
+                        <td><span class="badge badge-success">Good</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Calibration Status -->
+        <div class="table-card" style="margin-top: 30px;">
+            <h3>Recent Calibration Runs</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Run ID</th>
+                        <th>Date</th>
+                        <th>Method</th>
+                        <th>Items Calibrated</th>
+                        <th>Convergence</th>
+                        <th>Log-Likelihood</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CAL-2024-0815</td>
+                        <td>2024-08-15 14:30</td>
+                        <td>MMLE</td>
+                        <td>342</td>
+                        <td>12 iterations</td>
+                        <td>-4821.34</td>
+                        <td><span class="badge badge-success">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>CAL-2024-0814</td>
+                        <td>2024-08-14 14:30</td>
+                        <td>MMLE</td>
+                        <td>338</td>
+                        <td>15 iterations</td>
+                        <td>-4756.92</td>
+                        <td><span class="badge badge-success">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>CAL-2024-0813</td>
+                        <td>2024-08-13 14:30</td>
+                        <td>Bayesian</td>
+                        <td>345</td>
+                        <td>8 iterations</td>
+                        <td>-4892.11</td>
+                        <td><span class="badge badge-success">Completed</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        // Generate IRT Characteristic Curves
+        function generateIRTCurves() {
+            const theta = [];
+            for (let i = -4; i <= 4; i += 0.1) {
+                theta.push(i);
+            }
+            
+            // Sample items with different parameters
+            const items = [
+                {name: 'Easy Item', a: 1.2, b: -1.5, c: 0.25, color: 'rgb(75, 192, 192)'},
+                {name: 'Medium Item', a: 1.5, b: 0.0, c: 0.20, color: 'rgb(54, 162, 235)'},
+                {name: 'Hard Item', a: 1.8, b: 1.5, c: 0.18, color: 'rgb(255, 99, 132)'},
+                {name: 'Very Discriminating', a: 2.5, b: 0.5, c: 0.15, color: 'rgb(153, 102, 255)'}
+            ];
+            
+            const traces = items.map(item => {
+                const probabilities = theta.map(t => {
+                    // 3PL model: P(θ) = c + (1-c) / (1 + exp(-D*a*(θ-b)))
+                    const D = 1.702;
+                    return item.c + (1 - item.c) / (1 + Math.exp(-D * item.a * (t - item.b)));
+                });
+                
+                return {
+                    x: theta,
+                    y: probabilities,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: `${item.name} (a=${item.a}, b=${item.b}, c=${item.c})`,
+                    line: {color: item.color, width: 2}
+                };
+            });
+            
+            const layout = {
+                title: 'Item Response Theory - 3 Parameter Logistic Model',
+                xaxis: {title: 'Ability (θ)', range: [-4, 4]},
+                yaxis: {title: 'Probability of Correct Response', range: [0, 1]},
+                hovermode: 'x unified',
+                showlegend: true
+            };
+            
+            Plotly.newPlot('irtCurves', traces, layout);
+        }
+        
+        // Ability Distribution Chart
+        function createAbilityChart() {
+            const ctx = document.getElementById('abilityChart').getContext('2d');
+            
+            // Generate normal distribution data
+            const labels = [];
+            const data = [];
+            for (let i = -3; i <= 3; i += 0.5) {
+                labels.push(i.toFixed(1));
+                // Normal distribution
+                data.push(Math.exp(-0.5 * i * i) / Math.sqrt(2 * Math.PI) * 100);
+            }
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Student Ability Distribution',
+                        data: data,
+                        backgroundColor: 'rgba(102, 126, 234, 0.6)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Frequency'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Ability (θ)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Test Information Function
+        function createInformationChart() {
+            const ctx = document.getElementById('informationChart').getContext('2d');
+            
+            const labels = [];
+            const data = [];
+            for (let theta = -3; theta <= 3; theta += 0.5) {
+                labels.push(theta.toFixed(1));
+                // Simulated information function
+                data.push(2 + 3 * Math.exp(-0.5 * theta * theta));
+            }
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Test Information',
+                        data: data,
+                        borderColor: 'rgba(118, 75, 162, 1)',
+                        backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Information'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Ability (θ)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Exposure Rates Chart
+        function createExposureChart() {
+            const ctx = document.getElementById('exposureChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['0-10%', '10-15%', '15-20%', '20-25%', '>25%'],
+                    datasets: [{
+                        data: [45, 120, 180, 150, 5],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 206, 86, 0.8)',
+                            'rgba(255, 159, 64, 0.8)',
+                            'rgba(255, 99, 132, 0.8)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Item Exposure Distribution'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Performance by Topic
+        function createTopicChart() {
+            const ctx = document.getElementById('topicChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Algebra', 'Geometry', 'Calculus', 'Statistics', 'Physics', 'Chemistry'],
+                    datasets: [{
+                        label: 'Average Performance',
+                        data: [75, 82, 68, 71, 79, 85],
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                        pointBackgroundColor: 'rgba(102, 126, 234, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(102, 126, 234, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Apply Filters
+        function applyFilters() {
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            const subject = document.getElementById('subjectFilter').value;
+            const testType = document.getElementById('testTypeFilter').value;
+            
+            console.log('Applying filters:', {dateFrom, dateTo, subject, testType});
+            // In production, this would fetch filtered data from the API
+            alert('Filters applied! (In production, this would refresh the data)');
+        }
+        
+        // Initialize all charts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            generateIRTCurves();
+            createAbilityChart();
+            createInformationChart();
+            createExposureChart();
+            createTopicChart();
+        });
+        
+        // Auto-refresh every 30 seconds (optional)
+        setInterval(() => {
+            console.log('Refreshing dashboard data...');
+            // In production, fetch updated data from API
+        }, 30000);
+    </script>
+</body>
+</html>
