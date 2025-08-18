@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QBank Platform - E.U.R.E.K.A</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .qbank-hub {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+        }
+        
+        .hub-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #0f0f0f;
+            border-radius: 20px;
+            padding: 3rem;
+            color: #e0e0e0;
+        }
+        
+        .hub-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .hub-header h1 {
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        
+        .hub-header p {
+            color: #888;
+            font-size: 1.2rem;
+        }
+        
+        .systems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .system-card {
+            background: #1a1a1a;
+            border: 2px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .system-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .system-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .system-card p {
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-list li {
+            padding: 0.5rem 0;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-list li i {
+            color: #4caf50;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #4caf50;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+        }
+        
+        .badge.new {
+            background: #ff6b6b;
+        }
+        
+        .resources-section {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #2a2a2a;
+        }
+        
+        .resources-section h3 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+        
+        .resource-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-secondary {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+        }
+        
+        .btn-secondary:hover {
+            background: #3a3a3a;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <span class="logo-text">E.U.R.E.K.A</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="prep-courses.html" class="nav-link">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back to Courses</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="qbank-hub">
+        <div class="hub-container">
+            <div class="hub-header">
+                <h1>🎓 QBank Platform Hub</h1>
+                <p>Choose your QBank system and start practicing</p>
+            </div>
+            
+            <div class="systems-grid">
+                <!-- Standard QBank -->
+                <div class="system-card" onclick="launchStandard()">
+                    <h3>Standard QBank <span class="badge">Active</span></h3>
+                    <p>Traditional question bank with comprehensive practice</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> 5,000+ practice questions</li>
+                        <li><i class="fas fa-check"></i> Multiple choice format</li>
+                        <li><i class="fas fa-check"></i> Topic-based organization</li>
+                        <li><i class="fas fa-check"></i> Timed practice sessions</li>
+                        <li><i class="fas fa-check"></i> Basic performance tracking</li>
+                    </ul>
+                    <button class="btn">Launch Standard QBank</button>
+                </div>
+                
+                <!-- Advanced QBank v10 -->
+                <div class="system-card" onclick="launchAdvanced()">
+                    <h3>QBank v10 Advanced <span class="badge new">New</span></h3>
+                    <p>Enterprise-grade adaptive testing with IRT</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> IRT 3PL adaptive engine</li>
+                        <li><i class="fas fa-check"></i> Sympson-Hetter exposure control</li>
+                        <li><i class="fas fa-check"></i> Real-time calibration</li>
+                        <li><i class="fas fa-check"></i> Advanced psychometric analysis</li>
+                        <li><i class="fas fa-check"></i> Multi-tenant architecture</li>
+                    </ul>
+                    <button class="btn">Launch Advanced QBank</button>
+                </div>
+            </div>
+            
+            <div class="resources-section">
+                <h3>📚 Available Resources</h3>
+                <div class="resource-buttons">
+                    <a href="https://github.com/alovladi007/abp-interactive-learning/tree/main/qbank" target="_blank" class="btn btn-secondary" style="width: auto; padding: 0.75rem 1.5rem;">
+                        <i class="fab fa-github"></i> View QBank Code
+                    </a>
+                    <a href="https://github.com/alovladi007/abp-interactive-learning/tree/main/qbank-v10" target="_blank" class="btn btn-secondary" style="width: auto; padding: 0.75rem 1.5rem;">
+                        <i class="fab fa-github"></i> View QBank v10 Code
+                    </a>
+                    <a href="qbank-advanced.html" class="btn btn-secondary" style="width: auto; padding: 0.75rem 1.5rem;">
+                        <i class="fas fa-info-circle"></i> System Overview
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseId = urlParams.get('course') || 'sat';
+        
+        function launchStandard() {
+            // Launch the standard QBank platform
+            window.location.href = `qbank-platform.html?course=${courseId}`;
+        }
+        
+        function launchAdvanced() {
+            // Launch the advanced QBank v10 platform
+            window.location.href = `qbank-v10/frontend/qbank-platform-v10.html?course=${courseId}`;
+        }
+    </script>
+</body>
+</html>
