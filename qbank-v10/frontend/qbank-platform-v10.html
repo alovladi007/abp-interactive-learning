@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QBank v10 - Advanced Adaptive Testing Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            overflow: hidden;
+        }
+        
+        /* Header */
+        .header {
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: white;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Main Container */
+        .qbank-container {
+            display: flex;
+            height: calc(100vh - 60px);
+            background: #0f0f0f;
+        }
+        
+        /* Left Sidebar */
+        .sidebar {
+            width: 320px;
+            background: #1a1a1a;
+            border-right: 1px solid #2a2a2a;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .exam-info {
+            padding: 1.5rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .exam-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .exam-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: #888;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .meta-value {
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+        
+        /* Timer Section */
+        .timer-section {
+            padding: 1rem 1.5rem;
+            background: #0f0f0f;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .timer-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timer-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            font-family: 'SF Mono', 'Monaco', monospace;
+        }
+        
+        .timer-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .timer-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #2a2a2a;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .timer-btn:hover {
+            color: #667eea;
+            background: #3a3a3a;
+        }
+        
+        .timer-progress {
+            height: 4px;
+            background: #2a2a2a;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .timer-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 1s linear;
+        }
+        
+        /* Question Navigator */
+        .question-nav {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        .nav-title {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+        
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .question-btn {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            border: 2px solid #2a2a2a;
+            background: #0f0f0f;
+            color: #888;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .question-btn:hover {
+            transform: scale(1.05);
+            border-color: #667eea;
+        }
+        
+        .question-btn.current {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .question-btn.answered {
+            background: #2a2a2a;
+            color: #e0e0e0;
+            border-color: #3a3a3a;
+        }
+        
+        .question-btn.flagged::after {
+            content: '🚩';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.7rem;
+        }
+        
+        /* Legend */
+        .nav-legend {
+            padding: 1rem;
+            border-top: 1px solid #2a2a2a;
+        }
+        
+        .legend-items {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #888;
+        }
+        
+        .legend-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid #2a2a2a;
+        }
+        
+        /* Main Content Area */
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Question Display */
+        .question-display {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .question-number {
+            font-size: 1.2rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .question-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #3a3a3a;
+            background: transparent;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .action-btn:hover {
+            color: #667eea;
+            border-color: #667eea;
+        }
+        
+        .action-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        /* Question Content */
+        .question-content {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .question-stem {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin-bottom: 2rem;
+        }
+        
+        .question-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .option {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border: 2px solid #2a2a2a;
+            background: #0f0f0f;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
+        }
+        
+        .option-label {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #888;
+        }
+        
+        .option.selected .option-label {
+            background: #667eea;
+            color: white;
+        }
+        
+        .option-text {
+            flex: 1;
+            color: #e0e0e0;
+        }
+        
+        /* Navigation Controls */
+        .nav-controls {
+            padding: 1.5rem 2rem;
+            background: #1a1a1a;
+            border-top: 1px solid #2a2a2a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .nav-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .nav-btn.secondary {
+            background: #2a2a2a;
+            color: #e0e0e0;
+        }
+        
+        .nav-btn.secondary:hover {
+            background: #3a3a3a;
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Right Panel - Analytics */
+        .analytics-panel {
+            width: 320px;
+            background: #1a1a1a;
+            border-left: 1px solid #2a2a2a;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        
+        .panel-section {
+            margin-bottom: 2rem;
+        }
+        
+        .panel-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e0e0e0;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .ability-display {
+            background: #0f0f0f;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .ability-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ability-label {
+            font-size: 0.85rem;
+            color: #888;
+        }
+        
+        .ability-chart {
+            margin-top: 1rem;
+            height: 150px;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .stat-card {
+            background: #0f0f0f;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e0e0e0;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+        }
+        
+        /* Loading State */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid #2a2a2a;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .analytics-panel {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .content-area {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-title">
+            <i class="fas fa-brain"></i> QBank v10 - Adaptive Testing
+        </div>
+        <div class="header-user">
+            <span id="userName">Student</span>
+            <div class="user-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="qbank-container">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <!-- Exam Info -->
+            <div class="exam-info">
+                <div class="exam-title" id="examTitle">SAT Mathematics</div>
+                <div class="exam-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-book"></i>
+                        <span class="meta-value" id="totalQuestions">30</span> Questions
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span class="meta-value" id="timeLimit">60</span> Minutes
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="meta-value">Adaptive</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-bullseye"></i>
+                        <span class="meta-value">IRT 3PL</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Timer Section -->
+            <div class="timer-section">
+                <div class="timer-display">
+                    <div class="timer-value" id="timerDisplay">00:00:00</div>
+                    <div class="timer-controls">
+                        <button class="timer-btn" id="pauseBtn">
+                            <i class="fas fa-pause"></i>
+                        </button>
+                        <button class="timer-btn" id="playBtn" style="display:none;">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="timer-progress">
+                    <div class="timer-progress-bar" id="timerProgress" style="width: 100%;"></div>
+                </div>
+            </div>
+            
+            <!-- Question Navigator -->
+            <div class="question-nav">
+                <div class="nav-title">Question Navigator</div>
+                <div class="question-grid" id="questionGrid">
+                    <!-- Question buttons will be generated here -->
+                </div>
+            </div>
+            
+            <!-- Legend -->
+            <div class="nav-legend">
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <div class="legend-indicator" style="background: #667eea;"></div>
+                        <span>Current</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-indicator" style="background: #2a2a2a;"></div>
+                        <span>Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-indicator"></div>
+                        <span>Not Visited</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-indicator">🚩</div>
+                        <span>Flagged</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="content-area">
+            <!-- Question Display -->
+            <div class="question-display" id="questionDisplay">
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+            
+            <!-- Navigation Controls -->
+            <div class="nav-controls">
+                <button class="nav-btn secondary" id="prevBtn" disabled>
+                    <i class="fas fa-chevron-left"></i>
+                    Previous
+                </button>
+                
+                <div style="display: flex; gap: 1rem;">
+                    <button class="nav-btn secondary" id="flagBtn">
+                        <i class="fas fa-flag"></i>
+                        Flag
+                    </button>
+                    <button class="nav-btn secondary" id="clearBtn">
+                        <i class="fas fa-eraser"></i>
+                        Clear
+                    </button>
+                </div>
+                
+                <button class="nav-btn primary" id="nextBtn">
+                    Next
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Right Panel - Analytics -->
+        <div class="analytics-panel">
+            <!-- Ability Estimate -->
+            <div class="panel-section">
+                <div class="panel-title">
+                    <i class="fas fa-brain"></i>
+                    Ability Estimate (θ)
+                </div>
+                <div class="ability-display">
+                    <div class="ability-value" id="abilityValue">0.00</div>
+                    <div class="ability-label">Standard Error: ±<span id="seValue">1.00</span></div>
+                    <canvas id="abilityChart" class="ability-chart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Performance Stats -->
+            <div class="panel-section">
+                <div class="panel-title">
+                    <i class="fas fa-chart-bar"></i>
+                    Performance
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="correctCount">0</div>
+                        <div class="stat-label">Correct</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="attemptedCount">0</div>
+                        <div class="stat-label">Attempted</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="accuracyValue">0%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="avgTimeValue">0s</div>
+                        <div class="stat-label">Avg Time</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Difficulty Progression -->
+            <div class="panel-section">
+                <div class="panel-title">
+                    <i class="fas fa-signal"></i>
+                    Difficulty Progression
+                </div>
+                <canvas id="difficultyChart" style="height: 150px;"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // QBank v10 Client
+        class QBankClient {
+            constructor() {
+                this.apiUrl = 'http://localhost:8000/v1';
+                this.sessionId = null;
+                this.currentQuestion = null;
+                this.questions = [];
+                this.responses = {};
+                this.currentIndex = 0;
+                this.timer = null;
+                this.timeElapsed = 0;
+                this.ability = { theta: 0, se: 1 };
+                this.stats = {
+                    correct: 0,
+                    attempted: 0,
+                    totalTime: 0
+                };
+                
+                this.init();
+            }
+            
+            async init() {
+                // Get exam parameters from URL
+                const params = new URLSearchParams(window.location.search);
+                const examCode = params.get('course') || 'SAT-MATH';
+                
+                // Start quiz session
+                await this.startSession(examCode);
+                
+                // Initialize UI
+                this.initializeUI();
+                
+                // Load first question
+                await this.loadNextQuestion();
+                
+                // Start timer
+                this.startTimer();
+            }
+            
+            async startSession(examCode) {
+                try {
+                    const response = await fetch(`${this.apiUrl}/quizzes`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            tenant_id: '00000000-0000-0000-0000-000000000001',
+                            filters: {
+                                exam_code: examCode,
+                                num_questions: 30,
+                                mode: 'exam',
+                                adaptive: true
+                            }
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    this.sessionId = data.quiz_id;
+                    
+                    // Update UI with session info
+                    document.getElementById('examTitle').textContent = examCode.replace('-', ' ');
+                    document.getElementById('totalQuestions').textContent = data.num_questions || 30;
+                } catch (error) {
+                    console.error('Failed to start session:', error);
+                }
+            }
+            
+            async loadNextQuestion() {
+                try {
+                    const response = await fetch(`${this.apiUrl}/quizzes/${this.sessionId}/next`);
+                    const question = await response.json();
+                    
+                    this.currentQuestion = question;
+                    this.displayQuestion(question);
+                    
+                    // Update navigation
+                    this.updateQuestionGrid();
+                } catch (error) {
+                    console.error('Failed to load question:', error);
+                }
+            }
+            
+            displayQuestion(question) {
+                const display = document.getElementById('questionDisplay');
+                
+                display.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-number">Question ${this.currentIndex + 1}</div>
+                        <div class="question-actions">
+                            <button class="action-btn" onclick="qbank.toggleCalculator()">
+                                <i class="fas fa-calculator"></i>
+                                Calculator
+                            </button>
+                            <button class="action-btn" onclick="qbank.toggleFormula()">
+                                <i class="fas fa-square-root-alt"></i>
+                                Formula
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="question-content">
+                        <div class="question-stem">${question.stem}</div>
+                        <div class="question-options">
+                            ${question.options.map((opt, idx) => `
+                                <div class="option" data-option="${opt.label}" onclick="qbank.selectOption('${opt.label}')">
+                                    <div class="option-label">${opt.label}</div>
+                                    <div class="option-text">${opt.text}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                // Restore selected answer if exists
+                if (this.responses[this.currentIndex]) {
+                    this.selectOption(this.responses[this.currentIndex].selected);
+                }
+            }
+            
+            selectOption(label) {
+                // Clear previous selection
+                document.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Mark selected
+                const selectedOption = document.querySelector(`[data-option="${label}"]`);
+                if (selectedOption) {
+                    selectedOption.classList.add('selected');
+                }
+                
+                // Store response
+                this.responses[this.currentIndex] = {
+                    question_id: this.currentQuestion.question_id,
+                    selected: label,
+                    time_started: this.timeElapsed
+                };
+            }
+            
+            async submitAnswer() {
+                const response = this.responses[this.currentIndex];
+                if (!response) return;
+                
+                try {
+                    const result = await fetch(`${this.apiUrl}/quizzes/${this.sessionId}/answers`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            question_id: response.question_id,
+                            selected: response.selected,
+                            time_taken_ms: (this.timeElapsed - response.time_started) * 1000,
+                            confidence: 4
+                        })
+                    });
+                    
+                    const data = await result.json();
+                    
+                    // Update ability estimate
+                    this.ability = {
+                        theta: data.ability_estimate,
+                        se: data.ability_se
+                    };
+                    
+                    // Update stats
+                    if (data.is_correct) {
+                        this.stats.correct++;
+                    }
+                    this.stats.attempted++;
+                    
+                    // Update UI
+                    this.updateAnalytics();
+                    
+                } catch (error) {
+                    console.error('Failed to submit answer:', error);
+                }
+            }
+            
+            initializeUI() {
+                // Generate question grid
+                const grid = document.getElementById('questionGrid');
+                for (let i = 1; i <= 30; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = 'question-btn';
+                    btn.textContent = i;
+                    btn.onclick = () => this.navigateToQuestion(i - 1);
+                    grid.appendChild(btn);
+                }
+                
+                // Setup navigation buttons
+                document.getElementById('prevBtn').onclick = () => this.previousQuestion();
+                document.getElementById('nextBtn').onclick = () => this.nextQuestion();
+                document.getElementById('flagBtn').onclick = () => this.flagQuestion();
+                document.getElementById('clearBtn').onclick = () => this.clearAnswer();
+                
+                // Setup timer controls
+                document.getElementById('pauseBtn').onclick = () => this.pauseTimer();
+                document.getElementById('playBtn').onclick = () => this.resumeTimer();
+                
+                // Initialize charts
+                this.initializeCharts();
+            }
+            
+            updateQuestionGrid() {
+                const buttons = document.querySelectorAll('.question-btn');
+                buttons.forEach((btn, idx) => {
+                    btn.classList.remove('current', 'answered', 'flagged');
+                    
+                    if (idx === this.currentIndex) {
+                        btn.classList.add('current');
+                    } else if (this.responses[idx]) {
+                        btn.classList.add('answered');
+                    }
+                    
+                    if (this.responses[idx]?.flagged) {
+                        btn.classList.add('flagged');
+                    }
+                });
+            }
+            
+            updateAnalytics() {
+                // Update ability display
+                document.getElementById('abilityValue').textContent = this.ability.theta.toFixed(2);
+                document.getElementById('seValue').textContent = this.ability.se.toFixed(2);
+                
+                // Update stats
+                document.getElementById('correctCount').textContent = this.stats.correct;
+                document.getElementById('attemptedCount').textContent = this.stats.attempted;
+                
+                const accuracy = this.stats.attempted > 0 
+                    ? Math.round((this.stats.correct / this.stats.attempted) * 100) 
+                    : 0;
+                document.getElementById('accuracyValue').textContent = accuracy + '%';
+                
+                const avgTime = this.stats.attempted > 0
+                    ? Math.round(this.stats.totalTime / this.stats.attempted)
+                    : 0;
+                document.getElementById('avgTimeValue').textContent = avgTime + 's';
+                
+                // Update charts
+                this.updateCharts();
+            }
+            
+            initializeCharts() {
+                // Ability progression chart
+                const abilityCtx = document.getElementById('abilityChart').getContext('2d');
+                this.abilityChart = new Chart(abilityCtx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Ability (θ)',
+                            data: [],
+                            borderColor: '#667eea',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                min: -3,
+                                max: 3
+                            }
+                        }
+                    }
+                });
+                
+                // Difficulty progression chart
+                const difficultyCtx = document.getElementById('difficultyChart').getContext('2d');
+                this.difficultyChart = new Chart(difficultyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Difficulty',
+                            data: [],
+                            backgroundColor: '#764ba2'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                min: -3,
+                                max: 3
+                            }
+                        }
+                    }
+                });
+            }
+            
+            updateCharts() {
+                // Update ability chart
+                if (this.abilityChart) {
+                    this.abilityChart.data.labels.push(`Q${this.currentIndex + 1}`);
+                    this.abilityChart.data.datasets[0].data.push(this.ability.theta);
+                    this.abilityChart.update();
+                }
+                
+                // Update difficulty chart
+                if (this.difficultyChart && this.currentQuestion) {
+                    this.difficultyChart.data.labels.push(`Q${this.currentIndex + 1}`);
+                    this.difficultyChart.data.datasets[0].data.push(this.currentQuestion.difficulty || 0);
+                    this.difficultyChart.update();
+                }
+            }
+            
+            startTimer() {
+                this.timer = setInterval(() => {
+                    this.timeElapsed++;
+                    this.updateTimerDisplay();
+                }, 1000);
+            }
+            
+            updateTimerDisplay() {
+                const hours = Math.floor(this.timeElapsed / 3600);
+                const minutes = Math.floor((this.timeElapsed % 3600) / 60);
+                const seconds = this.timeElapsed % 60;
+                
+                const display = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                document.getElementById('timerDisplay').textContent = display;
+                
+                // Update progress bar
+                const totalTime = parseInt(document.getElementById('timeLimit').textContent) * 60;
+                const progress = Math.max(0, 100 - (this.timeElapsed / totalTime) * 100);
+                document.getElementById('timerProgress').style.width = progress + '%';
+            }
+            
+            pauseTimer() {
+                clearInterval(this.timer);
+                document.getElementById('pauseBtn').style.display = 'none';
+                document.getElementById('playBtn').style.display = 'block';
+            }
+            
+            resumeTimer() {
+                this.startTimer();
+                document.getElementById('pauseBtn').style.display = 'block';
+                document.getElementById('playBtn').style.display = 'none';
+            }
+            
+            async nextQuestion() {
+                // Submit current answer if exists
+                if (this.responses[this.currentIndex]) {
+                    await this.submitAnswer();
+                }
+                
+                this.currentIndex++;
+                
+                if (this.currentIndex >= 30) {
+                    // End quiz
+                    this.endQuiz();
+                } else {
+                    // Load next question
+                    await this.loadNextQuestion();
+                }
+            }
+            
+            previousQuestion() {
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                    // In adaptive mode, we might not allow going back
+                    // For now, just update UI
+                    this.updateQuestionGrid();
+                }
+            }
+            
+            navigateToQuestion(index) {
+                // In adaptive mode, might restrict navigation
+                this.currentIndex = index;
+                this.updateQuestionGrid();
+            }
+            
+            flagQuestion() {
+                if (!this.responses[this.currentIndex]) {
+                    this.responses[this.currentIndex] = {};
+                }
+                this.responses[this.currentIndex].flagged = !this.responses[this.currentIndex].flagged;
+                
+                const flagBtn = document.getElementById('flagBtn');
+                if (this.responses[this.currentIndex].flagged) {
+                    flagBtn.classList.add('active');
+                } else {
+                    flagBtn.classList.remove('active');
+                }
+                
+                this.updateQuestionGrid();
+            }
+            
+            clearAnswer() {
+                delete this.responses[this.currentIndex];
+                document.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+            }
+            
+            toggleCalculator() {
+                // Implement calculator modal
+                alert('Calculator feature coming soon!');
+            }
+            
+            toggleFormula() {
+                // Implement formula sheet modal
+                alert('Formula sheet coming soon!');
+            }
+            
+            endQuiz() {
+                clearInterval(this.timer);
+                alert(`Quiz completed!\n\nFinal Ability: ${this.ability.theta.toFixed(2)}\nCorrect: ${this.stats.correct}/${this.stats.attempted}\nTime: ${document.getElementById('timerDisplay').textContent}`);
+            }
+        }
+        
+        // Initialize QBank client
+        const qbank = new QBankClient();
+    </script>
+</body>
+</html>
