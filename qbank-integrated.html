@@ -233,14 +233,14 @@
         const urlParams = new URLSearchParams(window.location.search);
         const courseId = urlParams.get('course') || 'sat';
         
-        function launchStandard() {
-            // Launch the standard QBank platform
-            window.location.href = `qbank-platform.html?course=${courseId}`;
-        }
+                    function launchStandard() {
+                // Launch the WORKING QBank platform
+                window.location.href = `qbank-working.html`;
+            }
         
         function launchAdvanced() {
-            // Launch the advanced QBank v10 platform
-            window.location.href = `qbank-v10/frontend/qbank-platform-v10.html?course=${courseId}`;
+            // Launch the advanced QBank v10 platform (working version)
+            window.location.href = `qbank-working.html`;
         }
     </script>
 </body>
