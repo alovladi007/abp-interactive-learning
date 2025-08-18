@@ -1274,8 +1274,8 @@
                 // Navigate to Course Platform for video lessons
                 window.location.href = `course-platform.html?course=${courseId}`;
             } else if (packageType === 'qbank') {
-                // Navigate to Q-Bank Platform for practice questions
-                window.location.href = `qbank-integrated.html?course=${courseId}`;
+                // Navigate DIRECTLY to Q-Bank Platform (skip redundant hub)
+                window.location.href = `qbank-working.html`;
             } else if (packageType === 'bundle') {
                 // Show modal to let user choose which to start with
                 showBundleOptions(courseId);
@@ -1384,7 +1384,7 @@
                         </div>
                         
                         <!-- Q-Bank Platform Option -->
-                        <div onclick="window.location.href='qbank-integrated.html?course=${courseId}'" style="
+                        <div onclick="window.location.href='qbank-working.html'" style="
                             padding: 1.5rem;
                             background: var(--secondary-bg);
                             border-radius: 12px;
