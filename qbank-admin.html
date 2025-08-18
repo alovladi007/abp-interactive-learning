@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QBank Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .admin-sidebar {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .admin-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.02);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .data-table th, .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .data-table th {
+            background: rgba(255,255,255,0.02);
+            font-weight: 600;
+        }
+        .menu-item {
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .menu-item:hover {
+            background: rgba(74, 144, 226, 0.1);
+        }
+        .menu-item.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎛️ QBank Admin Dashboard</h1>
+            <p>Manage questions, monitor performance, and configure system settings</p>
+        </div>
+
+        <div class="admin-grid">
+            <div class="admin-sidebar">
+                <h3>Navigation</h3>
+                <div class="menu-item active" onclick="showSection('overview')">
+                    📊 Overview
+                </div>
+                <div class="menu-item" onclick="showSection('questions')">
+                    📚 Questions
+                </div>
+                <div class="menu-item" onclick="showSection('users')">
+                    👥 Users
+                </div>
+                <div class="menu-item" onclick="showSection('analytics')">
+                    📈 Analytics
+                </div>
+                <div class="menu-item" onclick="showSection('calibration')">
+                    🎯 Calibration
+                </div>
+                <div class="menu-item" onclick="showSection('settings')">
+                    ⚙️ Settings
+                </div>
+            </div>
+
+            <div class="admin-content">
+                <!-- Overview Section -->
+                <div id="overview-section" class="section">
+                    <h2>System Overview</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalQuestions">5,247</div>
+                            <div class="stat-label">Total Questions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="activeUsers">1,284</div>
+                            <div class="stat-label">Active Users</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="testsToday">342</div>
+                            <div class="stat-label">Tests Today</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="avgScore">78%</div>
+                            <div class="stat-label">Avg Score</div>
+                        </div>
+                    </div>
+
+                    <h3>Activity Chart</h3>
+                    <canvas id="activityChart"></canvas>
+                </div>
+
+                <!-- Questions Section -->
+                <div id="questions-section" class="section" style="display: none;">
+                    <h2>Question Management</h2>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <button class="btn" onclick="addQuestion()">+ Add Question</button>
+                        <button class="btn" style="background: var(--secondary-color);" onclick="importQuestions()">Import CSV</button>
+                        <button class="btn" style="background: var(--success-color);" onclick="exportQuestions()">Export</button>
+                    </div>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Question</th>
+                                <th>Topic</th>
+                                <th>Difficulty</th>
+                                <th>P-Value</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="questionsTable">
+                            <!-- Questions will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Users Section -->
+                <div id="users-section" class="section" style="display: none;">
+                    <h2>User Management</h2>
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Tests Taken</th>
+                                <th>Avg Score</th>
+                                <th>Theta (θ)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                            <!-- Users will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Analytics Section -->
+                <div id="analytics-section" class="section" style="display: none;">
+                    <h2>Analytics Dashboard</h2>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div>
+                            <h3>Test Information Function</h3>
+                            <canvas id="tifChart"></canvas>
+                        </div>
+                        <div>
+                            <h3>Item Characteristic Curves</h3>
+                            <canvas id="iccChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-top: 2rem;">Performance Metrics</h3>
+                    <canvas id="performanceChart"></canvas>
+                </div>
+
+                <!-- Calibration Section -->
+                <div id="calibration-section" class="section" style="display: none;">
+                    <h2>IRT Calibration</h2>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <button class="btn" onclick="runCalibration()">Run Calibration</button>
+                        <button class="btn" onclick="runExposureControl()">Update Exposure Control</button>
+                    </div>
+                    
+                    <h3>Calibration Status</h3>
+                    <div id="calibrationStatus">
+                        <p>Last calibration: 2024-01-15 14:30:00</p>
+                        <p>Items calibrated: 4,823 / 5,247</p>
+                        <p>Average fit: 0.92</p>
+                    </div>
+                    
+                    <h3>Exposure Control</h3>
+                    <canvas id="exposureChart"></canvas>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="settings-section" class="section" style="display: none;">
+                    <h2>System Settings</h2>
+                    
+                    <div style="display: grid; gap: 1rem; max-width: 600px;">
+                        <div>
+                            <label>IRT Model</label>
+                            <select style="width: 100%; padding: 0.75rem; background: var(--dark-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+                                <option>3PL (Three Parameter)</option>
+                                <option>2PL (Two Parameter)</option>
+                                <option>1PL (Rasch)</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label>Max Exposure Rate</label>
+                            <input type="number" value="0.2" step="0.01" style="width: 100%; padding: 0.75rem; background: var(--dark-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+                        </div>
+                        
+                        <div>
+                            <label>Session Timeout (minutes)</label>
+                            <input type="number" value="60" style="width: 100%; padding: 0.75rem; background: var(--dark-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+                        </div>
+                        
+                        <button class="btn">Save Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Admin Dashboard JavaScript
+        const API_URL = 'http://localhost:8000/api';
+        
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(s => {
+                s.style.display = 'none';
+            });
+            
+            // Show selected section
+            document.getElementById(`${section}-section`).style.display = 'block';
+            
+            // Update menu
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Load section data
+            loadSectionData(section);
+        }
+        
+        function loadSectionData(section) {
+            switch(section) {
+                case 'overview':
+                    loadOverview();
+                    break;
+                case 'questions':
+                    loadQuestions();
+                    break;
+                case 'users':
+                    loadUsers();
+                    break;
+                case 'analytics':
+                    loadAnalytics();
+                    break;
+                case 'calibration':
+                    loadCalibration();
+                    break;
+            }
+        }
+        
+        function loadOverview() {
+            // Activity Chart
+            const ctx = document.getElementById('activityChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Tests Completed',
+                        data: [245, 312, 289, 342, 398, 421, 342],
+                        borderColor: '#4a90e2',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+        
+        function loadQuestions() {
+            // Load questions from API
+            const tbody = document.getElementById('questionsTable');
+            tbody.innerHTML = '';
+            
+            // Sample data
+            for (let i = 1; i <= 10; i++) {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${i}</td>
+                    <td>Sample question ${i}</td>
+                    <td>Mathematics</td>
+                    <td>Medium</td>
+                    <td>0.${60 + i}</td>
+                    <td>
+                        <button onclick="editQuestion(${i})">Edit</button>
+                        <button onclick="deleteQuestion(${i})">Delete</button>
+                    </td>
+                `;
+            }
+        }
+        
+        function loadUsers() {
+            // Load users from API
+            const tbody = document.getElementById('usersTable');
+            tbody.innerHTML = '';
+            
+            // Sample data
+            for (let i = 1; i <= 10; i++) {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>U${1000 + i}</td>
+                    <td>User ${i}</td>
+                    <td>user${i}@example.com</td>
+                    <td>${10 + i * 2}</td>
+                    <td>${70 + i}%</td>
+                    <td>${(Math.random() * 2 - 1).toFixed(2)}</td>
+                    <td>
+                        <button onclick="viewUser(${i})">View</button>
+                    </td>
+                `;
+            }
+        }
+        
+        function loadAnalytics() {
+            // TIF Chart
+            const tifCtx = document.getElementById('tifChart').getContext('2d');
+            const theta = [];
+            const info = [];
+            
+            for (let t = -3; t <= 3; t += 0.1) {
+                theta.push(t);
+                info.push(Math.exp(-Math.pow(t, 2)) * 10);
+            }
+            
+            new Chart(tifCtx, {
+                type: 'line',
+                data: {
+                    labels: theta.map(t => t.toFixed(1)),
+                    datasets: [{
+                        label: 'Information',
+                        data: info,
+                        borderColor: '#7c3aed',
+                        fill: true,
+                        backgroundColor: 'rgba(124, 58, 237, 0.1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { title: { display: true, text: 'Ability (θ)' } },
+                        y: { title: { display: true, text: 'Information' } }
+                    }
+                }
+            });
+            
+            // ICC Chart
+            const iccCtx = document.getElementById('iccChart').getContext('2d');
+            const probs = theta.map(t => 1 / (1 + Math.exp(-1.2 * t)));
+            
+            new Chart(iccCtx, {
+                type: 'line',
+                data: {
+                    labels: theta.map(t => t.toFixed(1)),
+                    datasets: [{
+                        label: 'Probability',
+                        data: probs,
+                        borderColor: '#10b981',
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { title: { display: true, text: 'Ability (θ)' } },
+                        y: { title: { display: true, text: 'P(θ)' }, min: 0, max: 1 }
+                    }
+                }
+            });
+        }
+        
+        function loadCalibration() {
+            // Exposure Chart
+            const ctx = document.getElementById('exposureChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8', 'Q9', 'Q10'],
+                    datasets: [{
+                        label: 'Exposure Rate',
+                        data: [0.18, 0.22, 0.19, 0.15, 0.21, 0.17, 0.20, 0.16, 0.23, 0.19],
+                        backgroundColor: '#4a90e2'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            max: 0.3,
+                            title: { display: true, text: 'Exposure Rate' }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialize
+        loadOverview();
+    </script>
+</body>
+</html>
