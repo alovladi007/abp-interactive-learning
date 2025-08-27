@@ -422,5 +422,154 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // AI Tutor Functionality
+    const setupAITutorHandlers = () => {
+        // Handle Start Chat button click
+        const startChatButtons = document.querySelectorAll('.ai-tutor-card button');
+        startChatButtons.forEach(button => {
+            if (button.innerHTML.includes('Start Chat')) {
+                button.addEventListener('click', () => {
+                    openAITutorChat('Louis');
+                });
+            } else if (button.innerHTML.includes('fa-cog')) {
+                button.addEventListener('click', () => {
+                    openAITutorSettings('Louis');
+                });
+            }
+        });
+
+        // Handle Add AI Tutor card click
+        const addTutorCard = document.querySelector('[style*="border: 2px dashed"]');
+        if (addTutorCard) {
+            addTutorCard.addEventListener('click', () => {
+                openAITutorMarketplace();
+            });
+        }
+    };
+
+    // Open AI Tutor Chat Modal
+    const openAITutorChat = (tutorName) => {
+        const modal = document.createElement('div');
+        modal.className = 'ai-chat-modal';
+        modal.innerHTML = `
+            <div class="modal-overlay" onclick="this.parentElement.remove()"></div>
+            <div class="modal-content" style="max-width: 600px; height: 70vh; display: flex; flex-direction: column;">
+                <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-graduation-cap" style="font-size: 1.5rem;"></i>
+                            <div>
+                                <h2 style="margin: 0;">${tutorName} - AI Tutor</h2>
+                                <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Online • Ready to help</p>
+                            </div>
+                        </div>
+                        <button onclick="this.closest('.ai-chat-modal').remove()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chat-messages" style="flex: 1; overflow-y: auto; padding: 1.5rem; background: #f8f9fa;">
+                    <div class="message ai-message" style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <p style="background: white; padding: 1rem; border-radius: 8px; margin: 0;">
+                                Hello! I'm ${tutorName}, your AI tutor. I specialize in Mathematics, Computer Science, and Physics. 
+                                How can I help you today? Feel free to ask me about:
+                                <ul style="margin-top: 0.5rem;">
+                                    <li>Homework problems</li>
+                                    <li>Concept explanations</li>
+                                    <li>Study strategies</li>
+                                    <li>Practice exercises</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input" style="padding: 1rem; background: white; border-top: 1px solid #e5e7eb;">
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" placeholder="Type your question..." style="flex: 1; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                        <button style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            <i class="fas fa-paper-plane"></i> Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Add chat functionality
+        const input = modal.querySelector('input');
+        const sendButton = modal.querySelector('button[style*="gradient"]');
+        const messagesContainer = modal.querySelector('.chat-messages');
+        
+        const sendMessage = () => {
+            const message = input.value.trim();
+            if (message) {
+                // Add user message
+                const userMessageHTML = `
+                    <div class="message user-message" style="display: flex; gap: 1rem; margin-bottom: 1rem; justify-content: flex-end;">
+                        <div style="flex: 1; text-align: right;">
+                            <p style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem; border-radius: 8px; margin: 0; display: inline-block; max-width: 80%;">
+                                ${message}
+                            </p>
+                        </div>
+                        <div style="width: 40px; height: 40px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                `;
+                messagesContainer.insertAdjacentHTML('beforeend', userMessageHTML);
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const aiResponseHTML = `
+                        <div class="message ai-message" style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <p style="background: white; padding: 1rem; border-radius: 8px; margin: 0;">
+                                    I understand you're asking about "${message}". Let me help you with that...
+                                    <br><br>
+                                    [This is a simulated response. In a real implementation, this would connect to an AI service to provide actual tutoring assistance.]
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    messagesContainer.insertAdjacentHTML('beforeend', aiResponseHTML);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, 1000);
+                
+                input.value = '';
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        };
+        
+        sendButton.addEventListener('click', sendMessage);
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    };
+
+    // Open AI Tutor Settings
+    const openAITutorSettings = (tutorName) => {
+        alert(`Opening settings for ${tutorName}. This feature will allow you to customize the AI tutor's behavior, teaching style, and subject focus.`);
+    };
+
+    // Open AI Tutor Marketplace
+    const openAITutorMarketplace = () => {
+        alert('Opening AI Tutor Marketplace. Here you can browse and add more specialized AI tutors for different subjects like Chemistry, Biology, Literature, History, and more.');
+    };
+
+    // Initialize AI Tutor handlers if on academic setup page
+    if (window.location.pathname.includes('academic-setup')) {
+        setupAITutorHandlers();
+    }
+
     console.log('ABP Interactive Learning Dashboard initialized successfully!');
 });

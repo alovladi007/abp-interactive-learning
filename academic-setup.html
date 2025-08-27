@@ -412,6 +412,89 @@
                 </div>
             </div>
 
+            <!-- AI Tutors Section -->
+            <div class="section-card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h2><i class="fas fa-robot"></i> AI Tutors</h2>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Add AI Tutor
+                    </button>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                    <!-- Louis AI Tutor Card -->
+                    <div class="ai-tutor-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; padding: 1.5rem; color: white; position: relative; overflow: hidden;">
+                        <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                        <div style="position: relative; z-index: 1;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-graduation-cap" style="font-size: 1.5rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h3 style="margin: 0; font-size: 1.5rem;">Louis</h3>
+                                        <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">AI Tutor Agent</p>
+                                    </div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">
+                                    <i class="fas fa-circle" style="color: #4ade80; margin-right: 0.25rem;"></i>Active
+                                </div>
+                            </div>
+                            
+                            <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                                <p style="margin: 0; font-size: 0.95rem; line-height: 1.5;">
+                                    <strong>Specialization:</strong> Mathematics, Computer Science, Physics<br>
+                                    <strong>Teaching Style:</strong> Interactive, Step-by-step guidance<br>
+                                    <strong>Languages:</strong> English, Spanish, French
+                                </p>
+                            </div>
+                            
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                                <span style="background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem;">
+                                    <i class="fas fa-star"></i> 4.9 Rating
+                                </span>
+                                <span style="background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem;">
+                                    <i class="fas fa-clock"></i> 24/7 Available
+                                </span>
+                                <span style="background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem;">
+                                    <i class="fas fa-users"></i> 1.2k Students
+                                </span>
+                            </div>
+                            
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn" style="background: white; color: #667eea; flex: 1; padding: 0.75rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                                    <i class="fas fa-comments"></i> Start Chat
+                                </button>
+                                <button class="btn" style="background: rgba(255,255,255,0.2); color: white; padding: 0.75rem 1rem; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; cursor: pointer;">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Add More Tutors Card -->
+                    <div style="border: 2px dashed var(--border-color); border-radius: 12px; padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;">
+                        <i class="fas fa-plus-circle" style="font-size: 3rem; color: var(--primary-accent); margin-bottom: 1rem;"></i>
+                        <h4 style="color: var(--text-primary); margin: 0;">Add Another AI Tutor</h4>
+                        <p class="text-secondary" style="margin-top: 0.5rem; text-align: center;">Browse our collection of specialized AI tutors for different subjects</p>
+                    </div>
+                </div>
+                
+                <div style="background: var(--info-bg, #e0f2fe); border-left: 4px solid var(--info-color, #0ea5e9); padding: 1rem; border-radius: 8px; margin-top: 1.5rem;">
+                    <div style="display: flex; align-items: start; gap: 0.75rem;">
+                        <i class="fas fa-info-circle" style="color: var(--info-color, #0ea5e9); margin-top: 0.25rem;"></i>
+                        <div>
+                            <strong style="color: var(--text-primary);">About AI Tutors</strong>
+                            <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary); font-size: 0.95rem;">
+                                AI Tutors provide personalized learning assistance 24/7. They can help with homework, explain complex concepts, 
+                                provide practice problems, and adapt to your learning style. Each tutor specializes in specific subjects and 
+                                teaching methodologies.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Save Actions -->
             <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
                 <button class="btn btn-outline btn-lg">Reset to Defaults</button>
