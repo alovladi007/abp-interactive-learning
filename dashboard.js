@@ -422,33 +422,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // AI Tutor Functionality
-    const setupAITutorHandlers = () => {
+    // AI Advisor Functionality
+    const setupAIAdvisorHandlers = () => {
         // Handle Start Chat button click
-        const startChatButtons = document.querySelectorAll('.ai-tutor-card button');
+        const startChatButtons = document.querySelectorAll('.ai-advisor-card button');
         startChatButtons.forEach(button => {
             if (button.innerHTML.includes('Start Chat')) {
                 button.addEventListener('click', () => {
-                    openAITutorChat('Louis');
+                    openAIAdvisorChat('Louis');
                 });
             } else if (button.innerHTML.includes('fa-cog')) {
                 button.addEventListener('click', () => {
-                    openAITutorSettings('Louis');
+                    openAIAdvisorSettings('Louis');
                 });
             }
         });
 
-        // Handle Add AI Tutor card click
-        const addTutorCard = document.querySelector('[style*="border: 2px dashed"]');
-        if (addTutorCard) {
-            addTutorCard.addEventListener('click', () => {
-                openAITutorMarketplace();
+        // Handle Add AI Advisor card click
+        const addAdvisorCard = document.querySelector('[style*="border: 2px dashed"]');
+        if (addAdvisorCard) {
+            addAdvisorCard.addEventListener('click', () => {
+                openAIAdvisorMarketplace();
             });
         }
     };
 
-    // Open AI Tutor Chat Modal
-    const openAITutorChat = (tutorName) => {
+    // Open AI Advisor Chat Modal
+    const openAIAdvisorChat = (advisorName) => {
         const modal = document.createElement('div');
         modal.className = 'ai-chat-modal';
         modal.innerHTML = `
@@ -459,8 +459,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div style="display: flex; align-items: center; gap: 1rem;">
                             <i class="fas fa-graduation-cap" style="font-size: 1.5rem;"></i>
                             <div>
-                                <h2 style="margin: 0;">${tutorName} - AI Tutor</h2>
-                                <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Online • Ready to help</p>
+                                <h2 style="margin: 0;">${advisorName} - AI Advisor</h2>
+                                <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Online • Ready to advise</p>
                             </div>
                         </div>
                         <button onclick="this.closest('.ai-chat-modal').remove()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">
@@ -475,13 +475,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div style="flex: 1;">
                             <p style="background: white; padding: 1rem; border-radius: 8px; margin: 0;">
-                                Hello! I'm ${tutorName}, your AI tutor. I specialize in Mathematics, Computer Science, and Physics. 
-                                How can I help you today? Feel free to ask me about:
+                                Hello! I'm ${advisorName}, your AI Academic Advisor. I specialize in Mathematics, Computer Science, and Physics. 
+                                I'm here to guide your academic journey. Feel free to ask me about:
                                 <ul style="margin-top: 0.5rem;">
-                                    <li>Homework problems</li>
+                                    <li>Course planning and selection</li>
+                                    <li>Homework assistance</li>
                                     <li>Concept explanations</li>
                                     <li>Study strategies</li>
-                                    <li>Practice exercises</li>
+                                    <li>Career guidance</li>
+                                    <li>Research opportunities</li>
                                 </ul>
                             </p>
                         </div>
@@ -534,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <p style="background: white; padding: 1rem; border-radius: 8px; margin: 0;">
                                     I understand you're asking about "${message}". Let me help you with that...
                                     <br><br>
-                                    [This is a simulated response. In a real implementation, this would connect to an AI service to provide actual tutoring assistance.]
+                                    [This is a simulated response. In a real implementation, this would connect to an AI service to provide actual academic advisory assistance.]
                                 </p>
                             </div>
                         </div>
@@ -556,19 +558,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // Open AI Tutor Settings
-    const openAITutorSettings = (tutorName) => {
-        alert(`Opening settings for ${tutorName}. This feature will allow you to customize the AI tutor's behavior, teaching style, and subject focus.`);
+    // Open AI Advisor Settings
+    const openAIAdvisorSettings = (advisorName) => {
+        alert(`Opening settings for ${advisorName}. This feature will allow you to customize the AI advisor's behavior, advisory style, and subject focus.`);
     };
 
-    // Open AI Tutor Marketplace
-    const openAITutorMarketplace = () => {
-        alert('Opening AI Tutor Marketplace. Here you can browse and add more specialized AI tutors for different subjects like Chemistry, Biology, Literature, History, and more.');
+    // Open AI Advisor Marketplace
+    const openAIAdvisorMarketplace = () => {
+        alert('Opening AI Advisor Marketplace. Here you can browse and add more specialized AI advisors for different subjects like Chemistry, Biology, Literature, History, and more.');
     };
 
-    // Initialize AI Tutor handlers if on academic setup page
+    // Initialize AI Advisor handlers if on academic setup page
     if (window.location.pathname.includes('academic-setup')) {
-        setupAITutorHandlers();
+        setupAIAdvisorHandlers();
     }
 
     console.log('ABP Interactive Learning Dashboard initialized successfully!');

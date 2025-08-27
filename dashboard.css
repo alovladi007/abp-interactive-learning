@@ -794,12 +794,12 @@ textarea::placeholder {
     }
 }
 
-/* AI Tutor Card Hover Effects */
-.ai-tutor-card {
+/* AI Advisor Card Hover Effects */
+.ai-advisor-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.ai-tutor-card:hover {
+.ai-advisor-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
 }
