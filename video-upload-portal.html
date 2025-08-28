@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Upload Portal - E.U.R.E.K.A</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .upload-portal {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .portal-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .portal-header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .upload-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upload-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+        
+        .upload-card:hover::before {
+            opacity: 1;
+        }
+        
+        .upload-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d4ff;
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.2);
+        }
+        
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .upload-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        
+        .upload-description {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .upload-button {
+            background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .upload-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+        
+        .quick-upload-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .drag-drop-area {
+            padding: 4rem 2rem;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .drag-drop-area:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+        }
+        
+        .drag-drop-area.dragover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+        }
+        
+        .instructions-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .instruction-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .step-card {
+            text-align: center;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .step-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #00d4ff;
+        }
+        
+        .step-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .category-badge {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-badge:hover {
+            background: rgba(0, 212, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: #1a1f3a;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #00d4ff;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .required {
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-portal">
+        <!-- Header -->
+        <div class="portal-header">
+            <h1><i class="fas fa-cloud-upload-alt"></i> Video Upload Portal</h1>
+            <p style="font-size: 1.2rem; color: rgba(255, 255, 255, 0.8);">
+                Upload educational videos to the E.U.R.E.K.A platform
+            </p>
+            <p style="color: rgba(255, 255, 255, 0.6); margin-top: 1rem;">
+                Maximum file size: 500MB | Formats: MP4, WebM, OGG, MOV, AVI, MKV
+            </p>
+        </div>
+        
+        <!-- Quick Upload Section -->
+        <div class="quick-upload-section">
+            <h2 style="color: #00d4ff; margin-bottom: 1rem;">
+                <i class="fas fa-bolt"></i> Quick Upload
+            </h2>
+            <div class="drag-drop-area" id="quickDropArea">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <h3 style="color: #ffffff; margin-bottom: 1rem;">Drag & Drop Video Here</h3>
+                <p style="color: rgba(255, 255, 255, 0.7);">or</p>
+                <button class="upload-button" style="margin-top: 1rem;" onclick="document.getElementById('quickFileInput').click()">
+                    Browse Files
+                </button>
+                <input type="file" id="quickFileInput" accept="video/*" style="display: none;">
+            </div>
+        </div>
+        
+        <!-- Upload Options -->
+        <div class="upload-options">
+            <!-- Admin Dashboard -->
+            <div class="upload-card" onclick="window.location.href='video-admin-dashboard.html'">
+                <i class="fas fa-user-shield upload-icon"></i>
+                <h3 class="upload-title">Admin Dashboard</h3>
+                <p class="upload-description">
+                    Full-featured upload interface with metadata management, categories, and advanced options
+                </p>
+                <button class="upload-button">
+                    Open Admin Dashboard
+                </button>
+            </div>
+            
+            <!-- Category Upload -->
+            <div class="upload-card" onclick="showCategoryModal()">
+                <i class="fas fa-folder-plus upload-icon"></i>
+                <h3 class="upload-title">Upload by Category</h3>
+                <p class="upload-description">
+                    Choose a specific category and subcategory to upload your video content
+                </p>
+                <button class="upload-button">
+                    Select Category
+                </button>
+            </div>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="instructions-section">
+            <h2 style="color: #00d4ff; text-align: center; margin-bottom: 1rem;">
+                <i class="fas fa-info-circle"></i> How to Upload Videos
+            </h2>
+            
+            <div class="instruction-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4 class="step-title">Choose Method</h4>
+                    <p class="step-description">
+                        Use Quick Upload for fast uploads or Admin Dashboard for full control
+                    </p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4 class="step-title">Select Video</h4>
+                    <p class="step-description">
+                        Drag & drop or browse for your video file (max 500MB)
+                    </p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4 class="step-title">Add Details</h4>
+                    <p class="step-description">
+                        Fill in title, description, category, and other metadata
+                    </p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4 class="step-title">Upload</h4>
+                    <p class="step-description">
+                        Click upload and wait for the process to complete
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Available Categories -->
+        <div class="instructions-section">
+            <h2 style="color: #00d4ff; text-align: center; margin-bottom: 1rem;">
+                <i class="fas fa-th"></i> Available Categories
+            </h2>
+            <p style="text-align: center; color: rgba(255, 255, 255, 0.7); margin-bottom: 2rem;">
+                Click on any category to see subcategories and upload videos
+            </p>
+            
+            <div class="categories-grid">
+                <div class="category-badge" onclick="selectCategory('mathematics')">
+                    <i class="fas fa-calculator"></i> Mathematics
+                </div>
+                <div class="category-badge" onclick="selectCategory('computer-science')">
+                    <i class="fas fa-laptop-code"></i> Computer Science
+                </div>
+                <div class="category-badge" onclick="selectCategory('physics')">
+                    <i class="fas fa-atom"></i> Physics
+                </div>
+                <div class="category-badge" onclick="selectCategory('chemistry')">
+                    <i class="fas fa-flask"></i> Chemistry
+                </div>
+                <div class="category-badge" onclick="selectCategory('biology')">
+                    <i class="fas fa-dna"></i> Biology
+                </div>
+                <div class="category-badge" onclick="selectCategory('engineering')">
+                    <i class="fas fa-cogs"></i> Engineering
+                </div>
+                <div class="category-badge" onclick="selectCategory('business')">
+                    <i class="fas fa-briefcase"></i> Business
+                </div>
+                <div class="category-badge" onclick="selectCategory('medicine')">
+                    <i class="fas fa-stethoscope"></i> Medicine
+                </div>
+                <div class="category-badge" onclick="selectCategory('psychology')">
+                    <i class="fas fa-brain"></i> Psychology
+                </div>
+                <div class="category-badge" onclick="selectCategory('language')">
+                    <i class="fas fa-language"></i> Language
+                </div>
+                <div class="category-badge" onclick="selectCategory('history')">
+                    <i class="fas fa-landmark"></i> History
+                </div>
+                <div class="category-badge" onclick="selectCategory('art')">
+                    <i class="fas fa-palette"></i> Art & Design
+                </div>
+                <div class="category-badge" onclick="selectCategory('music')">
+                    <i class="fas fa-music"></i> Music
+                </div>
+                <div class="category-badge" onclick="selectCategory('philosophy')">
+                    <i class="fas fa-lightbulb"></i> Philosophy
+                </div>
+                <div class="category-badge" onclick="selectCategory('law')">
+                    <i class="fas fa-gavel"></i> Law
+                </div>
+                <div class="category-badge" onclick="selectCategory('environmental')">
+                    <i class="fas fa-leaf"></i> Environmental
+                </div>
+                <div class="category-badge" onclick="selectCategory('data-science')">
+                    <i class="fas fa-chart-bar"></i> Data Science
+                </div>
+                <div class="category-badge" onclick="selectCategory('test-prep')">
+                    <i class="fas fa-clipboard-check"></i> Test Prep
+                </div>
+                <div class="category-badge" onclick="selectCategory('study-skills')">
+                    <i class="fas fa-book-reader"></i> Study Skills
+                </div>
+                <div class="category-badge" onclick="selectCategory('career')">
+                    <i class="fas fa-user-tie"></i> Career Dev
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Category Selection Modal -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="color: #00d4ff;">Select Category & Upload</h2>
+                <button class="close-modal" onclick="closeCategoryModal()">&times;</button>
+            </div>
+            
+            <form id="categoryUploadForm">
+                <div class="form-group">
+                    <label>Category <span class="required">*</span></label>
+                    <select id="modalCategory" required onchange="updateSubcategories()">
+                        <option value="">Select a category</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="computer-science">Computer Science</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="biology">Biology</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="business">Business & Economics</option>
+                        <option value="medicine">Medicine & Health</option>
+                        <option value="psychology">Psychology</option>
+                        <option value="language">Language & Literature</option>
+                        <option value="history">History</option>
+                        <option value="art">Art & Design</option>
+                        <option value="music">Music</option>
+                        <option value="philosophy">Philosophy</option>
+                        <option value="law">Law</option>
+                        <option value="environmental">Environmental Science</option>
+                        <option value="data-science">Data Science</option>
+                        <option value="test-prep">Test Preparation</option>
+                        <option value="study-skills">Study Skills</option>
+                        <option value="career">Career Development</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Subcategory <span class="required">*</span></label>
+                    <select id="modalSubcategory" required>
+                        <option value="">Select category first</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Video File <span class="required">*</span></label>
+                    <input type="file" id="modalVideoFile" accept="video/*" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Video Title <span class="required">*</span></label>
+                    <input type="text" id="modalTitle" required placeholder="e.g., Introduction to Calculus">
+                </div>
+                
+                <div class="form-group">
+                    <label>Instructor Name <span class="required">*</span></label>
+                    <input type="text" id="modalInstructor" required placeholder="e.g., Dr. John Smith">
+                </div>
+                
+                <div class="form-group">
+                    <label>Description <span class="required">*</span></label>
+                    <textarea id="modalDescription" rows="4" required placeholder="Describe the video content..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Level</label>
+                    <select id="modalLevel">
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                        <option value="Expert">Expert</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="upload-button" style="width: 100%; margin-top: 1rem;">
+                    <i class="fas fa-upload"></i> Upload Video
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Quick Upload Modal -->
+    <div id="quickUploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="color: #00d4ff;">Quick Upload</h2>
+                <button class="close-modal" onclick="closeQuickModal()">&times;</button>
+            </div>
+            
+            <form id="quickUploadForm">
+                <div class="form-group">
+                    <label>Selected File</label>
+                    <p id="selectedFileName" style="color: rgba(255, 255, 255, 0.7);"></p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Video Title <span class="required">*</span></label>
+                    <input type="text" id="quickTitle" required placeholder="e.g., Introduction to Physics">
+                </div>
+                
+                <div class="form-group">
+                    <label>Category <span class="required">*</span></label>
+                    <select id="quickCategory" required>
+                        <option value="">Select a category</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="computer-science">Computer Science</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="biology">Biology</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="business">Business</option>
+                        <option value="medicine">Medicine</option>
+                        <option value="psychology">Psychology</option>
+                        <option value="language">Language</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Subcategory <span class="required">*</span></label>
+                    <input type="text" id="quickSubcategory" required placeholder="e.g., Quantum Mechanics">
+                </div>
+                
+                <div class="form-group">
+                    <label>Instructor <span class="required">*</span></label>
+                    <input type="text" id="quickInstructor" required placeholder="Your name">
+                </div>
+                
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="quickDescription" rows="3" placeholder="Brief description..."></textarea>
+                </div>
+                
+                <button type="submit" class="upload-button" style="width: 100%; margin-top: 1rem;">
+                    <i class="fas fa-cloud-upload-alt"></i> Upload Now
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Subcategories for each category
+        const subcategories = {
+            'mathematics': ['Algebra', 'Calculus', 'Statistics', 'Geometry', 'Number Theory'],
+            'computer-science': ['Programming', 'AI & ML', 'Web Development', 'Data Structures', 'Cybersecurity'],
+            'physics': ['Mechanics', 'Quantum Physics', 'Thermodynamics', 'Electromagnetism', 'Astrophysics'],
+            'chemistry': ['Organic', 'Inorganic', 'Physical', 'Analytical', 'Biochemistry'],
+            'biology': ['Molecular', 'Cell Biology', 'Genetics', 'Ecology', 'Anatomy'],
+            'engineering': ['Electrical', 'Mechanical', 'Civil', 'Software', 'Chemical', 'Photonics & Optical'],
+            'business': ['Finance', 'Marketing', 'Management', 'Entrepreneurship', 'Economics'],
+            'medicine': ['Anatomy', 'Physiology', 'Pathology', 'Pharmacology', 'Clinical'],
+            'psychology': ['Clinical', 'Cognitive', 'Social', 'Developmental', 'Neuropsychology'],
+            'language': ['English', 'Literature', 'Writing', 'Communication', 'Linguistics'],
+            'history': ['World History', 'American History', 'European History', 'Ancient History', 'Modern History'],
+            'art': ['Drawing', 'Painting', 'Digital Art', 'Sculpture', 'Design'],
+            'music': ['Theory', 'Composition', 'Performance', 'Production', 'History'],
+            'philosophy': ['Ethics', 'Logic', 'Metaphysics', 'Political', 'Aesthetics'],
+            'law': ['Constitutional', 'Criminal', 'Corporate', 'International', 'Civil'],
+            'environmental': ['Climate Science', 'Conservation', 'Sustainability', 'Ecology', 'Policy'],
+            'data-science': ['Machine Learning', 'Statistics', 'Visualization', 'Big Data', 'Analytics'],
+            'test-prep': ['SAT', 'ACT', 'GRE', 'GMAT', 'MCAT'],
+            'study-skills': ['Note Taking', 'Time Management', 'Memory', 'Reading', 'Test Taking'],
+            'career': ['Resume Writing', 'Interview Skills', 'Networking', 'Leadership', 'Professional Development']
+        };
+        
+        let selectedFile = null;
+        
+        // Quick upload drag and drop
+        const quickDropArea = document.getElementById('quickDropArea');
+        const quickFileInput = document.getElementById('quickFileInput');
+        
+        quickDropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            quickDropArea.classList.add('dragover');
+        });
+        
+        quickDropArea.addEventListener('dragleave', () => {
+            quickDropArea.classList.remove('dragover');
+        });
+        
+        quickDropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            quickDropArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleQuickFile(files[0]);
+            }
+        });
+        
+        quickFileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleQuickFile(e.target.files[0]);
+            }
+        });
+        
+        function handleQuickFile(file) {
+            selectedFile = file;
+            document.getElementById('selectedFileName').textContent = file.name;
+            document.getElementById('quickUploadModal').style.display = 'flex';
+        }
+        
+        // Category modal functions
+        function showCategoryModal() {
+            document.getElementById('categoryModal').style.display = 'flex';
+        }
+        
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').style.display = 'none';
+        }
+        
+        function closeQuickModal() {
+            document.getElementById('quickUploadModal').style.display = 'none';
+        }
+        
+        function selectCategory(category) {
+            document.getElementById('modalCategory').value = category;
+            updateSubcategories();
+            showCategoryModal();
+        }
+        
+        function updateSubcategories() {
+            const category = document.getElementById('modalCategory').value;
+            const subcategorySelect = document.getElementById('modalSubcategory');
+            
+            subcategorySelect.innerHTML = '<option value="">Select subcategory</option>';
+            
+            if (category && subcategories[category]) {
+                subcategories[category].forEach(sub => {
+                    const option = document.createElement('option');
+                    option.value = sub.toLowerCase().replace(/\s+/g, '-');
+                    option.textContent = sub;
+                    subcategorySelect.appendChild(option);
+                });
+            }
+        }
+        
+        // Form submissions
+        document.getElementById('categoryUploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('file', document.getElementById('modalVideoFile').files[0]);
+            formData.append('title', document.getElementById('modalTitle').value);
+            formData.append('description', document.getElementById('modalDescription').value);
+            formData.append('category', document.getElementById('modalCategory').value);
+            formData.append('subcategory', document.getElementById('modalSubcategory').value);
+            formData.append('instructor', document.getElementById('modalInstructor').value);
+            formData.append('level', document.getElementById('modalLevel').value);
+            formData.append('tags', '');
+            formData.append('topics', '');
+            formData.append('prerequisites', '');
+            formData.append('is_premium', false);
+            
+            alert('Upload started! Video will be processed.\n\nNote: Backend must be running at http://localhost:8001');
+            
+            // In production, this would actually upload to the backend
+            try {
+                const response = await fetch('http://localhost:8001/api/videos/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    alert('Video uploaded successfully!');
+                    closeCategoryModal();
+                    document.getElementById('categoryUploadForm').reset();
+                } else {
+                    alert('Upload failed. Make sure backend is running.');
+                }
+            } catch (error) {
+                alert('Upload failed. Make sure the backend server is running at http://localhost:8001');
+            }
+        });
+        
+        document.getElementById('quickUploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!selectedFile) {
+                alert('Please select a file first');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            formData.append('title', document.getElementById('quickTitle').value);
+            formData.append('description', document.getElementById('quickDescription').value);
+            formData.append('category', document.getElementById('quickCategory').value);
+            formData.append('subcategory', document.getElementById('quickSubcategory').value);
+            formData.append('instructor', document.getElementById('quickInstructor').value);
+            formData.append('level', 'Beginner');
+            formData.append('tags', '');
+            formData.append('topics', '');
+            formData.append('prerequisites', '');
+            formData.append('is_premium', false);
+            
+            alert('Upload started! Video will be processed.\n\nNote: Backend must be running at http://localhost:8001');
+            
+            try {
+                const response = await fetch('http://localhost:8001/api/videos/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    alert('Video uploaded successfully!');
+                    closeQuickModal();
+                    document.getElementById('quickUploadForm').reset();
+                    selectedFile = null;
+                } else {
+                    alert('Upload failed. Make sure backend is running.');
+                }
+            } catch (error) {
+                alert('Upload failed. Make sure the backend server is running at http://localhost:8001');
+            }
+        });
+        
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
