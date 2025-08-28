@@ -137,21 +137,36 @@ const careerCourseMapping = {
         focus: 'computational modeling and simulation of materials'
     },
     
-    // Chemistry careers
+    // Chemistry careers - expanded course requirements
     'pharmaceutical-chemist': {
-        required: ['CHEM201', 'CHEM202', 'CHEM402'], 
-        recommended: ['CHEM303', 'BIO201', 'PHAR201'],
+        required: ['CHEM201', 'CHEM202', 'CHEM402', 'CHEM404'], 
+        recommended: ['CHEM303', 'CHEM408', 'PHAR201', 'BIO201', 'CHEM301', 'CHEM403'],
         focus: 'drug design, synthesis, and pharmaceutical development'
     },
     'analytical-chemist': {
-        required: ['CHEM303', 'CHEM302'],
-        recommended: ['CHEM304', 'CHEM305', 'STAT201'],
+        required: ['CHEM303', 'CHEM304', 'CHEM205', 'CHEM302'],
+        recommended: ['CHEM305', 'CHEM409', 'STAT201', 'CHEM301', 'CHEM206', 'CS101'],
         focus: 'chemical analysis, instrumentation, and quality control'
     },
     'forensic-chemist': {
-        required: ['CHEM303', 'CHEM308'],
-        recommended: ['CHEM309', 'CJ301', 'BIO302'],
+        required: ['CHEM303', 'CHEM308', 'CHEM309', 'CHEM304'],
+        recommended: ['CJ301', 'BIO302', 'CHEM205', 'LAW101', 'CHEM402', 'PSY403'],
         focus: 'evidence analysis, toxicology, and criminal investigation'
+    },
+    'organic-synthesis': {
+        required: ['CHEM201', 'CHEM202', 'CHEM306', 'CHEM203', 'CHEM204'],
+        recommended: ['CHEM307', 'CHEM401', 'CHEM406', 'CHEM409', 'CHEM310', 'CHEM302'],
+        focus: 'synthetic methodology and complex molecule synthesis'
+    },
+    'materials-chemist': {
+        required: ['CHEM310', 'CHEM301', 'CHEM407', 'MAT101'],
+        recommended: ['CHEM401', 'MAT301', 'CHEM302', 'CHEM406', 'PHYS301', 'CHEM405'],
+        focus: 'polymer synthesis, materials characterization, and nanotechnology'
+    },
+    'environmental-chemist': {
+        required: ['CHEM405', 'ENV201', 'CHEM301', 'CHEM303'],
+        recommended: ['ENV301', 'CHEM309', 'BIO202', 'ENV302', 'CHEM205', 'GEO201'],
+        focus: 'environmental monitoring, pollution control, and green chemistry'
     },
     
     // Environmental Science careers
