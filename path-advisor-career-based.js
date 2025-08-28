@@ -822,8 +822,8 @@ function createCourseCard(course, type) {
         elective: ''
     };
     
-    // Generate syllabus link for the course
-    const syllabusUrl = `/syllabi/${selectedMajor}/${course.id}-syllabus.pdf`;
+    // Generate syllabus link for the course - opens HTML viewer
+    const syllabusUrl = `syllabus-viewer.html?course=${course.id}`;
     
     return `
         <div style="padding: 1rem; margin-bottom: 0.75rem; background: var(--card-bg); 
@@ -986,12 +986,12 @@ function displayCareerRoadmap() {
                                             ${isRequired ? '<span class="badge" style="background: var(--primary-accent); color: white;">Career Required</span>' : 
                                               isRecommended ? '<span class="badge" style="background: #ff9800; color: white;">Recommended</span>' : ''}
                                             <span style="margin-left: 0.5rem; color: var(--primary-accent);">${course.credits} credits</span>
-                                            <a href="/syllabi/${selectedMajor}/${course.id}-syllabus.pdf" 
+                                            <a href="syllabus-viewer.html?course=${course.id}" 
                                                target="_blank"
                                                style="margin-left: 0.5rem; padding: 0.2rem 0.4rem; 
                                                       background: #667eea; color: white; text-decoration: none; 
                                                       border-radius: 3px; font-size: 0.8rem;">
-                                                <i class="fas fa-file-pdf"></i> Syllabus
+                                                <i class="fas fa-file-alt"></i> Syllabus
                                             </a>
                                         </div>
                                     </div>
