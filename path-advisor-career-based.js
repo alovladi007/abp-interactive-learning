@@ -95,6 +95,48 @@ const careerCourseMapping = {
         focus: 'business analytics and reporting'
     },
     
+    // Materials Science careers
+    'nano-engineer': {
+        required: ['MAT305', 'MAT402', 'MAT408'], // Nanomaterials, Advanced Semi, Quantum
+        recommended: ['MAT204', 'MAT406', 'MAT308'], // Characterization, Surface, Computational
+        focus: 'nanoscale materials synthesis, characterization, and applications'
+    },
+    'battery-engineer': {
+        required: ['MAT401', 'MAT403'], // Energy Storage, Sustainable Energy
+        recommended: ['MAT203', 'MAT301', 'MAT309'], // Electronic Props, Polymers, Corrosion
+        focus: 'energy storage materials and electrochemical systems'
+    },
+    'semiconductor-engineer': {
+        required: ['MAT203', 'MAT402'], // Electronic Properties, Advanced Semiconductors
+        recommended: ['MAT305', 'MAT406', 'MAT206'], // Nano, Surface, Crystallography
+        focus: 'electronic materials for semiconductor devices'
+    },
+    'biomaterials-engineer': {
+        required: ['MAT306'], // Biomaterials
+        recommended: ['MAT301', 'MAT302', 'MAT309'], // Polymers, Ceramics, Corrosion
+        focus: 'biocompatible materials for medical applications'
+    },
+    'polymer-engineer': {
+        required: ['MAT301', 'MAT304'], // Polymers, Composites
+        recommended: ['MAT205', 'MAT404', 'MAT309'], // Processing, Adv Manufacturing, Corrosion
+        focus: 'polymer synthesis, processing, and composite materials'
+    },
+    'metallurgist': {
+        required: ['MAT303', 'MAT309'], // Metallic Materials, Corrosion
+        recommended: ['MAT201', 'MAT202', 'MAT405'], // Thermo, Mechanical, Failure
+        focus: 'metal alloys, processing, and heat treatment'
+    },
+    'failure-analyst': {
+        required: ['MAT405', 'MAT202'], // Failure Analysis, Mechanical Behavior
+        recommended: ['MAT309', 'MAT204', 'MAT303'], // Corrosion, Characterization, Metals
+        focus: 'failure mechanisms, forensic analysis, and reliability'
+    },
+    'computational-materials': {
+        required: ['MAT308'], // Computational Materials
+        recommended: ['MAT201', 'CS201', 'MATH301'], // Thermo, Data Structures, Linear Algebra
+        focus: 'computational modeling and simulation of materials'
+    },
+    
     // Default for other careers
     'default': {
         required: [],
@@ -168,6 +210,38 @@ const courseCatalog = {
         { id: 'PHYS304', name: 'Solid State Physics', credits: 4, prerequisites: ['PHYS201'], description: 'Physics of crystalline solids', level: 'advanced' },
         { id: 'PHYS401', name: 'Nuclear and Particle Physics', credits: 4, prerequisites: ['PHYS302'], description: 'Nuclear structure and particles', level: 'advanced' },
         { id: 'PHYS402', name: 'General Relativity', credits: 4, prerequisites: ['PHYS301'], description: 'Einstein\'s theory of gravitation', level: 'advanced' }
+    ],
+    materials: [
+        { id: 'MAT101', name: 'Introduction to Materials Science', credits: 4, prerequisites: [], description: 'Crystal structures, bonding, defects, and basic properties', level: 'foundation' },
+        { id: 'MAT102', name: 'Materials Chemistry', credits: 3, prerequisites: [], description: 'Chemical principles in materials science', level: 'foundation' },
+        { id: 'MAT103', name: 'Materials Physics', credits: 3, prerequisites: [], description: 'Physical properties and quantum mechanics applications', level: 'foundation' },
+        { id: 'MAT104', name: 'Materials Laboratory I', credits: 2, prerequisites: [], description: 'Basic characterization techniques and experiments', level: 'foundation' },
+        { id: 'MAT201', name: 'Thermodynamics of Materials', credits: 4, prerequisites: ['MAT101'], description: 'Phase diagrams, phase transformations, thermodynamics', level: 'core' },
+        { id: 'MAT202', name: 'Mechanical Behavior of Materials', credits: 4, prerequisites: ['MAT101'], description: 'Stress-strain, deformation, fracture, fatigue', level: 'core' },
+        { id: 'MAT203', name: 'Electronic Properties of Materials', credits: 4, prerequisites: ['MAT103'], description: 'Band theory, semiconductors, conductors, insulators', level: 'core' },
+        { id: 'MAT204', name: 'Materials Characterization', credits: 4, prerequisites: ['MAT104'], description: 'XRD, electron microscopy, spectroscopy techniques', level: 'core' },
+        { id: 'MAT205', name: 'Materials Processing', credits: 3, prerequisites: ['MAT101'], description: 'Casting, forming, joining, powder processing', level: 'core' },
+        { id: 'MAT206', name: 'Crystallography and Diffraction', credits: 3, prerequisites: ['MAT101'], description: 'Crystal systems, symmetry, diffraction theory', level: 'core' },
+        { id: 'MAT301', name: 'Polymer Science and Engineering', credits: 4, prerequisites: ['MAT102', 'MAT201'], description: 'Polymer synthesis, structure-property relationships', level: 'advanced' },
+        { id: 'MAT302', name: 'Ceramic Materials', credits: 4, prerequisites: ['MAT201'], description: 'Ceramic structures, processing, properties', level: 'advanced' },
+        { id: 'MAT303', name: 'Metallic Materials', credits: 4, prerequisites: ['MAT202'], description: 'Alloy theory, steel metallurgy, heat treatment', level: 'advanced' },
+        { id: 'MAT304', name: 'Composite Materials', credits: 4, prerequisites: ['MAT202'], description: 'Fiber-reinforced composites, design, manufacturing', level: 'advanced' },
+        { id: 'MAT305', name: 'Nanomaterials and Nanotechnology', credits: 4, prerequisites: ['MAT203', 'MAT204'], description: 'Synthesis and applications of nanoscale materials', level: 'advanced' },
+        { id: 'MAT306', name: 'Biomaterials', credits: 3, prerequisites: ['MAT301'], description: 'Medical implants, tissue engineering, biocompatibility', level: 'advanced' },
+        { id: 'MAT307', name: 'Magnetic and Optical Materials', credits: 3, prerequisites: ['MAT203'], description: 'Ferromagnetism, optical properties, photonics', level: 'advanced' },
+        { id: 'MAT308', name: 'Computational Materials Science', credits: 3, prerequisites: ['MAT201'], description: 'Molecular dynamics, DFT, phase field modeling', level: 'advanced' },
+        { id: 'MAT309', name: 'Corrosion and Degradation', credits: 3, prerequisites: ['MAT102', 'MAT303'], description: 'Corrosion mechanisms, protection methods', level: 'advanced' },
+        { id: 'MAT310', name: 'Materials Laboratory II', credits: 2, prerequisites: ['MAT204'], description: 'Advanced characterization and synthesis experiments', level: 'advanced' },
+        { id: 'MAT401', name: 'Energy Storage Materials', credits: 4, prerequisites: ['MAT203', 'MAT301'], description: 'Battery materials, fuel cells, supercapacitors', level: 'specialized' },
+        { id: 'MAT402', name: 'Advanced Semiconductor Materials', credits: 4, prerequisites: ['MAT203', 'MAT305'], description: 'Wide bandgap semiconductors, 2D materials, quantum dots', level: 'specialized' },
+        { id: 'MAT403', name: 'Materials for Sustainable Energy', credits: 3, prerequisites: ['MAT401'], description: 'Solar cells, thermoelectrics, energy harvesting', level: 'specialized' },
+        { id: 'MAT404', name: 'Advanced Manufacturing', credits: 3, prerequisites: ['MAT205', 'MAT304'], description: '3D printing, additive manufacturing, smart manufacturing', level: 'specialized' },
+        { id: 'MAT405', name: 'Materials Failure Analysis', credits: 3, prerequisites: ['MAT202', 'MAT309'], description: 'Failure mechanisms, forensic analysis, case studies', level: 'specialized' },
+        { id: 'MAT406', name: 'Surface Science and Engineering', credits: 3, prerequisites: ['MAT204', 'MAT309'], description: 'Surface phenomena, coatings, thin films', level: 'specialized' },
+        { id: 'MAT407', name: 'Materials Design and Selection', credits: 3, prerequisites: ['MAT303', 'MAT304'], description: 'Selection methodology, Ashby charts, optimization', level: 'specialized' },
+        { id: 'MAT408', name: 'Quantum Materials', credits: 3, prerequisites: ['MAT203'], description: 'Superconductors, topological insulators, quantum phenomena', level: 'specialized' },
+        { id: 'MAT409', name: 'Materials Entrepreneurship', credits: 2, prerequisites: ['MAT301', 'MAT302', 'MAT303'], description: 'Technology commercialization, IP, startups', level: 'specialized' },
+        { id: 'MAT410', name: 'Senior Design Project', credits: 4, prerequisites: ['MAT310'], description: 'Capstone design project in materials engineering', level: 'specialized' }
     ]
 };
 
@@ -177,7 +251,6 @@ const additionalCatalogs = {
     chemeng: ['CHE101', 'CHE201', 'CHE202', 'CHE301', 'CHE302', 'CHE303', 'CHE401', 'CHE402'],
     bme: ['BME101', 'BME201', 'BME202', 'BME301', 'BME302', 'BME401', 'BME402'],
     chemistry: ['CHEM101', 'CHEM102', 'CHEM201', 'CHEM202', 'CHEM301', 'CHEM302', 'CHEM303', 'CHEM401', 'CHEM402'],
-    materials: ['MAT101', 'MAT201', 'MAT202', 'MAT301', 'MAT302', 'MAT303', 'MAT401', 'MAT402'],
     environment: ['ENV101', 'ENV201', 'ENV202', 'ENV301', 'ENV302', 'ENV401', 'ENV402']
 };
 
@@ -252,6 +325,16 @@ const careerPaths = {
         { id: 'research-physicist', name: 'Research Physicist', icon: 'atom', description: 'Theoretical and experimental research' },
         { id: 'computational-physicist', name: 'Computational Physicist', icon: 'calculator', description: 'Simulations and modeling' },
         { id: 'applied-physicist', name: 'Applied Physicist', icon: 'cogs', description: 'Technology applications' }
+    ],
+    materials: [
+        { id: 'nano-engineer', name: 'Nanomaterials Engineer', icon: 'atom', description: 'Design nanoscale materials for advanced applications' },
+        { id: 'battery-engineer', name: 'Battery/Energy Storage Engineer', icon: 'battery-full', description: 'Develop materials for energy storage systems' },
+        { id: 'semiconductor-engineer', name: 'Semiconductor Materials Engineer', icon: 'microchip', description: 'Work on electronic materials for chips and devices' },
+        { id: 'biomaterials-engineer', name: 'Biomaterials Engineer', icon: 'dna', description: 'Develop materials for medical implants and tissue engineering' },
+        { id: 'polymer-engineer', name: 'Polymer Engineer', icon: 'link', description: 'Design and process polymer materials and composites' },
+        { id: 'metallurgist', name: 'Metallurgical Engineer', icon: 'hammer', description: 'Develop and process metallic materials and alloys' },
+        { id: 'failure-analyst', name: 'Materials Failure Analyst', icon: 'search', description: 'Investigate material failures and improve reliability' },
+        { id: 'computational-materials', name: 'Computational Materials Scientist', icon: 'calculator', description: 'Model and simulate materials using computational methods' }
     ],
     default: [
         { id: 'researcher', name: 'Researcher', icon: 'microscope', description: 'Research and development' },
@@ -774,6 +857,54 @@ function getCareerTips(careerId) {
             'Build full-stack applications',
             'Practice data structures and algorithms daily',
             'Learn cloud platforms (AWS, Azure, GCP)'
+        ],
+        'nano-engineer': [
+            'Gain hands-on experience with electron microscopy and AFM',
+            'Learn nanofabrication techniques in cleanroom facilities',
+            'Study quantum mechanics and solid-state physics',
+            'Pursue research in graphene, quantum dots, or carbon nanotubes'
+        ],
+        'battery-engineer': [
+            'Master electrochemistry and electrochemical characterization',
+            'Learn battery testing protocols and safety standards',
+            'Study lithium-ion, solid-state, and next-gen battery technologies',
+            'Gain experience with battery management systems (BMS)'
+        ],
+        'semiconductor-engineer': [
+            'Learn semiconductor fabrication processes and cleanroom protocols',
+            'Master characterization techniques (SEM, TEM, XRD, ellipsometry)',
+            'Study CMOS technology and device physics',
+            'Gain experience with process simulation software (TCAD)'
+        ],
+        'biomaterials-engineer': [
+            'Understand FDA regulations and biocompatibility testing',
+            'Learn cell culture and tissue engineering techniques',
+            'Study biomechanics and physiological systems',
+            'Gain clinical exposure through hospital internships'
+        ],
+        'polymer-engineer': [
+            'Master polymer synthesis and characterization techniques',
+            'Learn rheology and polymer processing methods',
+            'Study structure-property relationships in polymers',
+            'Gain experience with CAD and FEA for composite design'
+        ],
+        'metallurgist': [
+            'Learn heat treatment processes and phase transformations',
+            'Master metallography and mechanical testing',
+            'Study corrosion prevention and surface treatments',
+            'Gain experience with welding and joining technologies'
+        ],
+        'failure-analyst': [
+            'Develop expertise in fractography and failure mechanisms',
+            'Learn non-destructive testing (NDT) techniques',
+            'Study forensic engineering and root cause analysis',
+            'Gain experience with failure analysis case studies'
+        ],
+        'computational-materials': [
+            'Master DFT, molecular dynamics, and Monte Carlo methods',
+            'Learn Python, MATLAB, and materials modeling software',
+            'Study statistical mechanics and quantum mechanics',
+            'Contribute to open-source computational materials projects'
         ],
         default: [
             'Build a strong portfolio of projects',
