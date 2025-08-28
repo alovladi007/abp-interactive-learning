@@ -300,6 +300,46 @@ function generateRoadmap() {
         level: document.getElementById('level-select').value
     };
     
+    // Get the major name for the profile
+    const majorData = majorsByCategory[selectedCategory]?.find(m => m.id === selectedMajor);
+    if (majorData) {
+        userPreferences.fieldName = majorData.name;
+    }
+    
+    // Sync with academic profile (local)
+    if (window.academicProfile) {
+        window.academicProfile.updateFromPathAdvisor(userPreferences);
+        
+        // Dispatch event for other pages to listen to
+        window.dispatchEvent(new CustomEvent('pathAdvisorComplete', {
+            detail: userPreferences
+        }));
+    }
+    
+    // Sync with backend API
+    if (window.apiClient) {
+        // Format data for API
+        const apiData = {
+            field: userPreferences.field,
+            major: userPreferences.major,
+            career: userPreferences.career,
+            hours: userPreferences.hours,
+            budget: userPreferences.budget,
+            style: userPreferences.style,
+            level: userPreferences.level,
+            field_name: userPreferences.fieldName
+        };
+        
+        // Send to backend (async, don't wait)
+        window.apiClient.syncPathAdvisor(apiData).then(profile => {
+            if (profile) {
+                console.log('Profile synced with backend:', profile);
+            }
+        }).catch(err => {
+            console.error('Failed to sync with backend:', err);
+        });
+    }
+    
     // Hide step 4, show step 5
     document.getElementById('step-4').style.display = 'none';
     document.getElementById('step-5').style.display = 'block';

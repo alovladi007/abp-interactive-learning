@@ -130,34 +130,41 @@
                 <p>Configure your academic profile for personalized learning experience</p>
             </div>
 
-            <!-- Quick Stats -->
-            <div class="stats-grid">
+            <!-- Quick Stats - Synced with AI Path Advisor -->
+            <div class="stats-grid" id="academic-stats">
                 <div class="stat-card">
                     <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                         <i class="fas fa-university"></i>
                     </div>
-                    <div class="stat-value">Undergraduate</div>
+                    <div class="stat-value" id="stat-level">Undergraduate</div>
                     <div class="stat-label">Current Level</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
                         <i class="fas fa-book-open"></i>
                     </div>
-                    <div class="stat-value">5</div>
+                    <div class="stat-value" id="stat-courses">5</div>
                     <div class="stat-label">Active Courses</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
                         <i class="fas fa-brain"></i>
                     </div>
-                    <div class="stat-value">Computer Science</div>
-                    <div class="stat-label">Primary Field</div>
+                    <div>
+                        <div class="stat-value" id="stat-field">Computer Science</div>
+                        <div class="stat-label">Primary Field</div>
+                        <div id="career-badge" style="margin-top: 0.5rem; display: none;">
+                            <span class="badge" style="background: var(--primary-accent); color: white; font-size: 0.75rem;">
+                                <i class="fas fa-route"></i> <span id="career-text"></span>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
                         <i class="fas fa-trophy"></i>
                     </div>
-                    <div class="stat-value">3.8</div>
+                    <div class="stat-value" id="stat-gpa">3.8</div>
                     <div class="stat-label">GPA</div>
                 </div>
             </div>
@@ -568,5 +575,53 @@
 
     <script src="script.js"></script>
     <script src="dashboard.js"></script>
+    <script src="academic-profile-sync.js"></script>
+    <script src="academic-api-client.js"></script>
+    <script>
+        // Load and display profile data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if we have profile data
+            const profile = academicProfile.profile;
+            
+            if (profile.primaryMajor) {
+                // Update the primary field display
+                const fieldElement = document.getElementById('stat-field');
+                if (fieldElement) {
+                    fieldElement.textContent = academicProfile.getMajorDisplayName(profile.primaryMajor);
+                }
+                
+                // Show career path if available
+                if (profile.careerPath) {
+                    const careerBadge = document.getElementById('career-badge');
+                    const careerText = document.getElementById('career-text');
+                    if (careerBadge && careerText) {
+                        careerText.textContent = academicProfile.getCareerPathName();
+                        careerBadge.style.display = 'block';
+                    }
+                }
+                
+                // Update courses count
+                const coursesElement = document.getElementById('stat-courses');
+                if (coursesElement && profile.activeCourses) {
+                    coursesElement.textContent = profile.activeCourses;
+                }
+                
+                // Check the appropriate field checkboxes
+                academicProfile.updateFieldCheckboxes();
+            }
+            
+            // Add suggested courses if we have a career path
+            if (profile.careerPath) {
+                const courseSuggestions = academicProfile.getCourseSuggestions();
+                if (courseSuggestions.length > 0) {
+                    // Find or create suggested courses section
+                    const currentCoursesSection = document.querySelector('.section-card:nth-of-type(4)');
+                    if (currentCoursesSection && !document.getElementById('suggested-courses')) {
+                        academicProfile.addSuggestedCoursesSection(currentCoursesSection, courseSuggestions);
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

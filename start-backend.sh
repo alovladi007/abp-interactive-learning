@@ -1,36 +1,45 @@
 #!/bin/bash
 
-# Start QBank Backend Services
-echo "Starting QBank Backend Services..."
+echo "Starting AI Path Advisor Backend Services..."
+echo "=========================================="
 
-# Check if Docker is installed
-if ! command -v docker &> /dev/null; then
-    echo "Installing Docker..."
-    curl -fsSL https://get.docker.com -o get-docker.sh
-    sh get-docker.sh
+# Navigate to backend directory
+cd ai-path-advisor-starter/backend
+
+# Check if virtual environment exists
+if [ ! -d "venv" ]; then
+    echo "Creating virtual environment..."
+    python3 -m venv venv
 fi
 
-# Start PostgreSQL
-docker run -d \
-  --name qbank-postgres \
-  -e POSTGRES_DB=qbank \
-  -e POSTGRES_USER=qbank \
-  -e POSTGRES_PASSWORD=qbank123 \
-  -p 5432:5432 \
-  postgres:15
+# Activate virtual environment
+source venv/bin/activate
 
-# Start Redis
-docker run -d \
-  --name qbank-redis \
-  -p 6379:6379 \
-  redis:7-alpine
+# Install dependencies
+echo "Installing dependencies..."
+pip install -q fastapi uvicorn pydantic python-multipart
 
-# Start the FastAPI backend
-cd /workspace/qbank-backend
-pip install -r requirements.txt
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload &
+# Start the main API server
+echo "Starting main API server on port 8000..."
+python main.py &
+MAIN_PID=$!
 
-echo "Backend services started!"
-echo "API: http://localhost:8000"
-echo "PostgreSQL: localhost:5432"
-echo "Redis: localhost:6379"
+# Start the profile API server
+echo "Starting profile API server on port 8001..."
+python profile_api.py &
+PROFILE_PID=$!
+
+echo ""
+echo "=========================================="
+echo "Backend services are running!"
+echo "Main API: http://localhost:8000"
+echo "Profile API: http://localhost:8001"
+echo "API Documentation: http://localhost:8000/docs"
+echo "Profile API Docs: http://localhost:8001/docs"
+echo ""
+echo "Press Ctrl+C to stop all services"
+echo "=========================================="
+
+# Wait for interrupt
+trap "kill $MAIN_PID $PROFILE_PID; exit" INT
+wait
