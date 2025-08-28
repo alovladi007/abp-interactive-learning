@@ -150,14 +150,14 @@ class AcademicProfileManager {
 
     updateSuggestedCourses() {
         // Generate suggested courses based on career path
-        const courseSuggestions = this.getCourseSuggestions();
+        // Suggested courses section removed as requested
+        // const courseSuggestions = this.getCourseSuggestions();
         
         // Add to current courses section if needed
-        const coursesContainer = document.querySelector('.courses-list');
-        if (coursesContainer && courseSuggestions.length > 0) {
-            // Add suggested courses indicator
-            this.addSuggestedCoursesSection(coursesContainer, courseSuggestions);
-        }
+        // const coursesContainer = document.querySelector('.courses-list');
+        // if (coursesContainer && courseSuggestions.length > 0) {
+        //     this.addSuggestedCoursesSection(coursesContainer, courseSuggestions);
+        // }
     }
 
     getCourseSuggestions() {
