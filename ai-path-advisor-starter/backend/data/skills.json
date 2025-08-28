@@ -1,0 +1,773 @@
+[
+  {
+    "skill_id": "math.algebra",
+    "name": "Algebra",
+    "prereq_ids": [],
+    "tags": [
+      "math",
+      "foundation"
+    ],
+    "difficulty": 1
+  },
+  {
+    "skill_id": "math.precalculus",
+    "name": "Pre-Calculus",
+    "prereq_ids": [
+      "math.algebra"
+    ],
+    "tags": [
+      "math"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "math.calculus_1",
+    "name": "Calculus I",
+    "prereq_ids": [
+      "math.precalculus"
+    ],
+    "tags": [
+      "math"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "math.calculus_2",
+    "name": "Calculus II",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "math"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "math.calculus_3",
+    "name": "Calculus III (Multivariable)",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "math"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "math.linear_algebra",
+    "name": "Linear Algebra",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "math"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "math.discrete",
+    "name": "Discrete Mathematics",
+    "prereq_ids": [
+      "math.algebra"
+    ],
+    "tags": [
+      "math",
+      "cs"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "math.differential_equations",
+    "name": "Differential Equations",
+    "prereq_ids": [
+      "math.calculus_2",
+      "math.linear_algebra"
+    ],
+    "tags": [
+      "math"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "math.statistics",
+    "name": "Statistics & Probability",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "math",
+      "data"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "prog.basics",
+    "name": "Programming Fundamentals",
+    "prereq_ids": [],
+    "tags": [
+      "cs",
+      "programming"
+    ],
+    "difficulty": 1
+  },
+  {
+    "skill_id": "prog.python.basics",
+    "name": "Python Programming Basics",
+    "prereq_ids": [
+      "prog.basics"
+    ],
+    "tags": [
+      "cs",
+      "programming"
+    ],
+    "difficulty": 1
+  },
+  {
+    "skill_id": "prog.python.advanced",
+    "name": "Advanced Python",
+    "prereq_ids": [
+      "prog.python.basics"
+    ],
+    "tags": [
+      "cs",
+      "programming"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "prog.c.basics",
+    "name": "C Programming Basics",
+    "prereq_ids": [
+      "prog.basics"
+    ],
+    "tags": [
+      "cs",
+      "programming",
+      "systems"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "prog.cpp.basics",
+    "name": "C++ Programming",
+    "prereq_ids": [
+      "prog.c.basics"
+    ],
+    "tags": [
+      "cs",
+      "programming"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "prog.java.basics",
+    "name": "Java Programming",
+    "prereq_ids": [
+      "prog.basics"
+    ],
+    "tags": [
+      "cs",
+      "programming"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "prog.javascript.basics",
+    "name": "JavaScript Basics",
+    "prereq_ids": [
+      "prog.basics"
+    ],
+    "tags": [
+      "cs",
+      "web"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "cs.ds.algorithms",
+    "name": "Data Structures & Algorithms",
+    "prereq_ids": [
+      "math.discrete",
+      "prog.python.basics"
+    ],
+    "tags": [
+      "cs",
+      "core"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "cs.computer.arch",
+    "name": "Computer Architecture",
+    "prereq_ids": [
+      "prog.c.basics"
+    ],
+    "tags": [
+      "cs",
+      "systems"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "cs.os",
+    "name": "Operating Systems",
+    "prereq_ids": [
+      "cs.computer.arch",
+      "cs.ds.algorithms"
+    ],
+    "tags": [
+      "cs",
+      "systems"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "cs.networks",
+    "name": "Computer Networks",
+    "prereq_ids": [
+      "cs.os"
+    ],
+    "tags": [
+      "cs",
+      "systems"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "cs.databases",
+    "name": "Database Systems",
+    "prereq_ids": [
+      "cs.ds.algorithms"
+    ],
+    "tags": [
+      "cs",
+      "data"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "cs.distributed",
+    "name": "Distributed Systems",
+    "prereq_ids": [
+      "cs.networks",
+      "cs.databases"
+    ],
+    "tags": [
+      "cs",
+      "systems"
+    ],
+    "difficulty": 5
+  },
+  {
+    "skill_id": "cs.software.engineering",
+    "name": "Software Engineering",
+    "prereq_ids": [
+      "cs.ds.algorithms"
+    ],
+    "tags": [
+      "cs",
+      "engineering"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "cs.compilers",
+    "name": "Compiler Design",
+    "prereq_ids": [
+      "cs.ds.algorithms",
+      "cs.computer.arch"
+    ],
+    "tags": [
+      "cs",
+      "systems"
+    ],
+    "difficulty": 5
+  },
+  {
+    "skill_id": "cs.web.frontend",
+    "name": "Frontend Development",
+    "prereq_ids": [
+      "prog.javascript.basics"
+    ],
+    "tags": [
+      "cs",
+      "web"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "cs.web.backend",
+    "name": "Backend Development",
+    "prereq_ids": [
+      "cs.databases",
+      "cs.networks"
+    ],
+    "tags": [
+      "cs",
+      "web"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "cs.web.fullstack",
+    "name": "Full Stack Development",
+    "prereq_ids": [
+      "cs.web.frontend",
+      "cs.web.backend"
+    ],
+    "tags": [
+      "cs",
+      "web"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "cs.ai.ml.basics",
+    "name": "Machine Learning Fundamentals",
+    "prereq_ids": [
+      "math.linear_algebra",
+      "math.statistics",
+      "prog.python.advanced"
+    ],
+    "tags": [
+      "cs",
+      "ml"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "cs.ai.deep_learning",
+    "name": "Deep Learning",
+    "prereq_ids": [
+      "cs.ai.ml.basics"
+    ],
+    "tags": [
+      "cs",
+      "ml"
+    ],
+    "difficulty": 5
+  },
+  {
+    "skill_id": "cs.ai.nlp",
+    "name": "Natural Language Processing",
+    "prereq_ids": [
+      "cs.ai.ml.basics"
+    ],
+    "tags": [
+      "cs",
+      "ml"
+    ],
+    "difficulty": 5
+  },
+  {
+    "skill_id": "cs.ai.cv",
+    "name": "Computer Vision",
+    "prereq_ids": [
+      "cs.ai.deep_learning"
+    ],
+    "tags": [
+      "cs",
+      "ml"
+    ],
+    "difficulty": 5
+  },
+  {
+    "skill_id": "cs.ai.rl",
+    "name": "Reinforcement Learning",
+    "prereq_ids": [
+      "cs.ai.ml.basics"
+    ],
+    "tags": [
+      "cs",
+      "ml"
+    ],
+    "difficulty": 5
+  },
+  {
+    "skill_id": "cs.security.basics",
+    "name": "Computer Security Basics",
+    "prereq_ids": [
+      "cs.os",
+      "cs.networks"
+    ],
+    "tags": [
+      "cs",
+      "security"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "cs.security.crypto",
+    "name": "Cryptography",
+    "prereq_ids": [
+      "math.discrete",
+      "cs.security.basics"
+    ],
+    "tags": [
+      "cs",
+      "security"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "cs.security.web",
+    "name": "Web Security",
+    "prereq_ids": [
+      "cs.web.fullstack",
+      "cs.security.basics"
+    ],
+    "tags": [
+      "cs",
+      "security"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "ee.circuits_1",
+    "name": "Circuits I",
+    "prereq_ids": [
+      "math.calculus_1",
+      "phys.em_intro"
+    ],
+    "tags": [
+      "ee",
+      "core"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ee.circuits_2",
+    "name": "Circuits II",
+    "prereq_ids": [
+      "ee.circuits_1",
+      "math.calculus_2"
+    ],
+    "tags": [
+      "ee",
+      "core"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ee.signals_systems",
+    "name": "Signals & Systems",
+    "prereq_ids": [
+      "math.calculus_2",
+      "math.linear_algebra"
+    ],
+    "tags": [
+      "ee",
+      "core"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "ee.em_1",
+    "name": "Electromagnetics I",
+    "prereq_ids": [
+      "math.calculus_3",
+      "phys.em_intro"
+    ],
+    "tags": [
+      "ee",
+      "core"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "ee.em_2",
+    "name": "Electromagnetics II",
+    "prereq_ids": [
+      "ee.em_1"
+    ],
+    "tags": [
+      "ee",
+      "advanced"
+    ],
+    "difficulty": 5
+  },
+  {
+    "skill_id": "ee.digital_logic",
+    "name": "Digital Logic & Computer Design",
+    "prereq_ids": [
+      "prog.c.basics"
+    ],
+    "tags": [
+      "ee",
+      "digital"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ee.embedded",
+    "name": "Embedded Systems",
+    "prereq_ids": [
+      "ee.digital_logic",
+      "prog.c.basics"
+    ],
+    "tags": [
+      "ee",
+      "systems"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "ee.control_systems",
+    "name": "Control Systems",
+    "prereq_ids": [
+      "ee.signals_systems",
+      "math.differential_equations"
+    ],
+    "tags": [
+      "ee",
+      "control"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "ee.comm_systems",
+    "name": "Communication Systems",
+    "prereq_ids": [
+      "ee.signals_systems",
+      "ee.em_1"
+    ],
+    "tags": [
+      "ee",
+      "comm"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "ee.power_systems",
+    "name": "Power Systems",
+    "prereq_ids": [
+      "ee.circuits_2",
+      "ee.em_1"
+    ],
+    "tags": [
+      "ee",
+      "power"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "ee.semiconductor_devices",
+    "name": "Semiconductor Devices",
+    "prereq_ids": [
+      "phys.quantum_1",
+      "ee.circuits_1"
+    ],
+    "tags": [
+      "ee",
+      "devices"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "ee.vlsi",
+    "name": "VLSI Design",
+    "prereq_ids": [
+      "ee.digital_logic",
+      "ee.semiconductor_devices"
+    ],
+    "tags": [
+      "ee",
+      "vlsi"
+    ],
+    "difficulty": 5
+  },
+  {
+    "skill_id": "phys.mechanics",
+    "name": "Classical Mechanics",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "physics",
+      "core"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "phys.em_intro",
+    "name": "Introductory Electricity & Magnetism",
+    "prereq_ids": [
+      "math.calculus_2",
+      "phys.mechanics"
+    ],
+    "tags": [
+      "physics",
+      "core"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "phys.modern",
+    "name": "Modern Physics",
+    "prereq_ids": [
+      "phys.mechanics",
+      "phys.em_intro"
+    ],
+    "tags": [
+      "physics",
+      "core"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "phys.thermo",
+    "name": "Thermodynamics",
+    "prereq_ids": [
+      "math.calculus_2",
+      "phys.mechanics"
+    ],
+    "tags": [
+      "physics",
+      "core"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "phys.quantum_1",
+    "name": "Quantum Mechanics I",
+    "prereq_ids": [
+      "math.linear_algebra",
+      "phys.modern",
+      "math.differential_equations"
+    ],
+    "tags": [
+      "physics",
+      "quantum"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "phys.quantum_2",
+    "name": "Quantum Mechanics II",
+    "prereq_ids": [
+      "phys.quantum_1"
+    ],
+    "tags": [
+      "physics",
+      "quantum"
+    ],
+    "difficulty": 5
+  },
+  {
+    "skill_id": "phys.em_advanced",
+    "name": "Advanced Electromagnetism",
+    "prereq_ids": [
+      "math.calculus_3",
+      "phys.em_intro",
+      "math.differential_equations"
+    ],
+    "tags": [
+      "physics",
+      "advanced"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "phys.stat_mech",
+    "name": "Statistical Mechanics",
+    "prereq_ids": [
+      "phys.thermo",
+      "phys.quantum_1",
+      "math.statistics"
+    ],
+    "tags": [
+      "physics",
+      "advanced"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "phys.solid_state",
+    "name": "Solid State Physics",
+    "prereq_ids": [
+      "phys.quantum_1",
+      "phys.stat_mech"
+    ],
+    "tags": [
+      "physics",
+      "materials"
+    ],
+    "difficulty": 5
+  },
+  {
+    "skill_id": "phys.particle",
+    "name": "Particle Physics",
+    "prereq_ids": [
+      "phys.quantum_2",
+      "phys.em_advanced"
+    ],
+    "tags": [
+      "physics",
+      "advanced"
+    ],
+    "difficulty": 5
+  },
+  {
+    "skill_id": "data.analysis",
+    "name": "Data Analysis",
+    "prereq_ids": [
+      "prog.python.basics",
+      "math.statistics"
+    ],
+    "tags": [
+      "data",
+      "analytics"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "data.visualization",
+    "name": "Data Visualization",
+    "prereq_ids": [
+      "data.analysis"
+    ],
+    "tags": [
+      "data",
+      "viz"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "data.engineering",
+    "name": "Data Engineering",
+    "prereq_ids": [
+      "cs.databases",
+      "prog.python.advanced"
+    ],
+    "tags": [
+      "data",
+      "engineering"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "data.big_data",
+    "name": "Big Data Technologies",
+    "prereq_ids": [
+      "data.engineering",
+      "cs.distributed"
+    ],
+    "tags": [
+      "data",
+      "scale"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "data.streaming",
+    "name": "Stream Processing",
+    "prereq_ids": [
+      "data.engineering"
+    ],
+    "tags": [
+      "data",
+      "realtime"
+    ],
+    "difficulty": 4
+  }
+]

@@ -1,0 +1,881 @@
+[
+  {
+    "resource_id": "course.cs50.harvard",
+    "type": "course",
+    "title": "CS50x: Introduction to Computer Science",
+    "provider": "Harvard",
+    "skills": [
+      "prog.basics",
+      "prog.python.basics",
+      "prog.c.basics"
+    ],
+    "level": "intro",
+    "time_est_hours": 100,
+    "quality_score": 9.5,
+    "cost": "free",
+    "format": [
+      "video",
+      "problem sets",
+      "projects"
+    ]
+  },
+  {
+    "resource_id": "book.automate_boring_stuff",
+    "type": "book",
+    "title": "Automate the Boring Stuff with Python",
+    "provider": "Sweigart",
+    "skills": [
+      "prog.python.basics"
+    ],
+    "level": "intro",
+    "time_est_hours": 40,
+    "quality_score": 8.8,
+    "cost": "free",
+    "format": [
+      "text",
+      "projects"
+    ]
+  },
+  {
+    "resource_id": "book.fluent_python",
+    "type": "book",
+    "title": "Fluent Python",
+    "provider": "Luciano Ramalho",
+    "skills": [
+      "prog.python.advanced"
+    ],
+    "level": "advanced",
+    "time_est_hours": 60,
+    "quality_score": 9.2,
+    "cost": "paid",
+    "format": [
+      "text",
+      "examples"
+    ]
+  },
+  {
+    "resource_id": "book.k_and_r_c",
+    "type": "book",
+    "title": "The C Programming Language",
+    "provider": "Kernighan & Ritchie",
+    "skills": [
+      "prog.c.basics"
+    ],
+    "level": "intro",
+    "time_est_hours": 40,
+    "quality_score": 9.0,
+    "cost": "paid",
+    "format": [
+      "text",
+      "exercises"
+    ]
+  },
+  {
+    "resource_id": "book.cpp_primer",
+    "type": "book",
+    "title": "C++ Primer",
+    "provider": "Lippman et al.",
+    "skills": [
+      "prog.cpp.basics"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 8.9,
+    "cost": "paid",
+    "format": [
+      "text",
+      "exercises"
+    ]
+  },
+  {
+    "resource_id": "book.effective_java",
+    "type": "book",
+    "title": "Effective Java",
+    "provider": "Joshua Bloch",
+    "skills": [
+      "prog.java.basics"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 50,
+    "quality_score": 9.3,
+    "cost": "paid",
+    "format": [
+      "text"
+    ]
+  },
+  {
+    "resource_id": "course.javascript30",
+    "type": "course",
+    "title": "JavaScript30",
+    "provider": "Wes Bos",
+    "skills": [
+      "prog.javascript.basics"
+    ],
+    "level": "intro",
+    "time_est_hours": 30,
+    "quality_score": 8.7,
+    "cost": "free",
+    "format": [
+      "video",
+      "projects"
+    ]
+  },
+  {
+    "resource_id": "book.clrs.3e",
+    "type": "book",
+    "title": "Introduction to Algorithms (CLRS)",
+    "provider": "MIT Press",
+    "skills": [
+      "cs.ds.algorithms"
+    ],
+    "level": "advanced",
+    "time_est_hours": 120,
+    "quality_score": 9.7,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "course.princeton.algorithms",
+    "type": "course",
+    "title": "Algorithms (Coursera)",
+    "provider": "Princeton",
+    "skills": [
+      "cs.ds.algorithms"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 9.4,
+    "cost": "free",
+    "format": [
+      "video",
+      "assignments"
+    ]
+  },
+  {
+    "resource_id": "course.leetcode.curated",
+    "type": "practice",
+    "title": "LeetCode Top 150",
+    "provider": "LeetCode",
+    "skills": [
+      "cs.ds.algorithms"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 100,
+    "quality_score": 8.9,
+    "cost": "free",
+    "format": [
+      "practice",
+      "solutions"
+    ]
+  },
+  {
+    "resource_id": "book.csapp",
+    "type": "book",
+    "title": "Computer Systems: A Programmer's Perspective",
+    "provider": "Bryant & O'Hallaron",
+    "skills": [
+      "cs.computer.arch"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 100,
+    "quality_score": 9.5,
+    "cost": "paid",
+    "format": [
+      "text",
+      "labs"
+    ]
+  },
+  {
+    "resource_id": "book.ostep",
+    "type": "book",
+    "title": "Operating Systems: Three Easy Pieces",
+    "provider": "Arpaci-Dusseau",
+    "skills": [
+      "cs.os"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 9.6,
+    "cost": "free",
+    "format": [
+      "text",
+      "projects"
+    ]
+  },
+  {
+    "resource_id": "course.nand2tetris",
+    "type": "course",
+    "title": "From NAND to Tetris",
+    "provider": "Hebrew University",
+    "skills": [
+      "cs.computer.arch",
+      "ee.digital_logic"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 100,
+    "quality_score": 9.4,
+    "cost": "free",
+    "format": [
+      "video",
+      "projects"
+    ]
+  },
+  {
+    "resource_id": "book.kurose_ross",
+    "type": "book",
+    "title": "Computer Networking: Top-Down Approach",
+    "provider": "Kurose & Ross",
+    "skills": [
+      "cs.networks"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 9.2,
+    "cost": "paid",
+    "format": [
+      "text",
+      "labs"
+    ]
+  },
+  {
+    "resource_id": "course.cmu.15445",
+    "type": "course",
+    "title": "CMU Database Systems",
+    "provider": "CMU",
+    "skills": [
+      "cs.databases"
+    ],
+    "level": "advanced",
+    "time_est_hours": 100,
+    "quality_score": 9.5,
+    "cost": "free",
+    "format": [
+      "video",
+      "projects"
+    ]
+  },
+  {
+    "resource_id": "book.ddia",
+    "type": "book",
+    "title": "Designing Data-Intensive Applications",
+    "provider": "Martin Kleppmann",
+    "skills": [
+      "cs.distributed",
+      "cs.databases"
+    ],
+    "level": "advanced",
+    "time_est_hours": 80,
+    "quality_score": 9.7,
+    "cost": "paid",
+    "format": [
+      "text"
+    ]
+  },
+  {
+    "resource_id": "course.fullstackopen",
+    "type": "course",
+    "title": "Full Stack Open",
+    "provider": "University of Helsinki",
+    "skills": [
+      "cs.web.frontend",
+      "cs.web.backend",
+      "cs.web.fullstack"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 150,
+    "quality_score": 9.3,
+    "cost": "free",
+    "format": [
+      "text",
+      "projects"
+    ]
+  },
+  {
+    "resource_id": "course.freecodecamp.web",
+    "type": "course",
+    "title": "Responsive Web Design",
+    "provider": "freeCodeCamp",
+    "skills": [
+      "cs.web.frontend"
+    ],
+    "level": "intro",
+    "time_est_hours": 60,
+    "quality_score": 8.8,
+    "cost": "free",
+    "format": [
+      "interactive",
+      "projects"
+    ]
+  },
+  {
+    "resource_id": "book.eloquent_js",
+    "type": "book",
+    "title": "Eloquent JavaScript",
+    "provider": "Marijn Haverbeke",
+    "skills": [
+      "prog.javascript.basics",
+      "cs.web.frontend"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 60,
+    "quality_score": 9.1,
+    "cost": "free",
+    "format": [
+      "text",
+      "exercises"
+    ]
+  },
+  {
+    "resource_id": "course.3b1b.linear_algebra",
+    "type": "course",
+    "title": "Essence of Linear Algebra",
+    "provider": "3Blue1Brown",
+    "skills": [
+      "math.linear_algebra"
+    ],
+    "level": "intro",
+    "time_est_hours": 10,
+    "quality_score": 9.8,
+    "cost": "free",
+    "format": [
+      "video",
+      "visual"
+    ]
+  },
+  {
+    "resource_id": "book.strang.la",
+    "type": "book",
+    "title": "Introduction to Linear Algebra",
+    "provider": "Gilbert Strang",
+    "skills": [
+      "math.linear_algebra"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 9.4,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.islr",
+    "type": "book",
+    "title": "Introduction to Statistical Learning",
+    "provider": "James et al.",
+    "skills": [
+      "cs.ai.ml.basics",
+      "math.statistics"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 9.5,
+    "cost": "free",
+    "format": [
+      "text",
+      "R labs"
+    ]
+  },
+  {
+    "resource_id": "book.prml",
+    "type": "book",
+    "title": "Pattern Recognition and Machine Learning",
+    "provider": "Christopher Bishop",
+    "skills": [
+      "cs.ai.ml.basics"
+    ],
+    "level": "advanced",
+    "time_est_hours": 120,
+    "quality_score": 9.3,
+    "cost": "paid",
+    "format": [
+      "text",
+      "math"
+    ]
+  },
+  {
+    "resource_id": "course.fast.ai",
+    "type": "course",
+    "title": "Practical Deep Learning",
+    "provider": "fast.ai",
+    "skills": [
+      "cs.ai.deep_learning"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 9.2,
+    "cost": "free",
+    "format": [
+      "video",
+      "notebooks"
+    ]
+  },
+  {
+    "resource_id": "book.dl.goodfellow",
+    "type": "book",
+    "title": "Deep Learning",
+    "provider": "Goodfellow et al.",
+    "skills": [
+      "cs.ai.deep_learning"
+    ],
+    "level": "advanced",
+    "time_est_hours": 120,
+    "quality_score": 9.1,
+    "cost": "free",
+    "format": [
+      "text",
+      "math"
+    ]
+  },
+  {
+    "resource_id": "course.stanford.cs231n",
+    "type": "course",
+    "title": "CS231n: CNNs for Visual Recognition",
+    "provider": "Stanford",
+    "skills": [
+      "cs.ai.cv"
+    ],
+    "level": "advanced",
+    "time_est_hours": 100,
+    "quality_score": 9.4,
+    "cost": "free",
+    "format": [
+      "video",
+      "assignments"
+    ]
+  },
+  {
+    "resource_id": "course.stanford.cs224n",
+    "type": "course",
+    "title": "CS224n: NLP with Deep Learning",
+    "provider": "Stanford",
+    "skills": [
+      "cs.ai.nlp"
+    ],
+    "level": "advanced",
+    "time_est_hours": 100,
+    "quality_score": 9.3,
+    "cost": "free",
+    "format": [
+      "video",
+      "projects"
+    ]
+  },
+  {
+    "resource_id": "book.sedra_smith",
+    "type": "book",
+    "title": "Microelectronic Circuits",
+    "provider": "Sedra/Smith",
+    "skills": [
+      "ee.circuits_1",
+      "ee.circuits_2"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 120,
+    "quality_score": 9.1,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.oppenheim_signals",
+    "type": "book",
+    "title": "Signals & Systems",
+    "provider": "Oppenheim & Willsky",
+    "skills": [
+      "ee.signals_systems"
+    ],
+    "level": "advanced",
+    "time_est_hours": 100,
+    "quality_score": 9.4,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.ogata_control",
+    "type": "book",
+    "title": "Modern Control Engineering",
+    "provider": "Ogata",
+    "skills": [
+      "ee.control_systems"
+    ],
+    "level": "advanced",
+    "time_est_hours": 90,
+    "quality_score": 8.9,
+    "cost": "paid",
+    "format": [
+      "text",
+      "MATLAB"
+    ]
+  },
+  {
+    "resource_id": "book.ulaby_em",
+    "type": "book",
+    "title": "Fundamentals of Applied Electromagnetics",
+    "provider": "Ulaby",
+    "skills": [
+      "ee.em_1"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 8.8,
+    "cost": "paid",
+    "format": [
+      "text",
+      "simulations"
+    ]
+  },
+  {
+    "resource_id": "book.proakis_comm",
+    "type": "book",
+    "title": "Digital Communications",
+    "provider": "Proakis & Salehi",
+    "skills": [
+      "ee.comm_systems"
+    ],
+    "level": "advanced",
+    "time_est_hours": 100,
+    "quality_score": 9.0,
+    "cost": "paid",
+    "format": [
+      "text",
+      "MATLAB"
+    ]
+  },
+  {
+    "resource_id": "book.sze_semiconductor",
+    "type": "book",
+    "title": "Physics of Semiconductor Devices",
+    "provider": "Sze & Ng",
+    "skills": [
+      "ee.semiconductor_devices"
+    ],
+    "level": "advanced",
+    "time_est_hours": 100,
+    "quality_score": 9.5,
+    "cost": "paid",
+    "format": [
+      "text"
+    ]
+  },
+  {
+    "resource_id": "course.arm.embedded",
+    "type": "course",
+    "title": "Embedded Systems with ARM",
+    "provider": "ARM Education",
+    "skills": [
+      "ee.embedded"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 8.9,
+    "cost": "free",
+    "format": [
+      "video",
+      "labs"
+    ]
+  },
+  {
+    "resource_id": "book.taylor_mechanics",
+    "type": "book",
+    "title": "Classical Mechanics",
+    "provider": "John R. Taylor",
+    "skills": [
+      "phys.mechanics"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 90,
+    "quality_score": 9.2,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.griffiths_em",
+    "type": "book",
+    "title": "Introduction to Electrodynamics",
+    "provider": "David Griffiths",
+    "skills": [
+      "phys.em_intro",
+      "phys.em_advanced"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 120,
+    "quality_score": 9.6,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.griffiths_qm",
+    "type": "book",
+    "title": "Introduction to Quantum Mechanics",
+    "provider": "David Griffiths",
+    "skills": [
+      "phys.quantum_1"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 100,
+    "quality_score": 9.4,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.sakurai_qm",
+    "type": "book",
+    "title": "Modern Quantum Mechanics",
+    "provider": "Sakurai & Napolitano",
+    "skills": [
+      "phys.quantum_2"
+    ],
+    "level": "advanced",
+    "time_est_hours": 120,
+    "quality_score": 9.3,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.reif_statmech",
+    "type": "book",
+    "title": "Fundamentals of Statistical and Thermal Physics",
+    "provider": "F. Reif",
+    "skills": [
+      "phys.stat_mech",
+      "phys.thermo"
+    ],
+    "level": "advanced",
+    "time_est_hours": 110,
+    "quality_score": 9.0,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.kittel_solid",
+    "type": "book",
+    "title": "Introduction to Solid State Physics",
+    "provider": "Charles Kittel",
+    "skills": [
+      "phys.solid_state"
+    ],
+    "level": "advanced",
+    "time_est_hours": 100,
+    "quality_score": 8.9,
+    "cost": "paid",
+    "format": [
+      "text"
+    ]
+  },
+  {
+    "resource_id": "course.mit.8.01",
+    "type": "course",
+    "title": "MIT 8.01 Physics I",
+    "provider": "MIT OCW",
+    "skills": [
+      "phys.mechanics"
+    ],
+    "level": "intro",
+    "time_est_hours": 80,
+    "quality_score": 9.3,
+    "cost": "free",
+    "format": [
+      "video",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "course.mit.8.02",
+    "type": "course",
+    "title": "MIT 8.02 Physics II",
+    "provider": "MIT OCW",
+    "skills": [
+      "phys.em_intro"
+    ],
+    "level": "intro",
+    "time_est_hours": 80,
+    "quality_score": 9.2,
+    "cost": "free",
+    "format": [
+      "video",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "course.khan.calculus",
+    "type": "course",
+    "title": "Calculus Course",
+    "provider": "Khan Academy",
+    "skills": [
+      "math.calculus_1",
+      "math.calculus_2",
+      "math.calculus_3"
+    ],
+    "level": "intro",
+    "time_est_hours": 120,
+    "quality_score": 8.8,
+    "cost": "free",
+    "format": [
+      "video",
+      "practice"
+    ]
+  },
+  {
+    "resource_id": "book.stewart_calculus",
+    "type": "book",
+    "title": "Calculus: Early Transcendentals",
+    "provider": "James Stewart",
+    "skills": [
+      "math.calculus_1",
+      "math.calculus_2",
+      "math.calculus_3"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 150,
+    "quality_score": 9.0,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.rosen_discrete",
+    "type": "book",
+    "title": "Discrete Mathematics and Its Applications",
+    "provider": "Kenneth Rosen",
+    "skills": [
+      "math.discrete"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 8.9,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "course.mit.18.06",
+    "type": "course",
+    "title": "MIT Linear Algebra",
+    "provider": "MIT OCW",
+    "skills": [
+      "math.linear_algebra"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 60,
+    "quality_score": 9.5,
+    "cost": "free",
+    "format": [
+      "video",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.ross_probability",
+    "type": "book",
+    "title": "A First Course in Probability",
+    "provider": "Sheldon Ross",
+    "skills": [
+      "math.statistics"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 70,
+    "quality_score": 8.8,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.mckinney_pandas",
+    "type": "book",
+    "title": "Python for Data Analysis",
+    "provider": "Wes McKinney",
+    "skills": [
+      "data.analysis"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 60,
+    "quality_score": 9.1,
+    "cost": "paid",
+    "format": [
+      "text",
+      "code"
+    ]
+  },
+  {
+    "resource_id": "course.coursera.data_science",
+    "type": "course",
+    "title": "Data Science Specialization",
+    "provider": "Johns Hopkins",
+    "skills": [
+      "data.analysis",
+      "data.visualization"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 120,
+    "quality_score": 8.7,
+    "cost": "paid",
+    "format": [
+      "video",
+      "projects"
+    ]
+  },
+  {
+    "resource_id": "book.kleppmann_streaming",
+    "type": "book",
+    "title": "Streaming Systems",
+    "provider": "Akidau et al.",
+    "skills": [
+      "data.streaming"
+    ],
+    "level": "advanced",
+    "time_est_hours": 80,
+    "quality_score": 9.0,
+    "cost": "paid",
+    "format": [
+      "text"
+    ]
+  },
+  {
+    "resource_id": "course.spark.definitive",
+    "type": "book",
+    "title": "Spark: The Definitive Guide",
+    "provider": "Chambers & Zaharia",
+    "skills": [
+      "data.big_data"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 70,
+    "quality_score": 8.9,
+    "cost": "paid",
+    "format": [
+      "text",
+      "code"
+    ]
+  }
+]

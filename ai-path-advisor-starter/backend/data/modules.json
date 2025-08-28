@@ -1,0 +1,323 @@
+[
+  {
+    "module_id": "cs.programming.core",
+    "skill_ids": [
+      "prog.python.basics",
+      "prog.c.basics"
+    ],
+    "outcomes": [
+      "Write programs in Python and C",
+      "Use data types and control flow",
+      "Debug and test code"
+    ],
+    "assessments": [
+      "weekly coding drills",
+      "2h timed exercise"
+    ],
+    "project_ideas": [
+      "CLI text processor",
+      "C-based micro-library"
+    ],
+    "target_hours": 80
+  },
+  {
+    "module_id": "cs.algorithms.core",
+    "skill_ids": [
+      "cs.ds.algorithms",
+      "math.discrete"
+    ],
+    "outcomes": [
+      "Asymptotic analysis",
+      "Sorting/graphs/DP",
+      "Trees/heaps/hashing"
+    ],
+    "assessments": [
+      "LeetCode set (50 problems)",
+      "algorithm design problems"
+    ],
+    "project_ideas": [
+      "route optimizer",
+      "streaming top-k system"
+    ],
+    "target_hours": 120
+  },
+  {
+    "module_id": "cs.systems.core",
+    "skill_ids": [
+      "cs.computer.arch",
+      "cs.os",
+      "cs.networks"
+    ],
+    "outcomes": [
+      "Process/memory/threads",
+      "I/O & filesystems",
+      "TCP/IP networking"
+    ],
+    "assessments": [
+      "OSTEP labs",
+      "socket programming"
+    ],
+    "project_ideas": [
+      "mini shell",
+      "HTTP server"
+    ],
+    "target_hours": 140
+  },
+  {
+    "module_id": "cs.web.fullstack.module",
+    "skill_ids": [
+      "cs.web.frontend",
+      "cs.web.backend",
+      "cs.databases"
+    ],
+    "outcomes": [
+      "React/Vue apps",
+      "REST APIs",
+      "Database design"
+    ],
+    "assessments": [
+      "full stack project",
+      "performance optimization"
+    ],
+    "project_ideas": [
+      "social media clone",
+      "e-commerce platform"
+    ],
+    "target_hours": 160
+  },
+  {
+    "module_id": "cs.ml.foundations",
+    "skill_ids": [
+      "cs.ai.ml.basics"
+    ],
+    "outcomes": [
+      "Supervised learning",
+      "Model evaluation",
+      "Feature engineering"
+    ],
+    "assessments": [
+      "Kaggle competition",
+      "model deployment"
+    ],
+    "project_ideas": [
+      "recommendation system",
+      "fraud detection"
+    ],
+    "target_hours": 100
+  },
+  {
+    "module_id": "cs.ml.deep",
+    "skill_ids": [
+      "cs.ai.deep_learning",
+      "cs.ai.cv",
+      "cs.ai.nlp"
+    ],
+    "outcomes": [
+      "CNNs/RNNs/Transformers",
+      "Transfer learning",
+      "Model optimization"
+    ],
+    "assessments": [
+      "paper implementation",
+      "end-to-end project"
+    ],
+    "project_ideas": [
+      "image classifier",
+      "chatbot",
+      "style transfer"
+    ],
+    "target_hours": 180
+  },
+  {
+    "module_id": "ee.circuits.sequence",
+    "skill_ids": [
+      "ee.circuits_1",
+      "ee.circuits_2"
+    ],
+    "outcomes": [
+      "AC/DC analysis",
+      "Op-amps",
+      "Transient response"
+    ],
+    "assessments": [
+      "LTspice labs",
+      "breadboard projects"
+    ],
+    "project_ideas": [
+      "active filter",
+      "power supply design"
+    ],
+    "target_hours": 110
+  },
+  {
+    "module_id": "ee.signals.controls",
+    "skill_ids": [
+      "ee.signals_systems",
+      "ee.control_systems"
+    ],
+    "outcomes": [
+      "Fourier/Laplace/Z",
+      "Feedback design",
+      "PID control"
+    ],
+    "assessments": [
+      "MATLAB/Simulink labs",
+      "control design project"
+    ],
+    "project_ideas": [
+      "drone stabilization",
+      "inverted pendulum"
+    ],
+    "target_hours": 120
+  },
+  {
+    "module_id": "ee.embedded.systems",
+    "skill_ids": [
+      "ee.embedded",
+      "ee.digital_logic"
+    ],
+    "outcomes": [
+      "Microcontroller programming",
+      "RTOS",
+      "Hardware interfaces"
+    ],
+    "assessments": [
+      "ARM/Arduino projects",
+      "FPGA labs"
+    ],
+    "project_ideas": [
+      "IoT sensor network",
+      "robot controller"
+    ],
+    "target_hours": 130
+  },
+  {
+    "module_id": "ee.communications",
+    "skill_ids": [
+      "ee.comm_systems",
+      "ee.em_1"
+    ],
+    "outcomes": [
+      "Modulation schemes",
+      "Channel coding",
+      "Antenna basics"
+    ],
+    "assessments": [
+      "MATLAB simulations",
+      "SDR labs"
+    ],
+    "project_ideas": [
+      "OFDM modem",
+      "wireless link design"
+    ],
+    "target_hours": 120
+  },
+  {
+    "module_id": "phys.classical.sequence",
+    "skill_ids": [
+      "phys.mechanics",
+      "phys.em_intro",
+      "phys.thermo"
+    ],
+    "outcomes": [
+      "Newtonian mechanics",
+      "Maxwell's equations",
+      "Thermodynamic laws"
+    ],
+    "assessments": [
+      "problem sets",
+      "lab reports"
+    ],
+    "project_ideas": [
+      "orbital mechanics sim",
+      "heat engine analysis"
+    ],
+    "target_hours": 150
+  },
+  {
+    "module_id": "phys.quantum.sequence",
+    "skill_ids": [
+      "phys.quantum_1",
+      "phys.quantum_2"
+    ],
+    "outcomes": [
+      "Wave functions",
+      "Operators",
+      "Perturbation theory"
+    ],
+    "assessments": [
+      "derivations",
+      "computational projects"
+    ],
+    "project_ideas": [
+      "quantum well solver",
+      "molecular orbital calc"
+    ],
+    "target_hours": 140
+  },
+  {
+    "module_id": "phys.advanced.sequence",
+    "skill_ids": [
+      "phys.stat_mech",
+      "phys.solid_state",
+      "phys.em_advanced"
+    ],
+    "outcomes": [
+      "Partition functions",
+      "Band theory",
+      "Gauge theory"
+    ],
+    "assessments": [
+      "research problems",
+      "simulations"
+    ],
+    "project_ideas": [
+      "Monte Carlo Ising",
+      "DFT calculation"
+    ],
+    "target_hours": 160
+  },
+  {
+    "module_id": "data.foundations",
+    "skill_ids": [
+      "data.analysis",
+      "data.visualization"
+    ],
+    "outcomes": [
+      "Pandas/NumPy",
+      "Statistical analysis",
+      "Dashboard creation"
+    ],
+    "assessments": [
+      "data analysis projects",
+      "visualization portfolio"
+    ],
+    "project_ideas": [
+      "COVID data dashboard",
+      "stock market analysis"
+    ],
+    "target_hours": 80
+  },
+  {
+    "module_id": "data.engineering.module",
+    "skill_ids": [
+      "data.engineering",
+      "data.big_data",
+      "data.streaming"
+    ],
+    "outcomes": [
+      "ETL pipelines",
+      "Spark/Hadoop",
+      "Kafka streaming"
+    ],
+    "assessments": [
+      "pipeline implementation",
+      "performance benchmarks"
+    ],
+    "project_ideas": [
+      "real-time analytics",
+      "data lake architecture"
+    ],
+    "target_hours": 140
+  }
+]
