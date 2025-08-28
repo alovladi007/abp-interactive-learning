@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Path Advisor - E.U.R.E.K.A Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .path-advisor-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .wizard-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .wizard-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 0;
+        }
+
+        .wizard-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .wizard-step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .wizard-step.active .wizard-step-circle {
+            background: var(--gradient-primary);
+            border-color: transparent;
+            color: white;
+        }
+
+        .wizard-step.completed .wizard-step-circle {
+            background: var(--success-color);
+            border-color: transparent;
+            color: white;
+        }
+
+        .wizard-step-label {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .wizard-step.active .wizard-step-label {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .goal-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .goal-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .goal-card:hover {
+            border-color: var(--primary-accent);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .goal-card.selected {
+            border-color: var(--primary-accent);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .roadmap-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gradient-primary);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 80px;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 20px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            border: 3px solid var(--card-bg);
+            box-shadow: 0 0 0 3px var(--border-color);
+        }
+
+        .timeline-content {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .skill-graph-container {
+            background: var(--secondary-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            border-color: var(--primary-accent);
+            transform: translateX(5px);
+        }
+
+        .progress-tracker {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .progress-stat {
+            text-align: center;
+            padding: 1rem;
+            background: var(--secondary-bg);
+            border-radius: 8px;
+        }
+
+        .progress-stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-accent);
+        }
+
+        .progress-stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <span class="logo-text">E.U.R.E.K.A</span>
+            </a>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search paths, skills, resources...">
+            </div>
+            
+            <div class="nav-actions">
+                <button class="btn-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="user-menu">
+                    <img src="https://ui-avatars.com/api/?name=Student&background=667eea&color=fff" alt="User" class="user-avatar">
+                    <div class="user-info">
+                        <span class="user-name">Student</span>
+                        <span class="user-role">Pro Member</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Navigation</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="dashboard.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-home"></i></span>
+                        <span>My Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="academic-setup.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-lightbulb"></i></span>
+                        <span>Academic Setup</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="ai-path-advisor.html" class="sidebar-link active">
+                        <span class="sidebar-icon"><i class="fas fa-route"></i></span>
+                        <span>AI Path Advisor</span>
+                        <span class="badge-hot">HOT</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="library.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-book"></i></span>
+                        <span>My Library</span>
+                        <span class="counter">128</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="prep-courses.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-book-open"></i></span>
+                        <span>Prep Courses</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="marketplace.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-shopping-cart"></i></span>
+                        <span>Marketplace</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="path-advisor-container">
+                <!-- Header -->
+                <div class="content-header">
+                    <h1><i class="fas fa-route"></i> AI Path Advisor</h1>
+                    <p>Your personalized learning roadmap generator powered by AI</p>
+                </div>
+
+                <!-- Wizard Steps -->
+                <div class="wizard-steps">
+                    <div class="wizard-step active" id="step-1">
+                        <div class="wizard-step-circle">1</div>
+                        <span class="wizard-step-label">Define Goal</span>
+                    </div>
+                    <div class="wizard-step" id="step-2">
+                        <div class="wizard-step-circle">2</div>
+                        <span class="wizard-step-label">Assess Level</span>
+                    </div>
+                    <div class="wizard-step" id="step-3">
+                        <div class="wizard-step-circle">3</div>
+                        <span class="wizard-step-label">Set Constraints</span>
+                    </div>
+                    <div class="wizard-step" id="step-4">
+                        <div class="wizard-step-circle">4</div>
+                        <span class="wizard-step-label">Generate Path</span>
+                    </div>
+                    <div class="wizard-step" id="step-5">
+                        <div class="wizard-step-circle">5</div>
+                        <span class="wizard-step-label">Start Learning</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Goal Selection -->
+                <div class="wizard-content" id="content-step-1">
+                    <div class="section-card">
+                        <div class="card-header">
+                            <h2>What's Your Learning Goal?</h2>
+                            <button class="btn btn-outline btn-sm" onclick="showCustomGoal()">
+                                <i class="fas fa-plus"></i> Custom Goal
+                            </button>
+                        </div>
+                        
+                        <div class="goal-cards">
+                            <!-- Popular Career Paths -->
+                            <div class="goal-card" data-goal="ml-engineer">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-brain" style="color: white; font-size: 1.5rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h3 style="margin: 0;">Machine Learning Engineer</h3>
+                                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">12-18 months</p>
+                                    </div>
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                                    Master ML algorithms, deep learning, MLOps, and production deployment
+                                </p>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Python</span>
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Math</span>
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Statistics</span>
+                                </div>
+                            </div>
+
+                            <div class="goal-card" data-goal="embedded-engineer">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-microchip" style="color: white; font-size: 1.5rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h3 style="margin: 0;">Embedded Systems Engineer</h3>
+                                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">10-14 months</p>
+                                    </div>
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                                    Firmware development, RTOS, hardware interfacing, and IoT systems
+                                </p>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">C/C++</span>
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Electronics</span>
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">ARM</span>
+                                </div>
+                            </div>
+
+                            <div class="goal-card" data-goal="data-engineer">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-database" style="color: white; font-size: 1.5rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h3 style="margin: 0;">Data Engineer</h3>
+                                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">8-12 months</p>
+                                    </div>
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                                    ETL pipelines, data warehousing, streaming, and cloud platforms
+                                </p>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">SQL</span>
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Spark</span>
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Cloud</span>
+                                </div>
+                            </div>
+
+                            <div class="goal-card" data-goal="full-stack">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-code" style="color: white; font-size: 1.5rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h3 style="margin: 0;">Full Stack Developer</h3>
+                                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">6-10 months</p>
+                                    </div>
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                                    Frontend, backend, databases, DevOps, and modern web frameworks
+                                </p>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">React</span>
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Node.js</span>
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Docker</span>
+                                </div>
+                            </div>
+
+                            <div class="goal-card" data-goal="cs-degree">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-graduation-cap" style="color: white; font-size: 1.5rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h3 style="margin: 0;">Computer Science Degree</h3>
+                                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">24-36 months</p>
+                                    </div>
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                                    Complete CS curriculum: algorithms, systems, theory, and projects
+                                </p>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Core CS</span>
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Math</span>
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Systems</span>
+                                </div>
+                            </div>
+
+                            <div class="goal-card" data-goal="ee-degree">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-bolt" style="color: white; font-size: 1.5rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h3 style="margin: 0;">Electrical Engineering</h3>
+                                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">24-36 months</p>
+                                    </div>
+                                </div>
+                                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                                    Circuits, signals, electromagnetics, power systems, and controls
+                                </p>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Circuits</span>
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Physics</span>
+                                    <span class="badge" style="background: var(--secondary-bg); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Math</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                            <button class="btn btn-primary btn-lg" onclick="nextStep()">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Level Assessment -->
+                <div class="wizard-content" id="content-step-2" style="display: none;">
+                    <div class="section-card">
+                        <div class="card-header">
+                            <h2>Assess Your Current Level</h2>
+                            <button class="btn btn-outline btn-sm">
+                                <i class="fas fa-upload"></i> Upload Portfolio
+                            </button>
+                        </div>
+
+                        <div style="margin: 2rem 0;">
+                            <h3 style="margin-bottom: 1.5rem;">Quick Adaptive Quiz</h3>
+                            <div id="quiz-container">
+                                <!-- Quiz questions will be dynamically loaded here -->
+                                <div style="background: var(--secondary-bg); border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem;">
+                                    <h4 style="margin-bottom: 1rem;">Question 1 of 10</h4>
+                                    <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">What's your experience with programming?</p>
+                                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                        <label class="radio-option" style="display: flex; align-items: center; padding: 1rem; background: var(--card-bg); border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="q1" value="none" style="margin-right: 1rem;">
+                                            <span>No experience - I'm completely new</span>
+                                        </label>
+                                        <label class="radio-option" style="display: flex; align-items: center; padding: 1rem; background: var(--card-bg); border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="q1" value="basic" style="margin-right: 1rem;">
+                                            <span>Basic - I've written simple programs</span>
+                                        </label>
+                                        <label class="radio-option" style="display: flex; align-items: center; padding: 1rem; background: var(--card-bg); border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="q1" value="intermediate" style="margin-right: 1rem;">
+                                            <span>Intermediate - I can build small projects</span>
+                                        </label>
+                                        <label class="radio-option" style="display: flex; align-items: center; padding: 1rem; background: var(--card-bg); border-radius: 8px; cursor: pointer;">
+                                            <input type="radio" name="q1" value="advanced" style="margin-right: 1rem;">
+                                            <span>Advanced - I work on complex systems</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 style="margin: 2rem 0 1.5rem;">Your Skills Profile</h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                                <div style="background: var(--secondary-bg); padding: 1rem; border-radius: 8px;">
+                                    <h4 style="margin-bottom: 1rem;">Programming Languages</h4>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                        <span class="skill-tag" style="background: var(--card-bg); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">Python</span>
+                                        <span class="skill-tag" style="background: var(--card-bg); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">JavaScript</span>
+                                        <button class="btn btn-sm" style="background: transparent; border: 1px dashed var(--border-color); padding: 0.5rem 1rem; border-radius: 20px;">
+                                            <i class="fas fa-plus"></i> Add
+                                        </button>
+                                    </div>
+                                </div>
+                                <div style="background: var(--secondary-bg); padding: 1rem; border-radius: 8px;">
+                                    <h4 style="margin-bottom: 1rem;">Mathematics</h4>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                        <span class="skill-tag" style="background: var(--card-bg); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">Calculus I</span>
+                                        <button class="btn btn-sm" style="background: transparent; border: 1px dashed var(--border-color); padding: 0.5rem 1rem; border-radius: 20px;">
+                                            <i class="fas fa-plus"></i> Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 2rem;">
+                            <button class="btn btn-outline btn-lg" onclick="previousStep()">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button class="btn btn-primary btn-lg" onclick="nextStep()">
+                                Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Constraints -->
+                <div class="wizard-content" id="content-step-3" style="display: none;">
+                    <div class="section-card">
+                        <div class="card-header">
+                            <h2>Set Your Learning Constraints</h2>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                            <div>
+                                <label class="form-label" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                                    <i class="fas fa-calendar"></i> Time Horizon
+                                </label>
+                                <select class="form-select" style="width: 100%;">
+                                    <option>3 months</option>
+                                    <option>6 months</option>
+                                    <option>9 months</option>
+                                    <option selected>12 months</option>
+                                    <option>18 months</option>
+                                    <option>24 months</option>
+                                    <option>36 months</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="form-label" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                                    <i class="fas fa-clock"></i> Weekly Study Hours
+                                </label>
+                                <input type="range" min="5" max="40" value="15" class="form-range" id="weekly-hours" style="width: 100%;">
+                                <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                                    <span class="text-secondary">5 hrs</span>
+                                    <span id="hours-display" style="font-weight: 600; color: var(--primary-accent);">15 hours/week</span>
+                                    <span class="text-secondary">40 hrs</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="form-label" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                                    <i class="fas fa-dollar-sign"></i> Budget
+                                </label>
+                                <select class="form-select" style="width: 100%;">
+                                    <option>Free resources only</option>
+                                    <option>Up to $50/month</option>
+                                    <option selected>Up to $100/month</option>
+                                    <option>Up to $200/month</option>
+                                    <option>Unlimited</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="form-label" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                                    <i class="fas fa-book-reader"></i> Learning Style
+                                </label>
+                                <select class="form-select" style="width: 100%;">
+                                    <option>Visual (Videos, Diagrams)</option>
+                                    <option>Reading (Books, Articles)</option>
+                                    <option selected>Hands-on (Projects, Labs)</option>
+                                    <option>Mixed Approach</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="form-label" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                                    <i class="fas fa-tasks"></i> Project Emphasis
+                                </label>
+                                <select class="form-select" style="width: 100%;">
+                                    <option>Theory-focused</option>
+                                    <option>Balanced theory and practice</option>
+                                    <option selected>Project-heavy</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="form-label" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                                    <i class="fas fa-chart-line"></i> Difficulty Preference
+                                </label>
+                                <select class="form-select" style="width: 100%;">
+                                    <option>Start easy, progress gradually</option>
+                                    <option selected>Mixed difficulty</option>
+                                    <option>Challenge me from the start</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 2rem;">
+                            <button class="btn btn-outline btn-lg" onclick="previousStep()">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button class="btn btn-primary btn-lg" onclick="generateRoadmap()">
+                                Generate Roadmap <i class="fas fa-magic"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Generated Roadmap -->
+                <div class="wizard-content" id="content-step-4" style="display: none;">
+                    <div class="section-card">
+                        <div class="card-header">
+                            <h2>Your Personalized Learning Roadmap</h2>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-outline btn-sm">
+                                    <i class="fas fa-download"></i> Export
+                                </button>
+                                <button class="btn btn-outline btn-sm">
+                                    <i class="fas fa-share"></i> Share
+                                </button>
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-edit"></i> Customize
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Roadmap Overview -->
+                        <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border-radius: 12px; padding: 2rem; margin: 2rem 0;">
+                            <h3 style="margin-bottom: 1.5rem;">Path Overview: Machine Learning Engineer</h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                                <div>
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-calendar-alt" style="color: var(--primary-accent);"></i>
+                                        <span style="font-weight: 600;">Duration</span>
+                                    </div>
+                                    <p style="font-size: 1.2rem; margin: 0;">12 months</p>
+                                </div>
+                                <div>
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-book" style="color: var(--primary-accent);"></i>
+                                        <span style="font-weight: 600;">Modules</span>
+                                    </div>
+                                    <p style="font-size: 1.2rem; margin: 0;">8 core + 4 elective</p>
+                                </div>
+                                <div>
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-project-diagram" style="color: var(--primary-accent);"></i>
+                                        <span style="font-weight: 600;">Projects</span>
+                                    </div>
+                                    <p style="font-size: 1.2rem; margin: 0;">15 hands-on</p>
+                                </div>
+                                <div>
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-trophy" style="color: var(--primary-accent);"></i>
+                                        <span style="font-weight: 600;">Capstone</span>
+                                    </div>
+                                    <p style="font-size: 1.2rem; margin: 0;">ML Production System</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline -->
+                        <h3 style="margin: 2rem 0 1.5rem;">Learning Timeline</h3>
+                        <div class="roadmap-timeline">
+                            <div class="timeline-line"></div>
+                            
+                            <!-- Module 1 -->
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                                        <div>
+                                            <h4 style="margin: 0;">Foundation: Mathematics for ML</h4>
+                                            <p style="color: var(--text-secondary); margin: 0.25rem 0;">Weeks 1-4 • 15 hours/week</p>
+                                        </div>
+                                        <span class="badge" style="background: var(--warning-color); color: white; padding: 0.25rem 0.75rem; border-radius: 20px;">In Progress</span>
+                                    </div>
+                                    
+                                    <div style="margin: 1rem 0;">
+                                        <h5 style="font-size: 0.95rem; margin-bottom: 0.5rem;">Resources:</h5>
+                                        <div class="resource-card">
+                                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                                    <i class="fas fa-book" style="color: var(--primary-accent);"></i>
+                                                    <div>
+                                                        <h5 style="margin: 0;">Linear Algebra - Strang</h5>
+                                                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">Book • 40 hours • Free (MIT OCW)</p>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-sm btn-outline">Start</button>
+                                            </div>
+                                        </div>
+                                        <div class="resource-card">
+                                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                                    <i class="fas fa-video" style="color: var(--secondary-accent);"></i>
+                                                    <div>
+                                                        <h5 style="margin: 0;">3Blue1Brown - Essence of Linear Algebra</h5>
+                                                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">Video Series • 10 hours • Free</p>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-sm btn-outline">Start</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-top: 1rem;">
+                                        <h5 style="font-size: 0.95rem; margin-bottom: 0.5rem;">Assessments:</h5>
+                                        <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary);">
+                                            <li>Weekly problem sets (5 problems each)</li>
+                                            <li>Module quiz: Matrix operations & eigenvalues</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Module 2 -->
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                                        <div>
+                                            <h4 style="margin: 0;">Core: Python & Data Structures</h4>
+                                            <p style="color: var(--text-secondary); margin: 0.25rem 0;">Weeks 5-10 • 15 hours/week</p>
+                                        </div>
+                                        <span class="badge" style="background: var(--secondary-bg); color: var(--text-secondary); padding: 0.25rem 0.75rem; border-radius: 20px;">Upcoming</span>
+                                    </div>
+                                    
+                                    <div style="margin: 1rem 0;">
+                                        <h5 style="font-size: 0.95rem; margin-bottom: 0.5rem;">Resources:</h5>
+                                        <div class="resource-card">
+                                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                                    <i class="fas fa-book" style="color: var(--primary-accent);"></i>
+                                                    <div>
+                                                        <h5 style="margin: 0;">Introduction to Algorithms (CLRS)</h5>
+                                                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">Book • 80 hours • $60</p>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-sm btn-outline" disabled>Locked</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem;">
+                            <button class="btn btn-outline btn-lg" onclick="previousStep()">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button class="btn btn-primary btn-lg" onclick="startLearning()">
+                                Start Learning Journey <i class="fas fa-rocket"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Active Learning -->
+                <div class="wizard-content" id="content-step-5" style="display: none;">
+                    <!-- Progress Tracker -->
+                    <div class="progress-tracker">
+                        <h2 style="margin-bottom: 1rem;">Your Learning Progress</h2>
+                        <div class="progress-bar" style="height: 20px; background: var(--secondary-bg); border-radius: 10px; overflow: hidden;">
+                            <div style="width: 15%; height: 100%; background: var(--gradient-primary); transition: width 0.5s ease;"></div>
+                        </div>
+                        <div class="progress-stats">
+                            <div class="progress-stat">
+                                <div class="progress-stat-value">15%</div>
+                                <div class="progress-stat-label">Overall Progress</div>
+                            </div>
+                            <div class="progress-stat">
+                                <div class="progress-stat-value">Week 2</div>
+                                <div class="progress-stat-label">Current Week</div>
+                            </div>
+                            <div class="progress-stat">
+                                <div class="progress-stat-value">12.5</div>
+                                <div class="progress-stat-label">Hours This Week</div>
+                            </div>
+                            <div class="progress-stat">
+                                <div class="progress-stat-value">92%</div>
+                                <div class="progress-stat-label">Quiz Average</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Current Module -->
+                    <div class="section-card">
+                        <div class="card-header">
+                            <h2>Current Module: Mathematics for ML</h2>
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fas fa-play"></i> Continue Learning
+                            </button>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 300px; gap: 2rem; margin-top: 2rem;">
+                            <div>
+                                <h3>This Week's Tasks</h3>
+                                <div style="margin-top: 1rem;">
+                                    <div style="background: var(--secondary-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            <input type="checkbox" checked style="width: 20px; height: 20px;">
+                                            <div style="flex: 1;">
+                                                <h5 style="margin: 0;">Read: Linear Algebra Ch. 1-2</h5>
+                                                <p style="margin: 0.25rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">Vectors and Matrix Operations • 3 hours</p>
+                                            </div>
+                                            <span style="color: var(--success-color);"><i class="fas fa-check-circle"></i></span>
+                                        </div>
+                                    </div>
+                                    <div style="background: var(--secondary-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            <input type="checkbox" checked style="width: 20px; height: 20px;">
+                                            <div style="flex: 1;">
+                                                <h5 style="margin: 0;">Watch: 3Blue1Brown Videos 1-3</h5>
+                                                <p style="margin: 0.25rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">Visual intuition • 2 hours</p>
+                                            </div>
+                                            <span style="color: var(--success-color);"><i class="fas fa-check-circle"></i></span>
+                                        </div>
+                                    </div>
+                                    <div style="background: var(--secondary-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border: 2px solid var(--primary-accent);">
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            <input type="checkbox" style="width: 20px; height: 20px;">
+                                            <div style="flex: 1;">
+                                                <h5 style="margin: 0;">Practice: Problem Set 1</h5>
+                                                <p style="margin: 0.25rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">10 problems • 3 hours</p>
+                                            </div>
+                                            <button class="btn btn-sm btn-primary">Start</button>
+                                        </div>
+                                    </div>
+                                    <div style="background: var(--secondary-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; opacity: 0.6;">
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            <input type="checkbox" disabled style="width: 20px; height: 20px;">
+                                            <div style="flex: 1;">
+                                                <h5 style="margin: 0;">Quiz: Week 2 Assessment</h5>
+                                                <p style="margin: 0.25rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">20 questions • 30 minutes</p>
+                                            </div>
+                                            <span style="color: var(--text-secondary);">Locked</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3>Upcoming Milestones</h3>
+                                <div style="margin-top: 1rem;">
+                                    <div style="background: var(--secondary-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                                        <h5 style="margin: 0 0 0.5rem 0;">Module Completion</h5>
+                                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">2 weeks remaining</p>
+                                    </div>
+                                    <div style="background: var(--secondary-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                                        <h5 style="margin: 0 0 0.5rem 0;">First Project</h5>
+                                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">Week 5</p>
+                                    </div>
+                                    <div style="background: var(--secondary-bg); padding: 1rem; border-radius: 8px;">
+                                        <h5 style="margin: 0 0 0.5rem 0;">Python Mastery</h5>
+                                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">Week 10</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="path-advisor.js"></script>
+</body>
+</html>

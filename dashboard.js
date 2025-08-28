@@ -475,16 +475,20 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div style="flex: 1;">
                             <p style="background: white; padding: 1rem; border-radius: 8px; margin: 0;">
-                                Hello! I'm ${advisorName}, your AI Academic Advisor. I specialize in Mathematics, Computer Science, and Physics. 
-                                I'm here to guide your academic journey. Feel free to ask me about:
+                                Hello! I'm ${advisorName}, your AI Path Advisor. I create personalized self-study roadmaps across 20+ majors. 
+                                I can help you become top-tier in your field through rigorous, structured learning paths. Here's what I can do:
                                 <ul style="margin-top: 0.5rem;">
-                                    <li>Course planning and selection</li>
-                                    <li>Homework assistance</li>
-                                    <li>Concept explanations</li>
-                                    <li>Study strategies</li>
-                                    <li>Career guidance</li>
-                                    <li>Research opportunities</li>
+                                    <li><strong>Goal Analysis:</strong> Define your career target (e.g., "ML Engineer in 12 months")</li>
+                                    <li><strong>Skill Assessment:</strong> Diagnose your current level with adaptive quizzes</li>
+                                    <li><strong>Path Planning:</strong> Build personalized roadmaps (courses → books → projects)</li>
+                                    <li><strong>Resource Curation:</strong> Select best-in-class materials for each skill</li>
+                                    <li><strong>Progress Tracking:</strong> Weekly milestones with mastery checks</li>
+                                    <li><strong>Adaptive Learning:</strong> Reroute path based on your performance</li>
                                 </ul>
+                                <div style="margin-top: 1rem; padding: 1rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                                    <strong>Quick Start:</strong> Try saying "I want to become a Machine Learning Engineer" or 
+                                    <a href="ai-path-advisor.html" style="color: var(--primary-accent); text-decoration: underline;">Launch Path Wizard →</a>
+                                </div>
                             </p>
                         </div>
                     </div>

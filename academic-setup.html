@@ -422,18 +422,18 @@
                 </div>
                 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
-                    <!-- Louis AI Advisor Card -->
+                    <!-- Louis AI Path Advisor Card -->
                     <div class="ai-advisor-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; padding: 1.5rem; color: white; position: relative; overflow: hidden;">
                         <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
                         <div style="position: relative; z-index: 1;">
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
                                 <div style="display: flex; align-items: center; gap: 1rem;">
                                     <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-graduation-cap" style="font-size: 1.5rem;"></i>
+                                        <i class="fas fa-route" style="font-size: 1.5rem;"></i>
                                     </div>
                                     <div>
                                         <h3 style="margin: 0; font-size: 1.5rem;">Louis</h3>
-                                        <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">AI Advisor Agent</p>
+                                        <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">AI Path Advisor</p>
                                     </div>
                                 </div>
                                 <div style="background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">
@@ -443,9 +443,9 @@
                             
                             <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
                                 <p style="margin: 0; font-size: 0.95rem; line-height: 1.5;">
-                                    <strong>Specialization:</strong> Mathematics, Computer Science, Physics<br>
-                                    <strong>Advisory Style:</strong> Interactive guidance, Personalized mentoring<br>
-                                    <strong>Languages:</strong> English, Spanish, French
+                                    <strong>Expertise:</strong> Self-study roadmaps across 20+ majors<br>
+                                    <strong>Capabilities:</strong> Goal analysis, skill assessment, path planning<br>
+                                    <strong>Coverage:</strong> CS, Engineering, Sciences, Medicine, Law & more
                                 </p>
                             </div>
                             
@@ -462,11 +462,11 @@
                             </div>
                             
                             <div style="display: flex; gap: 0.5rem;">
-                                <button class="btn" style="background: white; color: #667eea; flex: 1; padding: 0.75rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
-                                    <i class="fas fa-comments"></i> Start Chat
+                                <button class="btn" style="background: white; color: #667eea; flex: 1; padding: 0.75rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;" onclick="window.location.href='ai-path-advisor.html'">
+                                    <i class="fas fa-route"></i> Create Path
                                 </button>
-                                <button class="btn" style="background: rgba(255,255,255,0.2); color: white; padding: 0.75rem 1rem; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; cursor: pointer;">
-                                    <i class="fas fa-cog"></i>
+                                <button class="btn" style="background: rgba(255,255,255,0.2); color: white; padding: 0.75rem 1rem; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; cursor: pointer;" onclick="openAIAdvisorChat('Louis')">
+                                    <i class="fas fa-comments"></i>
                                 </button>
                             </div>
                         </div>
