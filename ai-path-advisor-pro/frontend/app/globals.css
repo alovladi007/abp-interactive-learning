@@ -1,0 +1,260 @@
+:root { 
+  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial; 
+  --primary: #667eea;
+  --primary-dark: #5a67d8;
+  --secondary: #48bb78;
+  --danger: #f56565;
+  --warning: #ed8936;
+  --bg: #fafafa;
+  --card-bg: white;
+  --text: #2d3748;
+  --text-light: #718096;
+  --border: #e2e8f0;
+}
+
+* { box-sizing: border-box; }
+
+html, body { 
+  font-family: var(--font); 
+  margin: 0; 
+  padding: 0; 
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container { 
+  margin: 40px auto; 
+  max-width: 1200px; 
+  padding: 0 20px; 
+}
+
+h1 { 
+  font-size: 32px; 
+  margin-bottom: 8px; 
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h2 { 
+  font-size: 24px; 
+  margin-bottom: 16px;
+}
+
+h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+label { 
+  display: block; 
+  margin-top: 16px; 
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+}
+
+input, select, textarea { 
+  width: 100%; 
+  padding: 10px 12px; 
+  margin-top: 6px; 
+  border: 1px solid var(--border); 
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+button { 
+  margin-top: 16px; 
+  padding: 10px 20px; 
+  border-radius: 8px; 
+  border: 0; 
+  background: var(--primary); 
+  color: white; 
+  font-weight: 600; 
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button.secondary {
+  background: var(--secondary);
+}
+
+button.danger {
+  background: var(--danger);
+}
+
+pre { 
+  background: #f7fafc; 
+  padding: 16px; 
+  border-radius: 8px; 
+  overflow: auto;
+  font-size: 12px;
+  border: 1px solid var(--border);
+}
+
+.grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); 
+  gap: 20px; 
+}
+
+.card { 
+  border: 1px solid var(--border); 
+  border-radius: 12px; 
+  padding: 24px; 
+  background: var(--card-bg); 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: all 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.small { 
+  font-size: 13px; 
+  color: var(--text-light); 
+}
+
+.badge { 
+  display: inline-block; 
+  padding: 4px 10px; 
+  border-radius: 999px; 
+  background: var(--primary); 
+  color: white; 
+  font-size: 12px; 
+  font-weight: 700; 
+  margin-right: 6px;
+  margin-bottom: 4px;
+}
+
+.badge.secondary {
+  background: var(--secondary);
+}
+
+.badge.warning {
+  background: var(--warning);
+}
+
+.badge.danger {
+  background: var(--danger);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 12px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+  transition: width 0.3s ease;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--border);
+}
+
+.tab {
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 0;
+  margin-bottom: -2px;
+}
+
+.tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .container {
+    padding: 0 16px;
+    margin: 20px auto;
+  }
+  
+  h1 {
+    font-size: 24px;
+  }
+}

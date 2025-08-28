@@ -1,0 +1,243 @@
+[
+  {
+    "resource_id": "course.cs50.harvard",
+    "type": "course",
+    "title": "CS50x",
+    "provider": "Harvard",
+    "skills": [
+      "prog.python.basics"
+    ],
+    "level": "intro",
+    "time_est_hours": 60,
+    "quality_score": 9.3,
+    "cost": "free",
+    "format": [
+      "video",
+      "problem sets"
+    ]
+  },
+  {
+    "resource_id": "book.automate_boring_stuff",
+    "type": "book",
+    "title": "Automate the Boring Stuff",
+    "provider": "Sweigart",
+    "skills": [
+      "prog.python.basics"
+    ],
+    "level": "intro",
+    "time_est_hours": 40,
+    "quality_score": 8.8,
+    "cost": "free",
+    "format": [
+      "text",
+      "projects"
+    ]
+  },
+  {
+    "resource_id": "book.clrs.3e",
+    "type": "book",
+    "title": "Introduction to Algorithms (CLRS)",
+    "provider": "MIT Press",
+    "skills": [
+      "cs.ds.algorithms",
+      "math.discrete"
+    ],
+    "level": "advanced",
+    "time_est_hours": 120,
+    "quality_score": 9.7,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.ostep",
+    "type": "book",
+    "title": "Operating Systems: Three Easy Pieces",
+    "provider": "Arpaci-Dusseau",
+    "skills": [
+      "cs.os"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 60,
+    "quality_score": 9.6,
+    "cost": "free",
+    "format": [
+      "text",
+      "labs"
+    ]
+  },
+  {
+    "resource_id": "book.kurose_ross",
+    "type": "book",
+    "title": "Computer Networking: A Top-Down Approach",
+    "provider": "Kurose & Ross",
+    "skills": [
+      "cs.networks"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 70,
+    "quality_score": 9.2,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.sedra_smith",
+    "type": "book",
+    "title": "Microelectronic Circuits",
+    "provider": "Sedra/Smith",
+    "skills": [
+      "ee.circuits_1",
+      "ee.circuits_2"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 110,
+    "quality_score": 9.1,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.oppenheim_willsky",
+    "type": "book",
+    "title": "Signals & Systems",
+    "provider": "Oppenheim & Willsky",
+    "skills": [
+      "ee.signals_systems"
+    ],
+    "level": "advanced",
+    "time_est_hours": 100,
+    "quality_score": 9.4,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.taylor_mechanics",
+    "type": "book",
+    "title": "Classical Mechanics",
+    "provider": "Taylor",
+    "skills": [
+      "phys.mechanics"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 9.1,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.griffiths_em",
+    "type": "book",
+    "title": "Introduction to Electrodynamics",
+    "provider": "Griffiths",
+    "skills": [
+      "phys.em_intro",
+      "phys.em_advanced"
+    ],
+    "level": "advanced",
+    "time_est_hours": 120,
+    "quality_score": 9.6,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.callister",
+    "type": "book",
+    "title": "Materials Science and Engineering",
+    "provider": "Callister",
+    "skills": [
+      "mat.thermo_phase",
+      "mat.solid_state_basics",
+      "mat.crystallography"
+    ],
+    "level": "intro",
+    "time_est_hours": 120,
+    "quality_score": 9.0,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.gordis_epi",
+    "type": "book",
+    "title": "Gordis Epidemiology",
+    "provider": "Elsevier",
+    "skills": [
+      "ph.epidemiology.basics"
+    ],
+    "level": "intro",
+    "time_est_hours": 50,
+    "quality_score": 9.0,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.rosner_biostats",
+    "type": "book",
+    "title": "Fundamentals of Biostatistics",
+    "provider": "Rosner",
+    "skills": [
+      "ph.biostats.basics"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 8.8,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.moore_anatomy",
+    "type": "book",
+    "title": "Clinically Oriented Anatomy",
+    "provider": "Moore",
+    "skills": [
+      "med.anatomy"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 90,
+    "quality_score": 9.0,
+    "cost": "paid",
+    "format": [
+      "text"
+    ]
+  },
+  {
+    "resource_id": "book.guyton",
+    "type": "book",
+    "title": "Guyton & Hall Medical Physiology",
+    "provider": "Elsevier",
+    "skills": [
+      "med.physiology"
+    ],
+    "level": "advanced",
+    "time_est_hours": 120,
+    "quality_score": 9.2,
+    "cost": "paid",
+    "format": [
+      "text"
+    ]
+  }
+]

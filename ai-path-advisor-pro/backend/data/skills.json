@@ -1,0 +1,1299 @@
+[
+  {
+    "skill_id": "math.calculus_1",
+    "name": "Calculus I",
+    "prereq_ids": [],
+    "tags": [
+      "math"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "math.calculus_2",
+    "name": "Calculus II",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "math"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "math.calculus_3",
+    "name": "Calculus III (Multivariable)",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "math"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "math.linear_algebra",
+    "name": "Linear Algebra",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "math"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "math.discrete",
+    "name": "Discrete Mathematics",
+    "prereq_ids": [],
+    "tags": [
+      "math",
+      "cs"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "math.stats",
+    "name": "Probability & Statistics",
+    "prereq_ids": [
+      "math.discrete"
+    ],
+    "tags": [
+      "math"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "math.physics_modern",
+    "name": "Math Methods for Modern Physics",
+    "prereq_ids": [
+      "math.calculus_2",
+      "math.linear_algebra"
+    ],
+    "tags": [
+      "math",
+      "physics"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "prog.python.basics",
+    "name": "Python Programming Basics",
+    "prereq_ids": [],
+    "tags": [
+      "cs",
+      "programming"
+    ],
+    "difficulty": 1
+  },
+  {
+    "skill_id": "prog.c.basics",
+    "name": "C Programming Basics",
+    "prereq_ids": [],
+    "tags": [
+      "cs",
+      "programming"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "cs.ds.algorithms",
+    "name": "Data Structures & Algorithms",
+    "prereq_ids": [
+      "math.discrete",
+      "prog.python.basics"
+    ],
+    "tags": [
+      "cs"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "cs.computer.arch",
+    "name": "Computer Architecture",
+    "prereq_ids": [
+      "prog.c.basics"
+    ],
+    "tags": [
+      "cs",
+      "systems"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "cs.os",
+    "name": "Operating Systems",
+    "prereq_ids": [
+      "cs.computer.arch",
+      "cs.ds.algorithms"
+    ],
+    "tags": [
+      "cs",
+      "systems"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "cs.networks",
+    "name": "Computer Networks",
+    "prereq_ids": [
+      "cs.os"
+    ],
+    "tags": [
+      "cs",
+      "systems"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "cs.databases",
+    "name": "Databases",
+    "prereq_ids": [
+      "cs.ds.algorithms"
+    ],
+    "tags": [
+      "cs"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "cs.software.engineering",
+    "name": "Software Engineering",
+    "prereq_ids": [
+      "cs.ds.algorithms"
+    ],
+    "tags": [
+      "cs"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "cs.ai.ml.basics",
+    "name": "AI/ML Foundations",
+    "prereq_ids": [
+      "math.linear_algebra",
+      "math.calculus_2",
+      "cs.ds.algorithms"
+    ],
+    "tags": [
+      "cs",
+      "ml"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "cs.security.basics",
+    "name": "Computer Security Basics",
+    "prereq_ids": [
+      "cs.os",
+      "cs.networks"
+    ],
+    "tags": [
+      "cs",
+      "security"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ee.circuits_1",
+    "name": "Circuits I",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "ee"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ee.circuits_2",
+    "name": "Circuits II",
+    "prereq_ids": [
+      "ee.circuits_1",
+      "math.calculus_2"
+    ],
+    "tags": [
+      "ee"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ee.signals_systems",
+    "name": "Signals & Systems",
+    "prereq_ids": [
+      "math.calculus_2",
+      "math.linear_algebra"
+    ],
+    "tags": [
+      "ee"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "ee.em_1",
+    "name": "Electromagnetics I",
+    "prereq_ids": [
+      "math.calculus_3"
+    ],
+    "tags": [
+      "ee"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "ee.digital_logic",
+    "name": "Digital Logic & Computer Design",
+    "prereq_ids": [
+      "prog.c.basics"
+    ],
+    "tags": [
+      "ee",
+      "cs"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ee.control_systems",
+    "name": "Control Systems",
+    "prereq_ids": [
+      "ee.signals_systems"
+    ],
+    "tags": [
+      "ee"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "ee.comm_systems",
+    "name": "Communication Systems",
+    "prereq_ids": [
+      "ee.signals_systems",
+      "ee.em_1"
+    ],
+    "tags": [
+      "ee"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "ee.semiconductor_devices",
+    "name": "Semiconductor Devices",
+    "prereq_ids": [
+      "math.calculus_2",
+      "math.physics_modern"
+    ],
+    "tags": [
+      "ee",
+      "materials"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "phys.mechanics",
+    "name": "Introductory Mechanics",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "physics"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "phys.em_intro",
+    "name": "Introductory Electricity & Magnetism",
+    "prereq_ids": [
+      "math.calculus_2",
+      "phys.mechanics"
+    ],
+    "tags": [
+      "physics"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "phys.modern",
+    "name": "Modern Physics",
+    "prereq_ids": [
+      "phys.mechanics",
+      "phys.em_intro"
+    ],
+    "tags": [
+      "physics"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "phys.thermo",
+    "name": "Thermodynamics",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "physics"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "phys.quantum_1",
+    "name": "Quantum Mechanics I",
+    "prereq_ids": [
+      "math.linear_algebra",
+      "phys.modern"
+    ],
+    "tags": [
+      "physics"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "phys.em_advanced",
+    "name": "Electromagnetism (Advanced)",
+    "prereq_ids": [
+      "math.calculus_3",
+      "phys.em_intro"
+    ],
+    "tags": [
+      "physics"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "phys.stat_mech",
+    "name": "Statistical Mechanics",
+    "prereq_ids": [
+      "phys.thermo",
+      "math.calculus_3"
+    ],
+    "tags": [
+      "physics"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "mat.solid_state_basics",
+    "name": "Solid State Basics",
+    "prereq_ids": [
+      "math.calculus_2",
+      "math.linear_algebra",
+      "phys.modern"
+    ],
+    "tags": [
+      "materials",
+      "physics"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "mat.thermo_phase",
+    "name": "Thermodynamics & Phase Transformations",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "materials"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "mat.crystallography",
+    "name": "Crystallography & Diffraction",
+    "prereq_ids": [
+      "math.linear_algebra"
+    ],
+    "tags": [
+      "materials"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "mat.polymers",
+    "name": "Polymer Science",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "materials"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "mat.ceramics",
+    "name": "Ceramics",
+    "prereq_ids": [
+      "mat.crystallography"
+    ],
+    "tags": [
+      "materials"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "mat.characterization",
+    "name": "Materials Characterization",
+    "prereq_ids": [
+      "mat.crystallography"
+    ],
+    "tags": [
+      "materials"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ph.epidemiology.basics",
+    "name": "Epidemiology Basics",
+    "prereq_ids": [],
+    "tags": [
+      "public_health"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "ph.biostats.basics",
+    "name": "Biostatistics Basics",
+    "prereq_ids": [
+      "math.stats"
+    ],
+    "tags": [
+      "public_health"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ph.env_health",
+    "name": "Environmental Health",
+    "prereq_ids": [],
+    "tags": [
+      "public_health"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "ph.health_policy",
+    "name": "Health Policy & Management",
+    "prereq_ids": [],
+    "tags": [
+      "public_health"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "ph.global_health",
+    "name": "Global Health",
+    "prereq_ids": [],
+    "tags": [
+      "public_health"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "ph.program_eval",
+    "name": "Program Evaluation",
+    "prereq_ids": [
+      "ph.biostats.basics"
+    ],
+    "tags": [
+      "public_health"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "chem.general",
+    "name": "General Chemistry",
+    "prereq_ids": [],
+    "tags": [
+      "chemistry"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "chem.organic",
+    "name": "Organic Chemistry",
+    "prereq_ids": [
+      "chem.general"
+    ],
+    "tags": [
+      "chemistry"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "bio.general",
+    "name": "General Biology",
+    "prereq_ids": [],
+    "tags": [
+      "biology"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "bio.cell",
+    "name": "Cell Biology",
+    "prereq_ids": [
+      "bio.general"
+    ],
+    "tags": [
+      "biology"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "bio.genetics",
+    "name": "Genetics",
+    "prereq_ids": [
+      "bio.general"
+    ],
+    "tags": [
+      "biology"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "med.anatomy",
+    "name": "Human Anatomy",
+    "prereq_ids": [],
+    "tags": [
+      "medicine"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "med.physiology",
+    "name": "Physiology",
+    "prereq_ids": [
+      "med.anatomy"
+    ],
+    "tags": [
+      "medicine"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "med.biochem",
+    "name": "Medical Biochemistry",
+    "prereq_ids": [
+      "chem.organic",
+      "bio.cell"
+    ],
+    "tags": [
+      "medicine"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "med.pathology",
+    "name": "Pathology",
+    "prereq_ids": [
+      "med.biochem",
+      "med.physiology"
+    ],
+    "tags": [
+      "medicine"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "med.micro",
+    "name": "Microbiology & Immunology",
+    "prereq_ids": [
+      "bio.cell"
+    ],
+    "tags": [
+      "medicine"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "med.pharmacology",
+    "name": "Pharmacology",
+    "prereq_ids": [
+      "med.physiology",
+      "med.biochem"
+    ],
+    "tags": [
+      "medicine"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "nurse.anatomy",
+    "name": "Anatomy for Nursing",
+    "prereq_ids": [
+      "bio.general"
+    ],
+    "tags": [
+      "nursing"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "nurse.pathophys",
+    "name": "Pathophysiology",
+    "prereq_ids": [
+      "nurse.anatomy"
+    ],
+    "tags": [
+      "nursing"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "nurse.pharm",
+    "name": "Pharmacology for Nurses",
+    "prereq_ids": [
+      "nurse.pathophys"
+    ],
+    "tags": [
+      "nursing"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "nurse.clinical",
+    "name": "Clinical Nursing Practice",
+    "prereq_ids": [
+      "nurse.pathophys"
+    ],
+    "tags": [
+      "nursing"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "pharm.medicinal_chem",
+    "name": "Medicinal Chemistry",
+    "prereq_ids": [
+      "chem.organic"
+    ],
+    "tags": [
+      "pharmacy"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "pharm.pharmacology",
+    "name": "Pharmacology",
+    "prereq_ids": [
+      "bio.cell",
+      "chem.organic"
+    ],
+    "tags": [
+      "pharmacy"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "pharm.pharmacokinetics",
+    "name": "Pharmacokinetics/Pharmacodynamics",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "pharmacy"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "pharm.toxicology",
+    "name": "Toxicology",
+    "prereq_ids": [
+      "pharm.pharmacology"
+    ],
+    "tags": [
+      "pharmacy"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "nutr.biochem",
+    "name": "Nutritional Biochemistry",
+    "prereq_ids": [
+      "chem.organic",
+      "bio.cell"
+    ],
+    "tags": [
+      "nutrition"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "nutr.food_science",
+    "name": "Food Science",
+    "prereq_ids": [
+      "chem.general"
+    ],
+    "tags": [
+      "nutrition"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "nutr.clinical",
+    "name": "Medical Nutrition Therapy",
+    "prereq_ids": [
+      "nutr.biochem"
+    ],
+    "tags": [
+      "nutrition"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "me.statics",
+    "name": "Statics",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "mech"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "me.dynamics",
+    "name": "Dynamics",
+    "prereq_ids": [
+      "me.statics",
+      "math.calculus_2"
+    ],
+    "tags": [
+      "mech"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "me.thermo",
+    "name": "Thermodynamics",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "mech"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "me.fluids",
+    "name": "Fluid Mechanics",
+    "prereq_ids": [
+      "math.calculus_3"
+    ],
+    "tags": [
+      "mech"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "me.heat_transfer",
+    "name": "Heat Transfer",
+    "prereq_ids": [
+      "me.thermo",
+      "me.fluids"
+    ],
+    "tags": [
+      "mech"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "me.machine_design",
+    "name": "Machine Design",
+    "prereq_ids": [
+      "me.statics",
+      "me.dynamics"
+    ],
+    "tags": [
+      "mech"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ce.structural",
+    "name": "Structural Analysis",
+    "prereq_ids": [
+      "me.statics"
+    ],
+    "tags": [
+      "civil"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ce.soils",
+    "name": "Soil Mechanics",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "civil"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ce.hydrology",
+    "name": "Hydrology",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "civil"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ce.transport",
+    "name": "Transportation Engineering",
+    "prereq_ids": [],
+    "tags": [
+      "civil"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "ce.concrete",
+    "name": "Reinforced Concrete Design",
+    "prereq_ids": [
+      "ce.structural"
+    ],
+    "tags": [
+      "civil"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ce.steel",
+    "name": "Steel Design",
+    "prereq_ids": [
+      "ce.structural"
+    ],
+    "tags": [
+      "civil"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "che.meb",
+    "name": "Material & Energy Balances",
+    "prereq_ids": [],
+    "tags": [
+      "chemeng"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "che.thermo",
+    "name": "Chemical Engineering Thermodynamics",
+    "prereq_ids": [
+      "chem.general",
+      "math.calculus_2"
+    ],
+    "tags": [
+      "chemeng"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "che.transport",
+    "name": "Transport Phenomena",
+    "prereq_ids": [
+      "math.calculus_3"
+    ],
+    "tags": [
+      "chemeng"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "che.kinetics",
+    "name": "Chemical Reaction Engineering",
+    "prereq_ids": [
+      "che.meb",
+      "che.thermo"
+    ],
+    "tags": [
+      "chemeng"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "che.control",
+    "name": "Process Control",
+    "prereq_ids": [
+      "che.meb"
+    ],
+    "tags": [
+      "chemeng"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "env.chem",
+    "name": "Environmental Chemistry",
+    "prereq_ids": [
+      "chem.general"
+    ],
+    "tags": [
+      "environment"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "env.air",
+    "name": "Air Quality Engineering",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "environment"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "env.water",
+    "name": "Water/Wastewater Treatment",
+    "prereq_ids": [
+      "chem.general"
+    ],
+    "tags": [
+      "environment"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "env.climate",
+    "name": "Climate Systems & Modeling",
+    "prereq_ids": [
+      "math.calculus_3"
+    ],
+    "tags": [
+      "environment"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "bme.bio",
+    "name": "Molecular & Cell Biology",
+    "prereq_ids": [
+      "bio.cell"
+    ],
+    "tags": [
+      "bme"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "bme.biomech",
+    "name": "Biomechanics",
+    "prereq_ids": [
+      "me.statics",
+      "me.dynamics"
+    ],
+    "tags": [
+      "bme"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "bme.imaging",
+    "name": "Medical Imaging",
+    "prereq_ids": [
+      "math.calculus_3",
+      "ee.signals_systems"
+    ],
+    "tags": [
+      "bme"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "bme.tissue",
+    "name": "Tissue Engineering",
+    "prereq_ids": [
+      "bme.bio"
+    ],
+    "tags": [
+      "bme"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "bme.bioinstr",
+    "name": "Bioinstrumentation",
+    "prereq_ids": [
+      "ee.circuits_2"
+    ],
+    "tags": [
+      "bme"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "law.contracts",
+    "name": "Contracts",
+    "prereq_ids": [],
+    "tags": [
+      "law"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "law.torts",
+    "name": "Torts",
+    "prereq_ids": [],
+    "tags": [
+      "law"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "law.criminal",
+    "name": "Criminal Law",
+    "prereq_ids": [],
+    "tags": [
+      "law"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "law.constitutional",
+    "name": "Constitutional Law",
+    "prereq_ids": [],
+    "tags": [
+      "law"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "law.civpro",
+    "name": "Civil Procedure",
+    "prereq_ids": [],
+    "tags": [
+      "law"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "law.legal_writing",
+    "name": "Legal Research & Writing",
+    "prereq_ids": [],
+    "tags": [
+      "law"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "pp.comparative",
+    "name": "Comparative Politics",
+    "prereq_ids": [],
+    "tags": [
+      "policy"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "pp.ir",
+    "name": "International Relations",
+    "prereq_ids": [],
+    "tags": [
+      "policy"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "pp.theory",
+    "name": "Political Theory",
+    "prereq_ids": [],
+    "tags": [
+      "policy"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "pp.policy_analysis",
+    "name": "Policy Analysis",
+    "prereq_ids": [
+      "math.stats"
+    ],
+    "tags": [
+      "policy"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "pp.methods",
+    "name": "Causal Inference & Methods",
+    "prereq_ids": [
+      "math.stats"
+    ],
+    "tags": [
+      "policy"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "econ.micro",
+    "name": "Microeconomics (Intermediate)",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "economics"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "econ.macro",
+    "name": "Macroeconomics (Intermediate)",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "economics"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "econ.econometrics",
+    "name": "Econometrics",
+    "prereq_ids": [
+      "math.stats"
+    ],
+    "tags": [
+      "economics"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "econ.timeseries",
+    "name": "Time Series Analysis",
+    "prereq_ids": [
+      "econ.econometrics"
+    ],
+    "tags": [
+      "economics"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "edu.learning",
+    "name": "Learning Theories",
+    "prereq_ids": [],
+    "tags": [
+      "education"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "edu.curriculum",
+    "name": "Curriculum Design",
+    "prereq_ids": [],
+    "tags": [
+      "education"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "edu.assessment",
+    "name": "Assessment & Evaluation",
+    "prereq_ids": [],
+    "tags": [
+      "education"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "edu.edtech",
+    "name": "Instructional Technology",
+    "prereq_ids": [],
+    "tags": [
+      "education"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "arch.design",
+    "name": "Architectural Design Studios",
+    "prereq_ids": [],
+    "tags": [
+      "architecture"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "arch.materials",
+    "name": "Building Materials & Structures",
+    "prereq_ids": [
+      "me.statics"
+    ],
+    "tags": [
+      "architecture"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "arch.sustainability",
+    "name": "Sustainable Design & Energy",
+    "prereq_ids": [
+      "me.heat_transfer"
+    ],
+    "tags": [
+      "architecture"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "arch.urban",
+    "name": "Urban Planning & Design",
+    "prereq_ids": [],
+    "tags": [
+      "architecture"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "arch.codes",
+    "name": "Building Codes & Regulations",
+    "prereq_ids": [],
+    "tags": [
+      "architecture"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "comm.writing",
+    "name": "News & Feature Writing",
+    "prereq_ids": [],
+    "tags": [
+      "comm"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "comm.media_law",
+    "name": "Media Law & Ethics",
+    "prereq_ids": [],
+    "tags": [
+      "comm"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "comm.investigative",
+    "name": "Investigative Reporting",
+    "prereq_ids": [],
+    "tags": [
+      "comm"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "comm.data_journalism",
+    "name": "Data Journalism",
+    "prereq_ids": [
+      "math.stats"
+    ],
+    "tags": [
+      "comm"
+    ],
+    "difficulty": 3
+  }
+]

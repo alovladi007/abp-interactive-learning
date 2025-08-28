@@ -1,0 +1,653 @@
+[
+  {
+    "module_id": "cs.programming.core",
+    "skill_ids": [
+      "prog.python.basics",
+      "prog.c.basics"
+    ],
+    "outcomes": [
+      "Write Python/C",
+      "Debugging/testing"
+    ],
+    "assessments": [
+      "weekly coding drills"
+    ],
+    "project_ideas": [
+      "CLI tool"
+    ],
+    "target_hours": 80
+  },
+  {
+    "module_id": "cs.algorithms.core",
+    "skill_ids": [
+      "cs.ds.algorithms",
+      "math.discrete"
+    ],
+    "outcomes": [
+      "Asymptotics",
+      "Graphs/DP"
+    ],
+    "assessments": [
+      "50 LeetCode"
+    ],
+    "project_ideas": [
+      "route optimizer"
+    ],
+    "target_hours": 120
+  },
+  {
+    "module_id": "cs.systems.core",
+    "skill_ids": [
+      "cs.computer.arch",
+      "cs.os",
+      "cs.networks"
+    ],
+    "outcomes": [
+      "Processes/memory",
+      "TCP/IP"
+    ],
+    "assessments": [
+      "OSTEP labs"
+    ],
+    "project_ideas": [
+      "HTTP server"
+    ],
+    "target_hours": 140
+  },
+  {
+    "module_id": "cs.data.core",
+    "skill_ids": [
+      "cs.databases",
+      "cs.software.engineering"
+    ],
+    "outcomes": [
+      "SQL/transactions",
+      "Design patterns"
+    ],
+    "assessments": [
+      "DB labs"
+    ],
+    "project_ideas": [
+      "REST API"
+    ],
+    "target_hours": 100
+  },
+  {
+    "module_id": "cs.ml.foundations",
+    "skill_ids": [
+      "cs.ai.ml.basics"
+    ],
+    "outcomes": [
+      "Linear models",
+      "NN basics"
+    ],
+    "assessments": [
+      "k-fold project"
+    ],
+    "project_ideas": [
+      "Kaggle baseline"
+    ],
+    "target_hours": 80
+  },
+  {
+    "module_id": "ee.circuits.sequence",
+    "skill_ids": [
+      "ee.circuits_1",
+      "ee.circuits_2"
+    ],
+    "outcomes": [
+      "AC/DC",
+      "Op-amps"
+    ],
+    "assessments": [
+      "LTspice labs"
+    ],
+    "project_ideas": [
+      "active filter"
+    ],
+    "target_hours": 110
+  },
+  {
+    "module_id": "ee.signals.controls",
+    "skill_ids": [
+      "ee.signals_systems",
+      "ee.control_systems"
+    ],
+    "outcomes": [
+      "Fourier/Laplace",
+      "PID/state-space"
+    ],
+    "assessments": [
+      "MATLAB labs"
+    ],
+    "project_ideas": [
+      "LQR sim"
+    ],
+    "target_hours": 120
+  },
+  {
+    "module_id": "ee.em.comm",
+    "skill_ids": [
+      "ee.em_1",
+      "ee.comm_systems"
+    ],
+    "outcomes": [
+      "Maxwell basics",
+      "Modulation"
+    ],
+    "assessments": [
+      "ADS mini-labs"
+    ],
+    "project_ideas": [
+      "QPSK modem"
+    ],
+    "target_hours": 120
+  },
+  {
+    "module_id": "ee.digital.vlsi",
+    "skill_ids": [
+      "ee.digital_logic",
+      "cs.computer.arch"
+    ],
+    "outcomes": [
+      "HDL design",
+      "Pipelines"
+    ],
+    "assessments": [
+      "FPGA labs"
+    ],
+    "project_ideas": [
+      "RISC-V core"
+    ],
+    "target_hours": 100
+  },
+  {
+    "module_id": "ee.devices.semiconductor",
+    "skill_ids": [
+      "ee.semiconductor_devices"
+    ],
+    "outcomes": [
+      "pn/BJT/MOSFET"
+    ],
+    "assessments": [
+      "TCAD mini-study"
+    ],
+    "project_ideas": [
+      "IV modeling"
+    ],
+    "target_hours": 80
+  },
+  {
+    "module_id": "phys.core.sequence",
+    "skill_ids": [
+      "phys.mechanics",
+      "phys.em_intro",
+      "phys.modern"
+    ],
+    "outcomes": [
+      "Newtonian",
+      "E&M",
+      "Modern"
+    ],
+    "assessments": [
+      "weekly sets"
+    ],
+    "project_ideas": [
+      "ODE sim"
+    ],
+    "target_hours": 140
+  },
+  {
+    "module_id": "phys.upper.sequence",
+    "skill_ids": [
+      "phys.thermo",
+      "phys.quantum_1",
+      "phys.em_advanced",
+      "phys.stat_mech"
+    ],
+    "outcomes": [
+      "Thermo/StatMech",
+      "Quantum",
+      "Advanced E&M"
+    ],
+    "assessments": [
+      "derivation sets"
+    ],
+    "project_ideas": [
+      "Ising MC"
+    ],
+    "target_hours": 160
+  },
+  {
+    "module_id": "mat.foundations",
+    "skill_ids": [
+      "mat.solid_state_basics",
+      "mat.thermo_phase",
+      "mat.crystallography"
+    ],
+    "outcomes": [
+      "Bands/defects",
+      "Phase diagrams",
+      "Lattice/diffraction"
+    ],
+    "assessments": [
+      "problem sets"
+    ],
+    "project_ideas": [
+      "Phase case"
+    ],
+    "target_hours": 150
+  },
+  {
+    "module_id": "mat.applications",
+    "skill_ids": [
+      "mat.polymers",
+      "mat.ceramics",
+      "mat.characterization"
+    ],
+    "outcomes": [
+      "Polymers",
+      "Ceramics",
+      "XRD/SEM/EDS"
+    ],
+    "assessments": [
+      "processing plan"
+    ],
+    "project_ideas": [
+      "Char proposal"
+    ],
+    "target_hours": 120
+  },
+  {
+    "module_id": "ph.core",
+    "skill_ids": [
+      "ph.epidemiology.basics",
+      "ph.biostats.basics",
+      "ph.env_health",
+      "ph.health_policy"
+    ],
+    "outcomes": [
+      "Epi methods",
+      "Stats",
+      "Environmental",
+      "Policy"
+    ],
+    "assessments": [
+      "case studies"
+    ],
+    "project_ideas": [
+      "Outbreak analysis"
+    ],
+    "target_hours": 140
+  },
+  {
+    "module_id": "ph.advanced",
+    "skill_ids": [
+      "ph.global_health",
+      "ph.program_eval"
+    ],
+    "outcomes": [
+      "Global health",
+      "Evaluation"
+    ],
+    "assessments": [
+      "program design"
+    ],
+    "project_ideas": [
+      "RCT proposal"
+    ],
+    "target_hours": 100
+  },
+  {
+    "module_id": "med.foundations",
+    "skill_ids": [
+      "med.anatomy",
+      "med.physiology",
+      "med.biochem",
+      "med.micro"
+    ],
+    "outcomes": [
+      "Systems anatomy",
+      "Homeostasis",
+      "Metabolism",
+      "Immune"
+    ],
+    "assessments": [
+      "NBME-style"
+    ],
+    "project_ideas": [
+      "EBM review"
+    ],
+    "target_hours": 220
+  },
+  {
+    "module_id": "med.clinical.core",
+    "skill_ids": [
+      "med.pathology",
+      "med.pharmacology"
+    ],
+    "outcomes": [
+      "Disease mechs",
+      "MOA & dosing"
+    ],
+    "assessments": [
+      "cases"
+    ],
+    "project_ideas": [
+      "Therapeutic critique"
+    ],
+    "target_hours": 160
+  },
+  {
+    "module_id": "nurse.core",
+    "skill_ids": [
+      "nurse.anatomy",
+      "nurse.pathophys",
+      "nurse.pharm",
+      "nurse.clinical"
+    ],
+    "outcomes": [
+      "Assessment",
+      "Med safety"
+    ],
+    "assessments": [
+      "case studies"
+    ],
+    "project_ideas": [
+      "Care plan portfolio"
+    ],
+    "target_hours": 160
+  },
+  {
+    "module_id": "pharm.core",
+    "skill_ids": [
+      "pharm.medicinal_chem",
+      "pharm.pharmacology",
+      "pharm.pharmacokinetics",
+      "pharm.toxicology"
+    ],
+    "outcomes": [
+      "Design",
+      "MOA",
+      "PK/PD",
+      "Safety"
+    ],
+    "assessments": [
+      "dosing calcs"
+    ],
+    "project_ideas": [
+      "PK model"
+    ],
+    "target_hours": 180
+  },
+  {
+    "module_id": "nutr.core",
+    "skill_ids": [
+      "nutr.biochem",
+      "nutr.food_science",
+      "nutr.clinical"
+    ],
+    "outcomes": [
+      "Metabolism",
+      "Processing",
+      "Clinical"
+    ],
+    "assessments": [
+      "case studies"
+    ],
+    "project_ideas": [
+      "Community plan"
+    ],
+    "target_hours": 140
+  },
+  {
+    "module_id": "me.core",
+    "skill_ids": [
+      "me.statics",
+      "me.dynamics",
+      "me.thermo",
+      "me.fluids",
+      "me.heat_transfer",
+      "me.machine_design"
+    ],
+    "outcomes": [
+      "Equilibrium",
+      "Energy/flow/heat",
+      "Design"
+    ],
+    "assessments": [
+      "CAD/FEA labs"
+    ],
+    "project_ideas": [
+      "Heatsink + structural"
+    ],
+    "target_hours": 220
+  },
+  {
+    "module_id": "ce.core",
+    "skill_ids": [
+      "ce.structural",
+      "ce.soils",
+      "ce.hydrology",
+      "ce.transport",
+      "ce.concrete",
+      "ce.steel"
+    ],
+    "outcomes": [
+      "Structures",
+      "Soils",
+      "Water",
+      "Transport"
+    ],
+    "assessments": [
+      "design problems"
+    ],
+    "project_ideas": [
+      "Bridge/water system"
+    ],
+    "target_hours": 210
+  },
+  {
+    "module_id": "che.core",
+    "skill_ids": [
+      "che.meb",
+      "che.thermo",
+      "che.transport",
+      "che.kinetics",
+      "che.control"
+    ],
+    "outcomes": [
+      "Balances",
+      "Equilibria",
+      "Transport",
+      "Reactors",
+      "Control"
+    ],
+    "assessments": [
+      "Aspen design"
+    ],
+    "project_ideas": [
+      "Process design"
+    ],
+    "target_hours": 220
+  },
+  {
+    "module_id": "env.core",
+    "skill_ids": [
+      "env.chem",
+      "env.air",
+      "env.water",
+      "env.climate"
+    ],
+    "outcomes": [
+      "Pollutants",
+      "Atmosphere",
+      "Treatment",
+      "Climate"
+    ],
+    "assessments": [
+      "case study"
+    ],
+    "project_ideas": [
+      "Local AQ/WW"
+    ],
+    "target_hours": 180
+  },
+  {
+    "module_id": "bme.core",
+    "skill_ids": [
+      "bme.bio",
+      "bme.biomech",
+      "bme.imaging",
+      "bme.tissue",
+      "bme.bioinstr"
+    ],
+    "outcomes": [
+      "Cell/tissue",
+      "Mechanics",
+      "Imaging",
+      "Instrumentation"
+    ],
+    "assessments": [
+      "lab plan"
+    ],
+    "project_ideas": [
+      "Device concept"
+    ],
+    "target_hours": 210
+  },
+  {
+    "module_id": "law.core",
+    "skill_ids": [
+      "law.contracts",
+      "law.torts",
+      "law.criminal",
+      "law.constitutional",
+      "law.civpro",
+      "law.legal_writing"
+    ],
+    "outcomes": [
+      "Doctrine",
+      "Analysis",
+      "Writing"
+    ],
+    "assessments": [
+      "issue spotters"
+    ],
+    "project_ideas": [
+      "Appellate brief"
+    ],
+    "target_hours": 200
+  },
+  {
+    "module_id": "pp.core",
+    "skill_ids": [
+      "pp.comparative",
+      "pp.ir",
+      "pp.theory",
+      "pp.policy_analysis",
+      "pp.methods"
+    ],
+    "outcomes": [
+      "Comparative",
+      "IR",
+      "CBA",
+      "Causal ID"
+    ],
+    "assessments": [
+      "policy memos"
+    ],
+    "project_ideas": [
+      "RCT/DiD plan"
+    ],
+    "target_hours": 160
+  },
+  {
+    "module_id": "econ.core",
+    "skill_ids": [
+      "econ.micro",
+      "econ.macro",
+      "econ.econometrics",
+      "econ.timeseries"
+    ],
+    "outcomes": [
+      "Micro/Macro",
+      "Regression/TS"
+    ],
+    "assessments": [
+      "replication"
+    ],
+    "project_ideas": [
+      "Data appendix"
+    ],
+    "target_hours": 180
+  },
+  {
+    "module_id": "edu.core",
+    "skill_ids": [
+      "edu.learning",
+      "edu.curriculum",
+      "edu.assessment",
+      "edu.edtech"
+    ],
+    "outcomes": [
+      "Learning science",
+      "Backwards design",
+      "Formative assessment",
+      "EdTech"
+    ],
+    "assessments": [
+      "lesson plans"
+    ],
+    "project_ideas": [
+      "Course portfolio"
+    ],
+    "target_hours": 140
+  },
+  {
+    "module_id": "arch.core",
+    "skill_ids": [
+      "arch.design",
+      "arch.materials",
+      "arch.sustainability",
+      "arch.urban",
+      "arch.codes"
+    ],
+    "outcomes": [
+      "Studios",
+      "Structures",
+      "Energy",
+      "Urbanism",
+      "Codes"
+    ],
+    "assessments": [
+      "studio crits"
+    ],
+    "project_ideas": [
+      "Net-zero studio"
+    ],
+    "target_hours": 200
+  },
+  {
+    "module_id": "comm.core",
+    "skill_ids": [
+      "comm.writing",
+      "comm.media_law",
+      "comm.investigative",
+      "comm.data_journalism"
+    ],
+    "outcomes": [
+      "Reporting",
+      "Law/ethics",
+      "Investigations",
+      "Data"
+    ],
+    "assessments": [
+      "article series"
+    ],
+    "project_ideas": [
+      "FOIA + viz"
+    ],
+    "target_hours": 150
+  }
+]

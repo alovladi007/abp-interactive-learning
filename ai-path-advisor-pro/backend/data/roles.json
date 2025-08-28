@@ -1,0 +1,156 @@
+{
+  "software_engineer": {
+    "name": "Software Engineer",
+    "skills": [
+      "prog.python.basics",
+      "prog.c.basics",
+      "math.discrete",
+      "cs.ds.algorithms",
+      "cs.software.engineering",
+      "cs.computer.arch",
+      "cs.os",
+      "cs.databases",
+      "cs.networks"
+    ]
+  },
+  "ml_engineer": {
+    "name": "Machine Learning Engineer",
+    "skills": [
+      "prog.python.basics",
+      "math.linear_algebra",
+      "math.calculus_2",
+      "math.discrete",
+      "cs.ds.algorithms",
+      "cs.databases",
+      "cs.software.engineering",
+      "cs.ai.ml.basics"
+    ]
+  },
+  "data_engineer": {
+    "name": "Data Engineer",
+    "skills": [
+      "prog.python.basics",
+      "cs.ds.algorithms",
+      "cs.databases",
+      "cs.software.engineering",
+      "cs.os",
+      "cs.networks"
+    ]
+  },
+  "embedded_firmware_engineer": {
+    "name": "Embedded Firmware Engineer",
+    "skills": [
+      "prog.c.basics",
+      "cs.computer.arch",
+      "cs.os",
+      "ee.digital_logic",
+      "ee.circuits_1",
+      "ee.circuits_2",
+      "ee.control_systems"
+    ]
+  },
+  "cybersecurity_engineer": {
+    "name": "Cybersecurity Engineer",
+    "skills": [
+      "cs.os",
+      "cs.networks",
+      "cs.security.basics",
+      "cs.software.engineering",
+      "cs.ds.algorithms"
+    ]
+  },
+  "power_systems_engineer": {
+    "name": "Power Systems Engineer",
+    "skills": [
+      "ee.circuits_1",
+      "ee.circuits_2",
+      "ee.signals_systems",
+      "ee.control_systems",
+      "math.calculus_3"
+    ]
+  },
+  "rf_engineer": {
+    "name": "RF/Microwave Engineer",
+    "skills": [
+      "ee.em_1",
+      "ee.comm_systems",
+      "ee.circuits_2",
+      "ee.signals_systems"
+    ]
+  },
+  "vlsi_engineer": {
+    "name": "VLSI/ASIC Engineer",
+    "skills": [
+      "ee.digital_logic",
+      "cs.computer.arch",
+      "ee.semiconductor_devices"
+    ]
+  },
+  "condensed_matter_researcher": {
+    "name": "Condensed Matter Researcher",
+    "skills": [
+      "phys.quantum_1",
+      "phys.em_advanced",
+      "phys.stat_mech",
+      "mat.solid_state_basics",
+      "mat.crystallography"
+    ]
+  },
+  "public_health_analyst": {
+    "name": "Public Health Analyst",
+    "skills": [
+      "ph.epidemiology.basics",
+      "ph.biostats.basics",
+      "ph.health_policy",
+      "ph.program_eval"
+    ]
+  },
+  "biomedical_engineer": {
+    "name": "Biomedical Engineer (Devices)",
+    "skills": [
+      "bme.bio",
+      "bme.bioinstr",
+      "bme.imaging",
+      "ee.circuits_2",
+      "ee.signals_systems"
+    ]
+  },
+  "structural_engineer": {
+    "name": "Structural Engineer",
+    "skills": [
+      "ce.structural",
+      "ce.concrete",
+      "ce.steel",
+      "me.statics",
+      "me.dynamics"
+    ]
+  },
+  "environmental_engineer": {
+    "name": "Environmental Engineer",
+    "skills": [
+      "env.chem",
+      "env.water",
+      "env.air",
+      "env.climate"
+    ]
+  },
+  "policy_analyst": {
+    "name": "Policy Analyst",
+    "skills": [
+      "pp.policy_analysis",
+      "pp.methods",
+      "pp.comparative",
+      "pp.ir"
+    ]
+  },
+  "journalist_data": {
+    "name": "Data Journalist",
+    "skills": [
+      "comm.data_journalism",
+      "comm.writing",
+      "comm.investigative",
+      "comm.media_law",
+      "math.stats"
+    ]
+  }
+}
