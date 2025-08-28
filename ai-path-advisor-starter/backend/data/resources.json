@@ -1188,5 +1188,123 @@
       "video",
       "assignments"
     ]
+  },
+  {
+    "resource_id": "book.grays_anatomy",
+    "type": "book",
+    "title": "Gray's Anatomy for Students",
+    "provider": "Elsevier",
+    "skills": [
+      "med.anatomy"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 120,
+    "quality_score": 9.2,
+    "cost": "paid",
+    "format": [
+      "text",
+      "diagrams"
+    ]
+  },
+  {
+    "resource_id": "book.guyton_physiology",
+    "type": "book",
+    "title": "Guyton and Hall Textbook of Medical Physiology",
+    "provider": "Elsevier",
+    "skills": [
+      "med.physiology"
+    ],
+    "level": "advanced",
+    "time_est_hours": 150,
+    "quality_score": 9.5,
+    "cost": "paid",
+    "format": [
+      "text"
+    ]
+  },
+  {
+    "resource_id": "book.hibbeler_statics",
+    "type": "book",
+    "title": "Engineering Mechanics: Statics",
+    "provider": "Pearson",
+    "skills": [
+      "me.statics"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 8.8,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.cengel_thermo",
+    "type": "book",
+    "title": "Thermodynamics: An Engineering Approach",
+    "provider": "McGraw-Hill",
+    "skills": [
+      "me.thermo"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 100,
+    "quality_score": 9.0,
+    "cost": "paid",
+    "format": [
+      "text",
+      "examples"
+    ]
+  },
+  {
+    "resource_id": "book.contracts_ee",
+    "type": "book",
+    "title": "Contracts: Examples & Explanations",
+    "provider": "Aspen",
+    "skills": [
+      "law.contracts"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 60,
+    "quality_score": 8.5,
+    "cost": "paid",
+    "format": [
+      "text",
+      "cases"
+    ]
+  },
+  {
+    "resource_id": "book.mankiw_econ",
+    "type": "book",
+    "title": "Principles of Economics",
+    "provider": "Cengage",
+    "skills": [
+      "econ.micro",
+      "econ.macro"
+    ],
+    "level": "intro",
+    "time_est_hours": 80,
+    "quality_score": 8.7,
+    "cost": "paid",
+    "format": [
+      "text"
+    ]
+  },
+  {
+    "resource_id": "course.mit_mechanics",
+    "type": "course",
+    "title": "MIT 8.01 Classical Mechanics",
+    "provider": "MIT OpenCourseWare",
+    "skills": [
+      "phys.mechanics"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 60,
+    "quality_score": 9.3,
+    "cost": "free",
+    "format": [
+      "video",
+      "problems"
+    ]
   }
 ]

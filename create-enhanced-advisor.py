@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+#!/usr/bin/env python3
+"""
+Create the enhanced AI Path Advisor with all majors organized by category
+"""
+
+# HTML template with all majors and categories
+html_template = '''<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -543,4 +549,10 @@
 
     <script src="path-advisor-enhanced.js"></script>
 </body>
-</html>
+</html>'''
+
+# Write the HTML file
+with open('ai-path-advisor.html', 'w', encoding='utf-8') as f:
+    f.write(html_template)
+
+print("Enhanced AI Path Advisor HTML created successfully!")

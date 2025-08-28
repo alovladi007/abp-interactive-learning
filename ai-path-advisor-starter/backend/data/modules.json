@@ -460,5 +460,126 @@
       "Materials simulation"
     ],
     "target_hours": 160
+  },
+  {
+    "module_id": "med.foundations",
+    "skill_ids": [
+      "med.anatomy",
+      "med.physiology",
+      "med.biochem"
+    ],
+    "outcomes": [
+      "Understand human body systems",
+      "Master biochemical processes"
+    ],
+    "assessments": [
+      "Anatomy practicals",
+      "Physiology exams"
+    ],
+    "project_ideas": [
+      "Clinical case studies"
+    ],
+    "target_hours": 240
+  },
+  {
+    "module_id": "nurse.core",
+    "skill_ids": [
+      "nurse.fundamentals",
+      "nurse.pathophys",
+      "nurse.pharmacology"
+    ],
+    "outcomes": [
+      "Patient care skills",
+      "Medication administration"
+    ],
+    "assessments": [
+      "Clinical evaluations",
+      "NCLEX prep"
+    ],
+    "project_ideas": [
+      "Care plan development"
+    ],
+    "target_hours": 180
+  },
+  {
+    "module_id": "me.core",
+    "skill_ids": [
+      "me.statics",
+      "me.dynamics",
+      "me.thermo",
+      "me.fluids"
+    ],
+    "outcomes": [
+      "Mechanical analysis",
+      "System design"
+    ],
+    "assessments": [
+      "Design projects",
+      "FEA simulations"
+    ],
+    "project_ideas": [
+      "Heat exchanger design"
+    ],
+    "target_hours": 200
+  },
+  {
+    "module_id": "civil.core",
+    "skill_ids": [
+      "civil.structural",
+      "civil.soils",
+      "civil.hydrology"
+    ],
+    "outcomes": [
+      "Structural design",
+      "Infrastructure planning"
+    ],
+    "assessments": [
+      "Design calculations",
+      "Site analysis"
+    ],
+    "project_ideas": [
+      "Bridge design project"
+    ],
+    "target_hours": 180
+  },
+  {
+    "module_id": "law.core",
+    "skill_ids": [
+      "law.contracts",
+      "law.torts",
+      "law.criminal"
+    ],
+    "outcomes": [
+      "Legal analysis",
+      "Case briefing"
+    ],
+    "assessments": [
+      "Mock trials",
+      "Legal memos"
+    ],
+    "project_ideas": [
+      "Appellate brief"
+    ],
+    "target_hours": 200
+  },
+  {
+    "module_id": "econ.core",
+    "skill_ids": [
+      "econ.micro",
+      "econ.macro",
+      "econ.econometrics"
+    ],
+    "outcomes": [
+      "Economic modeling",
+      "Policy analysis"
+    ],
+    "assessments": [
+      "Problem sets",
+      "Research papers"
+    ],
+    "project_ideas": [
+      "Market analysis project"
+    ],
+    "target_hours": 160
   }
 ]

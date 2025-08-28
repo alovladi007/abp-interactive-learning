@@ -997,5 +997,619 @@
       "computational"
     ],
     "difficulty": 4
+  },
+  {
+    "skill_id": "math.stats",
+    "name": "Statistics",
+    "prereq_ids": [
+      "math.algebra"
+    ],
+    "tags": [
+      "math"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "chem.general",
+    "name": "General Chemistry",
+    "prereq_ids": [],
+    "tags": [
+      "chemistry"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "chem.organic",
+    "name": "Organic Chemistry",
+    "prereq_ids": [
+      "chem.general"
+    ],
+    "tags": [
+      "chemistry"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "chem.physical",
+    "name": "Physical Chemistry",
+    "prereq_ids": [
+      "chem.general",
+      "math.calculus_2"
+    ],
+    "tags": [
+      "chemistry"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "bio.general",
+    "name": "General Biology",
+    "prereq_ids": [],
+    "tags": [
+      "biology"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "bio.cell",
+    "name": "Cell Biology",
+    "prereq_ids": [
+      "bio.general"
+    ],
+    "tags": [
+      "biology"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "bio.genetics",
+    "name": "Genetics",
+    "prereq_ids": [
+      "bio.general"
+    ],
+    "tags": [
+      "biology"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "bio.molecular",
+    "name": "Molecular Biology",
+    "prereq_ids": [
+      "bio.cell"
+    ],
+    "tags": [
+      "biology"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "med.anatomy",
+    "name": "Human Anatomy",
+    "prereq_ids": [],
+    "tags": [
+      "medicine"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "med.physiology",
+    "name": "Physiology",
+    "prereq_ids": [
+      "med.anatomy"
+    ],
+    "tags": [
+      "medicine"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "med.biochem",
+    "name": "Medical Biochemistry",
+    "prereq_ids": [
+      "chem.organic",
+      "bio.cell"
+    ],
+    "tags": [
+      "medicine"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "med.pathology",
+    "name": "Pathology",
+    "prereq_ids": [
+      "med.physiology"
+    ],
+    "tags": [
+      "medicine"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "med.pharmacology",
+    "name": "Pharmacology",
+    "prereq_ids": [
+      "med.physiology",
+      "chem.organic"
+    ],
+    "tags": [
+      "medicine"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "med.microbiology",
+    "name": "Microbiology",
+    "prereq_ids": [
+      "bio.general"
+    ],
+    "tags": [
+      "medicine"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "nurse.fundamentals",
+    "name": "Nursing Fundamentals",
+    "prereq_ids": [],
+    "tags": [
+      "nursing"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "nurse.pathophys",
+    "name": "Pathophysiology",
+    "prereq_ids": [
+      "med.anatomy"
+    ],
+    "tags": [
+      "nursing"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "nurse.pharmacology",
+    "name": "Nursing Pharmacology",
+    "prereq_ids": [
+      "nurse.pathophys"
+    ],
+    "tags": [
+      "nursing"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "nurse.clinical",
+    "name": "Clinical Practice",
+    "prereq_ids": [
+      "nurse.fundamentals"
+    ],
+    "tags": [
+      "nursing"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "me.statics",
+    "name": "Statics",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "mech"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "me.dynamics",
+    "name": "Dynamics",
+    "prereq_ids": [
+      "me.statics"
+    ],
+    "tags": [
+      "mech"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "me.thermo",
+    "name": "Thermodynamics",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "mech"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "me.fluids",
+    "name": "Fluid Mechanics",
+    "prereq_ids": [
+      "math.calculus_3"
+    ],
+    "tags": [
+      "mech"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "me.heat_transfer",
+    "name": "Heat Transfer",
+    "prereq_ids": [
+      "me.thermo"
+    ],
+    "tags": [
+      "mech"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "me.design",
+    "name": "Machine Design",
+    "prereq_ids": [
+      "me.dynamics"
+    ],
+    "tags": [
+      "mech"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "civil.structural",
+    "name": "Structural Analysis",
+    "prereq_ids": [
+      "me.statics"
+    ],
+    "tags": [
+      "civil"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "civil.soils",
+    "name": "Soil Mechanics",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "civil"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "civil.hydrology",
+    "name": "Hydrology",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "civil"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "civil.transport",
+    "name": "Transportation Engineering",
+    "prereq_ids": [],
+    "tags": [
+      "civil"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "civil.concrete",
+    "name": "Concrete Design",
+    "prereq_ids": [
+      "civil.structural"
+    ],
+    "tags": [
+      "civil"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "che.balances",
+    "name": "Material & Energy Balances",
+    "prereq_ids": [
+      "chem.general"
+    ],
+    "tags": [
+      "chemeng"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "che.thermo",
+    "name": "Chemical Thermodynamics",
+    "prereq_ids": [
+      "chem.physical"
+    ],
+    "tags": [
+      "chemeng"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "che.transport",
+    "name": "Transport Phenomena",
+    "prereq_ids": [
+      "math.calculus_3"
+    ],
+    "tags": [
+      "chemeng"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "che.kinetics",
+    "name": "Reaction Kinetics",
+    "prereq_ids": [
+      "che.thermo"
+    ],
+    "tags": [
+      "chemeng"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "che.control",
+    "name": "Process Control",
+    "prereq_ids": [
+      "che.balances"
+    ],
+    "tags": [
+      "chemeng"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "env.chemistry",
+    "name": "Environmental Chemistry",
+    "prereq_ids": [
+      "chem.general"
+    ],
+    "tags": [
+      "environment"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "env.air",
+    "name": "Air Quality",
+    "prereq_ids": [
+      "math.calculus_2"
+    ],
+    "tags": [
+      "environment"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "env.water",
+    "name": "Water Treatment",
+    "prereq_ids": [
+      "chem.general"
+    ],
+    "tags": [
+      "environment"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "env.climate",
+    "name": "Climate Science",
+    "prereq_ids": [
+      "math.stats"
+    ],
+    "tags": [
+      "environment"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "law.contracts",
+    "name": "Contracts",
+    "prereq_ids": [],
+    "tags": [
+      "law"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "law.torts",
+    "name": "Torts",
+    "prereq_ids": [],
+    "tags": [
+      "law"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "law.criminal",
+    "name": "Criminal Law",
+    "prereq_ids": [],
+    "tags": [
+      "law"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "law.constitutional",
+    "name": "Constitutional Law",
+    "prereq_ids": [],
+    "tags": [
+      "law"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "law.civil_procedure",
+    "name": "Civil Procedure",
+    "prereq_ids": [],
+    "tags": [
+      "law"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "econ.micro",
+    "name": "Microeconomics",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "economics"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "econ.macro",
+    "name": "Macroeconomics",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "economics"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "econ.econometrics",
+    "name": "Econometrics",
+    "prereq_ids": [
+      "math.stats"
+    ],
+    "tags": [
+      "economics"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "econ.finance",
+    "name": "Financial Economics",
+    "prereq_ids": [
+      "econ.micro"
+    ],
+    "tags": [
+      "economics"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "edu.learning",
+    "name": "Learning Theories",
+    "prereq_ids": [],
+    "tags": [
+      "education"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "edu.curriculum",
+    "name": "Curriculum Design",
+    "prereq_ids": [],
+    "tags": [
+      "education"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "edu.assessment",
+    "name": "Assessment Methods",
+    "prereq_ids": [],
+    "tags": [
+      "education"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "edu.technology",
+    "name": "Educational Technology",
+    "prereq_ids": [],
+    "tags": [
+      "education"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "arch.design",
+    "name": "Architectural Design",
+    "prereq_ids": [],
+    "tags": [
+      "architecture"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "arch.structures",
+    "name": "Building Structures",
+    "prereq_ids": [
+      "me.statics"
+    ],
+    "tags": [
+      "architecture"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "arch.sustainable",
+    "name": "Sustainable Design",
+    "prereq_ids": [],
+    "tags": [
+      "architecture"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "arch.urban",
+    "name": "Urban Planning",
+    "prereq_ids": [],
+    "tags": [
+      "architecture"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "comm.writing",
+    "name": "News Writing",
+    "prereq_ids": [],
+    "tags": [
+      "communications"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "comm.media",
+    "name": "Media Studies",
+    "prereq_ids": [],
+    "tags": [
+      "communications"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "comm.investigative",
+    "name": "Investigative Reporting",
+    "prereq_ids": [
+      "comm.writing"
+    ],
+    "tags": [
+      "communications"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "comm.data",
+    "name": "Data Journalism",
+    "prereq_ids": [
+      "math.stats"
+    ],
+    "tags": [
+      "communications"
+    ],
+    "difficulty": 3
   }
 ]
