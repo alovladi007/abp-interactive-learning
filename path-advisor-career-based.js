@@ -822,6 +822,9 @@ function createCourseCard(course, type) {
         elective: ''
     };
     
+    // Generate syllabus link for the course
+    const syllabusUrl = `/syllabi/${selectedMajor}/${course.id}-syllabus.pdf`;
+    
     return `
         <div style="padding: 1rem; margin-bottom: 0.75rem; background: var(--card-bg); 
                     border-radius: 8px; ${typeStyles[type]}">
@@ -837,6 +840,14 @@ function createCourseCard(course, type) {
                             <span class="badge" style="background: var(--secondary-bg); margin-left: 0.5rem;">
                                 ${course.credits} credits
                             </span>
+                            <a href="${syllabusUrl}" 
+                               target="_blank"
+                               onclick="event.stopPropagation();"
+                               style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; 
+                                      background: #667eea; color: white; text-decoration: none; 
+                                      border-radius: 4px; font-size: 0.85rem; display: inline-block;">
+                                <i class="fas fa-file-alt"></i> Syllabus
+                            </a>
                         </div>
                     </div>
                     <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);">
@@ -844,6 +855,9 @@ function createCourseCard(course, type) {
                     </p>
                     ${course.prerequisites && course.prerequisites.length > 0 ? 
                         `<small style="color: #ff9800;">Prerequisites: ${course.prerequisites.join(', ')}</small>` : ''}
+                    <small style="color: #999; display: block; margin-top: 0.25rem;">
+                        <i class="fas fa-info-circle"></i> Click "Syllabus" for detailed course information, weekly schedule, and grading criteria
+                    </small>
                 </div>
             </label>
         </div>
@@ -972,6 +986,13 @@ function displayCareerRoadmap() {
                                             ${isRequired ? '<span class="badge" style="background: var(--primary-accent); color: white;">Career Required</span>' : 
                                               isRecommended ? '<span class="badge" style="background: #ff9800; color: white;">Recommended</span>' : ''}
                                             <span style="margin-left: 0.5rem; color: var(--primary-accent);">${course.credits} credits</span>
+                                            <a href="/syllabi/${selectedMajor}/${course.id}-syllabus.pdf" 
+                                               target="_blank"
+                                               style="margin-left: 0.5rem; padding: 0.2rem 0.4rem; 
+                                                      background: #667eea; color: white; text-decoration: none; 
+                                                      border-radius: 3px; font-size: 0.8rem;">
+                                                <i class="fas fa-file-pdf"></i> Syllabus
+                                            </a>
                                         </div>
                                     </div>
                                     <p style="margin: 0.5rem 0; color: var(--text-secondary);">${course.description}</p>
