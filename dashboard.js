@@ -487,7 +487,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </ul>
                                 <div style="margin-top: 1rem; padding: 1rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
                                     <strong>Quick Start:</strong> Try saying "I want to become a Machine Learning Engineer" or 
-                                    <a href="ai-path-advisor.html" style="color: var(--primary-accent); text-decoration: underline;">Launch Path Wizard →</a>
+                                    <a href="ai-path-advisor-improved.html" style="color: var(--primary-accent); text-decoration: underline;">Launch Path Wizard →</a>
                                 </div>
                             </p>
                         </div>
