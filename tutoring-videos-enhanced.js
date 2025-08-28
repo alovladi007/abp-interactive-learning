@@ -170,7 +170,7 @@ const enhancedVideoCategories = {
     'engineering': {
         name: 'Engineering',
         icon: '⚙️',
-        description: 'Electrical, mechanical, civil, and software engineering',
+        description: 'Electrical, mechanical, civil, photonics, and advanced engineering disciplines',
         subcategories: {
             'electrical': {
                 name: 'Electrical Engineering',
@@ -196,6 +196,23 @@ const enhancedVideoCategories = {
                 name: 'Aerospace Engineering',
                 topics: ['Aerodynamics', 'Propulsion', 'Flight Mechanics', 'Spacecraft Design', 'Orbital Mechanics'],
                 videoCount: 10
+            },
+            'photonics-optical': {
+                name: 'Photonics & Optical Engineering',
+                topics: [
+                    'Fundamentals of Semiconductors',
+                    'Physics of Photonic Devices',
+                    'Photonics - Optical Electronics',
+                    'Nanophotonics',
+                    'Principles of Optics',
+                    'Non-Linear Optics',
+                    'Optical Metrology',
+                    'Fundamental Principles of Lithography',
+                    'EUV Lithography',
+                    'Advanced Optical Systems'
+                ],
+                videoCount: 20,
+                description: 'Advanced topics in photonics, optical engineering, and semiconductor lithography'
             }
         }
     },
