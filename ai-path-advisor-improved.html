@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Path Advisor - E.U.R.E.K.A Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .path-advisor-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Major Selection Cards */
+        .major-selection {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .major-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .major-card {
+            background: var(--secondary-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .major-card:hover {
+            border-color: var(--primary-accent);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .major-card.selected {
+            border-color: var(--primary-accent);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .major-card.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 30px;
+            height: 30px;
+            background: var(--primary-accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .major-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .major-stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .major-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--text-secondary);
+        }
+
+        /* Career Path Selection */
+        .career-selection {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            display: none;
+        }
+
+        .career-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .career-card {
+            background: var(--secondary-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .career-card:hover {
+            border-color: var(--primary-accent);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .career-card.selected {
+            border-color: var(--primary-accent);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        }
+
+        /* Quick Setup Form */
+        .quick-setup {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .setup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .form-select, .form-input {
+            padding: 0.75rem;
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:focus, .form-input:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .slider-container {
+            margin-top: 0.5rem;
+        }
+
+        .slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--border-color);
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-accent);
+            cursor: pointer;
+        }
+
+        .slider-value {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-accent);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-bg);
+            color: var(--text-primary);
+            padding: 0.875rem 2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--hover-bg);
+            border-color: var(--primary-accent);
+        }
+
+        /* Progress Indicator */
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .progress-indicator::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 0;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .progress-step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active .progress-step-circle {
+            background: var(--primary-accent);
+            border-color: var(--primary-accent);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .progress-step.completed .progress-step-circle {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+
+        .progress-step-label {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .progress-step.active .progress-step-label {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Info Cards */
+        .info-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-left: 4px solid var(--primary-accent);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .info-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--primary-accent);
+        }
+
+        .info-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            display: none;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-progress {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .quiz-progress-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .quiz-progress-dot.active {
+            background: var(--primary-accent);
+            transform: scale(1.3);
+        }
+
+        .quiz-progress-dot.completed {
+            background: var(--success-color);
+        }
+
+        .quiz-question {
+            margin-bottom: 2rem;
+        }
+
+        .quiz-question h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .quiz-option {
+            background: var(--secondary-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-accent);
+            transform: translateX(5px);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--primary-accent);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <span class="logo-text">E.U.R.E.K.A</span>
+            </a>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search majors, careers, skills...">
+            </div>
+            
+            <div class="nav-actions">
+                <button class="btn-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="user-menu">
+                    <img src="https://ui-avatars.com/api/?name=Student&background=667eea&color=fff" alt="User" class="user-avatar">
+                    <div class="user-info">
+                        <span class="user-name">Student</span>
+                        <span class="user-role">Pro Member</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Quick Links</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="dashboard.html" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-home"></i></span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="ai-path-advisor.html" class="sidebar-link active">
+                        <span class="sidebar-icon"><i class="fas fa-route"></i></span>
+                        <span>AI Path Advisor</span>
+                        <span class="badge-hot">HOT</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" onclick="scrollToSection('majors')" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-graduation-cap"></i></span>
+                        <span>All Majors</span>
+                        <span class="counter">6</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" onclick="scrollToSection('careers')" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-briefcase"></i></span>
+                        <span>Career Paths</span>
+                        <span class="counter">10+</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" onclick="scrollToSection('quiz')" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-clipboard-check"></i></span>
+                        <span>Skill Assessment</span>
+                        <span class="badge-new">NEW</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" onclick="scrollToSection('resources')" class="sidebar-link">
+                        <span class="sidebar-icon"><i class="fas fa-book"></i></span>
+                        <span>Resources</span>
+                        <span class="counter">80+</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="path-advisor-container">
+                <!-- Header -->
+                <div class="content-header">
+                    <h1><i class="fas fa-route"></i> AI Path Advisor</h1>
+                    <p>Build your personalized learning roadmap across 6 majors and 10+ career paths</p>
+                </div>
+
+                <!-- Progress Indicator -->
+                <div class="progress-indicator">
+                    <div class="progress-step active" id="step-1">
+                        <div class="progress-step-circle">1</div>
+                        <span class="progress-step-label">Choose Major</span>
+                    </div>
+                    <div class="progress-step" id="step-2">
+                        <div class="progress-step-circle">2</div>
+                        <span class="progress-step-label">Select Path</span>
+                    </div>
+                    <div class="progress-step" id="step-3">
+                        <div class="progress-step-circle">3</div>
+                        <span class="progress-step-label">Quick Setup</span>
+                    </div>
+                    <div class="progress-step" id="step-4">
+                        <div class="progress-step-circle">4</div>
+                        <span class="progress-step-label">Take Quiz</span>
+                    </div>
+                    <div class="progress-step" id="step-5">
+                        <div class="progress-step-circle">5</div>
+                        <span class="progress-step-label">Get Roadmap</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Major Selection -->
+                <div class="major-selection" id="majors">
+                    <h2 style="margin-bottom: 0.5rem;">Step 1: Choose Your Major</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                        Select your field of study or the major you want to pursue
+                    </p>
+
+                    <div class="major-grid">
+                        <!-- Computer Science -->
+                        <div class="major-card" data-major="cs">
+                            <div class="major-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <h3 style="margin: 0 0 0.5rem 0;">Computer Science</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                                Programming, algorithms, AI/ML, systems, and software engineering
+                            </p>
+                            <div class="major-stats">
+                                <div class="major-stat">
+                                    <i class="fas fa-book"></i>
+                                    <span>70+ skills</span>
+                                </div>
+                                <div class="major-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>12-36 mo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Electrical Engineering -->
+                        <div class="major-card" data-major="ee">
+                            <div class="major-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h3 style="margin: 0 0 0.5rem 0;">Electrical Engineering</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                                Circuits, signals, control systems, power, and embedded systems
+                            </p>
+                            <div class="major-stats">
+                                <div class="major-stat">
+                                    <i class="fas fa-book"></i>
+                                    <span>45+ skills</span>
+                                </div>
+                                <div class="major-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>24-36 mo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Physics -->
+                        <div class="major-card" data-major="physics">
+                            <div class="major-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                <i class="fas fa-atom"></i>
+                            </div>
+                            <h3 style="margin: 0 0 0.5rem 0;">Physics</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                                Mechanics, quantum, thermodynamics, and electromagnetism
+                            </p>
+                            <div class="major-stats">
+                                <div class="major-stat">
+                                    <i class="fas fa-book"></i>
+                                    <span>35+ skills</span>
+                                </div>
+                                <div class="major-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>24-36 mo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data Science -->
+                        <div class="major-card" data-major="data-science">
+                            <div class="major-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 style="margin: 0 0 0.5rem 0;">Data Science</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                                Analytics, ML, visualization, big data, and data engineering
+                            </p>
+                            <div class="major-stats">
+                                <div class="major-stat">
+                                    <i class="fas fa-book"></i>
+                                    <span>40+ skills</span>
+                                </div>
+                                <div class="major-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>12-24 mo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Public Health -->
+                        <div class="major-card" data-major="public-health">
+                            <div class="major-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <h3 style="margin: 0 0 0.5rem 0;">Public Health</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                                Epidemiology, biostatistics, health policy, and global health
+                            </p>
+                            <div class="major-stats">
+                                <div class="major-stat">
+                                    <i class="fas fa-book"></i>
+                                    <span>25+ skills</span>
+                                </div>
+                                <div class="major-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>18-30 mo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Materials Science -->
+                        <div class="major-card" data-major="materials">
+                            <div class="major-icon" style="background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3 style="margin: 0 0 0.5rem 0;">Materials Science</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                                Solid state, polymers, ceramics, and nanomaterials
+                            </p>
+                            <div class="major-stats">
+                                <div class="major-stat">
+                                    <i class="fas fa-book"></i>
+                                    <span>30+ skills</span>
+                                </div>
+                                <div class="major-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>24-36 mo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Career Path Selection -->
+                <div class="career-selection" id="careers">
+                    <h2 style="margin-bottom: 0.5rem;">Step 2: Choose Your Career Path</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                        Select a specific career goal or choose "Full Major" for comprehensive coverage
+                    </p>
+
+                    <div class="career-grid" id="career-grid">
+                        <!-- Career paths will be populated based on selected major -->
+                    </div>
+                </div>
+
+                <!-- Step 3: Quick Setup -->
+                <div class="quick-setup" id="setup" style="display: none;">
+                    <h2 style="margin-bottom: 0.5rem;">Step 3: Quick Setup</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                        Customize your learning preferences and constraints
+                    </p>
+
+                    <div class="setup-grid">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-clock"></i> Weekly Study Hours
+                            </label>
+                            <input type="range" class="slider" id="hours-slider" min="5" max="40" value="15">
+                            <div class="slider-value" id="hours-value">15 hours/week</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-calendar"></i> Time Horizon
+                            </label>
+                            <select class="form-select" id="horizon-select">
+                                <option value="3">3 months</option>
+                                <option value="6">6 months</option>
+                                <option value="12" selected>12 months</option>
+                                <option value="18">18 months</option>
+                                <option value="24">24 months</option>
+                                <option value="36">36 months</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-dollar-sign"></i> Monthly Budget
+                            </label>
+                            <select class="form-select" id="budget-select">
+                                <option value="0">Free resources only</option>
+                                <option value="50">Up to $50/month</option>
+                                <option value="100" selected>Up to $100/month</option>
+                                <option value="200">Up to $200/month</option>
+                                <option value="500">Up to $500/month</option>
+                                <option value="1000">Unlimited</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-book-reader"></i> Learning Style
+                            </label>
+                            <select class="form-select" id="style-select">
+                                <option value="visual">Visual (Videos, Diagrams)</option>
+                                <option value="reading">Reading (Books, Articles)</option>
+                                <option value="hands-on">Hands-on (Projects, Labs)</option>
+                                <option value="mixed" selected>Mixed Approach</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-tachometer-alt"></i> Difficulty Preference
+                            </label>
+                            <select class="form-select" id="difficulty-select">
+                                <option value="easy">Start easy, progress gradually</option>
+                                <option value="balanced" selected>Balanced progression</option>
+                                <option value="challenging">Challenge me from the start</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-project-diagram"></i> Project Emphasis
+                            </label>
+                            <select class="form-select" id="project-select">
+                                <option value="theory">Theory-focused</option>
+                                <option value="balanced" selected>Theory + Practice</option>
+                                <option value="practical">Project-heavy</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Quiz Section -->
+                <div class="quiz-section" id="quiz">
+                    <div class="quiz-header">
+                        <h2>Step 4: Skill Assessment Quiz (Optional)</h2>
+                        <div class="quiz-progress" id="quiz-progress">
+                            <!-- Progress dots will be added dynamically -->
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3><i class="fas fa-info-circle"></i> Why Take the Quiz?</h3>
+                        <p>
+                            Our adaptive quiz helps us understand your current knowledge level. 
+                            This allows us to skip topics you already know and start you at the right difficulty level.
+                            The quiz takes about 5 minutes and covers key concepts in your selected major.
+                        </p>
+                    </div>
+
+                    <div id="quiz-content">
+                        <!-- Quiz questions will be loaded here -->
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn-secondary" onclick="skipQuiz()">Skip Quiz</button>
+                        <button class="btn-primary" onclick="startQuiz()">Start Assessment</button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons" id="main-actions">
+                    <button class="btn-secondary" onclick="previousStep()" id="prev-btn" style="display: none;">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button class="btn-primary" onclick="nextStep()" id="next-btn">
+                        Continue <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Generated Roadmap Section (Hidden initially) -->
+                <div id="roadmap-section" style="display: none;">
+                    <!-- Roadmap will be displayed here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="dashboard.js"></script>
+    <script>
+        // State management
+        let currentStep = 1;
+        let selectedMajor = null;
+        let selectedCareer = null;
+        let userPreferences = {};
+        
+        // Career paths by major
+        const careerPaths = {
+            'cs': [
+                { id: 'full-cs', name: 'Full Computer Science Degree', duration: '24-36 months', icon: 'graduation-cap' },
+                { id: 'ml-engineer', name: 'Machine Learning Engineer', duration: '12-18 months', icon: 'brain' },
+                { id: 'full-stack', name: 'Full Stack Developer', duration: '6-10 months', icon: 'code' },
+                { id: 'data-engineer', name: 'Data Engineer', duration: '8-12 months', icon: 'database' },
+                { id: 'security-engineer', name: 'Security Engineer', duration: '10-14 months', icon: 'shield-alt' },
+                { id: 'devops', name: 'DevOps Engineer', duration: '8-12 months', icon: 'server' }
+            ],
+            'ee': [
+                { id: 'full-ee', name: 'Full Electrical Engineering', duration: '24-36 months', icon: 'graduation-cap' },
+                { id: 'embedded-engineer', name: 'Embedded Systems Engineer', duration: '10-14 months', icon: 'microchip' },
+                { id: 'power-engineer', name: 'Power Systems Engineer', duration: '12-18 months', icon: 'bolt' },
+                { id: 'control-engineer', name: 'Control Systems Engineer', duration: '12-16 months', icon: 'sliders-h' },
+                { id: 'rf-engineer', name: 'RF/Communications Engineer', duration: '14-18 months', icon: 'satellite' }
+            ],
+            'physics': [
+                { id: 'full-physics', name: 'Full Physics Curriculum', duration: '24-36 months', icon: 'graduation-cap' },
+                { id: 'quantum-researcher', name: 'Quantum Physics Focus', duration: '18-24 months', icon: 'atom' },
+                { id: 'computational-physics', name: 'Computational Physics', duration: '12-18 months', icon: 'calculator' },
+                { id: 'applied-physics', name: 'Applied Physics', duration: '12-18 months', icon: 'cogs' }
+            ],
+            'data-science': [
+                { id: 'full-ds', name: 'Full Data Science Path', duration: '18-24 months', icon: 'graduation-cap' },
+                { id: 'data-analyst', name: 'Data Analyst', duration: '6-9 months', icon: 'chart-bar' },
+                { id: 'ml-engineer', name: 'Machine Learning Engineer', duration: '12-18 months', icon: 'brain' },
+                { id: 'data-engineer', name: 'Data Engineer', duration: '8-12 months', icon: 'database' },
+                { id: 'bi-analyst', name: 'Business Intelligence Analyst', duration: '6-9 months', icon: 'chart-pie' }
+            ],
+            'public-health': [
+                { id: 'full-ph', name: 'Full Public Health Curriculum', duration: '24-30 months', icon: 'graduation-cap' },
+                { id: 'epidemiologist', name: 'Epidemiologist', duration: '12-18 months', icon: 'virus' },
+                { id: 'health-policy', name: 'Health Policy Analyst', duration: '10-14 months', icon: 'file-medical' },
+                { id: 'global-health', name: 'Global Health Specialist', duration: '12-16 months', icon: 'globe' },
+                { id: 'biostatistician', name: 'Biostatistician', duration: '10-14 months', icon: 'chart-line' }
+            ],
+            'materials': [
+                { id: 'full-materials', name: 'Full Materials Science', duration: '24-36 months', icon: 'graduation-cap' },
+                { id: 'polymer-engineer', name: 'Polymer Engineer', duration: '10-14 months', icon: 'flask' },
+                { id: 'semiconductor', name: 'Semiconductor Specialist', duration: '12-18 months', icon: 'microchip' },
+                { id: 'nanomaterials', name: 'Nanomaterials Researcher', duration: '14-18 months', icon: 'atom' },
+                { id: 'biomaterials', name: 'Biomaterials Engineer', duration: '12-16 months', icon: 'dna' }
+            ]
+        };
+
+        // Major card selection
+        document.querySelectorAll('.major-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove previous selection
+                document.querySelectorAll('.major-card').forEach(c => c.classList.remove('selected'));
+                
+                // Add selection to clicked card
+                this.classList.add('selected');
+                selectedMajor = this.dataset.major;
+                
+                // Show career selection
+                showCareerPaths(selectedMajor);
+            });
+        });
+
+        function showCareerPaths(major) {
+            const careerGrid = document.getElementById('career-grid');
+            const careers = careerPaths[major] || [];
+            
+            careerGrid.innerHTML = careers.map(career => `
+                <div class="career-card" data-career="${career.id}">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-${career.icon}" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                        <div>
+                            <h3 style="margin: 0;">${career.name}</h3>
+                            <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">${career.duration}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Show career selection section
+            document.querySelector('.career-selection').style.display = 'block';
+            
+            // Add click handlers to career cards
+            document.querySelectorAll('.career-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.career-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedCareer = this.dataset.career;
+                });
+            });
+        }
+
+        // Slider updates
+        const hoursSlider = document.getElementById('hours-slider');
+        if (hoursSlider) {
+            hoursSlider.addEventListener('input', function() {
+                document.getElementById('hours-value').textContent = `${this.value} hours/week`;
+            });
+        }
+
+        function nextStep() {
+            if (currentStep === 1 && !selectedMajor) {
+                alert('Please select a major to continue');
+                return;
+            }
+            if (currentStep === 2 && !selectedCareer) {
+                alert('Please select a career path to continue');
+                return;
+            }
+            
+            currentStep++;
+            updateUI();
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateUI();
+            }
+        }
+
+        function updateUI() {
+            // Update progress indicator
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index < currentStep - 1) {
+                    step.classList.add('completed');
+                } else if (index === currentStep - 1) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Show/hide sections based on current step
+            document.querySelector('.major-selection').style.display = currentStep === 1 ? 'block' : 'none';
+            document.querySelector('.career-selection').style.display = currentStep === 2 ? 'block' : 'none';
+            document.querySelector('.quick-setup').style.display = currentStep === 3 ? 'block' : 'none';
+            document.querySelector('.quiz-section').style.display = currentStep === 4 ? 'block' : 'none';
+            
+            // Update buttons
+            document.getElementById('prev-btn').style.display = currentStep > 1 ? 'block' : 'none';
+            document.getElementById('next-btn').textContent = currentStep === 4 ? 'Generate Roadmap' : 'Continue';
+            
+            if (currentStep === 5) {
+                generateRoadmap();
+            }
+        }
+
+        function startQuiz() {
+            // Quiz implementation
+            alert('Quiz feature will connect to backend API');
+        }
+
+        function skipQuiz() {
+            currentStep = 5;
+            updateUI();
+        }
+
+        function generateRoadmap() {
+            // Collect all preferences
+            userPreferences = {
+                major: selectedMajor,
+                career: selectedCareer,
+                weeklyHours: document.getElementById('hours-slider').value,
+                horizon: document.getElementById('horizon-select').value,
+                budget: document.getElementById('budget-select').value,
+                style: document.getElementById('style-select').value,
+                difficulty: document.getElementById('difficulty-select').value,
+                projectEmphasis: document.getElementById('project-select').value
+            };
+
+            // Show roadmap section
+            document.getElementById('main-actions').style.display = 'none';
+            document.getElementById('roadmap-section').innerHTML = `
+                <div class="info-card">
+                    <h3><i class="fas fa-check-circle"></i> Roadmap Generated!</h3>
+                    <p>Your personalized learning path for ${selectedCareer} in ${selectedMajor} has been created.</p>
+                    <p>Preferences: ${userPreferences.weeklyHours} hours/week, ${userPreferences.horizon} months, $${userPreferences.budget}/month budget</p>
+                    <button class="btn-primary" style="margin-top: 1rem;">View Full Roadmap</button>
+                </div>
+            `;
+            document.getElementById('roadmap-section').style.display = 'block';
+        }
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
