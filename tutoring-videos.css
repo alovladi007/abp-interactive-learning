@@ -423,6 +423,108 @@
     cursor: not-allowed;
 }
 
+/* Subcategories Styles */
+.subcategories-section {
+    animation: fadeIn 0.5s ease;
+}
+
+.subcategories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.subcategory-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.subcategory-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-accent);
+}
+
+.subcategory-title {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.subcategory-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.topic-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--secondary-bg);
+    border-radius: 20px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.subcategory-stats {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.subcategory-stats i {
+    color: var(--primary-accent);
+    margin-right: 0.3rem;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.breadcrumb i {
+    font-size: 0.7rem;
+}
+
+.level-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.level-badge.level-beginner {
+    background: #4caf50;
+    color: white;
+}
+
+.level-badge.level-intermediate {
+    background: #ff9800;
+    color: white;
+}
+
+.level-badge.level-advanced {
+    background: #f44336;
+    color: white;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .categories-grid {

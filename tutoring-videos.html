@@ -139,7 +139,21 @@
                     </div>
                 </div>
                 
-                <!-- Videos Section (Hidden by default) -->
+                <!-- Subcategories Section (Hidden by default) -->
+                <div id="subcategories-section" class="subcategories-section" style="display: none;">
+                    <div id="subcategories-container">
+                        <!-- Subcategories will be dynamically loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Videos Display Section (Hidden by default) -->
+                <div id="videos-display-section" class="videos-display-section" style="display: none;">
+                    <div id="videos-container">
+                        <!-- Videos will be dynamically loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Original Videos Section (for backward compatibility) -->
                 <div id="videos-section" class="videos-section">
                     <button class="back-btn" onclick="showCategories()">
                         <i class="fas fa-arrow-left"></i> Back to Categories
@@ -191,5 +205,55 @@
         });
     </script>
     <script src="tutoring-videos.js"></script>
+    <script src="tutoring-videos-enhanced.js"></script>
+    <script>
+        // Override category click to show subcategories
+        function showCategoryVideos(categoryId) {
+            if (typeof displayCategoryWithSubcategories === 'function') {
+                displayCategoryWithSubcategories(categoryId);
+            } else {
+                // Fallback to original behavior
+                window.showCategoryVideosOriginal(categoryId);
+            }
+        }
+        
+        // Update categories display to show subcategory count
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoriesGrid = document.querySelector('.categories-grid');
+            if (categoriesGrid && typeof enhancedVideoCategories !== 'undefined') {
+                categoriesGrid.innerHTML = Object.entries(enhancedVideoCategories).map(([id, category]) => {
+                    const subcategoryCount = Object.keys(category.subcategories || {}).length;
+                    const totalVideos = subcategoryCount * 10; // Average 10 videos per subcategory
+                    
+                    return `
+                        <div class="category-card" onclick="showCategoryVideos('${id}')">
+                            <div class="category-icon">${category.icon}</div>
+                            <h3 class="category-title">${category.name}</h3>
+                            <p class="category-description">${category.description}</p>
+                            <div style="margin: 0.5rem 0; color: var(--primary-accent);">
+                                <strong>${subcategoryCount} subcategories</strong>
+                            </div>
+                            <div class="category-stats">
+                                <span class="category-stat">
+                                    <i class="fas fa-video"></i> ${totalVideos} videos
+                                </span>
+                                <span class="category-stat">
+                                    <i class="fas fa-clock"></i> ${Math.round(totalVideos * 2.5)} hours
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        });
+        
+        // Update showCategories to hide all sections
+        function showCategories() {
+            document.getElementById('categories-section').style.display = 'block';
+            document.getElementById('subcategories-section').style.display = 'none';
+            document.getElementById('videos-display-section').style.display = 'none';
+            document.getElementById('videos-section').classList.remove('active');
+        }
+    </script>
 </body>
 </html>
