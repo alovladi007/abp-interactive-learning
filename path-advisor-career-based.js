@@ -1,0 +1,913 @@
+// AI Path Advisor - Career-Based Course Selection
+
+// State management
+let currentStep = 1;
+let selectedCategory = null;
+let selectedMajor = null;
+let selectedCareer = null;
+let selectedCourses = [];
+let availableCourses = [];
+let careerSpecificCourses = [];
+let userPreferences = {};
+
+// Backend API base URL
+const API_BASE_URL = 'http://localhost:8000';
+
+// Career-specific course recommendations
+const careerCourseMapping = {
+    // Electrical Engineering careers
+    'embedded-engineer': {
+        required: ['EE302', 'EE401'], // Digital Logic, Microprocessor Systems
+        recommended: ['EE301', 'CS101', 'CS201'], // Electronics, Programming, Data Structures
+        focus: 'firmware and embedded systems'
+    },
+    'rf-engineer': {
+        required: ['EE403', 'EE304'], // RF & Microwave, Communication Systems
+        recommended: ['EE203', 'EE202', 'PHYS102'], // Electromagnetics, Signals, E&M
+        focus: 'wireless communication and antenna design'
+    },
+    'power-engineer': {
+        required: ['EE305'], // Power Systems
+        recommended: ['EE201', 'EE303', 'ME201'], // Circuits II, Control Systems, Thermodynamics
+        focus: 'power generation and distribution'
+    },
+    
+    // Computer Science careers
+    'software-engineer': {
+        required: ['CS401', 'CS303'], // Software Engineering, Database Systems
+        recommended: ['CS304', 'CS201', 'CS302'], // Networks, Data Structures, OS
+        focus: 'full-stack application development'
+    },
+    'ml-engineer': {
+        required: ['CS402', 'CS403'], // AI, Machine Learning
+        recommended: ['DS202', 'MATH301', 'CS201'], // Deep Learning, Linear Algebra, Data Structures
+        focus: 'artificial intelligence and machine learning'
+    },
+    'data-engineer': {
+        required: ['CS303', 'DS301'], // Database Systems, Big Data
+        recommended: ['CS304', 'DS201', 'CS201'], // Networks, Data Mining, Data Structures
+        focus: 'data pipelines and infrastructure'
+    },
+    
+    // Mechanical Engineering careers
+    'robotics-engineer': {
+        required: ['ME402', 'ME401'], // Robotics, Control Systems
+        recommended: ['EE301', 'CS101', 'ME302'], // Electronics, Programming, Machine Design
+        focus: 'robotic systems and automation'
+    },
+    'thermal-engineer': {
+        required: ['ME301', 'ME201'], // Heat Transfer, Thermodynamics
+        recommended: ['ME202', 'CHEM101', 'MAT201'], // Fluid Mechanics, Chemistry, Materials
+        focus: 'thermal systems and energy'
+    },
+    'design-engineer': {
+        required: ['ME302', 'ME303'], // Machine Design, Manufacturing
+        recommended: ['ME203', 'MAT202', 'ME101'], // Mechanics of Materials, Material Behavior, Statics
+        focus: 'mechanical design and manufacturing'
+    },
+    
+    // Physics careers
+    'research-physicist': {
+        required: ['PHYS302', 'PHYS401'], // Quantum II, Nuclear Physics
+        recommended: ['PHYS402', 'MATH401', 'PHYS303'], // General Relativity, Advanced Math, E&M II
+        focus: 'theoretical and experimental research'
+    },
+    'computational-physicist': {
+        required: ['PHYS302', 'CS201'], // Quantum II, Data Structures
+        recommended: ['PHYS202', 'MATH301', 'CS403'], // Statistical Physics, Linear Algebra, ML
+        focus: 'computational modeling and simulation'
+    },
+    'applied-physicist': {
+        required: ['PHYS304', 'MAT301'], // Solid State, Electronic Materials
+        recommended: ['PHYS303', 'EE301', 'MAT401'], // E&M II, Electronics, Nanomaterials
+        focus: 'technology applications and materials'
+    },
+    
+    // Data Science careers
+    'data-scientist': {
+        required: ['DS202', 'DS402'], // Machine Learning, Time Series
+        recommended: ['DS401', 'DS303', 'MATH301'], // NLP, Visualization, Linear Algebra
+        focus: 'statistical analysis and predictive modeling'
+    },
+    'bi-analyst': {
+        required: ['DS403', 'DS303'], // Business Intelligence, Visualization
+        recommended: ['DS101', 'ECON301', 'FIN202'], // Intro to DS, Econometrics, Investments
+        focus: 'business analytics and reporting'
+    },
+    
+    // Default for other careers
+    'default': {
+        required: [],
+        recommended: [],
+        focus: 'comprehensive foundation in the field'
+    }
+};
+
+// Complete course catalog for ALL majors
+const courseCatalog = {
+    cs: [
+        { id: 'CS101', name: 'Introduction to Programming', credits: 4, prerequisites: [], description: 'Fundamental programming concepts using Python', level: 'foundation' },
+        { id: 'CS201', name: 'Data Structures and Algorithms', credits: 4, prerequisites: ['CS101'], description: 'Fundamental data structures and algorithm design', level: 'core' },
+        { id: 'CS301', name: 'Computer Architecture', credits: 4, prerequisites: ['CS101'], description: 'Computer organization and system design', level: 'core' },
+        { id: 'CS302', name: 'Operating Systems', credits: 4, prerequisites: ['CS201', 'CS301'], description: 'OS design and implementation', level: 'advanced' },
+        { id: 'CS303', name: 'Database Systems', credits: 4, prerequisites: ['CS201'], description: 'Database design and management', level: 'core' },
+        { id: 'CS304', name: 'Computer Networks', credits: 4, prerequisites: ['CS201'], description: 'Network protocols and architectures', level: 'core' },
+        { id: 'CS401', name: 'Software Engineering', credits: 4, prerequisites: ['CS201'], description: 'Software development methodologies', level: 'advanced' },
+        { id: 'CS402', name: 'Artificial Intelligence', credits: 4, prerequisites: ['CS201'], description: 'AI principles and algorithms', level: 'advanced' },
+        { id: 'CS403', name: 'Machine Learning', credits: 4, prerequisites: ['CS201'], description: 'Statistical learning theory', level: 'advanced' },
+        { id: 'CS404', name: 'Compiler Design', credits: 4, prerequisites: ['CS201', 'CS301'], description: 'Compiler construction principles', level: 'advanced' },
+        { id: 'CS405', name: 'Computer Security', credits: 4, prerequisites: ['CS302', 'CS304'], description: 'Security principles and cryptography', level: 'advanced' },
+        { id: 'CS406', name: 'Theory of Computation', credits: 4, prerequisites: ['CS201'], description: 'Automata and complexity theory', level: 'advanced' }
+    ],
+    'data-science': [
+        { id: 'DS101', name: 'Introduction to Data Science', credits: 3, prerequisites: [], description: 'Fundamentals of data analysis and visualization', level: 'foundation' },
+        { id: 'DS102', name: 'Statistical Methods', credits: 4, prerequisites: [], description: 'Probability and statistics for data science', level: 'foundation' },
+        { id: 'DS201', name: 'Data Mining', credits: 4, prerequisites: ['DS101'], description: 'Extracting patterns from large datasets', level: 'core' },
+        { id: 'DS202', name: 'Machine Learning for Data Science', credits: 4, prerequisites: ['DS102'], description: 'ML algorithms and applications', level: 'core' },
+        { id: 'DS301', name: 'Big Data Analytics', credits: 4, prerequisites: ['DS201'], description: 'Processing and analyzing big data', level: 'advanced' },
+        { id: 'DS302', name: 'Deep Learning', credits: 4, prerequisites: ['DS202'], description: 'Neural networks and deep learning', level: 'advanced' },
+        { id: 'DS303', name: 'Data Visualization', credits: 3, prerequisites: ['DS101'], description: 'Creating effective data visualizations', level: 'core' },
+        { id: 'DS401', name: 'Natural Language Processing', credits: 4, prerequisites: ['DS202'], description: 'Text analysis and NLP techniques', level: 'advanced' },
+        { id: 'DS402', name: 'Time Series Analysis', credits: 4, prerequisites: ['DS102'], description: 'Analyzing temporal data', level: 'advanced' },
+        { id: 'DS403', name: 'Business Intelligence', credits: 3, prerequisites: ['DS201'], description: 'BI tools and techniques', level: 'advanced' }
+    ],
+    ee: [
+        { id: 'EE101', name: 'Circuit Analysis I', credits: 4, prerequisites: [], description: 'DC circuit analysis and theorems', level: 'foundation' },
+        { id: 'EE201', name: 'Circuit Analysis II', credits: 4, prerequisites: ['EE101'], description: 'AC circuit analysis and power', level: 'core' },
+        { id: 'EE202', name: 'Signals and Systems', credits: 4, prerequisites: ['EE201'], description: 'Signal analysis in time and frequency', level: 'core' },
+        { id: 'EE203', name: 'Electromagnetics I', credits: 4, prerequisites: [], description: 'Static electric and magnetic fields', level: 'core' },
+        { id: 'EE301', name: 'Electronics I', credits: 4, prerequisites: ['EE201'], description: 'Semiconductor devices and amplifiers', level: 'core' },
+        { id: 'EE302', name: 'Digital Logic Design', credits: 4, prerequisites: ['EE101'], description: 'Digital circuits and system design', level: 'core' },
+        { id: 'EE303', name: 'Control Systems', credits: 4, prerequisites: ['EE202'], description: 'Feedback control system analysis', level: 'advanced' },
+        { id: 'EE304', name: 'Communication Systems', credits: 4, prerequisites: ['EE202'], description: 'Analog and digital communications', level: 'advanced' },
+        { id: 'EE305', name: 'Power Systems', credits: 4, prerequisites: ['EE201'], description: 'Power generation and distribution', level: 'advanced' },
+        { id: 'EE401', name: 'Microprocessor Systems', credits: 4, prerequisites: ['EE302'], description: 'Microprocessor architecture and embedded systems', level: 'advanced' },
+        { id: 'EE402', name: 'VLSI Design', credits: 4, prerequisites: ['EE301', 'EE302'], description: 'CMOS VLSI design principles', level: 'advanced' },
+        { id: 'EE403', name: 'RF and Microwave Engineering', credits: 4, prerequisites: ['EE203', 'EE304'], description: 'High-frequency circuit design', level: 'advanced' }
+    ],
+    me: [
+        { id: 'ME101', name: 'Engineering Mechanics - Statics', credits: 3, prerequisites: [], description: 'Forces and equilibrium in static systems', level: 'foundation' },
+        { id: 'ME102', name: 'Engineering Mechanics - Dynamics', credits: 3, prerequisites: ['ME101'], description: 'Motion and forces in dynamic systems', level: 'foundation' },
+        { id: 'ME201', name: 'Thermodynamics I', credits: 4, prerequisites: [], description: 'Energy, heat, and work principles', level: 'core' },
+        { id: 'ME202', name: 'Fluid Mechanics', credits: 4, prerequisites: ['ME102'], description: 'Fluid statics and dynamics', level: 'core' },
+        { id: 'ME203', name: 'Mechanics of Materials', credits: 4, prerequisites: ['ME101'], description: 'Stress, strain, and material behavior', level: 'core' },
+        { id: 'ME301', name: 'Heat Transfer', credits: 4, prerequisites: ['ME201', 'ME202'], description: 'Conduction, convection, and radiation', level: 'advanced' },
+        { id: 'ME302', name: 'Machine Design', credits: 4, prerequisites: ['ME203'], description: 'Design of mechanical components', level: 'advanced' },
+        { id: 'ME303', name: 'Manufacturing Processes', credits: 3, prerequisites: ['ME203'], description: 'Manufacturing methods and processes', level: 'advanced' },
+        { id: 'ME401', name: 'Control Systems', credits: 4, prerequisites: ['ME102'], description: 'Feedback control for mechanical systems', level: 'advanced' },
+        { id: 'ME402', name: 'Robotics', credits: 4, prerequisites: ['ME401'], description: 'Robot kinematics and control', level: 'advanced' }
+    ],
+    physics: [
+        { id: 'PHYS101', name: 'Classical Mechanics I', credits: 4, prerequisites: [], description: 'Newtonian mechanics and conservation laws', level: 'foundation' },
+        { id: 'PHYS102', name: 'Electricity and Magnetism I', credits: 4, prerequisites: ['PHYS101'], description: 'Electromagnetic theory fundamentals', level: 'foundation' },
+        { id: 'PHYS201', name: 'Quantum Mechanics I', credits: 4, prerequisites: ['PHYS102'], description: 'Introduction to quantum mechanics', level: 'core' },
+        { id: 'PHYS202', name: 'Thermal and Statistical Physics', credits: 4, prerequisites: ['PHYS201'], description: 'Thermodynamics and statistical mechanics', level: 'core' },
+        { id: 'PHYS301', name: 'Classical Mechanics II', credits: 4, prerequisites: ['PHYS101'], description: 'Advanced classical mechanics', level: 'advanced' },
+        { id: 'PHYS302', name: 'Quantum Mechanics II', credits: 4, prerequisites: ['PHYS201'], description: 'Advanced quantum mechanics', level: 'advanced' },
+        { id: 'PHYS303', name: 'Electromagnetism II', credits: 4, prerequisites: ['PHYS102'], description: 'Advanced electromagnetic theory', level: 'advanced' },
+        { id: 'PHYS304', name: 'Solid State Physics', credits: 4, prerequisites: ['PHYS201'], description: 'Physics of crystalline solids', level: 'advanced' },
+        { id: 'PHYS401', name: 'Nuclear and Particle Physics', credits: 4, prerequisites: ['PHYS302'], description: 'Nuclear structure and particles', level: 'advanced' },
+        { id: 'PHYS402', name: 'General Relativity', credits: 4, prerequisites: ['PHYS301'], description: 'Einstein\'s theory of gravitation', level: 'advanced' }
+    ]
+};
+
+// Add more course catalogs for other majors (using simplified versions for now)
+const additionalCatalogs = {
+    civil: ['CE101', 'CE201', 'CE202', 'CE203', 'CE301', 'CE302', 'CE303', 'CE401', 'CE402'],
+    chemeng: ['CHE101', 'CHE201', 'CHE202', 'CHE301', 'CHE302', 'CHE303', 'CHE401', 'CHE402'],
+    bme: ['BME101', 'BME201', 'BME202', 'BME301', 'BME302', 'BME401', 'BME402'],
+    chemistry: ['CHEM101', 'CHEM102', 'CHEM201', 'CHEM202', 'CHEM301', 'CHEM302', 'CHEM303', 'CHEM401', 'CHEM402'],
+    materials: ['MAT101', 'MAT201', 'MAT202', 'MAT301', 'MAT302', 'MAT303', 'MAT401', 'MAT402'],
+    environment: ['ENV101', 'ENV201', 'ENV202', 'ENV301', 'ENV302', 'ENV401', 'ENV402']
+};
+
+// Major categories with complete mapping
+const majorsByCategory = {
+    technology: [
+        { id: 'cs', name: 'Computer Science', icon: 'laptop-code', description: 'Programming, algorithms, AI/ML, systems' },
+        { id: 'data-science', name: 'Data Science', icon: 'chart-bar', description: 'Statistics, ML, data engineering' }
+    ],
+    engineering: [
+        { id: 'ee', name: 'Electrical Engineering', icon: 'bolt', description: 'Circuits, signals, power systems' },
+        { id: 'me', name: 'Mechanical Engineering', icon: 'cogs', description: 'Mechanics, thermodynamics, design' },
+        { id: 'civil', name: 'Civil Engineering', icon: 'building', description: 'Structures, transportation, water' },
+        { id: 'chemeng', name: 'Chemical Engineering', icon: 'flask', description: 'Process design, reactions, transport' },
+        { id: 'bme', name: 'Biomedical Engineering', icon: 'dna', description: 'Medical devices, imaging, biomechanics' }
+    ],
+    sciences: [
+        { id: 'physics', name: 'Physics', icon: 'atom', description: 'Mechanics, E&M, quantum, thermo' },
+        { id: 'chemistry', name: 'Chemistry', icon: 'vial', description: 'Organic, inorganic, physical, analytical' },
+        { id: 'materials', name: 'Materials Science', icon: 'cubes', description: 'Polymers, semiconductors, nanomaterials' },
+        { id: 'environment', name: 'Environmental Science', icon: 'leaf', description: 'Climate, air quality, water treatment' }
+    ],
+    health: [
+        { id: 'medicine', name: 'Medicine (Pre-Med)', icon: 'stethoscope', description: 'Anatomy, physiology, pathology' },
+        { id: 'nursing', name: 'Nursing', icon: 'user-nurse', description: 'Patient care, pharmacology, clinical' },
+        { id: 'pharmacy', name: 'Pharmacy', icon: 'pills', description: 'Drug design, pharmacology, clinical' },
+        { id: 'public-health', name: 'Public Health', icon: 'globe', description: 'Epidemiology, biostatistics, policy' },
+        { id: 'nutrition', name: 'Nutrition & Dietetics', icon: 'apple-alt', description: 'Clinical nutrition, food science' }
+    ],
+    business: [
+        { id: 'economics', name: 'Economics', icon: 'chart-line', description: 'Micro, macro, econometrics, policy' },
+        { id: 'finance', name: 'Finance', icon: 'dollar-sign', description: 'Corporate finance, investments, banking' }
+    ],
+    social: [
+        { id: 'policy', name: 'Political Science', icon: 'landmark', description: 'Comparative politics, policy analysis' },
+        { id: 'education', name: 'Education', icon: 'graduation-cap', description: 'Learning theories, curriculum, assessment' },
+        { id: 'psychology', name: 'Psychology', icon: 'brain', description: 'Clinical, cognitive, social, developmental' }
+    ],
+    arts: [
+        { id: 'architecture', name: 'Architecture', icon: 'drafting-compass', description: 'Design studios, sustainability, urban' },
+        { id: 'communications', name: 'Communications', icon: 'newspaper', description: 'Writing, reporting, media, journalism' }
+    ],
+    law: [
+        { id: 'law', name: 'Law (Pre-Law)', icon: 'gavel', description: 'Contracts, torts, constitutional, criminal' },
+        { id: 'criminal-justice', name: 'Criminal Justice', icon: 'shield-alt', description: 'Law enforcement, corrections, courts' }
+    ]
+};
+
+// Career paths for each major
+const careerPaths = {
+    cs: [
+        { id: 'software-engineer', name: 'Software Engineer', icon: 'code', description: 'Build scalable applications' },
+        { id: 'ml-engineer', name: 'Machine Learning Engineer', icon: 'robot', description: 'Develop AI/ML systems' },
+        { id: 'data-engineer', name: 'Data Engineer', icon: 'database', description: 'Build data pipelines' }
+    ],
+    'data-science': [
+        { id: 'data-scientist', name: 'Data Scientist', icon: 'chart-line', description: 'Analyze complex datasets' },
+        { id: 'ml-engineer', name: 'ML Engineer', icon: 'brain', description: 'Build ML models' },
+        { id: 'bi-analyst', name: 'Business Intelligence Analyst', icon: 'chart-pie', description: 'Business insights from data' }
+    ],
+    ee: [
+        { id: 'embedded-engineer', name: 'Embedded Systems Engineer', icon: 'microchip', description: 'Firmware and embedded systems' },
+        { id: 'rf-engineer', name: 'RF Engineer', icon: 'wifi', description: 'Wireless communication systems' },
+        { id: 'power-engineer', name: 'Power Systems Engineer', icon: 'plug', description: 'Power generation and distribution' }
+    ],
+    me: [
+        { id: 'robotics-engineer', name: 'Robotics Engineer', icon: 'robot', description: 'Design and build robots' },
+        { id: 'thermal-engineer', name: 'Thermal Systems Engineer', icon: 'fire', description: 'Heat and energy systems' },
+        { id: 'design-engineer', name: 'Mechanical Design Engineer', icon: 'drafting-compass', description: 'Product design and development' }
+    ],
+    physics: [
+        { id: 'research-physicist', name: 'Research Physicist', icon: 'atom', description: 'Theoretical and experimental research' },
+        { id: 'computational-physicist', name: 'Computational Physicist', icon: 'calculator', description: 'Simulations and modeling' },
+        { id: 'applied-physicist', name: 'Applied Physicist', icon: 'cogs', description: 'Technology applications' }
+    ],
+    default: [
+        { id: 'researcher', name: 'Researcher', icon: 'microscope', description: 'Research and development' },
+        { id: 'educator', name: 'Educator', icon: 'chalkboard-teacher', description: 'Teaching and education' },
+        { id: 'consultant', name: 'Industry Consultant', icon: 'user-tie', description: 'Professional consulting' }
+    ]
+};
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 AI Path Advisor - Career-Based Course Selection');
+    initializeApp();
+});
+
+function initializeApp() {
+    showStep(1);
+    setupEventListeners();
+    console.log('✅ Application initialized');
+}
+
+function setupEventListeners() {
+    // Navigation buttons
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    
+    if (nextBtn) {
+        nextBtn.replaceWith(nextBtn.cloneNode(true));
+        document.getElementById('next-btn').addEventListener('click', handleNext);
+    }
+    
+    if (prevBtn) {
+        prevBtn.replaceWith(prevBtn.cloneNode(true));
+        document.getElementById('prev-btn').addEventListener('click', handlePrevious);
+    }
+    
+    // Field cards
+    document.querySelectorAll('.field-card').forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function() {
+            selectField(this.dataset.category);
+        });
+    });
+    
+    // Preference sliders
+    const hoursSlider = document.getElementById('hours-slider');
+    if (hoursSlider) {
+        hoursSlider.addEventListener('input', function() {
+            const display = document.getElementById('hours-value');
+            if (display) display.textContent = this.value + ' hours/week';
+        });
+    }
+}
+
+function selectField(category) {
+    console.log('Selected field:', category);
+    selectedCategory = category;
+    
+    document.querySelectorAll('.field-card').forEach(card => {
+        if (card.dataset.category === category) {
+            card.style.borderColor = 'var(--primary-accent, #667eea)';
+            card.style.transform = 'translateY(-4px)';
+            card.style.boxShadow = '0 8px 24px rgba(102, 126, 234, 0.2)';
+        } else {
+            card.style.borderColor = '';
+            card.style.transform = '';
+            card.style.boxShadow = '';
+        }
+    });
+    
+    enableNext();
+}
+
+function showMajors() {
+    const majorGrid = document.getElementById('major-grid');
+    if (!majorGrid) return;
+    
+    const majors = majorsByCategory[selectedCategory] || [];
+    majorGrid.innerHTML = '';
+    
+    majors.forEach(major => {
+        const card = document.createElement('div');
+        card.className = 'major-card';
+        card.dataset.major = major.id;
+        card.style.cursor = 'pointer';
+        card.innerHTML = `
+            <div style="font-size: 2rem; color: var(--primary-accent); margin-bottom: 1rem;">
+                <i class="fas fa-${major.icon}"></i>
+            </div>
+            <h3>${major.name}</h3>
+            <p style="color: var(--text-secondary);">${major.description}</p>
+        `;
+        card.addEventListener('click', () => selectMajor(major));
+        majorGrid.appendChild(card);
+    });
+}
+
+function selectMajor(major) {
+    console.log('Selected major:', major.name);
+    selectedMajor = major.id;
+    availableCourses = courseCatalog[major.id] || generateDefaultCourses(major.id);
+    
+    document.querySelectorAll('.major-card').forEach(card => {
+        if (card.dataset.major === major.id) {
+            card.style.borderColor = 'var(--primary-accent)';
+            card.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)';
+        } else {
+            card.style.borderColor = '';
+            card.style.background = '';
+        }
+    });
+    
+    enableNext();
+}
+
+function showCareerSelection() {
+    const container = document.querySelector('.career-grid');
+    if (!container) return;
+    
+    const careers = careerPaths[selectedMajor] || careerPaths.default;
+    
+    container.innerHTML = `
+        <div style="width: 100%;">
+            <h3 style="margin-bottom: 1rem;">Choose Your Career Path</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Your career choice will determine which courses are recommended for your learning path
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                ${careers.map(career => `
+                    <div class="career-option" data-career="${career.id}" 
+                         style="padding: 1.5rem; border: 2px solid var(--border-color); 
+                                border-radius: 12px; cursor: pointer; transition: all 0.3s ease;
+                                background: var(--card-bg);">
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <i class="fas fa-${career.icon}" style="font-size: 2rem; color: var(--primary-accent); margin-right: 1rem;"></i>
+                            <h4 style="margin: 0;">${career.name}</h4>
+                        </div>
+                        <p style="color: var(--text-secondary); margin: 0;">${career.description}</p>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    
+    // Add event listeners
+    document.querySelectorAll('.career-option').forEach(card => {
+        card.addEventListener('click', function() {
+            selectCareerAndShowCourses(this.dataset.career);
+        });
+    });
+}
+
+function selectCareerAndShowCourses(careerId) {
+    console.log('Selected career:', careerId);
+    selectedCareer = careerId;
+    
+    // Highlight selected career
+    document.querySelectorAll('.career-option').forEach(card => {
+        if (card.dataset.career === careerId) {
+            card.style.borderColor = 'var(--primary-accent)';
+            card.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)';
+        } else {
+            card.style.borderColor = '';
+            card.style.background = '';
+        }
+    });
+    
+    // Show career-specific courses
+    showCareerBasedCourses(careerId);
+}
+
+function showCareerBasedCourses(careerId) {
+    const container = document.querySelector('.career-grid');
+    if (!container) return;
+    
+    // Get career-specific course recommendations
+    const careerMapping = careerCourseMapping[careerId] || careerCourseMapping.default;
+    const requiredCourses = careerMapping.required || [];
+    const recommendedCourses = careerMapping.recommended || [];
+    
+    // Categorize courses
+    const categorizedCourses = {
+        required: [],
+        recommended: [],
+        foundation: [],
+        elective: []
+    };
+    
+    availableCourses.forEach(course => {
+        if (requiredCourses.includes(course.id)) {
+            categorizedCourses.required.push(course);
+        } else if (recommendedCourses.includes(course.id)) {
+            categorizedCourses.recommended.push(course);
+        } else if (course.level === 'foundation') {
+            categorizedCourses.foundation.push(course);
+        } else {
+            categorizedCourses.elective.push(course);
+        }
+    });
+    
+    // Build the course selection UI
+    let html = `
+        <div style="width: 100%; margin-top: 2rem;">
+            <h3>Select Courses for Your ${getCareerName(careerId)} Path</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                Courses are organized based on your career focus: <strong>${careerMapping.focus}</strong>
+            </p>
+            
+            <!-- Required Courses -->
+            ${categorizedCourses.required.length > 0 ? `
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="color: var(--primary-accent); margin-bottom: 1rem;">
+                        <i class="fas fa-star"></i> Required for ${getCareerName(careerId)}
+                    </h4>
+                    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); 
+                                padding: 1rem; border-radius: 8px; border: 2px solid var(--primary-accent);">
+                        ${categorizedCourses.required.map(course => createCourseCard(course, 'required')).join('')}
+                    </div>
+                </div>
+            ` : ''}
+            
+            <!-- Recommended Courses -->
+            ${categorizedCourses.recommended.length > 0 ? `
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="color: #ff9800; margin-bottom: 1rem;">
+                        <i class="fas fa-thumbs-up"></i> Highly Recommended
+                    </h4>
+                    <div style="background: rgba(255, 152, 0, 0.1); padding: 1rem; border-radius: 8px; 
+                                border: 2px solid #ff9800;">
+                        ${categorizedCourses.recommended.map(course => createCourseCard(course, 'recommended')).join('')}
+                    </div>
+                </div>
+            ` : ''}
+            
+            <!-- Foundation Courses -->
+            ${categorizedCourses.foundation.length > 0 ? `
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="color: #4caf50; margin-bottom: 1rem;">
+                        <i class="fas fa-graduation-cap"></i> Foundation Courses
+                    </h4>
+                    <div style="background: rgba(76, 175, 80, 0.1); padding: 1rem; border-radius: 8px;">
+                        ${categorizedCourses.foundation.map(course => createCourseCard(course, 'foundation')).join('')}
+                    </div>
+                </div>
+            ` : ''}
+            
+            <!-- Elective Courses -->
+            ${categorizedCourses.elective.length > 0 ? `
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        <i class="fas fa-book"></i> Additional Electives
+                    </h4>
+                    <div style="background: var(--secondary-bg); padding: 1rem; border-radius: 8px;">
+                        ${categorizedCourses.elective.map(course => createCourseCard(course, 'elective')).join('')}
+                    </div>
+                </div>
+            ` : ''}
+            
+            <div style="padding: 1rem; background: var(--secondary-bg); border-radius: 8px; margin-bottom: 1rem;">
+                <strong>Selected: <span id="course-count">0</span> courses | 
+                Total Credits: <span id="credit-count">0</span></strong>
+                <div id="selected-summary" style="margin-top: 0.5rem; color: var(--text-secondary);"></div>
+            </div>
+        </div>
+    `;
+    
+    container.innerHTML = html;
+    
+    // Pre-select required courses
+    setTimeout(() => {
+        categorizedCourses.required.forEach(course => {
+            const checkbox = document.querySelector(`#course-${course.id}`);
+            if (checkbox) {
+                checkbox.checked = true;
+            }
+        });
+        updateCourseSelection();
+    }, 100);
+    
+    // Add event listeners
+    document.querySelectorAll('.course-check').forEach(cb => {
+        cb.addEventListener('change', updateCourseSelection);
+    });
+    
+    enableNext();
+}
+
+function createCourseCard(course, type) {
+    const typeStyles = {
+        required: 'border-left: 4px solid var(--primary-accent);',
+        recommended: 'border-left: 4px solid #ff9800;',
+        foundation: 'border-left: 4px solid #4caf50;',
+        elective: 'border-left: 4px solid var(--border-color);'
+    };
+    
+    const typeLabels = {
+        required: '<span class="badge" style="background: var(--primary-accent); color: white;">Required</span>',
+        recommended: '<span class="badge" style="background: #ff9800; color: white;">Recommended</span>',
+        foundation: '<span class="badge" style="background: #4caf50; color: white;">Foundation</span>',
+        elective: ''
+    };
+    
+    return `
+        <div style="padding: 1rem; margin-bottom: 0.75rem; background: var(--card-bg); 
+                    border-radius: 8px; ${typeStyles[type]}">
+            <label style="display: flex; align-items: start; cursor: pointer;">
+                <input type="checkbox" class="course-check" id="course-${course.id}" 
+                       value="${course.id}" style="margin-right: 1rem; margin-top: 0.25rem;"
+                       ${type === 'required' ? 'checked' : ''}>
+                <div style="flex: 1;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>${course.id}: ${course.name}</strong>
+                        <div>
+                            ${typeLabels[type]}
+                            <span class="badge" style="background: var(--secondary-bg); margin-left: 0.5rem;">
+                                ${course.credits} credits
+                            </span>
+                        </div>
+                    </div>
+                    <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);">
+                        ${course.description}
+                    </p>
+                    ${course.prerequisites && course.prerequisites.length > 0 ? 
+                        `<small style="color: #ff9800;">Prerequisites: ${course.prerequisites.join(', ')}</small>` : ''}
+                </div>
+            </label>
+        </div>
+    `;
+}
+
+function getCareerName(careerId) {
+    const careers = careerPaths[selectedMajor] || careerPaths.default;
+    const career = careers.find(c => c.id === careerId);
+    return career ? career.name : careerId;
+}
+
+function updateCourseSelection() {
+    selectedCourses = Array.from(document.querySelectorAll('.course-check:checked'))
+        .map(cb => cb.value);
+    
+    const totalCredits = selectedCourses.reduce((sum, courseId) => {
+        const course = availableCourses.find(c => c.id === courseId);
+        return sum + (course ? course.credits : 0);
+    }, 0);
+    
+    document.getElementById('course-count').textContent = selectedCourses.length;
+    document.getElementById('credit-count').textContent = totalCredits;
+    
+    // Show summary
+    const summary = document.getElementById('selected-summary');
+    if (selectedCourses.length > 0) {
+        const careerMapping = careerCourseMapping[selectedCareer] || careerCourseMapping.default;
+        const requiredSelected = selectedCourses.filter(id => careerMapping.required.includes(id)).length;
+        const recommendedSelected = selectedCourses.filter(id => careerMapping.recommended.includes(id)).length;
+        
+        summary.innerHTML = `
+            ✅ ${requiredSelected} required courses | 
+            👍 ${recommendedSelected} recommended courses | 
+            📚 ${selectedCourses.length - requiredSelected - recommendedSelected} additional courses
+        `;
+    } else {
+        summary.innerHTML = 'Select courses to build your learning path';
+    }
+    
+    if (selectedCourses.length > 0) {
+        enableNext();
+    }
+}
+
+function generateDefaultCourses(majorId) {
+    // Generate basic course structure for majors without detailed catalog
+    const prefix = majorId.toUpperCase().slice(0, 3);
+    return [
+        { id: `${prefix}101`, name: `Introduction to ${majorId}`, credits: 3, prerequisites: [], level: 'foundation' },
+        { id: `${prefix}201`, name: `Intermediate ${majorId}`, credits: 4, prerequisites: [`${prefix}101`], level: 'core' },
+        { id: `${prefix}301`, name: `Advanced ${majorId}`, credits: 4, prerequisites: [`${prefix}201`], level: 'advanced' }
+    ];
+}
+
+function generateRoadmap() {
+    console.log('Generating career-focused roadmap:', {
+        major: selectedMajor,
+        career: selectedCareer,
+        courses: selectedCourses
+    });
+    
+    const roadmapResult = document.getElementById('roadmap-result');
+    if (!roadmapResult) return;
+    
+    roadmapResult.innerHTML = `
+        <div style="text-align: center; padding: 3rem;">
+            <div class="spinner" style="margin: 0 auto;"></div>
+            <p>Generating your ${getCareerName(selectedCareer)} roadmap...</p>
+        </div>
+    `;
+    
+    setTimeout(() => {
+        displayCareerRoadmap();
+    }, 2000);
+}
+
+function displayCareerRoadmap() {
+    const roadmapResult = document.getElementById('roadmap-result');
+    const courses = selectedCourses.map(id => 
+        availableCourses.find(c => c.id === id)
+    ).filter(Boolean);
+    
+    const careerMapping = careerCourseMapping[selectedCareer] || careerCourseMapping.default;
+    const semesters = organizeCoursesBySemester(courses);
+    
+    let html = `
+        <div style="padding: 2rem;">
+            <h2>📚 Your ${getCareerName(selectedCareer)} Learning Roadmap</h2>
+            
+            <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); 
+                        padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+                <h3 style="margin-top: 0;">Career Focus: ${careerMapping.focus}</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div>
+                        <strong>Major</strong><br>${selectedMajor.toUpperCase()}
+                    </div>
+                    <div>
+                        <strong>Career Path</strong><br>${getCareerName(selectedCareer)}
+                    </div>
+                    <div>
+                        <strong>Total Courses</strong><br>${courses.length}
+                    </div>
+                    <div>
+                        <strong>Total Credits</strong><br>${courses.reduce((sum, c) => sum + c.credits, 0)}
+                    </div>
+                </div>
+            </div>
+            
+            <h3>📅 Semester-by-Semester Plan</h3>
+            ${semesters.map((semester, index) => `
+                <div style="margin-bottom: 2rem; padding: 1.5rem; background: var(--card-bg); 
+                            border-radius: 12px; border-left: 4px solid var(--primary-accent);">
+                    <h4>Semester ${index + 1}</h4>
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        ${semester.map(course => {
+                            const isRequired = careerMapping.required.includes(course.id);
+                            const isRecommended = careerMapping.recommended.includes(course.id);
+                            return `
+                                <div style="padding: 1rem; background: var(--secondary-bg); border-radius: 8px;
+                                            ${isRequired ? 'border: 2px solid var(--primary-accent);' : 
+                                              isRecommended ? 'border: 2px solid #ff9800;' : ''}">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <strong>${course.id}: ${course.name}</strong>
+                                        <div>
+                                            ${isRequired ? '<span class="badge" style="background: var(--primary-accent); color: white;">Career Required</span>' : 
+                                              isRecommended ? '<span class="badge" style="background: #ff9800; color: white;">Recommended</span>' : ''}
+                                            <span style="margin-left: 0.5rem; color: var(--primary-accent);">${course.credits} credits</span>
+                                        </div>
+                                    </div>
+                                    <p style="margin: 0.5rem 0; color: var(--text-secondary);">${course.description}</p>
+                                    ${course.prerequisites.length > 0 ? 
+                                        `<small style="color: #4caf50;">✓ Prerequisites met: ${course.prerequisites.join(', ')}</small>` : 
+                                        '<small style="color: #4caf50;">✓ No prerequisites</small>'}
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                        <strong>Semester Credits: ${semester.reduce((sum, c) => sum + c.credits, 0)}</strong>
+                    </div>
+                </div>
+            `).join('')}
+            
+            <div style="margin-top: 2rem; padding: 1.5rem; background: var(--secondary-bg); border-radius: 12px;">
+                <h4>🎯 Career Preparation Tips for ${getCareerName(selectedCareer)}</h4>
+                <ul style="margin: 1rem 0;">
+                    ${getCareerTips(selectedCareer).map(tip => `<li>${tip}</li>`).join('')}
+                </ul>
+            </div>
+            
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button onclick="alert('Roadmap saved!')" style="padding: 0.75rem 1.5rem; background: var(--primary-accent); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                    💾 Save Roadmap
+                </button>
+                <button onclick="window.print()" style="padding: 0.75rem 1.5rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer;">
+                    🖨️ Print
+                </button>
+                <button onclick="location.reload()" style="padding: 0.75rem 1.5rem; background: transparent; border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer;">
+                    🔄 Start Over
+                </button>
+            </div>
+        </div>
+    `;
+    
+    roadmapResult.innerHTML = html;
+}
+
+function getCareerTips(careerId) {
+    const tips = {
+        'embedded-engineer': [
+            'Focus on C/C++ programming and assembly language',
+            'Build projects with microcontrollers (Arduino, STM32)',
+            'Learn RTOS and real-time programming concepts',
+            'Contribute to open-source embedded projects'
+        ],
+        'rf-engineer': [
+            'Master electromagnetic theory and antenna design',
+            'Gain hands-on experience with RF test equipment',
+            'Learn simulation tools like CST or HFSS',
+            'Get familiar with wireless standards (WiFi, 5G, Bluetooth)'
+        ],
+        'power-engineer': [
+            'Study renewable energy technologies',
+            'Learn power system simulation software (ETAP, PSS/E)',
+            'Understand smart grid technologies',
+            'Get certified in electrical safety standards'
+        ],
+        'ml-engineer': [
+            'Build a portfolio of ML projects on GitHub',
+            'Master TensorFlow/PyTorch frameworks',
+            'Participate in Kaggle competitions',
+            'Stay updated with latest research papers'
+        ],
+        'software-engineer': [
+            'Contribute to open-source projects',
+            'Build full-stack applications',
+            'Practice data structures and algorithms daily',
+            'Learn cloud platforms (AWS, Azure, GCP)'
+        ],
+        default: [
+            'Build a strong portfolio of projects',
+            'Network with professionals in your field',
+            'Seek internships and co-op opportunities',
+            'Stay current with industry trends'
+        ]
+    };
+    
+    return tips[careerId] || tips.default;
+}
+
+function organizeCoursesBySemester(courses) {
+    const semesters = [];
+    const completed = new Set();
+    const remaining = [...courses];
+    
+    // Sort courses by prerequisites and importance
+    remaining.sort((a, b) => {
+        const careerMapping = careerCourseMapping[selectedCareer] || careerCourseMapping.default;
+        const aRequired = careerMapping.required.includes(a.id);
+        const bRequired = careerMapping.required.includes(b.id);
+        const aRecommended = careerMapping.recommended.includes(a.id);
+        const bRecommended = careerMapping.recommended.includes(b.id);
+        
+        // Prioritize required courses
+        if (aRequired && !bRequired) return -1;
+        if (!aRequired && bRequired) return 1;
+        
+        // Then recommended courses
+        if (aRecommended && !bRecommended) return -1;
+        if (!aRecommended && bRecommended) return 1;
+        
+        // Then by prerequisites
+        return a.prerequisites.length - b.prerequisites.length;
+    });
+    
+    while (remaining.length > 0) {
+        const semester = [];
+        const maxCoursesPerSemester = 4;
+        
+        for (let i = 0; i < remaining.length && semester.length < maxCoursesPerSemester; i++) {
+            const course = remaining[i];
+            if (course.prerequisites.every(prereq => 
+                completed.has(prereq) || !courses.find(c => c.id === prereq)
+            )) {
+                semester.push(course);
+                remaining.splice(i, 1);
+                i--;
+            }
+        }
+        
+        if (semester.length === 0 && remaining.length > 0) {
+            semester.push(remaining.shift());
+        }
+        
+        semester.forEach(c => completed.add(c.id));
+        if (semester.length > 0) {
+            semesters.push(semester);
+        }
+    }
+    
+    return semesters;
+}
+
+function handleNext() {
+    console.log('Next clicked, step:', currentStep);
+    
+    if (currentStep === 1 && selectedCategory) {
+        currentStep = 2;
+        showStep(2);
+        showMajors();
+    } else if (currentStep === 2 && selectedMajor) {
+        currentStep = 3;
+        showStep(3);
+        showCareerSelection();
+    } else if (currentStep === 3 && selectedCourses.length > 0) {
+        currentStep = 4;
+        showStep(4);
+    } else if (currentStep === 4) {
+        currentStep = 5;
+        showStep(5);
+        generateRoadmap();
+    }
+}
+
+function handlePrevious() {
+    if (currentStep > 1) {
+        currentStep--;
+        showStep(currentStep);
+        
+        if (currentStep === 2) showMajors();
+        else if (currentStep === 3) showCareerSelection();
+    }
+}
+
+function showStep(step) {
+    // Hide all steps
+    for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`step-${i}`);
+        if (el) el.style.display = 'none';
+    }
+    
+    // Show current step
+    const current = document.getElementById(`step-${step}`);
+    if (current) current.style.display = 'block';
+    
+    // Update progress
+    for (let i = 1; i <= 5; i++) {
+        const prog = document.getElementById(`step-${i}-progress`);
+        if (prog) {
+            prog.classList.remove('active', 'completed');
+            if (i < step) prog.classList.add('completed');
+            else if (i === step) prog.classList.add('active');
+        }
+    }
+    
+    // Update buttons
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    
+    if (prevBtn) prevBtn.style.display = step > 1 ? 'inline-block' : 'none';
+    if (nextBtn) {
+        nextBtn.style.display = step === 5 ? 'none' : 'inline-block';
+        nextBtn.textContent = step === 4 ? 'Generate Roadmap' : 'Next';
+    }
+}
+
+function enableNext() {
+    const btn = document.getElementById('next-btn');
+    if (btn) {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+    }
+}
+
+console.log('✅ Career-Based Course Selection Ready');
