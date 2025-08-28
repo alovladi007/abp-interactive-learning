@@ -6,12 +6,14 @@ A comprehensive, production-ready learning path planner with advanced optimizati
 
 ### Core Capabilities
 - **20 Academic Majors**: CS, EE, Physics, Medicine, Law, Economics, and more
+- **240+ Courses**: Top 12 courses per major with complete syllabi
 - **15+ Career Roles**: Software Engineer, ML Engineer, Data Scientist, etc.
 - **ILP Resource Optimization**: Uses PuLP for optimal resource selection
 - **Adaptive Quiz System**: Baseline assessment with skill inference
 - **Progress Tracking**: Burndown charts, milestones, and persistence
 - **Calendar Export**: ICS format for integration with calendar apps
 - **Capstone Generation**: Automated project specifications
+- **Course Management**: Full syllabus, weekly topics, assessments, textbooks
 
 ### Advanced Features
 - **Multi-objective Optimization**: Balance time, cost, quality, and difficulty

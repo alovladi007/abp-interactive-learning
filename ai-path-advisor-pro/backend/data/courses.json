@@ -1,0 +1,942 @@
+{
+  "cs": [
+    {
+      "id": "CS101",
+      "name": "Introduction to Programming",
+      "credits": 4,
+      "prerequisites": [],
+      "description": "Fundamental programming concepts using Python",
+      "syllabus": {
+        "objectives": [
+          "Master basic programming constructs",
+          "Develop problem-solving skills",
+          "Write clean, maintainable code",
+          "Debug and test programs effectively"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Introduction to Computing", "content": "Computer architecture basics, binary numbers, programming languages overview"},
+          {"week": 2, "topic": "Variables and Data Types", "content": "Primitive types, type conversion, input/output operations"},
+          {"week": 3, "topic": "Control Structures", "content": "If-else statements, switch cases, conditional logic"},
+          {"week": 4, "topic": "Loops and Iteration", "content": "For loops, while loops, nested loops, loop control"},
+          {"week": 5, "topic": "Functions", "content": "Function definition, parameters, return values, scope"},
+          {"week": 6, "topic": "Arrays and Lists", "content": "Array operations, list comprehensions, multi-dimensional arrays"},
+          {"week": 7, "topic": "Strings", "content": "String manipulation, formatting, regular expressions basics"},
+          {"week": 8, "topic": "File I/O", "content": "Reading/writing files, CSV processing, exception handling"},
+          {"week": 9, "topic": "Object-Oriented Basics", "content": "Classes, objects, methods, constructors"},
+          {"week": 10, "topic": "Debugging and Testing", "content": "Debugging techniques, unit testing, test-driven development"},
+          {"week": 11, "topic": "Algorithms Introduction", "content": "Searching, sorting, basic complexity analysis"},
+          {"week": 12, "topic": "Final Project", "content": "Complete software project incorporating all concepts"}
+        ],
+        "assessments": [
+          {"type": "assignments", "weight": "40%", "description": "Weekly programming assignments"},
+          {"type": "midterm", "weight": "20%", "description": "Written and practical exam"},
+          {"type": "final_project", "weight": "25%", "description": "Comprehensive programming project"},
+          {"type": "final_exam", "weight": "15%", "description": "Comprehensive final examination"}
+        ],
+        "textbooks": [
+          "Think Python: How to Think Like a Computer Scientist by Allen Downey",
+          "Python Crash Course by Eric Matthes"
+        ]
+      }
+    },
+    {
+      "id": "CS201",
+      "name": "Data Structures and Algorithms",
+      "credits": 4,
+      "prerequisites": ["CS101"],
+      "description": "Fundamental data structures and algorithm design techniques",
+      "syllabus": {
+        "objectives": [
+          "Implement core data structures from scratch",
+          "Analyze algorithm complexity",
+          "Select appropriate data structures for problems",
+          "Design efficient algorithms"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Algorithm Analysis", "content": "Big-O notation, time/space complexity, asymptotic analysis"},
+          {"week": 2, "topic": "Arrays and Dynamic Arrays", "content": "Static vs dynamic arrays, amortized analysis, ArrayList implementation"},
+          {"week": 3, "topic": "Linked Lists", "content": "Singly/doubly linked lists, circular lists, skip lists"},
+          {"week": 4, "topic": "Stacks and Queues", "content": "LIFO/FIFO, implementations, applications (expression evaluation, BFS)"},
+          {"week": 5, "topic": "Trees", "content": "Binary trees, tree traversals, binary search trees"},
+          {"week": 6, "topic": "Balanced Trees", "content": "AVL trees, Red-Black trees, B-trees basics"},
+          {"week": 7, "topic": "Heaps", "content": "Binary heaps, priority queues, heapsort"},
+          {"week": 8, "topic": "Hash Tables", "content": "Hash functions, collision resolution, load factors"},
+          {"week": 9, "topic": "Graphs", "content": "Representations, DFS, BFS, connected components"},
+          {"week": 10, "topic": "Shortest Paths", "content": "Dijkstra's, Bellman-Ford, Floyd-Warshall"},
+          {"week": 11, "topic": "Dynamic Programming", "content": "Memoization, tabulation, classic problems"},
+          {"week": 12, "topic": "Advanced Topics", "content": "Tries, segment trees, union-find"}
+        ],
+        "assessments": [
+          {"type": "programming_assignments", "weight": "35%", "description": "Bi-weekly implementation projects"},
+          {"type": "problem_sets", "weight": "20%", "description": "Algorithm design problems"},
+          {"type": "midterm", "weight": "20%", "description": "Theory and implementation"},
+          {"type": "final_exam", "weight": "25%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Introduction to Algorithms (CLRS) by Cormen, Leiserson, Rivest, and Stein",
+          "Algorithm Design by Kleinberg and Tardos"
+        ]
+      }
+    },
+    {
+      "id": "CS301",
+      "name": "Computer Architecture",
+      "credits": 4,
+      "prerequisites": ["CS101"],
+      "description": "Computer organization, assembly language, and system design",
+      "syllabus": {
+        "objectives": [
+          "Understand CPU architecture and instruction sets",
+          "Write assembly language programs",
+          "Design basic processor components",
+          "Optimize for performance"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Digital Logic Review", "content": "Gates, combinational circuits, sequential circuits"},
+          {"week": 2, "topic": "Data Representation", "content": "Binary arithmetic, floating point, character encoding"},
+          {"week": 3, "topic": "Instruction Set Architecture", "content": "RISC vs CISC, MIPS ISA, addressing modes"},
+          {"week": 4, "topic": "Assembly Programming", "content": "MIPS assembly, procedures, stack management"},
+          {"week": 5, "topic": "Processor Design", "content": "Single-cycle datapath, control unit design"},
+          {"week": 6, "topic": "Pipelining", "content": "Pipeline stages, hazards, forwarding, stalling"},
+          {"week": 7, "topic": "Memory Hierarchy", "content": "Cache design, cache coherence, virtual memory"},
+          {"week": 8, "topic": "I/O Systems", "content": "Interrupts, DMA, buses, device drivers"},
+          {"week": 9, "topic": "Parallelism", "content": "ILP, SIMD, multicore, GPU architecture"},
+          {"week": 10, "topic": "Performance", "content": "Benchmarking, Amdahl's law, optimization techniques"},
+          {"week": 11, "topic": "Modern Architectures", "content": "x86-64, ARM, specialized processors"},
+          {"week": 12, "topic": "Emerging Topics", "content": "Quantum computing, neuromorphic chips"}
+        ],
+        "assessments": [
+          {"type": "labs", "weight": "30%", "description": "Assembly programming and circuit design"},
+          {"type": "projects", "weight": "30%", "description": "CPU simulator implementation"},
+          {"type": "midterm", "weight": "20%", "description": "Theory and design problems"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Computer Organization and Design by Patterson and Hennessy",
+          "Computer Systems: A Programmer's Perspective by Bryant and O'Hallaron"
+        ]
+      }
+    },
+    {
+      "id": "CS302",
+      "name": "Operating Systems",
+      "credits": 4,
+      "prerequisites": ["CS201", "CS301"],
+      "description": "Design and implementation of operating systems",
+      "syllabus": {
+        "objectives": [
+          "Understand OS design principles",
+          "Implement OS components",
+          "Manage system resources",
+          "Handle concurrency and synchronization"
+        ],
+        "topics": [
+          {"week": 1, "topic": "OS Overview", "content": "History, types, system calls, kernel vs user mode"},
+          {"week": 2, "topic": "Processes", "content": "Process creation, PCB, context switching, scheduling"},
+          {"week": 3, "topic": "Threads", "content": "User vs kernel threads, thread pools, threading models"},
+          {"week": 4, "topic": "CPU Scheduling", "content": "FCFS, SJF, priority, round-robin, multilevel queues"},
+          {"week": 5, "topic": "Synchronization", "content": "Race conditions, mutexes, semaphores, monitors"},
+          {"week": 6, "topic": "Deadlocks", "content": "Conditions, prevention, avoidance, detection, recovery"},
+          {"week": 7, "topic": "Memory Management", "content": "Paging, segmentation, page replacement algorithms"},
+          {"week": 8, "topic": "Virtual Memory", "content": "Demand paging, working sets, thrashing"},
+          {"week": 9, "topic": "File Systems", "content": "File organization, directories, allocation methods"},
+          {"week": 10, "topic": "I/O Systems", "content": "Device drivers, buffering, disk scheduling"},
+          {"week": 11, "topic": "Security", "content": "Authentication, access control, encryption"},
+          {"week": 12, "topic": "Distributed Systems", "content": "Networks, distributed file systems, coordination"}
+        ],
+        "assessments": [
+          {"type": "programming_projects", "weight": "40%", "description": "Kernel module development"},
+          {"type": "homework", "weight": "20%", "description": "Problem sets and analysis"},
+          {"type": "midterm", "weight": "20%", "description": "Theory and concepts"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Operating System Concepts by Silberschatz, Galvin, and Gagne",
+          "Operating Systems: Three Easy Pieces by Arpaci-Dusseau"
+        ]
+      }
+    },
+    {
+      "id": "CS303",
+      "name": "Database Systems",
+      "credits": 4,
+      "prerequisites": ["CS201"],
+      "description": "Database design, implementation, and management",
+      "syllabus": {
+        "objectives": [
+          "Design normalized database schemas",
+          "Write complex SQL queries",
+          "Implement database systems",
+          "Optimize query performance"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Database Concepts", "content": "Data models, schemas, three-tier architecture"},
+          {"week": 2, "topic": "Relational Model", "content": "Relations, keys, relational algebra"},
+          {"week": 3, "topic": "SQL Basics", "content": "DDL, DML, basic queries, joins"},
+          {"week": 4, "topic": "Advanced SQL", "content": "Subqueries, views, triggers, stored procedures"},
+          {"week": 5, "topic": "Database Design", "content": "ER modeling, UML, design patterns"},
+          {"week": 6, "topic": "Normalization", "content": "Functional dependencies, normal forms (1NF-BCNF)"},
+          {"week": 7, "topic": "Storage and Indexing", "content": "B+ trees, hash indexes, bitmap indexes"},
+          {"week": 8, "topic": "Query Processing", "content": "Query optimization, execution plans, cost estimation"},
+          {"week": 9, "topic": "Transactions", "content": "ACID properties, concurrency control, locking"},
+          {"week": 10, "topic": "Recovery", "content": "Logging, checkpoints, recovery algorithms"},
+          {"week": 11, "topic": "NoSQL Databases", "content": "Document stores, key-value, graph databases"},
+          {"week": 12, "topic": "Big Data", "content": "Distributed databases, MapReduce, data warehousing"}
+        ],
+        "assessments": [
+          {"type": "projects", "weight": "35%", "description": "Database application development"},
+          {"type": "assignments", "weight": "25%", "description": "SQL and design exercises"},
+          {"type": "midterm", "weight": "20%", "description": "Theory and SQL"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Database System Concepts by Silberschatz, Korth, and Sudarshan",
+          "Database Management Systems by Ramakrishnan and Gehrke"
+        ]
+      }
+    },
+    {
+      "id": "CS304",
+      "name": "Computer Networks",
+      "credits": 4,
+      "prerequisites": ["CS201"],
+      "description": "Network protocols, architectures, and applications",
+      "syllabus": {
+        "objectives": [
+          "Understand network protocol stack",
+          "Implement network applications",
+          "Analyze network performance",
+          "Design network systems"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Network Overview", "content": "Internet architecture, protocol layers, network edge/core"},
+          {"week": 2, "topic": "Application Layer", "content": "HTTP, FTP, SMTP, DNS, P2P"},
+          {"week": 3, "topic": "Socket Programming", "content": "TCP/UDP sockets, client-server, web servers"},
+          {"week": 4, "topic": "Transport Layer", "content": "UDP, TCP, reliable data transfer, flow control"},
+          {"week": 5, "topic": "Congestion Control", "content": "TCP congestion control, fairness, throughput"},
+          {"week": 6, "topic": "Network Layer", "content": "IP addressing, forwarding, routing algorithms"},
+          {"week": 7, "topic": "Routing Protocols", "content": "RIP, OSPF, BGP, SDN"},
+          {"week": 8, "topic": "Link Layer", "content": "Error detection, multiple access, Ethernet"},
+          {"week": 9, "topic": "Wireless Networks", "content": "WiFi, cellular, mobile IP, ad hoc networks"},
+          {"week": 10, "topic": "Network Security", "content": "Cryptography, SSL/TLS, firewalls, VPNs"},
+          {"week": 11, "topic": "Multimedia Networking", "content": "Streaming, QoS, CDNs"},
+          {"week": 12, "topic": "Network Management", "content": "SNMP, monitoring, troubleshooting"}
+        ],
+        "assessments": [
+          {"type": "programming_projects", "weight": "35%", "description": "Network protocol implementation"},
+          {"type": "labs", "weight": "25%", "description": "Wireshark analysis, router configuration"},
+          {"type": "midterm", "weight": "20%", "description": "Theory and protocols"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Computer Networking: A Top-Down Approach by Kurose and Ross",
+          "Computer Networks by Tanenbaum and Wetherall"
+        ]
+      }
+    },
+    {
+      "id": "CS401",
+      "name": "Software Engineering",
+      "credits": 4,
+      "prerequisites": ["CS201"],
+      "description": "Software development methodologies and best practices",
+      "syllabus": {
+        "objectives": [
+          "Apply software development methodologies",
+          "Design scalable software systems",
+          "Manage software projects",
+          "Ensure software quality"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Software Process", "content": "SDLC, waterfall, agile, DevOps"},
+          {"week": 2, "topic": "Requirements Engineering", "content": "Elicitation, analysis, specification, validation"},
+          {"week": 3, "topic": "System Design", "content": "Architecture patterns, component design, interfaces"},
+          {"week": 4, "topic": "Object-Oriented Design", "content": "SOLID principles, design patterns, UML"},
+          {"week": 5, "topic": "Implementation", "content": "Coding standards, code reviews, refactoring"},
+          {"week": 6, "topic": "Testing", "content": "Unit, integration, system, acceptance testing"},
+          {"week": 7, "topic": "Quality Assurance", "content": "Metrics, static analysis, continuous integration"},
+          {"week": 8, "topic": "Project Management", "content": "Planning, estimation, risk management, Scrum"},
+          {"week": 9, "topic": "Configuration Management", "content": "Version control, build systems, deployment"},
+          {"week": 10, "topic": "Maintenance", "content": "Evolution, reengineering, technical debt"},
+          {"week": 11, "topic": "Human Factors", "content": "UI/UX design, accessibility, team dynamics"},
+          {"week": 12, "topic": "Ethics and Security", "content": "Professional ethics, security engineering"}
+        ],
+        "assessments": [
+          {"type": "team_project", "weight": "40%", "description": "Full semester group project"},
+          {"type": "individual_assignments", "weight": "25%", "description": "Design documents and analysis"},
+          {"type": "midterm", "weight": "15%", "description": "Concepts and methodologies"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Software Engineering by Ian Sommerville",
+          "Clean Code by Robert C. Martin"
+        ]
+      }
+    },
+    {
+      "id": "CS402",
+      "name": "Artificial Intelligence",
+      "credits": 4,
+      "prerequisites": ["CS201"],
+      "description": "AI principles, algorithms, and applications",
+      "syllabus": {
+        "objectives": [
+          "Implement search algorithms",
+          "Build knowledge-based systems",
+          "Apply machine learning techniques",
+          "Develop AI applications"
+        ],
+        "topics": [
+          {"week": 1, "topic": "AI Introduction", "content": "History, agents, environments, Turing test"},
+          {"week": 2, "topic": "Problem Solving", "content": "State spaces, uninformed search (BFS, DFS, UCS)"},
+          {"week": 3, "topic": "Informed Search", "content": "Heuristics, A*, IDA*, local search"},
+          {"week": 4, "topic": "Game Playing", "content": "Minimax, alpha-beta pruning, Monte Carlo tree search"},
+          {"week": 5, "topic": "Constraint Satisfaction", "content": "CSP formulation, backtracking, arc consistency"},
+          {"week": 6, "topic": "Knowledge Representation", "content": "Propositional logic, first-order logic, inference"},
+          {"week": 7, "topic": "Planning", "content": "STRIPS, partial-order planning, hierarchical planning"},
+          {"week": 8, "topic": "Uncertainty", "content": "Probability, Bayes' rule, Bayesian networks"},
+          {"week": 9, "topic": "Machine Learning Basics", "content": "Supervised, unsupervised, decision trees"},
+          {"week": 10, "topic": "Neural Networks", "content": "Perceptrons, backpropagation, CNNs"},
+          {"week": 11, "topic": "Natural Language", "content": "Parsing, semantics, machine translation"},
+          {"week": 12, "topic": "Computer Vision", "content": "Image processing, object recognition, deep learning"}
+        ],
+        "assessments": [
+          {"type": "programming_projects", "weight": "40%", "description": "AI algorithm implementations"},
+          {"type": "homework", "weight": "20%", "description": "Problem sets and analysis"},
+          {"type": "midterm", "weight": "20%", "description": "Theory and algorithms"},
+          {"type": "final_project", "weight": "20%", "description": "AI application development"}
+        ],
+        "textbooks": [
+          "Artificial Intelligence: A Modern Approach by Russell and Norvig",
+          "Pattern Recognition and Machine Learning by Bishop"
+        ]
+      }
+    },
+    {
+      "id": "CS403",
+      "name": "Machine Learning",
+      "credits": 4,
+      "prerequisites": ["CS201", "MATH201"],
+      "description": "Statistical learning theory and applications",
+      "syllabus": {
+        "objectives": [
+          "Understand learning theory",
+          "Implement ML algorithms",
+          "Evaluate model performance",
+          "Apply ML to real problems"
+        ],
+        "topics": [
+          {"week": 1, "topic": "ML Overview", "content": "Types of learning, applications, Python/NumPy review"},
+          {"week": 2, "topic": "Linear Regression", "content": "Least squares, gradient descent, regularization"},
+          {"week": 3, "topic": "Classification", "content": "Logistic regression, perceptron, softmax"},
+          {"week": 4, "topic": "Model Selection", "content": "Cross-validation, bias-variance, overfitting"},
+          {"week": 5, "topic": "Support Vector Machines", "content": "Maximum margin, kernels, soft margin"},
+          {"week": 6, "topic": "Decision Trees", "content": "ID3, C4.5, CART, random forests"},
+          {"week": 7, "topic": "Ensemble Methods", "content": "Bagging, boosting, AdaBoost, gradient boosting"},
+          {"week": 8, "topic": "Neural Networks", "content": "MLPs, backpropagation, optimization"},
+          {"week": 9, "topic": "Deep Learning", "content": "CNNs, RNNs, autoencoders, GANs"},
+          {"week": 10, "topic": "Unsupervised Learning", "content": "K-means, hierarchical clustering, DBSCAN"},
+          {"week": 11, "topic": "Dimensionality Reduction", "content": "PCA, LDA, t-SNE, autoencoders"},
+          {"week": 12, "topic": "Reinforcement Learning", "content": "MDPs, Q-learning, policy gradients"}
+        ],
+        "assessments": [
+          {"type": "programming_assignments", "weight": "35%", "description": "Algorithm implementation and experiments"},
+          {"type": "kaggle_competition", "weight": "20%", "description": "Real-world ML competition"},
+          {"type": "midterm", "weight": "20%", "description": "Theory and mathematics"},
+          {"type": "final_project", "weight": "25%", "description": "Research project with paper"}
+        ],
+        "textbooks": [
+          "The Elements of Statistical Learning by Hastie, Tibshirani, and Friedman",
+          "Pattern Recognition and Machine Learning by Bishop"
+        ]
+      }
+    },
+    {
+      "id": "CS404",
+      "name": "Compiler Design",
+      "credits": 4,
+      "prerequisites": ["CS201", "CS301"],
+      "description": "Principles of compiler construction",
+      "syllabus": {
+        "objectives": [
+          "Build a complete compiler",
+          "Understand language processing",
+          "Optimize generated code",
+          "Design domain-specific languages"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Compiler Overview", "content": "Phases, tools, language processors"},
+          {"week": 2, "topic": "Lexical Analysis", "content": "Regular expressions, finite automata, lex/flex"},
+          {"week": 3, "topic": "Syntax Analysis", "content": "Context-free grammars, parsing algorithms"},
+          {"week": 4, "topic": "Top-Down Parsing", "content": "Recursive descent, LL(1), predictive parsing"},
+          {"week": 5, "topic": "Bottom-Up Parsing", "content": "LR, SLR, LALR, yacc/bison"},
+          {"week": 6, "topic": "Semantic Analysis", "content": "Type checking, attribute grammars, symbol tables"},
+          {"week": 7, "topic": "Intermediate Code", "content": "Three-address code, quadruples, SSA form"},
+          {"week": 8, "topic": "Runtime Environments", "content": "Stack allocation, heap management, garbage collection"},
+          {"week": 9, "topic": "Code Generation", "content": "Instruction selection, register allocation"},
+          {"week": 10, "topic": "Code Optimization", "content": "Local, global, loop optimizations"},
+          {"week": 11, "topic": "Advanced Topics", "content": "JIT compilation, LLVM, domain-specific languages"},
+          {"week": 12, "topic": "Project Presentations", "content": "Student compiler demonstrations"}
+        ],
+        "assessments": [
+          {"type": "compiler_project", "weight": "50%", "description": "Build complete compiler in phases"},
+          {"type": "homework", "weight": "20%", "description": "Theory and implementation exercises"},
+          {"type": "midterm", "weight": "15%", "description": "Lexical and syntax analysis"},
+          {"type": "final_exam", "weight": "15%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Compilers: Principles, Techniques, and Tools by Aho, Lam, Sethi, and Ullman",
+          "Engineering a Compiler by Cooper and Torczon"
+        ]
+      }
+    },
+    {
+      "id": "CS405",
+      "name": "Computer Security",
+      "credits": 4,
+      "prerequisites": ["CS302", "CS304"],
+      "description": "Security principles, cryptography, and secure systems",
+      "syllabus": {
+        "objectives": [
+          "Understand security principles",
+          "Implement cryptographic systems",
+          "Identify vulnerabilities",
+          "Design secure systems"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Security Fundamentals", "content": "CIA triad, threat models, security policies"},
+          {"week": 2, "topic": "Cryptography Basics", "content": "Classical ciphers, modern cryptography, one-time pad"},
+          {"week": 3, "topic": "Symmetric Encryption", "content": "DES, AES, modes of operation"},
+          {"week": 4, "topic": "Public Key Cryptography", "content": "RSA, Diffie-Hellman, elliptic curves"},
+          {"week": 5, "topic": "Hash Functions", "content": "SHA, MD5, MACs, digital signatures"},
+          {"week": 6, "topic": "Authentication", "content": "Passwords, biometrics, multi-factor, Kerberos"},
+          {"week": 7, "topic": "Network Security", "content": "SSL/TLS, IPSec, firewalls, IDS/IPS"},
+          {"week": 8, "topic": "Web Security", "content": "XSS, CSRF, SQL injection, OWASP top 10"},
+          {"week": 9, "topic": "Software Security", "content": "Buffer overflows, secure coding, static analysis"},
+          {"week": 10, "topic": "System Security", "content": "Access control, SELinux, virtualization security"},
+          {"week": 11, "topic": "Mobile Security", "content": "Android/iOS security, app permissions, mobile threats"},
+          {"week": 12, "topic": "Security Management", "content": "Risk assessment, incident response, forensics"}
+        ],
+        "assessments": [
+          {"type": "security_projects", "weight": "35%", "description": "Penetration testing and secure development"},
+          {"type": "labs", "weight": "25%", "description": "Hands-on security exercises"},
+          {"type": "midterm", "weight": "20%", "description": "Theory and cryptography"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Computer Security: Principles and Practice by Stallings and Brown",
+          "Security Engineering by Ross Anderson"
+        ]
+      }
+    },
+    {
+      "id": "CS406",
+      "name": "Theory of Computation",
+      "credits": 4,
+      "prerequisites": ["CS201"],
+      "description": "Automata, computability, and complexity theory",
+      "syllabus": {
+        "objectives": [
+          "Understand computational models",
+          "Prove language properties",
+          "Analyze computational complexity",
+          "Explore limits of computation"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Mathematical Preliminaries", "content": "Sets, relations, proofs, induction"},
+          {"week": 2, "topic": "Finite Automata", "content": "DFA, NFA, equivalence, minimization"},
+          {"week": 3, "topic": "Regular Languages", "content": "Regular expressions, pumping lemma, closure properties"},
+          {"week": 4, "topic": "Context-Free Grammars", "content": "CFGs, parse trees, ambiguity, normal forms"},
+          {"week": 5, "topic": "Pushdown Automata", "content": "PDA design, CFG-PDA equivalence"},
+          {"week": 6, "topic": "Context-Free Languages", "content": "Pumping lemma for CFLs, closure properties"},
+          {"week": 7, "topic": "Turing Machines", "content": "TM design, variants, Church-Turing thesis"},
+          {"week": 8, "topic": "Decidability", "content": "Decidable languages, halting problem, reductions"},
+          {"week": 9, "topic": "Undecidability", "content": "Rice's theorem, Post correspondence problem"},
+          {"week": 10, "topic": "Time Complexity", "content": "P, NP, NP-completeness, Cook's theorem"},
+          {"week": 11, "topic": "NP-Complete Problems", "content": "SAT, clique, vertex cover, reductions"},
+          {"week": 12, "topic": "Advanced Topics", "content": "Space complexity, PSPACE, quantum computing"}
+        ],
+        "assessments": [
+          {"type": "problem_sets", "weight": "40%", "description": "Weekly proof-based assignments"},
+          {"type": "quizzes", "weight": "20%", "description": "Regular concept checks"},
+          {"type": "midterm", "weight": "20%", "description": "Automata and languages"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Introduction to the Theory of Computation by Michael Sipser",
+          "Automata and Computability by Dexter Kozen"
+        ]
+      }
+    }
+  ],
+  "ee": [
+    {
+      "id": "EE101",
+      "name": "Circuit Analysis I",
+      "credits": 4,
+      "prerequisites": ["MATH101"],
+      "description": "DC circuit analysis and basic circuit theorems",
+      "syllabus": {
+        "objectives": [
+          "Analyze DC circuits using various methods",
+          "Apply circuit theorems",
+          "Use simulation tools",
+          "Design basic circuits"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Circuit Variables", "content": "Voltage, current, power, energy, units"},
+          {"week": 2, "topic": "Ohm's Law and Kirchhoff's Laws", "content": "KVL, KCL, series/parallel resistors"},
+          {"week": 3, "topic": "Nodal Analysis", "content": "Node equations, supernodes, dependent sources"},
+          {"week": 4, "topic": "Mesh Analysis", "content": "Mesh equations, supermeshes, source transformations"},
+          {"week": 5, "topic": "Circuit Theorems", "content": "Linearity, superposition, source transformation"},
+          {"week": 6, "topic": "Thevenin and Norton", "content": "Equivalent circuits, maximum power transfer"},
+          {"week": 7, "topic": "Operational Amplifiers", "content": "Ideal op-amp, inverting/non-inverting configurations"},
+          {"week": 8, "topic": "Capacitors and Inductors", "content": "Energy storage, i-v relationships, series/parallel"},
+          {"week": 9, "topic": "First-Order Circuits", "content": "RC and RL circuits, natural and step response"},
+          {"week": 10, "topic": "Second-Order Circuits", "content": "RLC circuits, overdamped, critically damped, underdamped"},
+          {"week": 11, "topic": "Circuit Simulation", "content": "SPICE, LTspice, circuit design software"},
+          {"week": 12, "topic": "Practical Applications", "content": "Power supplies, filters, amplifiers"}
+        ],
+        "assessments": [
+          {"type": "homework", "weight": "25%", "description": "Weekly problem sets"},
+          {"type": "labs", "weight": "25%", "description": "Circuit construction and measurement"},
+          {"type": "midterm", "weight": "25%", "description": "Theory and problem solving"},
+          {"type": "final_exam", "weight": "25%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Electric Circuits by Nilsson and Riedel",
+          "Microelectronic Circuits by Sedra and Smith"
+        ]
+      }
+    },
+    {
+      "id": "EE201",
+      "name": "Circuit Analysis II",
+      "credits": 4,
+      "prerequisites": ["EE101"],
+      "description": "AC circuit analysis, frequency response, and power",
+      "syllabus": {
+        "objectives": [
+          "Analyze AC circuits using phasors",
+          "Design filters and resonant circuits",
+          "Calculate power in AC circuits",
+          "Understand frequency response"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Sinusoidal Steady-State", "content": "Phasors, impedance, admittance"},
+          {"week": 2, "topic": "AC Circuit Analysis", "content": "Nodal and mesh analysis with phasors"},
+          {"week": 3, "topic": "AC Power", "content": "Average, reactive, complex power, power factor"},
+          {"week": 4, "topic": "Three-Phase Circuits", "content": "Balanced systems, Y-Δ connections, power measurement"},
+          {"week": 5, "topic": "Magnetically Coupled Circuits", "content": "Mutual inductance, transformers, ideal transformer"},
+          {"week": 6, "topic": "Frequency Response", "content": "Transfer functions, Bode plots, resonance"},
+          {"week": 7, "topic": "Filters", "content": "Low-pass, high-pass, band-pass, band-stop"},
+          {"week": 8, "topic": "Laplace Transform", "content": "Transform pairs, circuit analysis in s-domain"},
+          {"week": 9, "topic": "Transfer Functions", "content": "Poles and zeros, stability, frequency response"},
+          {"week": 10, "topic": "Fourier Series", "content": "Periodic signals, harmonics, spectrum"},
+          {"week": 11, "topic": "Fourier Transform", "content": "Continuous signals, frequency domain analysis"},
+          {"week": 12, "topic": "Two-Port Networks", "content": "Parameters, interconnections, applications"}
+        ],
+        "assessments": [
+          {"type": "homework", "weight": "25%", "description": "Complex problem sets"},
+          {"type": "labs", "weight": "25%", "description": "AC measurements and filter design"},
+          {"type": "midterm", "weight": "25%", "description": "AC analysis and power"},
+          {"type": "final_exam", "weight": "25%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Electric Circuits by Nilsson and Riedel",
+          "Engineering Circuit Analysis by Hayt, Kemmerly, and Durbin"
+        ]
+      }
+    },
+    {
+      "id": "EE202",
+      "name": "Signals and Systems",
+      "credits": 4,
+      "prerequisites": ["EE201", "MATH201"],
+      "description": "Signal analysis in time and frequency domains",
+      "syllabus": {
+        "objectives": [
+          "Analyze continuous and discrete signals",
+          "Apply system theory",
+          "Use transform techniques",
+          "Design signal processing systems"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Signals and Systems", "content": "Classification, properties, basic operations"},
+          {"week": 2, "topic": "Linear Time-Invariant Systems", "content": "Impulse response, convolution, causality, stability"},
+          {"week": 3, "topic": "Fourier Series", "content": "Continuous and discrete time, convergence"},
+          {"week": 4, "topic": "Continuous-Time Fourier Transform", "content": "Properties, applications, energy spectral density"},
+          {"week": 5, "topic": "Discrete-Time Fourier Transform", "content": "DTFT, DFT, FFT algorithms"},
+          {"week": 6, "topic": "Sampling", "content": "Nyquist theorem, aliasing, reconstruction"},
+          {"week": 7, "topic": "Laplace Transform", "content": "ROC, properties, inverse transform, applications"},
+          {"week": 8, "topic": "Z-Transform", "content": "Properties, inverse, discrete system analysis"},
+          {"week": 9, "topic": "Filter Design", "content": "Analog filters, Butterworth, Chebyshev, elliptic"},
+          {"week": 10, "topic": "Digital Filters", "content": "FIR and IIR design, windowing, bilinear transform"},
+          {"week": 11, "topic": "State-Space Analysis", "content": "State equations, controllability, observability"},
+          {"week": 12, "topic": "Applications", "content": "Communications, control, signal processing"}
+        ],
+        "assessments": [
+          {"type": "homework", "weight": "30%", "description": "Mathematical problems and MATLAB"},
+          {"type": "projects", "weight": "25%", "description": "Signal processing applications"},
+          {"type": "midterm", "weight": "20%", "description": "Transform techniques"},
+          {"type": "final_exam", "weight": "25%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Signals and Systems by Oppenheim and Willsky",
+          "Discrete-Time Signal Processing by Oppenheim and Schafer"
+        ]
+      }
+    },
+    {
+      "id": "EE203",
+      "name": "Electromagnetics I",
+      "credits": 4,
+      "prerequisites": ["PHYS201", "MATH301"],
+      "description": "Static electric and magnetic fields",
+      "syllabus": {
+        "objectives": [
+          "Apply Maxwell's equations",
+          "Solve boundary value problems",
+          "Analyze electromagnetic fields",
+          "Design basic EM systems"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Vector Analysis", "content": "Coordinate systems, gradient, divergence, curl"},
+          {"week": 2, "topic": "Electrostatics", "content": "Coulomb's law, electric field, Gauss's law"},
+          {"week": 3, "topic": "Electric Potential", "content": "Work, potential, Laplace's equation"},
+          {"week": 4, "topic": "Conductors", "content": "Boundary conditions, capacitance, method of images"},
+          {"week": 5, "topic": "Dielectrics", "content": "Polarization, boundary conditions, energy"},
+          {"week": 6, "topic": "Steady Currents", "content": "Current density, continuity, resistance"},
+          {"week": 7, "topic": "Magnetostatics", "content": "Biot-Savart, Ampere's law, vector potential"},
+          {"week": 8, "topic": "Magnetic Materials", "content": "Magnetization, ferromagnets, boundary conditions"},
+          {"week": 9, "topic": "Inductance", "content": "Self and mutual inductance, energy"},
+          {"week": 10, "topic": "Time-Varying Fields", "content": "Faraday's law, displacement current"},
+          {"week": 11, "topic": "Maxwell's Equations", "content": "Integral and differential forms, boundary conditions"},
+          {"week": 12, "topic": "Applications", "content": "Sensors, actuators, electromagnetic devices"}
+        ],
+        "assessments": [
+          {"type": "homework", "weight": "30%", "description": "Problem sets with MATLAB"},
+          {"type": "quizzes", "weight": "20%", "description": "Conceptual understanding"},
+          {"type": "midterm", "weight": "25%", "description": "Electrostatics and magnetostatics"},
+          {"type": "final_exam", "weight": "25%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Introduction to Electrodynamics by David Griffiths",
+          "Field and Wave Electromagnetics by David Cheng"
+        ]
+      }
+    },
+    {
+      "id": "EE301",
+      "name": "Electronics I",
+      "credits": 4,
+      "prerequisites": ["EE201"],
+      "description": "Semiconductor devices and basic amplifiers",
+      "syllabus": {
+        "objectives": [
+          "Understand semiconductor physics",
+          "Design transistor circuits",
+          "Analyze amplifier performance",
+          "Build electronic systems"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Semiconductor Physics", "content": "Energy bands, carriers, doping, drift and diffusion"},
+          {"week": 2, "topic": "PN Junction", "content": "Equilibrium, forward/reverse bias, capacitance"},
+          {"week": 3, "topic": "Diode Circuits", "content": "Rectifiers, clippers, clampers, voltage regulators"},
+          {"week": 4, "topic": "BJT Operation", "content": "Structure, operation modes, Ebers-Moll model"},
+          {"week": 5, "topic": "BJT Biasing", "content": "DC analysis, bias stability, design considerations"},
+          {"week": 6, "topic": "BJT Amplifiers", "content": "Small-signal models, CE, CB, CC configurations"},
+          {"week": 7, "topic": "MOSFET Operation", "content": "Structure, threshold voltage, channel length modulation"},
+          {"week": 8, "topic": "MOSFET Biasing", "content": "DC analysis, bias circuits, current sources"},
+          {"week": 9, "topic": "MOSFET Amplifiers", "content": "Small-signal models, CS, CG, CD configurations"},
+          {"week": 10, "topic": "Frequency Response", "content": "Miller effect, bandwidth, gain-bandwidth product"},
+          {"week": 11, "topic": "Multistage Amplifiers", "content": "Cascading, differential pairs, current mirrors"},
+          {"week": 12, "topic": "Power Amplifiers", "content": "Classes A, B, AB, efficiency, distortion"}
+        ],
+        "assessments": [
+          {"type": "homework", "weight": "20%", "description": "Circuit analysis and design"},
+          {"type": "labs", "weight": "30%", "description": "Device characterization and amplifier design"},
+          {"type": "midterm", "weight": "25%", "description": "Diodes and BJTs"},
+          {"type": "final_exam", "weight": "25%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Microelectronic Circuits by Sedra and Smith",
+          "Electronic Devices and Circuit Theory by Boylestad and Nashelsky"
+        ]
+      }
+    },
+    {
+      "id": "EE302",
+      "name": "Digital Logic Design",
+      "credits": 4,
+      "prerequisites": ["EE101"],
+      "description": "Digital circuits and system design",
+      "syllabus": {
+        "objectives": [
+          "Design combinational circuits",
+          "Design sequential circuits",
+          "Use hardware description languages",
+          "Implement digital systems"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Number Systems", "content": "Binary, octal, hex, arithmetic, codes"},
+          {"week": 2, "topic": "Boolean Algebra", "content": "Logic gates, theorems, minimization"},
+          {"week": 3, "topic": "Combinational Logic", "content": "K-maps, Quine-McCluskey, multi-level circuits"},
+          {"week": 4, "topic": "Combinational Modules", "content": "Decoders, encoders, multiplexers, comparators"},
+          {"week": 5, "topic": "Arithmetic Circuits", "content": "Adders, subtractors, multipliers, ALUs"},
+          {"week": 6, "topic": "Sequential Circuits", "content": "Latches, flip-flops, timing analysis"},
+          {"week": 7, "topic": "Finite State Machines", "content": "Mealy, Moore, state minimization"},
+          {"week": 8, "topic": "Counters and Registers", "content": "Synchronous, asynchronous, shift registers"},
+          {"week": 9, "topic": "Memory", "content": "ROM, RAM, timing, memory organization"},
+          {"week": 10, "topic": "Programmable Logic", "content": "PLA, PAL, FPGA architecture"},
+          {"week": 11, "topic": "HDL Design", "content": "Verilog/VHDL, synthesis, simulation"},
+          {"week": 12, "topic": "Digital System Design", "content": "Datapath, control unit, pipelining"}
+        ],
+        "assessments": [
+          {"type": "homework", "weight": "20%", "description": "Design problems"},
+          {"type": "labs", "weight": "30%", "description": "FPGA implementation projects"},
+          {"type": "midterm", "weight": "25%", "description": "Combinational design"},
+          {"type": "final_project", "weight": "25%", "description": "Complete digital system"}
+        ],
+        "textbooks": [
+          "Digital Design and Computer Architecture by Harris and Harris",
+          "Digital Design by Morris Mano and Michael Ciletti"
+        ]
+      }
+    },
+    {
+      "id": "EE303",
+      "name": "Control Systems",
+      "credits": 4,
+      "prerequisites": ["EE202"],
+      "description": "Analysis and design of feedback control systems",
+      "syllabus": {
+        "objectives": [
+          "Model dynamic systems",
+          "Analyze system stability",
+          "Design controllers",
+          "Implement control systems"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Control System Introduction", "content": "Open-loop, closed-loop, examples, history"},
+          {"week": 2, "topic": "Mathematical Modeling", "content": "Differential equations, transfer functions, block diagrams"},
+          {"week": 3, "topic": "Time Response", "content": "First and second order systems, specifications"},
+          {"week": 4, "topic": "Stability", "content": "BIBO stability, Routh-Hurwitz criterion"},
+          {"week": 5, "topic": "Root Locus", "content": "Construction rules, design using root locus"},
+          {"week": 6, "topic": "Frequency Response", "content": "Bode plots, Nyquist plots, gain and phase margins"},
+          {"week": 7, "topic": "PID Control", "content": "P, PI, PD, PID design and tuning"},
+          {"week": 8, "topic": "Lead-Lag Compensation", "content": "Design in frequency domain, cascade compensation"},
+          {"week": 9, "topic": "State-Space Methods", "content": "State equations, controllability, observability"},
+          {"week": 10, "topic": "State Feedback", "content": "Pole placement, observers, separation principle"},
+          {"week": 11, "topic": "Digital Control", "content": "Sampling, z-transform, discrete controllers"},
+          {"week": 12, "topic": "Modern Control", "content": "Optimal control, robust control, adaptive control"}
+        ],
+        "assessments": [
+          {"type": "homework", "weight": "25%", "description": "Analysis and design problems"},
+          {"type": "labs", "weight": "25%", "description": "MATLAB/Simulink projects"},
+          {"type": "midterm", "weight": "25%", "description": "Classical control methods"},
+          {"type": "final_project", "weight": "25%", "description": "Control system design"}
+        ],
+        "textbooks": [
+          "Modern Control Engineering by Katsuhiko Ogata",
+          "Automatic Control Systems by Benjamin Kuo and Farid Golnaraghi"
+        ]
+      }
+    },
+    {
+      "id": "EE304",
+      "name": "Communication Systems",
+      "credits": 4,
+      "prerequisites": ["EE202"],
+      "description": "Analog and digital communication principles",
+      "syllabus": {
+        "objectives": [
+          "Understand modulation techniques",
+          "Analyze communication systems",
+          "Design transmitters and receivers",
+          "Evaluate system performance"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Communication Overview", "content": "System model, channels, noise, bandwidth"},
+          {"week": 2, "topic": "Signal Analysis", "content": "Fourier analysis, power spectral density, correlation"},
+          {"week": 3, "topic": "Amplitude Modulation", "content": "DSB, SSB, VSB, AM, demodulation"},
+          {"week": 4, "topic": "Angle Modulation", "content": "FM, PM, bandwidth, Armstrong method"},
+          {"week": 5, "topic": "Noise in Analog Systems", "content": "SNR, noise figure, performance comparison"},
+          {"week": 6, "topic": "Sampling and PCM", "content": "Sampling theorem, quantization, companding"},
+          {"week": 7, "topic": "Digital Baseband", "content": "Line codes, ISI, eye diagrams, equalization"},
+          {"week": 8, "topic": "Digital Modulation", "content": "ASK, FSK, PSK, QAM, constellation diagrams"},
+          {"week": 9, "topic": "Error Control", "content": "Parity, CRC, Hamming codes, convolutional codes"},
+          {"week": 10, "topic": "Multiple Access", "content": "FDMA, TDMA, CDMA, OFDM"},
+          {"week": 11, "topic": "Wireless Systems", "content": "Cellular, WiFi, satellite communications"},
+          {"week": 12, "topic": "Modern Topics", "content": "MIMO, 5G, software-defined radio"}
+        ],
+        "assessments": [
+          {"type": "homework", "weight": "25%", "description": "Problem sets and MATLAB simulations"},
+          {"type": "labs", "weight": "25%", "description": "SDR experiments"},
+          {"type": "midterm", "weight": "25%", "description": "Analog communications"},
+          {"type": "final_exam", "weight": "25%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Communication Systems Engineering by Proakis and Salehi",
+          "Modern Digital and Analog Communication Systems by Lathi and Ding"
+        ]
+      }
+    },
+    {
+      "id": "EE305",
+      "name": "Power Systems",
+      "credits": 4,
+      "prerequisites": ["EE201"],
+      "description": "Electric power generation, transmission, and distribution",
+      "syllabus": {
+        "objectives": [
+          "Analyze power systems",
+          "Perform load flow studies",
+          "Understand system protection",
+          "Design power systems"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Power System Overview", "content": "Structure, components, per-unit system"},
+          {"week": 2, "topic": "Transmission Lines", "content": "Parameters, models, performance"},
+          {"week": 3, "topic": "Transformers", "content": "Equivalent circuits, tap changing, three-phase"},
+          {"week": 4, "topic": "Synchronous Machines", "content": "Construction, operation, equivalent circuit"},
+          {"week": 5, "topic": "Power Flow Analysis", "content": "Bus admittance, Gauss-Seidel, Newton-Raphson"},
+          {"week": 6, "topic": "Fault Analysis", "content": "Symmetrical faults, unsymmetrical faults, sequence networks"},
+          {"week": 7, "topic": "System Stability", "content": "Steady-state, transient, dynamic stability"},
+          {"week": 8, "topic": "Economic Operation", "content": "Economic dispatch, unit commitment, optimal power flow"},
+          {"week": 9, "topic": "Protection Systems", "content": "Relays, circuit breakers, coordination"},
+          {"week": 10, "topic": "Power Quality", "content": "Harmonics, voltage sags, power factor correction"},
+          {"week": 11, "topic": "Renewable Energy", "content": "Solar, wind, integration challenges"},
+          {"week": 12, "topic": "Smart Grid", "content": "AMI, demand response, microgrids"}
+        ],
+        "assessments": [
+          {"type": "homework", "weight": "25%", "description": "Load flow and fault calculations"},
+          {"type": "projects", "weight": "25%", "description": "Power system simulation"},
+          {"type": "midterm", "weight": "25%", "description": "Analysis methods"},
+          {"type": "final_exam", "weight": "25%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Power System Analysis and Design by Glover, Sarma, and Overbye",
+          "Electric Power Systems by Weedy, Cory, Jenkins, and Ekanayake"
+        ]
+      }
+    },
+    {
+      "id": "EE401",
+      "name": "Microprocessor Systems",
+      "credits": 4,
+      "prerequisites": ["EE302"],
+      "description": "Microprocessor architecture and embedded systems",
+      "syllabus": {
+        "objectives": [
+          "Program microprocessors in assembly",
+          "Interface with peripherals",
+          "Design embedded systems",
+          "Develop real-time applications"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Microprocessor Architecture", "content": "CPU, buses, memory organization"},
+          {"week": 2, "topic": "Assembly Programming", "content": "Instruction set, addressing modes, subroutines"},
+          {"week": 3, "topic": "Memory Systems", "content": "RAM, ROM, flash, memory mapping"},
+          {"week": 4, "topic": "I/O Interfacing", "content": "Parallel, serial, memory-mapped I/O"},
+          {"week": 5, "topic": "Interrupts", "content": "Hardware/software interrupts, ISR, priority"},
+          {"week": 6, "topic": "Timers and Counters", "content": "PWM generation, event counting, watchdog"},
+          {"week": 7, "topic": "Serial Communication", "content": "UART, SPI, I2C, USB"},
+          {"week": 8, "topic": "Analog Interfaces", "content": "ADC, DAC, sensor interfacing"},
+          {"week": 9, "topic": "Embedded C Programming", "content": "Cross-compilation, debugging, optimization"},
+          {"week": 10, "topic": "Real-Time Systems", "content": "RTOS concepts, scheduling, synchronization"},
+          {"week": 11, "topic": "ARM Architecture", "content": "Cortex-M, peripherals, CMSIS"},
+          {"week": 12, "topic": "System Design", "content": "Power management, PCB design, EMC"}
+        ],
+        "assessments": [
+          {"type": "labs", "weight": "35%", "description": "Embedded programming projects"},
+          {"type": "homework", "weight": "20%", "description": "Programming assignments"},
+          {"type": "midterm", "weight": "20%", "description": "Architecture and programming"},
+          {"type": "final_project", "weight": "25%", "description": "Complete embedded system"}
+        ],
+        "textbooks": [
+          "The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors by Joseph Yiu",
+          "Embedded Systems: Real-Time Interfacing to ARM Cortex-M by Jonathan Valvano"
+        ]
+      }
+    },
+    {
+      "id": "EE402",
+      "name": "VLSI Design",
+      "credits": 4,
+      "prerequisites": ["EE301", "EE302"],
+      "description": "CMOS VLSI design principles and methodologies",
+      "syllabus": {
+        "objectives": [
+          "Design CMOS circuits",
+          "Use CAD tools for IC design",
+          "Understand fabrication processes",
+          "Optimize for performance and power"
+        ],
+        "topics": [
+          {"week": 1, "topic": "CMOS Technology", "content": "Fabrication process, design rules, yield"},
+          {"week": 2, "topic": "MOS Transistor Theory", "content": "I-V characteristics, second-order effects, scaling"},
+          {"week": 3, "topic": "CMOS Inverter", "content": "DC characteristics, transient response, power dissipation"},
+          {"week": 4, "topic": "Combinational Circuits", "content": "Static CMOS, ratioed logic, pass transistor logic"},
+          {"week": 5, "topic": "Sequential Circuits", "content": "Latches, flip-flops, timing, clock distribution"},
+          {"week": 6, "topic": "Design Methodology", "content": "HDL synthesis, place and route, verification"},
+          {"week": 7, "topic": "Interconnect", "content": "RC delay, crosstalk, electromigration"},
+          {"week": 8, "topic": "Memory Design", "content": "SRAM, DRAM, ROM, sense amplifiers"},
+          {"week": 9, "topic": "Arithmetic Circuits", "content": "Adders, multipliers, dividers, floating point"},
+          {"week": 10, "topic": "Low Power Design", "content": "Power reduction techniques, voltage scaling"},
+          {"week": 11, "topic": "Testing", "content": "Fault models, ATPG, BIST, DFT"},
+          {"week": 12, "topic": "Advanced Topics", "content": "FinFET, 3D integration, neuromorphic circuits"}
+        ],
+        "assessments": [
+          {"type": "design_projects", "weight": "40%", "description": "Circuit design using Cadence"},
+          {"type": "homework", "weight": "20%", "description": "Analysis and optimization"},
+          {"type": "midterm", "weight": "20%", "description": "Theory and design"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "CMOS VLSI Design by Weste and Harris",
+          "Digital Integrated Circuits by Rabaey, Chandrakasan, and Nikolic"
+        ]
+      }
+    },
+    {
+      "id": "EE403",
+      "name": "RF and Microwave Engineering",
+      "credits": 4,
+      "prerequisites": ["EE203", "EE304"],
+      "description": "High-frequency circuit design and applications",
+      "syllabus": {
+        "objectives": [
+          "Design RF circuits and systems",
+          "Use Smith charts and network analyzers",
+          "Understand wave propagation",
+          "Design antennas and filters"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Transmission Lines", "content": "TEM waves, characteristic impedance, VSWR"},
+          {"week": 2, "topic": "Smith Chart", "content": "Impedance matching, stub matching"},
+          {"week": 3, "topic": "Network Analysis", "content": "S-parameters, ABCD parameters, signal flow graphs"},
+          {"week": 4, "topic": "Impedance Matching", "content": "L-networks, transformers, tapered lines"},
+          {"week": 5, "topic": "Microwave Resonators", "content": "Cavity resonators, dielectric resonators, Q-factor"},
+          {"week": 6, "topic": "Filter Design", "content": "Butterworth, Chebyshev, microstrip filters"},
+          {"week": 7, "topic": "Amplifier Design", "content": "Stability, gain, noise figure, LNAs"},
+          {"week": 8, "topic": "Oscillators and Mixers", "content": "VCOs, PLLs, mixers, frequency synthesizers"},
+          {"week": 9, "topic": "Antennas", "content": "Radiation patterns, gain, arrays, microstrip antennas"},
+          {"week": 10, "topic": "Wave Propagation", "content": "Free space, atmospheric effects, link budget"},
+          {"week": 11, "topic": "Microwave Systems", "content": "Radar, satellite communications, wireless systems"},
+          {"week": 12, "topic": "Measurements", "content": "VNA, spectrum analyzer, power measurements"}
+        ],
+        "assessments": [
+          {"type": "labs", "weight": "30%", "description": "RF circuit design and measurement"},
+          {"type": "design_project", "weight": "25%", "description": "Complete RF system design"},
+          {"type": "midterm", "weight": "20%", "description": "Theory and analysis"},
+          {"type": "final_exam", "weight": "25%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Microwave Engineering by David Pozar",
+          "RF Circuit Design by Chris Bowick"
+        ]
+      }
+    }
+  ]
+}

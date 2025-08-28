@@ -1,0 +1,471 @@
+{
+  "physics": [
+    {
+      "id": "PHYS101",
+      "name": "Classical Mechanics I",
+      "credits": 4,
+      "prerequisites": ["MATH101"],
+      "description": "Newtonian mechanics, conservation laws, and oscillations",
+      "syllabus": {
+        "objectives": [
+          "Master Newton's laws and their applications",
+          "Understand conservation principles",
+          "Analyze oscillatory and rotational motion",
+          "Solve complex mechanical problems"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Kinematics", "content": "Position, velocity, acceleration in 1D, 2D, 3D"},
+          {"week": 2, "topic": "Newton's Laws", "content": "Forces, free body diagrams, friction"},
+          {"week": 3, "topic": "Work and Energy", "content": "Work-energy theorem, potential energy, conservation"},
+          {"week": 4, "topic": "Momentum", "content": "Linear momentum, impulse, collisions, center of mass"},
+          {"week": 5, "topic": "Rotational Motion", "content": "Angular kinematics, moment of inertia, torque"},
+          {"week": 6, "topic": "Angular Momentum", "content": "Conservation, gyroscopes, precession"},
+          {"week": 7, "topic": "Oscillations", "content": "SHM, damped oscillations, driven oscillations, resonance"},
+          {"week": 8, "topic": "Gravitation", "content": "Newton's law, orbits, Kepler's laws, tidal forces"},
+          {"week": 9, "topic": "Rigid Body Dynamics", "content": "Euler equations, stability, coupled oscillations"},
+          {"week": 10, "topic": "Waves", "content": "Wave equation, standing waves, dispersion"},
+          {"week": 11, "topic": "Special Relativity", "content": "Lorentz transformations, relativistic dynamics"},
+          {"week": 12, "topic": "Lagrangian Mechanics", "content": "Principle of least action, constraints, Lagrange equations"}
+        ],
+        "assessments": [
+          {"type": "problem_sets", "weight": "30%", "description": "Weekly problem solving"},
+          {"type": "labs", "weight": "25%", "description": "Experimental verification of principles"},
+          {"type": "midterm", "weight": "20%", "description": "Comprehensive problem solving"},
+          {"type": "final_exam", "weight": "25%", "description": "Cumulative examination"}
+        ],
+        "textbooks": [
+          "Classical Mechanics by John R. Taylor",
+          "An Introduction to Mechanics by Kleppner and Kolenkow"
+        ]
+      }
+    },
+    {
+      "id": "PHYS102",
+      "name": "Electricity and Magnetism I",
+      "credits": 4,
+      "prerequisites": ["PHYS101", "MATH201"],
+      "description": "Electromagnetic theory from Coulomb's law to Maxwell's equations",
+      "syllabus": {
+        "objectives": [
+          "Apply Maxwell's equations to solve problems",
+          "Understand electromagnetic fields and potentials",
+          "Analyze circuits and electromagnetic devices",
+          "Connect E&M to other physics domains"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Electrostatics", "content": "Coulomb's law, electric field, Gauss's law"},
+          {"week": 2, "topic": "Electric Potential", "content": "Work and energy, potential, Laplace's equation"},
+          {"week": 3, "topic": "Conductors", "content": "Fields near conductors, capacitance, energy storage"},
+          {"week": 4, "topic": "Dielectrics", "content": "Polarization, bound charges, D field"},
+          {"week": 5, "topic": "Current and Resistance", "content": "Current density, Ohm's law, EMF, circuits"},
+          {"week": 6, "topic": "Magnetostatics", "content": "Biot-Savart law, Ampere's law, vector potential"},
+          {"week": 7, "topic": "Magnetic Materials", "content": "Magnetization, H field, ferromagnetism"},
+          {"week": 8, "topic": "Electromagnetic Induction", "content": "Faraday's law, Lenz's law, inductance"},
+          {"week": 9, "topic": "Maxwell's Equations", "content": "Displacement current, wave equation"},
+          {"week": 10, "topic": "Electromagnetic Waves", "content": "Plane waves, polarization, energy and momentum"},
+          {"week": 11, "topic": "Radiation", "content": "Dipole radiation, antenna theory, scattering"},
+          {"week": 12, "topic": "Relativistic Electrodynamics", "content": "4-vectors, field transformations, covariant formulation"}
+        ],
+        "assessments": [
+          {"type": "problem_sets", "weight": "30%", "description": "Mathematical and conceptual problems"},
+          {"type": "labs", "weight": "25%", "description": "Circuit and field measurements"},
+          {"type": "midterm", "weight": "20%", "description": "Electrostatics and magnetostatics"},
+          {"type": "final_exam", "weight": "25%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Introduction to Electrodynamics by David J. Griffiths",
+          "Electricity and Magnetism by Edward M. Purcell and David J. Morin"
+        ]
+      }
+    },
+    {
+      "id": "PHYS201",
+      "name": "Quantum Mechanics I",
+      "credits": 4,
+      "prerequisites": ["PHYS102", "MATH301"],
+      "description": "Introduction to quantum mechanics and applications",
+      "syllabus": {
+        "objectives": [
+          "Understand quantum mechanical principles",
+          "Solve Schrödinger equation for various potentials",
+          "Apply quantum mechanics to atoms and molecules",
+          "Interpret quantum phenomena"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Wave-Particle Duality", "content": "Photoelectric effect, Compton scattering, de Broglie waves"},
+          {"week": 2, "topic": "Wave Functions", "content": "Probability interpretation, normalization, expectation values"},
+          {"week": 3, "topic": "Schrödinger Equation", "content": "Time-dependent and independent, stationary states"},
+          {"week": 4, "topic": "Infinite Square Well", "content": "Energy quantization, wave functions, orthogonality"},
+          {"week": 5, "topic": "Harmonic Oscillator", "content": "Ladder operators, energy levels, coherent states"},
+          {"week": 6, "topic": "Free Particle", "content": "Momentum eigenstates, wave packets, group velocity"},
+          {"week": 7, "topic": "Finite Wells and Barriers", "content": "Bound states, tunneling, resonances"},
+          {"week": 8, "topic": "Formalism", "content": "Hilbert space, operators, commutators, uncertainty principle"},
+          {"week": 9, "topic": "Hydrogen Atom", "content": "Spherical coordinates, angular momentum, radial equation"},
+          {"week": 10, "topic": "Spin", "content": "Stern-Gerlach, Pauli matrices, addition of angular momentum"},
+          {"week": 11, "topic": "Perturbation Theory", "content": "Time-independent, degenerate, time-dependent"},
+          {"week": 12, "topic": "Identical Particles", "content": "Bosons, fermions, exchange symmetry, Pauli exclusion"}
+        ],
+        "assessments": [
+          {"type": "problem_sets", "weight": "35%", "description": "Analytical problems"},
+          {"type": "computational_projects", "weight": "20%", "description": "Numerical solutions"},
+          {"type": "midterm", "weight": "20%", "description": "Core concepts"},
+          {"type": "final_exam", "weight": "25%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Introduction to Quantum Mechanics by David J. Griffiths",
+          "Modern Quantum Mechanics by J.J. Sakurai and Jim Napolitano"
+        ]
+      }
+    },
+    {
+      "id": "PHYS202",
+      "name": "Thermal and Statistical Physics",
+      "credits": 4,
+      "prerequisites": ["PHYS201"],
+      "description": "Thermodynamics and statistical mechanics",
+      "syllabus": {
+        "objectives": [
+          "Understand thermodynamic laws and applications",
+          "Apply statistical methods to physical systems",
+          "Connect microscopic and macroscopic descriptions",
+          "Analyze phase transitions"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Thermodynamic Systems", "content": "State variables, equations of state, processes"},
+          {"week": 2, "topic": "First Law", "content": "Heat, work, internal energy, enthalpy"},
+          {"week": 3, "topic": "Second Law", "content": "Entropy, Carnot cycle, heat engines, refrigerators"},
+          {"week": 4, "topic": "Thermodynamic Potentials", "content": "Helmholtz, Gibbs, Maxwell relations"},
+          {"week": 5, "topic": "Phase Transitions", "content": "Phase diagrams, Clausius-Clapeyron, critical points"},
+          {"week": 6, "topic": "Statistical Ensembles", "content": "Microcanonical, canonical, grand canonical"},
+          {"week": 7, "topic": "Classical Statistics", "content": "Maxwell-Boltzmann distribution, equipartition"},
+          {"week": 8, "topic": "Quantum Statistics", "content": "Fermi-Dirac, Bose-Einstein, density of states"},
+          {"week": 9, "topic": "Ideal Gases", "content": "Classical and quantum gases, photon gas, phonons"},
+          {"week": 10, "topic": "Interacting Systems", "content": "Van der Waals gas, virial expansion, cluster expansion"},
+          {"week": 11, "topic": "Phase Transitions II", "content": "Ising model, mean field theory, critical exponents"},
+          {"week": 12, "topic": "Non-equilibrium", "content": "Transport phenomena, fluctuations, linear response"}
+        ],
+        "assessments": [
+          {"type": "problem_sets", "weight": "30%", "description": "Theoretical problems"},
+          {"type": "computational_projects", "weight": "25%", "description": "Monte Carlo simulations"},
+          {"type": "midterm", "weight": "20%", "description": "Thermodynamics"},
+          {"type": "final_exam", "weight": "25%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "An Introduction to Thermal Physics by Daniel V. Schroeder",
+          "Statistical Mechanics by R.K. Pathria and Paul D. Beale"
+        ]
+      }
+    },
+    {
+      "id": "PHYS301",
+      "name": "Classical Mechanics II",
+      "credits": 4,
+      "prerequisites": ["PHYS101", "MATH301"],
+      "description": "Advanced classical mechanics using Lagrangian and Hamiltonian formulations",
+      "syllabus": {
+        "objectives": [
+          "Master analytical mechanics techniques",
+          "Understand symmetries and conservation laws",
+          "Analyze complex mechanical systems",
+          "Connect to quantum mechanics"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Lagrangian Formulation", "content": "Generalized coordinates, constraints, d'Alembert's principle"},
+          {"week": 2, "topic": "Calculus of Variations", "content": "Euler-Lagrange equations, brachistochrone, geodesics"},
+          {"week": 3, "topic": "Conservation Laws", "content": "Noether's theorem, symmetries, cyclic coordinates"},
+          {"week": 4, "topic": "Central Force Motion", "content": "Effective potential, orbits, scattering"},
+          {"week": 5, "topic": "Small Oscillations", "content": "Normal modes, coupled oscillators, continuous systems"},
+          {"week": 6, "topic": "Rigid Body Motion", "content": "Euler angles, inertia tensor, Euler's equations"},
+          {"week": 7, "topic": "Hamiltonian Formulation", "content": "Phase space, canonical equations, Poisson brackets"},
+          {"week": 8, "topic": "Canonical Transformations", "content": "Generating functions, symplectic structure"},
+          {"week": 9, "topic": "Hamilton-Jacobi Theory", "content": "Action-angle variables, adiabatic invariants"},
+          {"week": 10, "topic": "Chaos Theory", "content": "Nonlinear dynamics, strange attractors, KAM theorem"},
+          {"week": 11, "topic": "Continuum Mechanics", "content": "Stress tensor, strain, elasticity, fluid dynamics"},
+          {"week": 12, "topic": "Field Theory", "content": "Lagrangian density, Noether's theorem for fields"}
+        ],
+        "assessments": [
+          {"type": "problem_sets", "weight": "35%", "description": "Advanced problems"},
+          {"type": "computational_projects", "weight": "25%", "description": "Numerical simulations"},
+          {"type": "midterm", "weight": "20%", "description": "Lagrangian mechanics"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Classical Mechanics by Herbert Goldstein",
+          "Mechanics by Landau and Lifshitz"
+        ]
+      }
+    },
+    {
+      "id": "PHYS302",
+      "name": "Quantum Mechanics II",
+      "credits": 4,
+      "prerequisites": ["PHYS201"],
+      "description": "Advanced quantum mechanics and applications",
+      "syllabus": {
+        "objectives": [
+          "Apply advanced quantum techniques",
+          "Understand scattering theory",
+          "Study many-body systems",
+          "Connect to quantum field theory"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Review and Formalism", "content": "Dirac notation, representations, pictures"},
+          {"week": 2, "topic": "Time-Dependent Perturbation", "content": "Transition rates, Fermi's golden rule"},
+          {"week": 3, "topic": "Interaction with Radiation", "content": "Absorption, emission, selection rules"},
+          {"week": 4, "topic": "Scattering Theory", "content": "Cross sections, Born approximation, partial waves"},
+          {"week": 5, "topic": "WKB Approximation", "content": "Connection formulas, tunneling, bound states"},
+          {"week": 6, "topic": "Variational Method", "content": "Ground states, excited states, Hartree-Fock"},
+          {"week": 7, "topic": "Many-Body Systems", "content": "Second quantization, Fock space"},
+          {"week": 8, "topic": "Density Matrix", "content": "Mixed states, entanglement, decoherence"},
+          {"week": 9, "topic": "Path Integrals", "content": "Feynman formulation, propagators, applications"},
+          {"week": 10, "topic": "Relativistic QM", "content": "Klein-Gordon, Dirac equation, antiparticles"},
+          {"week": 11, "topic": "Quantum Information", "content": "Qubits, gates, algorithms, teleportation"},
+          {"week": 12, "topic": "Introduction to QFT", "content": "Field quantization, Feynman diagrams"}
+        ],
+        "assessments": [
+          {"type": "problem_sets", "weight": "35%", "description": "Advanced theoretical problems"},
+          {"type": "research_project", "weight": "25%", "description": "Literature review and presentation"},
+          {"type": "midterm", "weight": "20%", "description": "Perturbation and scattering"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Modern Quantum Mechanics by J.J. Sakurai and Jim Napolitano",
+          "Quantum Mechanics by Cohen-Tannoudji, Diu, and Laloë"
+        ]
+      }
+    },
+    {
+      "id": "PHYS303",
+      "name": "Electromagnetism II",
+      "credits": 4,
+      "prerequisites": ["PHYS102", "MATH401"],
+      "description": "Advanced electromagnetic theory and applications",
+      "syllabus": {
+        "objectives": [
+          "Master advanced E&M techniques",
+          "Understand radiation theory",
+          "Apply special relativity to E&M",
+          "Study modern applications"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Mathematical Methods", "content": "Green's functions, multipole expansion"},
+          {"week": 2, "topic": "Boundary Value Problems", "content": "Laplace's equation, separation of variables"},
+          {"week": 3, "topic": "Waveguides", "content": "Rectangular, cylindrical, cavity resonators"},
+          {"week": 4, "topic": "Retarded Potentials", "content": "Liénard-Wiechert potentials, moving charges"},
+          {"week": 5, "topic": "Radiation Theory", "content": "Dipole, quadrupole, synchrotron radiation"},
+          {"week": 6, "topic": "Scattering", "content": "Rayleigh, Mie, Thomson, Compton"},
+          {"week": 7, "topic": "Special Relativity", "content": "4-vectors, covariant formulation, field transformations"},
+          {"week": 8, "topic": "Radiation Reaction", "content": "Abraham-Lorentz force, radiation damping"},
+          {"week": 9, "topic": "Plasma Physics", "content": "Debye shielding, plasma oscillations, MHD"},
+          {"week": 10, "topic": "Nonlinear Optics", "content": "Second harmonic generation, parametric processes"},
+          {"week": 11, "topic": "Metamaterials", "content": "Negative index, cloaking, superlenses"},
+          {"week": 12, "topic": "Computational E&M", "content": "FDTD, FEM, boundary element methods"}
+        ],
+        "assessments": [
+          {"type": "problem_sets", "weight": "30%", "description": "Mathematical problems"},
+          {"type": "computational_projects", "weight": "30%", "description": "Numerical simulations"},
+          {"type": "midterm", "weight": "20%", "description": "Analytical methods"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Classical Electrodynamics by John David Jackson",
+          "The Classical Theory of Fields by Landau and Lifshitz"
+        ]
+      }
+    },
+    {
+      "id": "PHYS304",
+      "name": "Solid State Physics",
+      "credits": 4,
+      "prerequisites": ["PHYS201", "PHYS202"],
+      "description": "Physics of crystalline solids and electronic properties",
+      "syllabus": {
+        "objectives": [
+          "Understand crystal structure and symmetry",
+          "Analyze electronic band structure",
+          "Study transport phenomena",
+          "Explore modern materials"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Crystal Structure", "content": "Bravais lattices, reciprocal lattice, Brillouin zones"},
+          {"week": 2, "topic": "X-ray Diffraction", "content": "Bragg's law, structure factor, experimental methods"},
+          {"week": 3, "topic": "Crystal Binding", "content": "Ionic, covalent, metallic, van der Waals"},
+          {"week": 4, "topic": "Lattice Dynamics", "content": "Phonons, dispersion relations, heat capacity"},
+          {"week": 5, "topic": "Free Electron Model", "content": "Fermi surface, density of states, Sommerfeld expansion"},
+          {"week": 6, "topic": "Band Theory", "content": "Nearly free electrons, tight binding, Bloch's theorem"},
+          {"week": 7, "topic": "Semiconductors", "content": "Intrinsic, extrinsic, p-n junctions, devices"},
+          {"week": 8, "topic": "Transport Properties", "content": "Boltzmann equation, conductivity, Hall effect"},
+          {"week": 9, "topic": "Magnetism", "content": "Diamagnetism, paramagnetism, ferromagnetism"},
+          {"week": 10, "topic": "Superconductivity", "content": "Phenomenology, BCS theory, Josephson junctions"},
+          {"week": 11, "topic": "Optical Properties", "content": "Dielectric function, excitons, plasmons"},
+          {"week": 12, "topic": "Modern Topics", "content": "Quantum Hall effect, topological insulators, 2D materials"}
+        ],
+        "assessments": [
+          {"type": "problem_sets", "weight": "30%", "description": "Theoretical problems"},
+          {"type": "labs", "weight": "25%", "description": "Material characterization"},
+          {"type": "midterm", "weight": "20%", "description": "Crystal and electronic structure"},
+          {"type": "final_exam", "weight": "25%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Introduction to Solid State Physics by Charles Kittel",
+          "Solid State Physics by Neil W. Ashcroft and N. David Mermin"
+        ]
+      }
+    },
+    {
+      "id": "PHYS305",
+      "name": "Atomic and Molecular Physics",
+      "credits": 4,
+      "prerequisites": ["PHYS201"],
+      "description": "Structure and spectra of atoms and molecules",
+      "syllabus": {
+        "objectives": [
+          "Understand atomic structure",
+          "Analyze atomic spectra",
+          "Study molecular bonding",
+          "Apply to spectroscopy"
+        ],
+        "topics": [
+          {"week": 1, "topic": "One-Electron Atoms", "content": "Hydrogen atom, fine structure, hyperfine structure"},
+          {"week": 2, "topic": "Helium Atom", "content": "Perturbation theory, variational method, exchange"},
+          {"week": 3, "topic": "Many-Electron Atoms", "content": "Central field, LS coupling, jj coupling"},
+          {"week": 4, "topic": "Atomic Spectra", "content": "Selection rules, Zeeman effect, Stark effect"},
+          {"week": 5, "topic": "X-ray Spectra", "content": "Inner shell transitions, Auger effect"},
+          {"week": 6, "topic": "Molecular Structure", "content": "Born-Oppenheimer, molecular orbitals, hybridization"},
+          {"week": 7, "topic": "Diatomic Molecules", "content": "Rotation, vibration, electronic states"},
+          {"week": 8, "topic": "Polyatomic Molecules", "content": "Normal modes, symmetry, group theory"},
+          {"week": 9, "topic": "Molecular Spectra", "content": "Rotational, vibrational, Raman, electronic"},
+          {"week": 10, "topic": "Laser Physics", "content": "Population inversion, gain, cavity modes"},
+          {"week": 11, "topic": "Atomic Collisions", "content": "Scattering, ionization, charge exchange"},
+          {"week": 12, "topic": "Applications", "content": "Spectroscopy techniques, quantum optics"}
+        ],
+        "assessments": [
+          {"type": "problem_sets", "weight": "30%", "description": "Quantum calculations"},
+          {"type": "labs", "weight": "30%", "description": "Spectroscopy experiments"},
+          {"type": "midterm", "weight": "20%", "description": "Atomic physics"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Physics of Atoms and Molecules by Bransden and Joachain",
+          "Atomic Physics by Christopher J. Foot"
+        ]
+      }
+    },
+    {
+      "id": "PHYS401",
+      "name": "Nuclear and Particle Physics",
+      "credits": 4,
+      "prerequisites": ["PHYS302"],
+      "description": "Nuclear structure, reactions, and elementary particles",
+      "syllabus": {
+        "objectives": [
+          "Understand nuclear properties",
+          "Study nuclear reactions and decay",
+          "Learn particle physics fundamentals",
+          "Explore the Standard Model"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Nuclear Properties", "content": "Size, binding energy, nuclear force"},
+          {"week": 2, "topic": "Nuclear Models", "content": "Liquid drop, shell model, collective model"},
+          {"week": 3, "topic": "Radioactive Decay", "content": "Alpha, beta, gamma decay, decay chains"},
+          {"week": 4, "topic": "Nuclear Reactions", "content": "Cross sections, compound nucleus, direct reactions"},
+          {"week": 5, "topic": "Fission and Fusion", "content": "Energy release, chain reactions, stellar nucleosynthesis"},
+          {"week": 6, "topic": "Particle Classification", "content": "Leptons, hadrons, quarks, gauge bosons"},
+          {"week": 7, "topic": "Symmetries", "content": "Parity, charge conjugation, isospin, SU(3)"},
+          {"week": 8, "topic": "Feynman Diagrams", "content": "QED, weak interactions, QCD"},
+          {"week": 9, "topic": "Standard Model", "content": "Electroweak unification, Higgs mechanism"},
+          {"week": 10, "topic": "Detectors", "content": "Ionization, scintillation, Cherenkov, calorimeters"},
+          {"week": 11, "topic": "Accelerators", "content": "Linear, cyclotron, synchrotron, colliders"},
+          {"week": 12, "topic": "Beyond Standard Model", "content": "Neutrino oscillations, dark matter, supersymmetry"}
+        ],
+        "assessments": [
+          {"type": "problem_sets", "weight": "35%", "description": "Calculations and theory"},
+          {"type": "term_paper", "weight": "25%", "description": "Current research topic"},
+          {"type": "midterm", "weight": "20%", "description": "Nuclear physics"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Introduction to Nuclear and Particle Physics by Ashok Das and Thomas Ferbel",
+          "Introduction to Elementary Particles by David Griffiths"
+        ]
+      }
+    },
+    {
+      "id": "PHYS402",
+      "name": "General Relativity",
+      "credits": 4,
+      "prerequisites": ["PHYS301", "MATH401"],
+      "description": "Einstein's theory of gravitation and cosmology",
+      "syllabus": {
+        "objectives": [
+          "Understand curved spacetime",
+          "Apply Einstein's field equations",
+          "Study black holes and cosmology",
+          "Explore gravitational waves"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Special Relativity Review", "content": "Minkowski space, 4-vectors, tensors"},
+          {"week": 2, "topic": "Equivalence Principle", "content": "Gravity as geometry, geodesics"},
+          {"week": 3, "topic": "Tensor Analysis", "content": "Covariant derivatives, curvature tensors"},
+          {"week": 4, "topic": "Einstein Field Equations", "content": "Derivation, energy-momentum tensor"},
+          {"week": 5, "topic": "Schwarzschild Solution", "content": "Spherical symmetry, event horizon"},
+          {"week": 6, "topic": "Black Holes", "content": "Kerr solution, thermodynamics, Hawking radiation"},
+          {"week": 7, "topic": "Gravitational Waves", "content": "Linearized gravity, generation, detection"},
+          {"week": 8, "topic": "Cosmology", "content": "FRW metric, Hubble's law, Big Bang"},
+          {"week": 9, "topic": "Dark Matter and Energy", "content": "Evidence, candidates, accelerating universe"},
+          {"week": 10, "topic": "Tests of GR", "content": "Perihelion advance, light bending, time dilation"},
+          {"week": 11, "topic": "Alternative Theories", "content": "Scalar-tensor, f(R), extra dimensions"},
+          {"week": 12, "topic": "Quantum Gravity", "content": "Problems, approaches, string theory basics"}
+        ],
+        "assessments": [
+          {"type": "problem_sets", "weight": "40%", "description": "Mathematical problems"},
+          {"type": "computational_project", "weight": "20%", "description": "Numerical relativity"},
+          {"type": "midterm", "weight": "20%", "description": "Formalism and solutions"},
+          {"type": "final_exam", "weight": "20%", "description": "Comprehensive examination"}
+        ],
+        "textbooks": [
+          "Spacetime and Geometry by Sean Carroll",
+          "Gravitation by Misner, Thorne, and Wheeler"
+        ]
+      }
+    },
+    {
+      "id": "PHYS403",
+      "name": "Computational Physics",
+      "credits": 4,
+      "prerequisites": ["PHYS201", "CS101"],
+      "description": "Numerical methods and simulations in physics",
+      "syllabus": {
+        "objectives": [
+          "Implement numerical algorithms",
+          "Simulate physical systems",
+          "Analyze computational results",
+          "Use high-performance computing"
+        ],
+        "topics": [
+          {"week": 1, "topic": "Numerical Basics", "content": "Errors, stability, efficiency, languages"},
+          {"week": 2, "topic": "Linear Algebra", "content": "Matrix operations, eigenvalues, SVD"},
+          {"week": 3, "topic": "ODEs", "content": "Euler, Runge-Kutta, adaptive methods"},
+          {"week": 4, "topic": "PDEs", "content": "Finite difference, finite element, spectral methods"},
+          {"week": 5, "topic": "Monte Carlo Methods", "content": "Random numbers, integration, importance sampling"},
+          {"week": 6, "topic": "Molecular Dynamics", "content": "Force fields, integrators, thermostats"},
+          {"week": 7, "topic": "Quantum Systems", "content": "Variational, diffusion Monte Carlo, exact diagonalization"},
+          {"week": 8, "topic": "Statistical Mechanics", "content": "Ising model, Metropolis, cluster algorithms"},
+          {"week": 9, "topic": "Optimization", "content": "Gradient descent, genetic algorithms, simulated annealing"},
+          {"week": 10, "topic": "Machine Learning", "content": "Neural networks for physics, physics-informed ML"},
+          {"week": 11, "topic": "Parallel Computing", "content": "MPI, OpenMP, GPU programming"},
+          {"week": 12, "topic": "Data Analysis", "content": "Fitting, FFT, wavelets, visualization"}
+        ],
+        "assessments": [
+          {"type": "programming_projects", "weight": "50%", "description": "Simulation projects"},
+          {"type": "homework", "weight": "25%", "description": "Algorithm implementation"},
+          {"type": "final_project", "weight": "25%", "description": "Research-level simulation"}
+        ],
+        "textbooks": [
+          "Computational Physics by Mark Newman",
+          "An Introduction to Computer Simulation Methods by Harvey Gould and Jan Tobochnik"
+        ]
+      }
+    }
+  ]
+}
