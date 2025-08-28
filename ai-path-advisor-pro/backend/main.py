@@ -9,6 +9,7 @@ from typing import List, Dict, Any, Optional, Set
 import json, os, math
 from datetime import datetime, timedelta
 from courses_api import router as courses_router
+from syllabus_manager import router as syllabus_router
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
@@ -136,8 +137,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include courses router
+# Include routers
 app.include_router(courses_router)
+app.include_router(syllabus_router)
 
 # Pydantic Models
 class PlanRequest(BaseModel):

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Syllabus</title>
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --text-primary: #2d3748;
+            --text-secondary: #718096;
+            --border-color: #e2e8f0;
+            --bg-light: #f7fafc;
+            --success-color: #48bb78;
+            --error-color: #f56565;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem;
+        }
+        
+        .course-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .course-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .syllabus-viewer {
+            width: 100%;
+            min-height: 600px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-light);
+        }
+        
+        .syllabus-iframe {
+            width: 100%;
+            min-height: 600px;
+            border: none;
+            border-radius: 8px;
+        }
+        
+        .upload-section {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .upload-area.dragover {
+            border-color: var(--primary-color);
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .upload-button {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .upload-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--border-color);
+            color: var(--text-primary);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .status-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .status-success {
+            background: rgba(72, 187, 120, 0.1);
+            border-left: 4px solid var(--success-color);
+            color: var(--success-color);
+        }
+        
+        .status-error {
+            background: rgba(245, 101, 101, 0.1);
+            border-left: 4px solid var(--error-color);
+            color: var(--error-color);
+        }
+        
+        .metadata-info {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .metadata-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .metadata-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .metadata-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .metadata-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .no-syllabus {
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        .no-syllabus-icon {
+            font-size: 4rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="course-title" id="course-title">Loading...</h1>
+            <div id="course-subtitle"></div>
+            <div class="course-meta" id="course-meta"></div>
+        </div>
+        
+        <div class="content">
+            <div id="status-message" class="status-message"></div>
+            
+            <div id="loading-section" class="loading">
+                <div class="loading-spinner"></div>
+                <p style="margin-top: 1rem;">Loading syllabus...</p>
+            </div>
+            
+            <div id="no-syllabus-section" class="no-syllabus" style="display: none;">
+                <div class="no-syllabus-icon">📄</div>
+                <h2>No Syllabus Uploaded</h2>
+                <p style="color: var(--text-secondary); margin: 1rem 0;">
+                    The syllabus for this course has not been uploaded yet.
+                </p>
+                
+                <div class="upload-section">
+                    <h3 style="margin-bottom: 1rem;">Upload Syllabus</h3>
+                    <div class="upload-area" id="uploadArea">
+                        <div style="font-size: 3rem;">📤</div>
+                        <p style="margin: 1rem 0; font-weight: 600;">Drop syllabus file here</p>
+                        <p style="color: var(--text-secondary);">or</p>
+                        <button class="upload-button" onclick="document.getElementById('fileInput').click()">
+                            Choose File
+                        </button>
+                        <input type="file" id="fileInput" class="file-input" accept=".pdf,.doc,.docx,.html,.txt">
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            Accepted formats: PDF, DOC, DOCX, HTML, TXT (Max: 10MB)
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="syllabus-section" style="display: none;">
+                <div class="metadata-info">
+                    <h3>Syllabus Information</h3>
+                    <div class="metadata-grid" id="metadata-grid"></div>
+                </div>
+                
+                <div class="syllabus-viewer" id="syllabus-viewer"></div>
+                
+                <div class="action-buttons">
+                    <a id="download-btn" href="#" class="btn btn-primary">
+                        📥 Download Syllabus
+                    </a>
+                    <a id="view-btn" href="#" target="_blank" class="btn btn-secondary">
+                        👁️ View in New Tab
+                    </a>
+                    <button id="replace-btn" class="btn btn-secondary" onclick="showUploadSection()">
+                        🔄 Replace Syllabus
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Configuration
+        const API_BASE_URL = 'http://localhost:8000';
+        let currentCourseId = null;
+        
+        // Get course ID from URL
+        function getCourseIdFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('course') || 'CS101';
+        }
+        
+        // Show status message
+        function showStatus(message, type = 'success') {
+            const statusEl = document.getElementById('status-message');
+            statusEl.textContent = message;
+            statusEl.className = `status-message status-${type}`;
+            statusEl.style.display = 'block';
+            
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+        
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+        }
+        
+        // Load syllabus
+        async function loadSyllabus() {
+            currentCourseId = getCourseIdFromURL();
+            document.getElementById('course-title').textContent = `${currentCourseId} Syllabus`;
+            
+            try {
+                // Check if syllabus exists
+                const response = await fetch(`${API_BASE_URL}/syllabus/metadata/${currentCourseId}`);
+                const data = await response.json();
+                
+                document.getElementById('loading-section').style.display = 'none';
+                
+                if (data.exists) {
+                    // Show syllabus
+                    displaySyllabus(data.metadata);
+                } else {
+                    // Show upload section
+                    document.getElementById('no-syllabus-section').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error loading syllabus:', error);
+                document.getElementById('loading-section').style.display = 'none';
+                document.getElementById('no-syllabus-section').style.display = 'block';
+                showStatus('Error loading syllabus. Backend may not be running.', 'error');
+            }
+        }
+        
+        // Display syllabus
+        function displaySyllabus(metadata) {
+            document.getElementById('no-syllabus-section').style.display = 'none';
+            document.getElementById('syllabus-section').style.display = 'block';
+            
+            // Update metadata display
+            const metadataGrid = document.getElementById('metadata-grid');
+            metadataGrid.innerHTML = `
+                <div class="metadata-item">
+                    <span class="metadata-label">File Name</span>
+                    <span class="metadata-value">${metadata.original_filename}</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">File Size</span>
+                    <span class="metadata-value">${formatFileSize(metadata.file_size)}</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Upload Date</span>
+                    <span class="metadata-value">${formatDate(metadata.upload_date)}</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">File Type</span>
+                    <span class="metadata-value">${metadata.file_type.toUpperCase()}</span>
+                </div>
+            `;
+            
+            // Set up action buttons
+            document.getElementById('download-btn').href = 
+                `${API_BASE_URL}/syllabus/download/${currentCourseId}`;
+            document.getElementById('view-btn').href = 
+                `${API_BASE_URL}/syllabus/view/${currentCourseId}`;
+            
+            // Display syllabus content
+            const viewer = document.getElementById('syllabus-viewer');
+            if (metadata.file_type === '.pdf') {
+                viewer.innerHTML = `
+                    <iframe 
+                        src="${API_BASE_URL}/syllabus/view/${currentCourseId}" 
+                        class="syllabus-iframe"
+                        title="Syllabus PDF">
+                    </iframe>
+                `;
+            } else if (metadata.file_type === '.html' || metadata.file_type === '.txt') {
+                // Load and display HTML/text content
+                fetch(`${API_BASE_URL}/syllabus/view/${currentCourseId}`)
+                    .then(response => response.text())
+                    .then(content => {
+                        viewer.innerHTML = `
+                            <div style="padding: 1rem;">
+                                ${metadata.file_type === '.txt' ? `<pre>${content}</pre>` : content}
+                            </div>
+                        `;
+                    });
+            } else {
+                viewer.innerHTML = `
+                    <div style="text-align: center; padding: 3rem;">
+                        <p>Preview not available for ${metadata.file_type} files.</p>
+                        <p style="margin-top: 1rem;">
+                            <a href="${API_BASE_URL}/syllabus/download/${currentCourseId}" 
+                               class="btn btn-primary">
+                                Download to View
+                            </a>
+                        </p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Show upload section
+        function showUploadSection() {
+            document.getElementById('syllabus-section').style.display = 'none';
+            document.getElementById('no-syllabus-section').style.display = 'block';
+        }
+        
+        // File upload handling
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        
+        // Drag and drop events
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileUpload(files[0]);
+            }
+        });
+        
+        // File input change event
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                handleFileUpload(e.target.files[0]);
+            }
+        });
+        
+        // Handle file upload
+        async function handleFileUpload(file) {
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            const allowedExtensions = ['.pdf', '.doc', '.docx', '.html', '.txt'];
+            
+            // Get file extension
+            const fileName = file.name.toLowerCase();
+            const extension = fileName.substring(fileName.lastIndexOf('.'));
+            
+            // Validate file size
+            if (file.size > maxSize) {
+                showStatus('File size exceeds 10MB limit', 'error');
+                return;
+            }
+            
+            // Validate file type
+            if (!allowedExtensions.includes(extension)) {
+                showStatus('Invalid file type. Please upload PDF, DOC, DOCX, HTML, or TXT', 'error');
+                return;
+            }
+            
+            // Create form data
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            // Show uploading status
+            uploadArea.innerHTML = `
+                <div class="loading-spinner"></div>
+                <p style="margin-top: 1rem;">Uploading ${file.name}...</p>
+            `;
+            
+            try {
+                // Upload file
+                const response = await fetch(`${API_BASE_URL}/syllabus/upload/${currentCourseId}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    showStatus('Syllabus uploaded successfully!', 'success');
+                    
+                    // Reload to show the uploaded syllabus
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    const error = await response.json();
+                    showStatus(error.detail || 'Upload failed', 'error');
+                    
+                    // Reset upload area
+                    resetUploadArea();
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                showStatus('Upload failed. Backend may not be running.', 'error');
+                resetUploadArea();
+            }
+        }
+        
+        // Reset upload area
+        function resetUploadArea() {
+            uploadArea.innerHTML = `
+                <div style="font-size: 3rem;">📤</div>
+                <p style="margin: 1rem 0; font-weight: 600;">Drop syllabus file here</p>
+                <p style="color: var(--text-secondary);">or</p>
+                <button class="upload-button" onclick="document.getElementById('fileInput').click()">
+                    Choose File
+                </button>
+                <input type="file" id="fileInput" class="file-input" accept=".pdf,.doc,.docx,.html,.txt">
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                    Accepted formats: PDF, DOC, DOCX, HTML, TXT (Max: 10MB)
+                </p>
+            `;
+        }
+        
+        // Load on page ready
+        document.addEventListener('DOMContentLoaded', loadSyllabus);
+    </script>
+</body>
+</html>
