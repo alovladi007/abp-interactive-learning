@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Admin Dashboard - E.U.R.E.K.A Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .admin-header {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+        
+        .upload-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem;
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            background: var(--secondary-bg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary-accent);
+            background: rgba(0, 212, 255, 0.05);
+        }
+        
+        .upload-area.dragover {
+            border-color: var(--primary-accent);
+            background: rgba(0, 212, 255, 0.1);
+        }
+        
+        .upload-progress {
+            display: none;
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: var(--secondary-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-bg);
+            font-weight: bold;
+        }
+        
+        .video-list {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+        
+        .video-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .video-table th {
+            background: var(--secondary-bg);
+            padding: 1rem;
+            text-align: left;
+            color: var(--primary-accent);
+            font-weight: 600;
+        }
+        
+        .video-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+        
+        .video-table tr:hover {
+            background: var(--secondary-bg);
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: rgba(72, 187, 120, 0.2);
+            color: #48bb78;
+        }
+        
+        .status-processing {
+            background: rgba(255, 152, 0, 0.2);
+            color: #ff9800;
+        }
+        
+        .status-archived {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-edit {
+            background: var(--primary-accent);
+            color: var(--primary-bg);
+        }
+        
+        .btn-delete {
+            background: var(--secondary-accent);
+            color: white;
+        }
+        
+        .btn-small:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            color: var(--primary-accent);
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            color: var(--primary-accent);
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-accent);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>E.U.R.E.K.A</span>
+                </div>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="dashboard.html" class="sidebar-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="tutoring-videos.html" class="sidebar-link">
+                        <i class="fas fa-video"></i>
+                        <span>Tutoring Videos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="video-admin-dashboard.html" class="sidebar-link active">
+                        <i class="fas fa-upload"></i>
+                        <span>Video Admin</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="admin-container">
+                <!-- Header -->
+                <div class="admin-header">
+                    <h1 style="color: var(--primary-accent); margin-bottom: 1rem;">
+                        <i class="fas fa-video"></i> Video Management Dashboard
+                    </h1>
+                    <p style="color: var(--text-secondary);">Upload and manage educational video content</p>
+                    
+                    <!-- Statistics -->
+                    <div class="stats-grid" style="margin-top: 2rem;">
+                        <div class="stat-card">
+                            <div class="stat-value" id="total-videos">0</div>
+                            <div class="stat-label">Total Videos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="total-categories">0</div>
+                            <div class="stat-label">Categories</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="total-views">0</div>
+                            <div class="stat-label">Total Views</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="storage-used">0 GB</div>
+                            <div class="stat-label">Storage Used</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab('upload')">
+                        <i class="fas fa-upload"></i> Upload Video
+                    </button>
+                    <button class="tab" onclick="showTab('manage')">
+                        <i class="fas fa-list"></i> Manage Videos
+                    </button>
+                    <button class="tab" onclick="showTab('placeholders')">
+                        <i class="fas fa-th"></i> Placeholders
+                    </button>
+                </div>
+                
+                <!-- Upload Tab -->
+                <div id="upload-tab" class="tab-content active">
+                    <div class="upload-section">
+                        <h2 style="color: var(--primary-accent); margin-bottom: 1.5rem;">
+                            Upload New Video
+                        </h2>
+                        
+                        <!-- Upload Area -->
+                        <div class="upload-area" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--primary-accent); margin-bottom: 1rem;"></i>
+                            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Drop video file here</h3>
+                            <p style="color: var(--text-secondary);">or click to browse</p>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem;">
+                                Supported formats: MP4, WebM, OGG, MOV, AVI, MKV (Max: 500MB)
+                            </p>
+                            <input type="file" id="videoFile" accept="video/*" style="display: none;">
+                        </div>
+                        
+                        <!-- Upload Form -->
+                        <form id="uploadForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Video Title *</label>
+                                    <input type="text" id="title" required placeholder="e.g., Introduction to Calculus">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Instructor *</label>
+                                    <input type="text" id="instructor" required placeholder="e.g., Dr. John Smith">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Category *</label>
+                                    <select id="category" required>
+                                        <option value="">Select Category</option>
+                                        <option value="mathematics">Mathematics</option>
+                                        <option value="computer-science">Computer Science</option>
+                                        <option value="physics">Physics</option>
+                                        <option value="chemistry">Chemistry</option>
+                                        <option value="biology">Biology</option>
+                                        <option value="engineering">Engineering</option>
+                                        <option value="business">Business & Economics</option>
+                                        <option value="medicine">Medicine & Health</option>
+                                        <option value="psychology">Psychology</option>
+                                        <option value="language">Language & Literature</option>
+                                        <option value="history">History</option>
+                                        <option value="art">Art & Design</option>
+                                        <option value="music">Music</option>
+                                        <option value="philosophy">Philosophy</option>
+                                        <option value="law">Law</option>
+                                        <option value="environmental">Environmental Science</option>
+                                        <option value="data-science">Data Science</option>
+                                        <option value="test-prep">Test Preparation</option>
+                                        <option value="study-skills">Study Skills</option>
+                                        <option value="career">Career Development</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Subcategory *</label>
+                                    <input type="text" id="subcategory" required placeholder="e.g., Calculus">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Level *</label>
+                                    <select id="level" required>
+                                        <option value="Beginner">Beginner</option>
+                                        <option value="Intermediate">Intermediate</option>
+                                        <option value="Advanced">Advanced</option>
+                                        <option value="Expert">Expert</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Premium Content</label>
+                                    <select id="isPremium">
+                                        <option value="false">Free</option>
+                                        <option value="true">Premium</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Description *</label>
+                                <textarea id="description" rows="4" required placeholder="Provide a detailed description of the video content..."></textarea>
+                            </div>
+                            
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Tags (comma-separated)</label>
+                                    <input type="text" id="tags" placeholder="e.g., calculus, derivatives, mathematics">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Topics (comma-separated)</label>
+                                    <input type="text" id="topics" placeholder="e.g., limits, differentiation, integration">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Prerequisites (comma-separated)</label>
+                                    <input type="text" id="prerequisites" placeholder="e.g., Algebra, Pre-calculus">
+                                </div>
+                            </div>
+                            
+                            <!-- Upload Progress -->
+                            <div class="upload-progress" id="uploadProgress">
+                                <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Upload Progress</h3>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill">0%</div>
+                                </div>
+                                <p id="uploadStatus" style="color: var(--text-secondary);">Preparing upload...</p>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" style="margin-top: 2rem;">
+                                <i class="fas fa-upload"></i> Upload Video
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Manage Videos Tab -->
+                <div id="manage-tab" class="tab-content">
+                    <div class="video-list">
+                        <h2 style="color: var(--primary-accent); margin-bottom: 1.5rem;">
+                            Manage Videos
+                        </h2>
+                        
+                        <div class="search-bar" style="margin-bottom: 2rem;">
+                            <input type="text" id="searchVideos" placeholder="Search videos..." 
+                                   style="width: 100%; padding: 0.75rem; background: var(--secondary-bg); 
+                                          border: 1px solid var(--border-color); border-radius: 8px; 
+                                          color: var(--text-primary);">
+                        </div>
+                        
+                        <table class="video-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Instructor</th>
+                                    <th>Level</th>
+                                    <th>Views</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="videoTableBody">
+                                <!-- Videos will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Placeholders Tab -->
+                <div id="placeholders-tab" class="tab-content">
+                    <div class="video-list">
+                        <h2 style="color: var(--primary-accent); margin-bottom: 1.5rem;">
+                            Video Placeholders by Category
+                        </h2>
+                        
+                        <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                            These are placeholder slots for videos. Click on any placeholder to upload the actual video content.
+                        </p>
+                        
+                        <div id="placeholders-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                            <!-- Placeholder cards will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="video-admin.js"></script>
+</body>
+</html>
