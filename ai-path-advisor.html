@@ -385,74 +385,110 @@
                 </div>
             </div>
 
-        <!-- Major Selection (Hidden initially) -->
-        <div class="major-selection" id="major-selection">
-            <h3 id="category-title">Select Your Major</h3>
-            <div class="major-grid" id="major-grid">
-                <!-- Majors will be populated dynamically -->
+            <!-- Step 2: Major Selection -->
+            <div class="section-card" id="step-2" style="display: none;">
+                <div class="card-header">
+                    <h2>Step 2: Select Your Major</h2>
+                    <button class="btn btn-outline btn-sm" onclick="backToFields()">
+                        <i class="fas fa-arrow-left"></i> Back to Fields
+                    </button>
+                </div>
+                <div class="major-grid" id="major-grid">
+                    <!-- Majors will be populated dynamically -->
+                </div>
             </div>
-            <div class="nav-buttons">
-                <button class="btn btn-secondary" onclick="backToCategories()">
-                    <i class="fas fa-arrow-left"></i> Back
-                </button>
-            </div>
-        </div>
 
-        <!-- Step 2: Career Path Selection -->
-        <div class="career-selection" id="step-2">
-            <h2>Step 2: Choose Your Career Path</h2>
-            <div class="career-grid" id="career-grid">
-                <!-- Career paths will be populated dynamically -->
+            <!-- Step 3: Career Path Selection -->
+            <div class="section-card" id="step-3" style="display: none;">
+                <div class="card-header">
+                    <h2>Step 3: Choose Your Career Path</h2>
+                </div>
+                <p class="text-secondary" style="margin-bottom: 1.5rem;">
+                    Select the career path that best aligns with your goals
+                </p>
+                <div class="career-grid" id="career-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <!-- Career paths will be populated dynamically -->
+                </div>
             </div>
-        </div>
 
-        <!-- Step 3: Preferences -->
-        <div class="quick-setup" id="step-3">
-            <h2>Step 3: Set Your Preferences</h2>
-            <div class="form-group">
-                <label class="form-label">Study Hours per Week</label>
-                <input type="range" class="range-slider" id="hours-slider" min="5" max="40" value="15">
-                <div class="slider-value" id="hours-value">15 hours/week</div>
+            <!-- Step 4: Preferences -->
+            <div class="section-card" id="step-4" style="display: none;">
+                <div class="card-header">
+                    <h2>Step 4: Set Your Preferences</h2>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 1.5rem;">
+                    <div>
+                        <label class="form-label">Study Hours per Week</label>
+                        <input type="range" class="form-range" id="hours-slider" min="5" max="40" value="15" style="width: 100%;">
+                        <div class="text-center" style="margin-top: 0.5rem;">
+                            <span class="badge" style="background: var(--primary-accent); color: white; padding: 0.5rem 1rem;">
+                                <span id="hours-value">15</span> hours/week
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Monthly Budget</label>
+                        <select class="form-select" id="budget-select">
+                            <option value="0">Free resources only</option>
+                            <option value="50">Up to $50/month</option>
+                            <option value="100">Up to $100/month</option>
+                            <option value="200">Up to $200/month</option>
+                            <option value="unlimited">No budget limit</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Learning Style</label>
+                        <select class="form-select" id="style-select">
+                            <option value="visual">Visual (Videos, Diagrams)</option>
+                            <option value="reading">Reading (Books, Articles)</option>
+                            <option value="hands-on">Hands-on (Projects, Labs)</option>
+                            <option value="mixed">Mixed Approach</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Experience Level</label>
+                        <select class="form-select" id="level-select">
+                            <option value="beginner">Complete Beginner</option>
+                            <option value="some">Some Background</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 2rem; padding: 1.5rem; background: var(--info-bg, #f0f9ff); border-radius: 8px;">
+                    <h4 style="margin: 0 0 1rem 0; color: var(--text-primary);">
+                        <i class="fas fa-lightbulb" style="color: var(--primary-accent); margin-right: 0.5rem;"></i>
+                        Optional: Take a Baseline Quiz
+                    </h4>
+                    <p class="text-secondary" style="margin-bottom: 1rem;">
+                        Help us better understand your current knowledge level with a quick 5-minute assessment
+                    </p>
+                    <button class="btn btn-primary" onclick="startQuiz()">
+                        <i class="fas fa-clipboard-check"></i> Start Quiz
+                    </button>
+                    <button class="btn btn-outline" onclick="skipQuiz()" style="margin-left: 1rem;">
+                        Skip for Now
+                    </button>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <label class="form-label">Monthly Budget</label>
-                <select class="form-select" id="budget-select">
-                    <option value="0">Free resources only</option>
-                    <option value="50">Up to $50/month</option>
-                    <option value="100">Up to $100/month</option>
-                    <option value="200">Up to $200/month</option>
-                    <option value="unlimited">No budget limit</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Learning Style</label>
-                <select class="form-select" id="style-select">
-                    <option value="visual">Visual (Videos, Diagrams)</option>
-                    <option value="reading">Reading (Books, Articles)</option>
-                    <option value="hands-on">Hands-on (Projects, Labs)</option>
-                    <option value="mixed">Mixed Approach</option>
-                </select>
-            </div>
-        </div>
 
-        <!-- Step 4: Quiz -->
-        <div class="quick-setup" id="step-4">
-            <h2>Step 4: Baseline Assessment (Optional)</h2>
-            <p style="text-align: center; padding: 2rem;">
-                <button class="btn btn-primary" onclick="startQuiz()">Start Quiz</button>
-                <button class="btn btn-secondary" onclick="skipQuiz()" style="margin-left: 1rem;">Skip</button>
-            </p>
-        </div>
-
-        <!-- Step 5: Roadmap -->
-        <div class="roadmap-display" id="step-5">
-            <div class="loading">
-                <div class="spinner"></div>
-                <h3>Generating Your Roadmap...</h3>
+            <!-- Step 5: Roadmap Generation -->
+            <div class="section-card" id="step-5" style="display: none;">
+                <div class="loading" id="loading-state">
+                    <div class="spinner"></div>
+                    <h3>Generating Your Personalized Roadmap...</h3>
+                    <p class="text-secondary">Louis is analyzing your preferences and creating the optimal learning path</p>
+                </div>
+                
+                <div id="roadmap-result" style="display: none;">
+                    <!-- Roadmap will be populated here -->
+                </div>
             </div>
-        </div>
 
             <!-- Navigation Buttons -->
             <div style="display: flex; gap: 1rem; justify-content: space-between; margin-top: 2rem;" id="main-nav">
@@ -467,6 +503,6 @@
     </div>
 
     <script src="dashboard.js"></script>
-    <script src="path-advisor-enhanced.js"></script>
+    <script src="path-advisor-complete.js"></script>
 </body>
 </html>
