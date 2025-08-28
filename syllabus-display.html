@@ -3,78 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Syllabus</title>
+    <title>Course Syllabus - E.U.R.E.K.A Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #667eea;
-            --secondary-color: #764ba2;
-            --text-primary: #2d3748;
-            --text-secondary: #718096;
-            --border-color: #e2e8f0;
-            --bg-light: #f7fafc;
-            --success-color: #48bb78;
-            --error-color: #f56565;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 2rem;
-        }
-        
-        .container {
-            max-width: 900px;
+        /* Syllabus-specific styles following the website's design system */
+        .syllabus-container {
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
+            padding: 2rem;
         }
         
-        .header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
+        .syllabus-header {
+            background: var(--card-bg);
+            border-radius: 12px;
             padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
         }
         
         .course-title {
             font-size: 2rem;
-            margin-bottom: 0.5rem;
+            color: var(--primary-accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .course-title i {
+            font-size: 1.5rem;
         }
         
         .course-meta {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255,255,255,0.2);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
         }
         
-        .content {
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .meta-item i {
+            color: var(--primary-accent);
+            width: 20px;
+        }
+        
+        .content-section {
+            background: var(--card-bg);
+            border-radius: 12px;
             padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
         }
         
         .loading {
             text-align: center;
-            padding: 3rem;
+            padding: 4rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
         }
         
         .loading-spinner {
             display: inline-block;
             width: 50px;
             height: 50px;
-            border: 5px solid var(--border-color);
-            border-top-color: var(--primary-color);
+            border: 3px solid var(--border-color);
+            border-top-color: var(--primary-accent);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -86,54 +93,59 @@
         .syllabus-viewer {
             width: 100%;
             min-height: 600px;
+            background: var(--secondary-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            background: var(--bg-light);
+            overflow: hidden;
         }
         
         .syllabus-iframe {
             width: 100%;
             min-height: 600px;
             border: none;
-            border-radius: 8px;
+            background: white;
         }
         
         .upload-section {
-            background: var(--bg-light);
+            text-align: center;
             padding: 2rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
         }
         
         .upload-area {
             border: 2px dashed var(--border-color);
-            border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            margin: 2rem 0;
+            background: var(--secondary-bg);
             cursor: pointer;
             transition: all 0.3s ease;
-            background: white;
         }
         
         .upload-area:hover {
-            border-color: var(--primary-color);
-            background: rgba(102, 126, 234, 0.05);
+            border-color: var(--primary-accent);
+            background: rgba(0, 212, 255, 0.05);
         }
         
         .upload-area.dragover {
-            border-color: var(--primary-color);
-            background: rgba(102, 126, 234, 0.1);
+            border-color: var(--primary-accent);
+            background: rgba(0, 212, 255, 0.1);
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-accent);
+            margin-bottom: 1rem;
         }
         
         .upload-button {
             display: inline-block;
-            background: var(--primary-color);
-            color: white;
+            background: var(--primary-accent);
+            color: var(--primary-bg);
             padding: 0.75rem 2rem;
             border-radius: 8px;
-            text-decoration: none;
             font-weight: 600;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
             cursor: pointer;
             border: none;
             font-size: 1rem;
@@ -142,6 +154,7 @@
         
         .upload-button:hover {
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
         }
         
         .file-input {
@@ -152,6 +165,7 @@
             display: flex;
             gap: 1rem;
             margin-top: 2rem;
+            flex-wrap: wrap;
         }
         
         .btn {
@@ -159,7 +173,7 @@
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
             cursor: pointer;
             border: none;
             font-size: 1rem;
@@ -169,70 +183,94 @@
         }
         
         .btn-primary {
-            background: var(--primary-color);
-            color: white;
+            background: var(--primary-accent);
+            color: var(--primary-bg);
         }
         
         .btn-secondary {
-            background: var(--border-color);
+            background: var(--secondary-bg);
             color: var(--text-primary);
+            border: 1px solid var(--border-color);
         }
         
         .btn:hover {
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
         }
         
         .status-message {
-            padding: 1rem;
+            padding: 1rem 1.5rem;
             border-radius: 8px;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
             display: none;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .status-success {
             background: rgba(72, 187, 120, 0.1);
-            border-left: 4px solid var(--success-color);
-            color: var(--success-color);
+            border: 1px solid #48bb78;
+            color: #48bb78;
         }
         
         .status-error {
-            background: rgba(245, 101, 101, 0.1);
-            border-left: 4px solid var(--error-color);
-            color: var(--error-color);
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid var(--secondary-accent);
+            color: var(--secondary-accent);
         }
         
         .metadata-info {
-            background: var(--bg-light);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
         }
         
         .metadata-info h3 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
+            color: var(--primary-accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         .metadata-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            gap: 1.5rem;
         }
         
         .metadata-item {
             display: flex;
             flex-direction: column;
+            gap: 0.25rem;
         }
         
         .metadata-label {
             font-size: 0.875rem;
             color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .metadata-value {
             font-weight: 600;
             color: var(--text-primary);
+            font-size: 1rem;
         }
         
         .no-syllabus {
@@ -244,52 +282,180 @@
             font-size: 4rem;
             color: var(--text-secondary);
             margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .no-syllabus h2 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .no-syllabus p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .instructions {
+            background: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+        
+        .instructions h4 {
+            color: var(--primary-accent);
+            margin-bottom: 1rem;
+        }
+        
+        .instructions ul {
+            margin-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .instructions li {
+            margin: 0.5rem 0;
+        }
+        
+        /* Navigation bar */
+        .nav-header {
+            background: var(--secondary-bg);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--primary-accent);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .nav-brand:hover {
+            color: var(--text-primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-accent);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1 class="course-title" id="course-title">Loading...</h1>
-            <div id="course-subtitle"></div>
-            <div class="course-meta" id="course-meta"></div>
+    <!-- Navigation -->
+    <nav class="nav-header">
+        <div class="nav-content">
+            <a href="index.html" class="nav-brand">
+                <i class="fas fa-graduation-cap"></i>
+                E.U.R.E.K.A Platform
+            </a>
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="ai-path-advisor.html" class="nav-link">AI Path Advisor</a>
+                <a href="academic-setup.html" class="nav-link">Academic Setup</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="syllabus-container">
+        <!-- Status Message -->
+        <div id="status-message" class="status-message"></div>
+        
+        <!-- Header -->
+        <div class="syllabus-header">
+            <h1 class="course-title" id="course-title">
+                <i class="fas fa-book"></i>
+                <span>Loading...</span>
+            </h1>
+            <div class="course-meta" id="course-meta">
+                <div class="meta-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Loading course information...</span>
+                </div>
+            </div>
         </div>
         
-        <div class="content">
-            <div id="status-message" class="status-message"></div>
-            
-            <div id="loading-section" class="loading">
-                <div class="loading-spinner"></div>
-                <p style="margin-top: 1rem;">Loading syllabus...</p>
-            </div>
-            
-            <div id="no-syllabus-section" class="no-syllabus" style="display: none;">
-                <div class="no-syllabus-icon">📄</div>
+        <!-- Loading State -->
+        <div id="loading-section" class="content-section loading">
+            <div class="loading-spinner"></div>
+            <p style="margin-top: 1rem; color: var(--text-secondary);">Loading syllabus...</p>
+        </div>
+        
+        <!-- No Syllabus State -->
+        <div id="no-syllabus-section" class="content-section" style="display: none;">
+            <div class="no-syllabus">
+                <div class="no-syllabus-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
                 <h2>No Syllabus Uploaded</h2>
-                <p style="color: var(--text-secondary); margin: 1rem 0;">
-                    The syllabus for this course has not been uploaded yet.
-                </p>
+                <p>The syllabus for this course has not been uploaded yet.</p>
                 
                 <div class="upload-section">
-                    <h3 style="margin-bottom: 1rem;">Upload Syllabus</h3>
+                    <h3 style="color: var(--primary-accent); margin-bottom: 1rem;">
+                        <i class="fas fa-upload"></i> Upload Syllabus
+                    </h3>
                     <div class="upload-area" id="uploadArea">
-                        <div style="font-size: 3rem;">📤</div>
-                        <p style="margin: 1rem 0; font-weight: 600;">Drop syllabus file here</p>
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <p style="margin: 1rem 0; font-weight: 600; color: var(--text-primary);">
+                            Drop syllabus file here
+                        </p>
                         <p style="color: var(--text-secondary);">or</p>
                         <button class="upload-button" onclick="document.getElementById('fileInput').click()">
-                            Choose File
+                            <i class="fas fa-folder-open"></i> Choose File
                         </button>
                         <input type="file" id="fileInput" class="file-input" accept=".pdf,.doc,.docx,.html,.txt">
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
                             Accepted formats: PDF, DOC, DOCX, HTML, TXT (Max: 10MB)
                         </p>
                     </div>
+                    
+                    <div class="instructions">
+                        <h4><i class="fas fa-info-circle"></i> Upload Instructions</h4>
+                        <ul>
+                            <li>File should be the official course syllabus</li>
+                            <li>Maximum file size: 10MB</li>
+                            <li>Include course objectives, schedule, and grading information</li>
+                            <li>Ensure the syllabus follows academic standards</li>
+                            <li>Once uploaded, the syllabus will be available to all students</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            
-            <div id="syllabus-section" style="display: none;">
+        </div>
+        
+        <!-- Syllabus Display State -->
+        <div id="syllabus-section" style="display: none;">
+            <div class="content-section">
                 <div class="metadata-info">
-                    <h3>Syllabus Information</h3>
+                    <h3>
+                        <i class="fas fa-info-circle"></i>
+                        Syllabus Information
+                    </h3>
                     <div class="metadata-grid" id="metadata-grid"></div>
                 </div>
                 
@@ -297,13 +463,13 @@
                 
                 <div class="action-buttons">
                     <a id="download-btn" href="#" class="btn btn-primary">
-                        📥 Download Syllabus
+                        <i class="fas fa-download"></i> Download Syllabus
                     </a>
                     <a id="view-btn" href="#" target="_blank" class="btn btn-secondary">
-                        👁️ View in New Tab
+                        <i class="fas fa-external-link-alt"></i> View in New Tab
                     </a>
                     <button id="replace-btn" class="btn btn-secondary" onclick="showUploadSection()">
-                        🔄 Replace Syllabus
+                        <i class="fas fa-sync-alt"></i> Replace Syllabus
                     </button>
                 </div>
             </div>
@@ -324,9 +490,12 @@
         // Show status message
         function showStatus(message, type = 'success') {
             const statusEl = document.getElementById('status-message');
-            statusEl.textContent = message;
+            statusEl.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                ${message}
+            `;
             statusEl.className = `status-message status-${type}`;
-            statusEl.style.display = 'block';
+            statusEl.style.display = 'flex';
             
             setTimeout(() => {
                 statusEl.style.display = 'none';
@@ -349,7 +518,10 @@
         // Load syllabus
         async function loadSyllabus() {
             currentCourseId = getCourseIdFromURL();
-            document.getElementById('course-title').textContent = `${currentCourseId} Syllabus`;
+            document.getElementById('course-title').innerHTML = `
+                <i class="fas fa-book"></i>
+                <span>${currentCourseId} Syllabus</span>
+            `;
             
             try {
                 // Check if syllabus exists
@@ -369,7 +541,7 @@
                 console.error('Error loading syllabus:', error);
                 document.getElementById('loading-section').style.display = 'none';
                 document.getElementById('no-syllabus-section').style.display = 'block';
-                showStatus('Error loading syllabus. Backend may not be running.', 'error');
+                // Don't show error for initial load when backend might not be running
             }
         }
         
@@ -399,6 +571,22 @@
                 </div>
             `;
             
+            // Update course meta in header
+            document.getElementById('course-meta').innerHTML = `
+                <div class="meta-item">
+                    <i class="fas fa-file"></i>
+                    <span>${metadata.original_filename}</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>Uploaded ${formatDate(metadata.upload_date)}</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-database"></i>
+                    <span>${formatFileSize(metadata.file_size)}</span>
+                </div>
+            `;
+            
             // Set up action buttons
             document.getElementById('download-btn').href = 
                 `${API_BASE_URL}/syllabus/download/${currentCourseId}`;
@@ -421,19 +609,20 @@
                     .then(response => response.text())
                     .then(content => {
                         viewer.innerHTML = `
-                            <div style="padding: 1rem;">
-                                ${metadata.file_type === '.txt' ? `<pre>${content}</pre>` : content}
+                            <div style="padding: 1.5rem; background: white; color: black; border-radius: 8px;">
+                                ${metadata.file_type === '.txt' ? `<pre style="white-space: pre-wrap;">${content}</pre>` : content}
                             </div>
                         `;
                     });
             } else {
                 viewer.innerHTML = `
                     <div style="text-align: center; padding: 3rem;">
-                        <p>Preview not available for ${metadata.file_type} files.</p>
+                        <i class="fas fa-file-alt" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+                        <p style="color: var(--text-secondary);">Preview not available for ${metadata.file_type} files.</p>
                         <p style="margin-top: 1rem;">
                             <a href="${API_BASE_URL}/syllabus/download/${currentCourseId}" 
                                class="btn btn-primary">
-                                Download to View
+                                <i class="fas fa-download"></i> Download to View
                             </a>
                         </p>
                     </div>
@@ -507,7 +696,7 @@
             // Show uploading status
             uploadArea.innerHTML = `
                 <div class="loading-spinner"></div>
-                <p style="margin-top: 1rem;">Uploading ${file.name}...</p>
+                <p style="margin-top: 1rem; color: var(--text-primary);">Uploading ${file.name}...</p>
             `;
             
             try {
@@ -534,7 +723,7 @@
                 }
             } catch (error) {
                 console.error('Upload error:', error);
-                showStatus('Upload failed. Backend may not be running.', 'error');
+                showStatus('Upload failed. Please ensure the backend is running.', 'error');
                 resetUploadArea();
             }
         }
@@ -542,17 +731,28 @@
         // Reset upload area
         function resetUploadArea() {
             uploadArea.innerHTML = `
-                <div style="font-size: 3rem;">📤</div>
-                <p style="margin: 1rem 0; font-weight: 600;">Drop syllabus file here</p>
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <p style="margin: 1rem 0; font-weight: 600; color: var(--text-primary);">
+                    Drop syllabus file here
+                </p>
                 <p style="color: var(--text-secondary);">or</p>
                 <button class="upload-button" onclick="document.getElementById('fileInput').click()">
-                    Choose File
+                    <i class="fas fa-folder-open"></i> Choose File
                 </button>
                 <input type="file" id="fileInput" class="file-input" accept=".pdf,.doc,.docx,.html,.txt">
-                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
                     Accepted formats: PDF, DOC, DOCX, HTML, TXT (Max: 10MB)
                 </p>
             `;
+            
+            // Re-attach file input event
+            document.getElementById('fileInput').addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    handleFileUpload(e.target.files[0]);
+                }
+            });
         }
         
         // Load on page ready
