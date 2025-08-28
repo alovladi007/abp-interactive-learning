@@ -137,6 +137,57 @@ const careerCourseMapping = {
         focus: 'computational modeling and simulation of materials'
     },
     
+    // Chemistry careers
+    'pharmaceutical-chemist': {
+        required: ['CHEM201', 'CHEM202', 'CHEM402'], 
+        recommended: ['CHEM303', 'BIO201', 'PHAR201'],
+        focus: 'drug design, synthesis, and pharmaceutical development'
+    },
+    'analytical-chemist': {
+        required: ['CHEM303', 'CHEM302'],
+        recommended: ['CHEM304', 'CHEM305', 'STAT201'],
+        focus: 'chemical analysis, instrumentation, and quality control'
+    },
+    'forensic-chemist': {
+        required: ['CHEM303', 'CHEM308'],
+        recommended: ['CHEM309', 'CJ301', 'BIO302'],
+        focus: 'evidence analysis, toxicology, and criminal investigation'
+    },
+    
+    // Environmental Science careers
+    'climate-scientist': {
+        required: ['ENV401', 'ENV403'],
+        recommended: ['ENV404', 'MATH301', 'CS308'],
+        focus: 'climate systems, modeling, and global change research'
+    },
+    'conservation-scientist': {
+        required: ['ENV202', 'ENV407'],
+        recommended: ['BIO303', 'ENV408', 'GIS301'],
+        focus: 'biodiversity conservation, habitat management, and restoration'
+    },
+    'water-resource-specialist': {
+        required: ['ENV302', 'ENV409'],
+        recommended: ['ENV301', 'CE401', 'CHEM312'],
+        focus: 'water quality assessment, watershed management, and treatment'
+    },
+    
+    // Civil Engineering careers
+    'structural-engineer': {
+        required: ['CE201', 'CE301', 'CE302'],
+        recommended: ['CE403', 'CE404', 'CE405'],
+        focus: 'structural design, analysis, and seismic engineering'
+    },
+    'transportation-engineer': {
+        required: ['CE303', 'CE406'],
+        recommended: ['CE407', 'CE408', 'PLAN301'],
+        focus: 'transportation planning, traffic flow, and infrastructure design'
+    },
+    'geotechnical-engineer': {
+        required: ['CE202', 'CE410'],
+        recommended: ['CE411', 'CE412', 'GEOL201'],
+        focus: 'soil mechanics, foundation design, and ground improvement'
+    },
+    
     // Default for other careers
     'default': {
         required: [],
@@ -335,6 +386,126 @@ const careerPaths = {
         { id: 'metallurgist', name: 'Metallurgical Engineer', icon: 'hammer', description: 'Develop and process metallic materials and alloys' },
         { id: 'failure-analyst', name: 'Materials Failure Analyst', icon: 'search', description: 'Investigate material failures and improve reliability' },
         { id: 'computational-materials', name: 'Computational Materials Scientist', icon: 'calculator', description: 'Model and simulate materials using computational methods' }
+    ],
+    chemistry: [
+        { id: 'pharmaceutical-chemist', name: 'Pharmaceutical Chemist', icon: 'pills', description: 'Drug discovery and development' },
+        { id: 'analytical-chemist', name: 'Analytical Chemist', icon: 'flask', description: 'Chemical analysis and quality control' },
+        { id: 'organic-synthesis', name: 'Organic Synthesis Chemist', icon: 'atom', description: 'Design and synthesize organic compounds' },
+        { id: 'forensic-chemist', name: 'Forensic Chemist', icon: 'fingerprint', description: 'Criminal investigation and evidence analysis' },
+        { id: 'materials-chemist', name: 'Materials Chemist', icon: 'cubes', description: 'Develop new materials and polymers' },
+        { id: 'environmental-chemist', name: 'Environmental Chemist', icon: 'leaf', description: 'Study chemical processes in environment' }
+    ],
+    environment: [
+        { id: 'climate-scientist', name: 'Climate Scientist', icon: 'cloud-sun', description: 'Study climate change and modeling' },
+        { id: 'environmental-consultant', name: 'Environmental Consultant', icon: 'briefcase', description: 'Environmental impact assessment' },
+        { id: 'conservation-scientist', name: 'Conservation Scientist', icon: 'tree', description: 'Ecosystem and wildlife conservation' },
+        { id: 'water-resource-specialist', name: 'Water Resource Specialist', icon: 'water', description: 'Water quality and management' },
+        { id: 'sustainability-manager', name: 'Sustainability Manager', icon: 'recycle', description: 'Corporate sustainability programs' },
+        { id: 'air-quality-specialist', name: 'Air Quality Specialist', icon: 'wind', description: 'Air pollution monitoring and control' }
+    ],
+    civil: [
+        { id: 'structural-engineer', name: 'Structural Engineer', icon: 'building', description: 'Design buildings and bridges' },
+        { id: 'transportation-engineer', name: 'Transportation Engineer', icon: 'road', description: 'Design transportation systems' },
+        { id: 'water-resources-engineer', name: 'Water Resources Engineer', icon: 'tint', description: 'Water supply and treatment systems' },
+        { id: 'geotechnical-engineer', name: 'Geotechnical Engineer', icon: 'mountain', description: 'Soil and foundation engineering' },
+        { id: 'construction-manager', name: 'Construction Manager', icon: 'hard-hat', description: 'Manage construction projects' },
+        { id: 'environmental-engineer', name: 'Environmental Engineer', icon: 'leaf', description: 'Environmental protection systems' }
+    ],
+    chemeng: [
+        { id: 'process-engineer', name: 'Process Engineer', icon: 'industry', description: 'Design and optimize chemical processes' },
+        { id: 'petrochemical-engineer', name: 'Petrochemical Engineer', icon: 'oil-can', description: 'Oil and gas processing' },
+        { id: 'pharmaceutical-engineer', name: 'Pharmaceutical Engineer', icon: 'prescription', description: 'Drug manufacturing processes' },
+        { id: 'biotechnology-engineer', name: 'Biotechnology Engineer', icon: 'dna', description: 'Bioprocessing and fermentation' }
+    ],
+    bme: [
+        { id: 'medical-device-engineer', name: 'Medical Device Engineer', icon: 'heartbeat', description: 'Design medical devices and implants' },
+        { id: 'clinical-engineer', name: 'Clinical Engineer', icon: 'hospital', description: 'Hospital equipment management' },
+        { id: 'tissue-engineer', name: 'Tissue Engineer', icon: 'dna', description: 'Regenerative medicine and tissue engineering' },
+        { id: 'imaging-engineer', name: 'Medical Imaging Engineer', icon: 'x-ray', description: 'Develop imaging technologies' }
+    ],
+    economics: [
+        { id: 'financial-economist', name: 'Financial Economist', icon: 'chart-line', description: 'Financial markets analysis' },
+        { id: 'policy-economist', name: 'Policy Economist', icon: 'landmark', description: 'Economic policy analysis' },
+        { id: 'data-economist', name: 'Economic Data Analyst', icon: 'database', description: 'Economic data and forecasting' },
+        { id: 'behavioral-economist', name: 'Behavioral Economist', icon: 'brain', description: 'Psychology in economic decisions' }
+    ],
+    finance: [
+        { id: 'investment-banker', name: 'Investment Banker', icon: 'building', description: 'Mergers, acquisitions, and capital raising' },
+        { id: 'portfolio-manager', name: 'Portfolio Manager', icon: 'chart-pie', description: 'Manage investment portfolios' },
+        { id: 'risk-analyst', name: 'Risk Analyst', icon: 'shield-alt', description: 'Financial risk assessment' },
+        { id: 'quant-analyst', name: 'Quantitative Analyst', icon: 'calculator', description: 'Mathematical finance and trading' }
+    ],
+    psychology: [
+        { id: 'clinical-psychologist', name: 'Clinical Psychologist', icon: 'user-md', description: 'Mental health treatment' },
+        { id: 'neuropsychologist', name: 'Neuropsychologist', icon: 'brain', description: 'Brain-behavior relationships' },
+        { id: 'organizational-psychologist', name: 'I/O Psychologist', icon: 'users', description: 'Workplace psychology' },
+        { id: 'forensic-psychologist', name: 'Forensic Psychologist', icon: 'gavel', description: 'Psychology in legal system' }
+    ],
+    policy: [
+        { id: 'policy-analyst', name: 'Policy Analyst', icon: 'clipboard', description: 'Analyze and develop public policy' },
+        { id: 'campaign-manager', name: 'Campaign Manager', icon: 'vote-yea', description: 'Political campaign management' },
+        { id: 'diplomat', name: 'Foreign Service Officer', icon: 'globe', description: 'International relations and diplomacy' },
+        { id: 'intelligence-analyst', name: 'Intelligence Analyst', icon: 'user-secret', description: 'Security and intelligence analysis' }
+    ],
+    education: [
+        { id: 'elementary-teacher', name: 'Elementary Teacher', icon: 'child', description: 'Teach elementary school students' },
+        { id: 'secondary-teacher', name: 'Secondary Teacher', icon: 'chalkboard-teacher', description: 'Teach middle/high school' },
+        { id: 'special-ed-teacher', name: 'Special Education Teacher', icon: 'hands-helping', description: 'Teach students with disabilities' },
+        { id: 'curriculum-designer', name: 'Curriculum Designer', icon: 'book-open', description: 'Design educational programs' }
+    ],
+    medicine: [
+        { id: 'physician', name: 'Physician (MD)', icon: 'user-md', description: 'Medical doctor - various specialties' },
+        { id: 'surgeon', name: 'Surgeon', icon: 'procedures', description: 'Surgical specialist' },
+        { id: 'medical-researcher', name: 'Medical Researcher', icon: 'microscope', description: 'Biomedical research' },
+        { id: 'psychiatrist', name: 'Psychiatrist', icon: 'brain', description: 'Mental health physician' }
+    ],
+    nursing: [
+        { id: 'clinical-nurse', name: 'Clinical Nurse (RN)', icon: 'user-nurse', description: 'Direct patient care' },
+        { id: 'nurse-practitioner', name: 'Nurse Practitioner', icon: 'stethoscope', description: 'Advanced practice nursing' },
+        { id: 'critical-care-nurse', name: 'Critical Care Nurse', icon: 'heartbeat', description: 'ICU and emergency care' },
+        { id: 'pediatric-nurse', name: 'Pediatric Nurse', icon: 'baby', description: 'Child healthcare' }
+    ],
+    pharmacy: [
+        { id: 'clinical-pharmacist', name: 'Clinical Pharmacist', icon: 'pills', description: 'Hospital and clinical pharmacy' },
+        { id: 'retail-pharmacist', name: 'Retail Pharmacist', icon: 'store', description: 'Community pharmacy practice' },
+        { id: 'pharmaceutical-scientist', name: 'Pharmaceutical Scientist', icon: 'flask', description: 'Drug development and research' },
+        { id: 'regulatory-pharmacist', name: 'Regulatory Affairs Specialist', icon: 'clipboard-check', description: 'Drug regulation and compliance' }
+    ],
+    'public-health': [
+        { id: 'epidemiologist', name: 'Epidemiologist', icon: 'virus', description: 'Disease patterns and prevention' },
+        { id: 'health-policy-analyst', name: 'Health Policy Analyst', icon: 'clipboard', description: 'Healthcare policy development' },
+        { id: 'biostatistician', name: 'Biostatistician', icon: 'chart-bar', description: 'Health data analysis' },
+        { id: 'global-health', name: 'Global Health Specialist', icon: 'globe', description: 'International health programs' }
+    ],
+    nutrition: [
+        { id: 'clinical-dietitian', name: 'Clinical Dietitian', icon: 'heartbeat', description: 'Medical nutrition therapy' },
+        { id: 'sports-nutritionist', name: 'Sports Nutritionist', icon: 'running', description: 'Athletic performance nutrition' },
+        { id: 'food-scientist', name: 'Food Scientist', icon: 'flask', description: 'Food development and safety' },
+        { id: 'community-nutritionist', name: 'Community Nutritionist', icon: 'users', description: 'Public health nutrition' }
+    ],
+    'criminal-justice': [
+        { id: 'detective', name: 'Criminal Investigator', icon: 'search', description: 'Criminal investigation and evidence' },
+        { id: 'forensic-analyst', name: 'Forensic Analyst', icon: 'fingerprint', description: 'Crime scene and evidence analysis' },
+        { id: 'corrections-officer', name: 'Corrections Specialist', icon: 'lock', description: 'Rehabilitation and corrections' },
+        { id: 'probation-officer', name: 'Probation Officer', icon: 'balance-scale', description: 'Offender supervision and rehabilitation' }
+    ],
+    law: [
+        { id: 'corporate-lawyer', name: 'Corporate Lawyer', icon: 'briefcase', description: 'Business and corporate law' },
+        { id: 'criminal-lawyer', name: 'Criminal Defense Lawyer', icon: 'gavel', description: 'Criminal defense and prosecution' },
+        { id: 'environmental-lawyer', name: 'Environmental Lawyer', icon: 'leaf', description: 'Environmental law and regulation' },
+        { id: 'patent-lawyer', name: 'Patent Attorney', icon: 'lightbulb', description: 'Intellectual property law' }
+    ],
+    architecture: [
+        { id: 'residential-architect', name: 'Residential Architect', icon: 'home', description: 'Design homes and residential buildings' },
+        { id: 'commercial-architect', name: 'Commercial Architect', icon: 'building', description: 'Design commercial and office buildings' },
+        { id: 'landscape-architect', name: 'Landscape Architect', icon: 'tree', description: 'Design outdoor spaces and landscapes' },
+        { id: 'urban-planner', name: 'Urban Planner', icon: 'city', description: 'City and regional planning' }
+    ],
+    communications: [
+        { id: 'journalist', name: 'Journalist', icon: 'newspaper', description: 'News reporting and writing' },
+        { id: 'pr-specialist', name: 'Public Relations Specialist', icon: 'bullhorn', description: 'Public relations and communications' },
+        { id: 'digital-marketer', name: 'Digital Marketing Specialist', icon: 'mobile-alt', description: 'Digital media and marketing' },
+        { id: 'broadcast-producer', name: 'Broadcast Producer', icon: 'tv', description: 'Television and radio production' }
     ],
     default: [
         { id: 'researcher', name: 'Researcher', icon: 'microscope', description: 'Research and development' },
