@@ -319,5 +319,146 @@
       "data lake architecture"
     ],
     "target_hours": 140
+  },
+  {
+    "module_id": "ph.core.sequence",
+    "skill_ids": [
+      "ph.epidemiology.basics",
+      "ph.biostats.basics",
+      "ph.env_health",
+      "ph.health_policy"
+    ],
+    "outcomes": [
+      "Incidence/prevalence/causality",
+      "Intro biostatistics",
+      "Environmental risk assessment",
+      "Policy frameworks"
+    ],
+    "assessments": [
+      "epi case analyses",
+      "R-based stats mini-labs",
+      "policy brief"
+    ],
+    "project_ideas": [
+      "Design a community health intervention",
+      "Analyze public health dataset"
+    ],
+    "target_hours": 140
+  },
+  {
+    "module_id": "ph.advanced.eval",
+    "skill_ids": [
+      "ph.global_health",
+      "ph.program_eval",
+      "ph.health_econ"
+    ],
+    "outcomes": [
+      "Global burden metrics",
+      "Logic models, RCT vs quasi-experimental",
+      "Cost-effectiveness analysis"
+    ],
+    "assessments": [
+      "program evaluation plan",
+      "economic evaluation"
+    ],
+    "project_ideas": [
+      "Impact evaluation design with DAGs",
+      "QALY/DALY calculation"
+    ],
+    "target_hours": 120
+  },
+  {
+    "module_id": "ph.disease.focus",
+    "skill_ids": [
+      "ph.infectious_disease",
+      "ph.chronic_disease",
+      "ph.health_behavior"
+    ],
+    "outcomes": [
+      "Disease transmission models",
+      "Risk factor analysis",
+      "Behavior change theories"
+    ],
+    "assessments": [
+      "outbreak investigation",
+      "cohort study design"
+    ],
+    "project_ideas": [
+      "SIR model implementation",
+      "Health promotion campaign"
+    ],
+    "target_hours": 100
+  },
+  {
+    "module_id": "mat.foundations",
+    "skill_ids": [
+      "mat.solid_state_basics",
+      "mat.thermo_phase",
+      "mat.crystallography"
+    ],
+    "outcomes": [
+      "Band theory/defects",
+      "Phase diagrams",
+      "Lattice structures/diffraction"
+    ],
+    "assessments": [
+      "problem sets",
+      "diffraction indexing exercise",
+      "phase diagram analysis"
+    ],
+    "project_ideas": [
+      "Phase diagram case study",
+      "Crystal structure visualization"
+    ],
+    "target_hours": 150
+  },
+  {
+    "module_id": "mat.applications",
+    "skill_ids": [
+      "mat.polymers",
+      "mat.ceramics",
+      "mat.characterization"
+    ],
+    "outcomes": [
+      "Polymer properties",
+      "Ceramic processing",
+      "XRD/SEM/TEM basics"
+    ],
+    "assessments": [
+      "materials selection project",
+      "characterization lab reports"
+    ],
+    "project_ideas": [
+      "Materials selection for application",
+      "Characterization proposal"
+    ],
+    "target_hours": 120
+  },
+  {
+    "module_id": "mat.advanced",
+    "skill_ids": [
+      "mat.electronic_materials",
+      "mat.biomaterials",
+      "mat.nanomaterials",
+      "mat.computational"
+    ],
+    "outcomes": [
+      "Semiconductor materials",
+      "Biocompatibility",
+      "Nanoscale properties",
+      "DFT/MD basics"
+    ],
+    "assessments": [
+      "device design",
+      "biocompatibility study",
+      "computational project"
+    ],
+    "project_ideas": [
+      "Solar cell materials design",
+      "Drug delivery system",
+      "Nanoparticle synthesis",
+      "Materials simulation"
+    ],
+    "target_hours": 160
   }
 ]

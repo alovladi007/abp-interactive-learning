@@ -45,7 +45,54 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [roadmap, setRoadmap] = useState<Roadmap | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [quizItems, setQuizItems] = useState<any[]>([])
+  const [quizAnswers, setQuizAnswers] = useState<{[key: string]: number}>({})
+  const [quizResult, setQuizResult] = useState<any>(null)
+  const [showQuiz, setShowQuiz] = useState(false)
   const [activeTab, setActiveTab] = useState('form')
+
+
+  const startQuiz = async () => {
+    setQuizItems([])
+    setQuizResult(null)
+    setQuizAnswers({})
+    setShowQuiz(true)
+    
+    try {
+      const response = await axios.post(`${API_URL}/quiz/start`, {
+        major: formData.major,
+        num_items: 5
+      })
+      setQuizItems(response.data.items)
+    } catch (err) {
+      console.error('Failed to start quiz:', err)
+      setError('Failed to load quiz')
+    }
+  }
+
+  const gradeQuiz = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/quiz/grade`, {
+        major: formData.major,
+        answers: quizAnswers
+      })
+      
+      setQuizResult(response.data)
+      
+      // Add mastered skills to baseline
+      if (response.data.inferred_mastered?.length > 0) {
+        const currentSkills = formData.baseline
+          .split(',')
+          .map((s: string) => s.trim())
+          .filter(Boolean)
+        const newSkills = [...new Set([...currentSkills, ...response.data.inferred_mastered])]
+        setFormData({...formData, baseline: newSkills.join(', ')})
+      }
+    } catch (err) {
+      console.error('Failed to grade quiz:', err)
+      setError('Failed to grade quiz')
+    }
+  }
 
   const generateRoadmap = async () => {
     setLoading(true)
@@ -122,10 +169,12 @@ export default function Home() {
                     onChange={(e) => setFormData({...formData, major: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    <option value="cs">Computer Science</option>
+                                        <option value="cs">Computer Science</option>
                     <option value="ee">Electrical Engineering</option>
                     <option value="physics">Physics</option>
                     <option value="data-science">Data Science</option>
+                    <option value="public_health">Public Health</option>
+                    <option value="materials">Materials Science</option>
                   </select>
                 </div>
 
@@ -205,6 +254,92 @@ export default function Home() {
                   </select>
                 </div>
 
+
+                <div className="md:col-span-2 border-t pt-4 mt-4">
+                  <h3 className="text-lg font-semibold mb-3">Skill Assessment Quiz</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Take a quick quiz to assess your current knowledge and automatically add mastered skills to your baseline.
+                  </p>
+                  
+                  {!showQuiz && (
+                    <button
+                      type="button"
+                      onClick={startQuiz}
+                      className="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 font-medium"
+                    >
+                      Take Baseline Quiz
+                    </button>
+                  )}
+                  
+                  {showQuiz && quizItems.length > 0 && !quizResult && (
+                    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
+                      <h4 className="font-semibold mb-3">Answer these questions:</h4>
+                      {quizItems.map((item: any) => (
+                        <div key={item.idx} className="mb-4">
+                          <p className="font-medium mb-2">
+                            {item.idx + 1}. {item.question}
+                          </p>
+                          <div className="space-y-2">
+                            {item.choices.map((choice: string, choiceIdx: number) => (
+                              <label key={choiceIdx} className="flex items-center">
+                                <input
+                                  type="radio"
+                                  name={`q${item.idx}`}
+                                  value={choiceIdx}
+                                  onChange={() => setQuizAnswers({
+                                    ...quizAnswers,
+                                    [item.idx]: choiceIdx
+                                  })}
+                                  className="mr-2"
+                                />
+                                <span>{choice}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                      <button
+                        onClick={gradeQuiz}
+                        disabled={Object.keys(quizAnswers).length < quizItems.length}
+                        className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                      >
+                        Submit Quiz
+                      </button>
+                    </div>
+                  )}
+                  
+                  {quizResult && (
+                    <div className="bg-green-50 dark:bg-green-900 p-4 rounded-lg">
+                      <h4 className="font-semibold mb-2">Quiz Results</h4>
+                      <p className="text-lg mb-2">
+                        Score: {quizResult.score}/{quizResult.total} ({quizResult.percentage}%)
+                      </p>
+                      {quizResult.inferred_mastered?.length > 0 && (
+                        <div>
+                          <p className="font-medium mb-1">Skills added to baseline:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {quizResult.inferred_mastered.map((skill: string) => (
+                              <span key={skill} className="bg-green-200 dark:bg-green-700 px-2 py-1 rounded text-sm">
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      <button
+                        onClick={() => {
+                          setShowQuiz(false)
+                          setQuizResult(null)
+                          setQuizItems([])
+                        }}
+                        className="mt-3 text-blue-600 hover:underline"
+                      >
+                        Close Quiz
+                      </button>
+                    </div>
+                  )}
+                </div>
+
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Already Mastered Skills (comma-separated skill IDs)
@@ -216,6 +351,92 @@ export default function Home() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     rows={3}
                   />
+                </div>
+
+
+                <div className="md:col-span-2 border-t pt-4 mt-4">
+                  <h3 className="text-lg font-semibold mb-3">Skill Assessment Quiz</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Take a quick quiz to assess your current knowledge and automatically add mastered skills to your baseline.
+                  </p>
+                  
+                  {!showQuiz && (
+                    <button
+                      type="button"
+                      onClick={startQuiz}
+                      className="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 font-medium"
+                    >
+                      Take Baseline Quiz
+                    </button>
+                  )}
+                  
+                  {showQuiz && quizItems.length > 0 && !quizResult && (
+                    <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
+                      <h4 className="font-semibold mb-3">Answer these questions:</h4>
+                      {quizItems.map((item: any) => (
+                        <div key={item.idx} className="mb-4">
+                          <p className="font-medium mb-2">
+                            {item.idx + 1}. {item.question}
+                          </p>
+                          <div className="space-y-2">
+                            {item.choices.map((choice: string, choiceIdx: number) => (
+                              <label key={choiceIdx} className="flex items-center">
+                                <input
+                                  type="radio"
+                                  name={`q${item.idx}`}
+                                  value={choiceIdx}
+                                  onChange={() => setQuizAnswers({
+                                    ...quizAnswers,
+                                    [item.idx]: choiceIdx
+                                  })}
+                                  className="mr-2"
+                                />
+                                <span>{choice}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                      <button
+                        onClick={gradeQuiz}
+                        disabled={Object.keys(quizAnswers).length < quizItems.length}
+                        className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                      >
+                        Submit Quiz
+                      </button>
+                    </div>
+                  )}
+                  
+                  {quizResult && (
+                    <div className="bg-green-50 dark:bg-green-900 p-4 rounded-lg">
+                      <h4 className="font-semibold mb-2">Quiz Results</h4>
+                      <p className="text-lg mb-2">
+                        Score: {quizResult.score}/{quizResult.total} ({quizResult.percentage}%)
+                      </p>
+                      {quizResult.inferred_mastered?.length > 0 && (
+                        <div>
+                          <p className="font-medium mb-1">Skills added to baseline:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {quizResult.inferred_mastered.map((skill: string) => (
+                              <span key={skill} className="bg-green-200 dark:bg-green-700 px-2 py-1 rounded text-sm">
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      <button
+                        onClick={() => {
+                          setShowQuiz(false)
+                          setQuizResult(null)
+                          setQuizItems([])
+                        }}
+                        className="mt-3 text-blue-600 hover:underline"
+                      >
+                        Close Quiz
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 <div className="md:col-span-2">

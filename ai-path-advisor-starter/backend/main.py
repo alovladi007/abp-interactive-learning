@@ -92,6 +92,14 @@ MAJOR_TARGETS = {
         "prog.python.basics", "math.statistics", "math.linear_algebra",
         "data.analysis", "data.visualization", "cs.ai.ml.basics",
         "data.engineering"
+    ],
+    "public_health": [
+        "ph.epidemiology.basics", "ph.biostats.basics", "ph.env_health", 
+        "ph.health_policy", "ph.global_health", "ph.program_eval"
+    ],
+    "materials": [
+        "mat.solid_state_basics", "mat.thermo_phase", "mat.crystallography",
+        "mat.polymers", "mat.ceramics", "mat.characterization"
     ]
 }
 
@@ -393,6 +401,197 @@ def generate_plan(req: PlanRequest):
         },
         skill_graph=skill_graph,
         estimated_completion=completion_date.strftime("%B %Y")
+    )
+
+
+# ---- Quiz System ----
+QUIZ_BANK = {
+    "cs": [
+        {"skill": "cs.ds.algorithms",
+         "q": "What is the time complexity of binary search on a sorted array of size n?",
+         "choices": ["O(n)", "O(log n)", "O(n log n)", "O(1)"], "answer": 1},
+        {"skill": "cs.os",
+         "q": "Which component is responsible for CPU scheduling?",
+         "choices": ["Filesystem", "Shell", "Kernel", "Loader"], "answer": 2},
+        {"skill": "cs.databases",
+         "q": "In relational databases, a foreign key enforces:",
+         "choices": ["Sorting", "Referential integrity", "Normalization", "Transactions"], "answer": 1},
+        {"skill": "prog.python.basics",
+         "q": "In Python, which data structure is mutable?",
+         "choices": ["tuple", "string", "list", "frozenset"], "answer": 2},
+        {"skill": "cs.ai.ml.basics",
+         "q": "In supervised learning, the training data includes:",
+         "choices": ["Only features", "Only labels", "Features and labels", "Neither"], "answer": 2}
+    ],
+    "ee": [
+        {"skill": "ee.circuits_1",
+         "q": "Ohm's law relates voltage V, current I, and resistance R as:",
+         "choices": ["V = I/R", "I = VR", "V = IR", "R = VI"], "answer": 2},
+        {"skill": "ee.signals_systems",
+         "q": "The Fourier transform maps a time-domain signal to:",
+         "choices": ["z-domain", "frequency domain", "s-domain", "spatial domain"], "answer": 1},
+        {"skill": "ee.control_systems",
+         "q": "A negative feedback loop typically:",
+         "choices": ["Destabilizes the system", "Improves stability", "Eliminates dynamics", "Adds noise"], "answer": 1},
+        {"skill": "ee.digital_logic",
+         "q": "A flip-flop is a:",
+         "choices": ["Combinational circuit", "Sequential circuit", "Analog circuit", "Power circuit"], "answer": 1},
+        {"skill": "ee.em_1",
+         "q": "Maxwell's equations describe the relationship between:",
+         "choices": ["Mass and energy", "Electric and magnetic fields", "Force and acceleration", "Power and resistance"], "answer": 1}
+    ],
+    "physics": [
+        {"skill": "phys.mechanics",
+         "q": "For constant mass m, Newton's second law is:",
+         "choices": ["F = mv", "F = ma", "F = md", "F = m/a"], "answer": 1},
+        {"skill": "phys.em_intro",
+         "q": "Gauss's law relates electric flux to:",
+         "choices": ["Enclosed charge", "Magnetic flux", "Current density", "Electric potential"], "answer": 0},
+        {"skill": "phys.quantum_1",
+         "q": "The time-independent Schrödinger equation is an eigenvalue problem for:",
+         "choices": ["Momentum operator", "Hamiltonian", "Position operator", "Angular momentum"], "answer": 1},
+        {"skill": "phys.thermo",
+         "q": "The second law of thermodynamics states that entropy:",
+         "choices": ["Always decreases", "Always increases in isolated systems", "Remains constant", "Is undefined"], "answer": 1},
+        {"skill": "phys.stat_mech",
+         "q": "The partition function in statistical mechanics is used to calculate:",
+         "choices": ["Only energy", "Only entropy", "Thermodynamic properties", "Only temperature"], "answer": 2}
+    ],
+    "data-science": [
+        {"skill": "data.analysis",
+         "q": "Which pandas method is used to handle missing values?",
+         "choices": ["dropna()", "remove_null()", "delete_missing()", "clean()"], "answer": 0},
+        {"skill": "data.visualization",
+         "q": "Which library is commonly used for statistical data visualization in Python?",
+         "choices": ["pygame", "seaborn", "tkinter", "flask"], "answer": 1},
+        {"skill": "math.statistics",
+         "q": "The Central Limit Theorem states that sample means approach a:",
+         "choices": ["Uniform distribution", "Normal distribution", "Exponential distribution", "Poisson distribution"], "answer": 1}
+    ],
+    "public_health": [
+        {"skill": "ph.epidemiology.basics",
+         "q": "Incidence rate measures:",
+         "choices": ["Existing cases at a point in time", "New cases over a period", "Deaths only", "Exposure prevalence"], "answer": 1},
+        {"skill": "ph.biostats.basics",
+         "q": "A p-value is the probability of:",
+         "choices": ["Null hypothesis being true", "Observing data at least as extreme if null is true", "Type II error", "Effect size"], "answer": 1},
+        {"skill": "ph.program_eval",
+         "q": "A randomized controlled trial primarily addresses:",
+         "choices": ["External validity", "Confounding", "Measurement error", "Reporting bias"], "answer": 1},
+        {"skill": "ph.health_policy",
+         "q": "Health equity refers to:",
+         "choices": ["Equal healthcare for all", "Fair opportunity for health", "Same health outcomes", "Free healthcare"], "answer": 1},
+        {"skill": "ph.global_health",
+         "q": "DALYs (Disability-Adjusted Life Years) measure:",
+         "choices": ["Only mortality", "Only morbidity", "Disease burden", "Healthcare costs"], "answer": 2}
+    ],
+    "materials": [
+        {"skill": "mat.crystallography",
+         "q": "Miller indices (hkl) describe:",
+         "choices": ["Defect densities", "Crystal directions", "Crystal planes", "Grain size"], "answer": 2},
+        {"skill": "mat.thermo_phase",
+         "q": "A eutectic point in a binary phase diagram is where:",
+         "choices": ["One solid phase exists", "Liquid transforms to two solids", "No phase change occurs", "Gas phase appears"], "answer": 1},
+        {"skill": "mat.solid_state_basics",
+         "q": "In a semiconductor, the band gap is the energy difference between:",
+         "choices": ["Two valence bands", "Valence and conduction bands", "Two conduction bands", "Fermi levels"], "answer": 1},
+        {"skill": "mat.polymers",
+         "q": "Cross-linking in polymers typically increases:",
+         "choices": ["Flexibility", "Solubility", "Mechanical strength", "Transparency"], "answer": 2},
+        {"skill": "mat.characterization",
+         "q": "X-ray diffraction (XRD) is primarily used to determine:",
+         "choices": ["Chemical composition", "Crystal structure", "Electrical properties", "Optical properties"], "answer": 1}
+    ]
+}
+
+class QuizStartRequest(BaseModel):
+    major: str = Field(..., description="Major to quiz on")
+    num_items: int = Field(5, description="Number of quiz items")
+
+class QuizItem(BaseModel):
+    idx: int
+    question: str
+    choices: List[str]
+    skill: str
+
+class QuizStartResponse(BaseModel):
+    quiz_id: str
+    items: List[QuizItem]
+
+class QuizGradeRequest(BaseModel):
+    major: str
+    answers: Dict[str, int]  # idx as string -> choice index
+
+class QuizGradeResponse(BaseModel):
+    score: int
+    total: int
+    percentage: float
+    inferred_mastered: List[str]
+    feedback: Dict[str, str]
+
+@app.post("/quiz/start", response_model=QuizStartResponse)
+def quiz_start(req: QuizStartRequest):
+    """Start a baseline quiz for skill assessment"""
+    import random
+    import uuid
+    
+    bank = QUIZ_BANK.get(req.major, [])
+    if not bank:
+        raise HTTPException(400, f"No quiz available for major: {req.major}")
+    
+    # Select random questions
+    selected = random.sample(bank, min(req.num_items, len(bank)))
+    items = [
+        QuizItem(
+            idx=i, 
+            question=q["q"], 
+            choices=q["choices"],
+            skill=q["skill"]
+        ) 
+        for i, q in enumerate(selected)
+    ]
+    
+    return QuizStartResponse(
+        quiz_id=str(uuid.uuid4()),
+        items=items
+    )
+
+@app.post("/quiz/grade", response_model=QuizGradeResponse)
+def quiz_grade(req: QuizGradeRequest):
+    """Grade quiz and infer mastered skills"""
+    bank = QUIZ_BANK.get(req.major, [])
+    if not bank:
+        raise HTTPException(400, f"No quiz available for major: {req.major}")
+    
+    score = 0
+    mastered = []
+    feedback = {}
+    
+    # Grade each answer
+    for idx_str, answer in req.answers.items():
+        idx = int(idx_str)
+        if idx < len(bank):
+            question = bank[idx]
+            correct = question["answer"]
+            if answer == correct:
+                score += 1
+                mastered.append(question["skill"])
+                feedback[idx_str] = "Correct!"
+            else:
+                feedback[idx_str] = f"Incorrect. The correct answer was: {question['choices'][correct]}"
+    
+    total = len(req.answers)
+    percentage = (score / total * 100) if total > 0 else 0
+    
+    # Remove duplicates from mastered skills
+    mastered = list(set(mastered))
+    
+    return QuizGradeResponse(
+        score=score,
+        total=total,
+        percentage=round(percentage, 1),
+        inferred_mastered=mastered,
+        feedback=feedback
     )
 
 if __name__ == "__main__":

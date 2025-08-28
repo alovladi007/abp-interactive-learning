@@ -769,5 +769,233 @@
       "realtime"
     ],
     "difficulty": 4
+  },
+  {
+    "skill_id": "ph.epidemiology.basics",
+    "name": "Epidemiology Basics",
+    "prereq_ids": [],
+    "tags": [
+      "public_health"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "ph.biostats.basics",
+    "name": "Biostatistics Basics",
+    "prereq_ids": [
+      "math.statistics"
+    ],
+    "tags": [
+      "public_health",
+      "stats"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ph.health_policy",
+    "name": "Health Policy & Systems",
+    "prereq_ids": [],
+    "tags": [
+      "public_health",
+      "policy"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "ph.env_health",
+    "name": "Environmental Health",
+    "prereq_ids": [],
+    "tags": [
+      "public_health"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "ph.global_health",
+    "name": "Global Health",
+    "prereq_ids": [
+      "ph.epidemiology.basics"
+    ],
+    "tags": [
+      "public_health"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ph.program_eval",
+    "name": "Program Evaluation",
+    "prereq_ids": [
+      "ph.biostats.basics",
+      "ph.epidemiology.basics"
+    ],
+    "tags": [
+      "public_health"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ph.health_econ",
+    "name": "Health Economics",
+    "prereq_ids": [
+      "ph.health_policy"
+    ],
+    "tags": [
+      "public_health",
+      "economics"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ph.infectious_disease",
+    "name": "Infectious Disease Epidemiology",
+    "prereq_ids": [
+      "ph.epidemiology.basics"
+    ],
+    "tags": [
+      "public_health"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ph.chronic_disease",
+    "name": "Chronic Disease Epidemiology",
+    "prereq_ids": [
+      "ph.epidemiology.basics"
+    ],
+    "tags": [
+      "public_health"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "ph.health_behavior",
+    "name": "Health Behavior & Education",
+    "prereq_ids": [],
+    "tags": [
+      "public_health"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "mat.solid_state_basics",
+    "name": "Solid State Basics",
+    "prereq_ids": [
+      "math.calculus_2",
+      "math.linear_algebra",
+      "phys.modern"
+    ],
+    "tags": [
+      "materials",
+      "physics"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "mat.thermo_phase",
+    "name": "Thermodynamics & Phase Transformations",
+    "prereq_ids": [
+      "math.calculus_2",
+      "phys.thermo"
+    ],
+    "tags": [
+      "materials"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "mat.crystallography",
+    "name": "Crystallography & Diffraction",
+    "prereq_ids": [
+      "math.linear_algebra",
+      "phys.modern"
+    ],
+    "tags": [
+      "materials"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "mat.polymers",
+    "name": "Polymer Science",
+    "prereq_ids": [
+      "math.calculus_1"
+    ],
+    "tags": [
+      "materials"
+    ],
+    "difficulty": 2
+  },
+  {
+    "skill_id": "mat.ceramics",
+    "name": "Ceramics",
+    "prereq_ids": [
+      "mat.crystallography"
+    ],
+    "tags": [
+      "materials"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "mat.characterization",
+    "name": "Materials Characterization",
+    "prereq_ids": [
+      "mat.crystallography"
+    ],
+    "tags": [
+      "materials"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "mat.electronic_materials",
+    "name": "Electronic Materials",
+    "prereq_ids": [
+      "mat.solid_state_basics",
+      "ee.semiconductor_devices"
+    ],
+    "tags": [
+      "materials",
+      "electronics"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "mat.biomaterials",
+    "name": "Biomaterials",
+    "prereq_ids": [
+      "mat.polymers"
+    ],
+    "tags": [
+      "materials",
+      "bio"
+    ],
+    "difficulty": 3
+  },
+  {
+    "skill_id": "mat.nanomaterials",
+    "name": "Nanomaterials",
+    "prereq_ids": [
+      "mat.solid_state_basics",
+      "mat.characterization"
+    ],
+    "tags": [
+      "materials",
+      "nano"
+    ],
+    "difficulty": 4
+  },
+  {
+    "skill_id": "mat.computational",
+    "name": "Computational Materials Science",
+    "prereq_ids": [
+      "mat.solid_state_basics",
+      "prog.python.basics"
+    ],
+    "tags": [
+      "materials",
+      "computational"
+    ],
+    "difficulty": 4
   }
 ]

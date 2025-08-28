@@ -877,5 +877,316 @@
       "text",
       "code"
     ]
+  },
+  {
+    "resource_id": "book.gordis_epi",
+    "type": "book",
+    "title": "Gordis Epidemiology",
+    "provider": "Elsevier",
+    "skills": [
+      "ph.epidemiology.basics"
+    ],
+    "level": "intro",
+    "time_est_hours": 50,
+    "quality_score": 9.0,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.rosner_biostats",
+    "type": "book",
+    "title": "Fundamentals of Biostatistics",
+    "provider": "Rosner",
+    "skills": [
+      "ph.biostats.basics"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 8.8,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "course.r_for_epi",
+    "type": "course",
+    "title": "R for Epidemiology",
+    "provider": "Applied Epi",
+    "skills": [
+      "ph.biostats.basics",
+      "ph.epidemiology.basics"
+    ],
+    "level": "intro",
+    "time_est_hours": 40,
+    "quality_score": 8.9,
+    "cost": "free",
+    "format": [
+      "text",
+      "labs"
+    ]
+  },
+  {
+    "resource_id": "book.friis_envhealth",
+    "type": "book",
+    "title": "Essentials of Environmental Health",
+    "provider": "Friis",
+    "skills": [
+      "ph.env_health"
+    ],
+    "level": "intro",
+    "time_est_hours": 50,
+    "quality_score": 8.5,
+    "cost": "paid",
+    "format": [
+      "text"
+    ]
+  },
+  {
+    "resource_id": "book.bhattacharya_healthecon",
+    "type": "book",
+    "title": "Health Economics",
+    "provider": "Bhattacharya et al.",
+    "skills": [
+      "ph.health_econ",
+      "ph.health_policy"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 70,
+    "quality_score": 8.7,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "course.global_burden",
+    "type": "course",
+    "title": "Global Health Metrics",
+    "provider": "IHME/GBD",
+    "skills": [
+      "ph.global_health"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 40,
+    "quality_score": 8.6,
+    "cost": "free",
+    "format": [
+      "video",
+      "data"
+    ]
+  },
+  {
+    "resource_id": "book.rothman_modern_epi",
+    "type": "book",
+    "title": "Modern Epidemiology",
+    "provider": "Rothman et al.",
+    "skills": [
+      "ph.program_eval",
+      "ph.epidemiology.basics"
+    ],
+    "level": "advanced",
+    "time_est_hours": 120,
+    "quality_score": 9.2,
+    "cost": "paid",
+    "format": [
+      "text",
+      "theory"
+    ]
+  },
+  {
+    "resource_id": "course.coursera_global_health",
+    "type": "course",
+    "title": "Global Health Specialization",
+    "provider": "Coursera/Duke",
+    "skills": [
+      "ph.global_health",
+      "ph.health_policy"
+    ],
+    "level": "intro",
+    "time_est_hours": 60,
+    "quality_score": 8.7,
+    "cost": "paid",
+    "format": [
+      "video",
+      "quizzes"
+    ]
+  },
+  {
+    "resource_id": "book.glanz_health_behavior",
+    "type": "book",
+    "title": "Health Behavior and Health Education",
+    "provider": "Glanz et al.",
+    "skills": [
+      "ph.health_behavior"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 60,
+    "quality_score": 8.8,
+    "cost": "paid",
+    "format": [
+      "text",
+      "cases"
+    ]
+  },
+  {
+    "resource_id": "book.callister_materials",
+    "type": "book",
+    "title": "Materials Science and Engineering: An Introduction",
+    "provider": "Callister & Rethwisch",
+    "skills": [
+      "mat.thermo_phase",
+      "mat.solid_state_basics",
+      "mat.crystallography"
+    ],
+    "level": "intro",
+    "time_est_hours": 120,
+    "quality_score": 9.0,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.porter_phase",
+    "type": "book",
+    "title": "Phase Transformations in Metals and Alloys",
+    "provider": "Porter & Easterling",
+    "skills": [
+      "mat.thermo_phase"
+    ],
+    "level": "advanced",
+    "time_est_hours": 90,
+    "quality_score": 9.1,
+    "cost": "paid",
+    "format": [
+      "text",
+      "diagrams"
+    ]
+  },
+  {
+    "resource_id": "book.cullity_xrd",
+    "type": "book",
+    "title": "Elements of X-Ray Diffraction",
+    "provider": "Cullity & Stock",
+    "skills": [
+      "mat.crystallography",
+      "mat.characterization"
+    ],
+    "level": "advanced",
+    "time_est_hours": 80,
+    "quality_score": 9.0,
+    "cost": "paid",
+    "format": [
+      "text",
+      "labs"
+    ]
+  },
+  {
+    "resource_id": "book.kingery_ceramics",
+    "type": "book",
+    "title": "Introduction to Ceramics",
+    "provider": "Kingery et al.",
+    "skills": [
+      "mat.ceramics"
+    ],
+    "level": "advanced",
+    "time_est_hours": 90,
+    "quality_score": 8.7,
+    "cost": "paid",
+    "format": [
+      "text"
+    ]
+  },
+  {
+    "resource_id": "book.young_polymers",
+    "type": "book",
+    "title": "Introduction to Polymers",
+    "provider": "Young & Lovell",
+    "skills": [
+      "mat.polymers"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 80,
+    "quality_score": 8.8,
+    "cost": "paid",
+    "format": [
+      "text",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "course.mit_3091",
+    "type": "course",
+    "title": "MIT 3.091 Introduction to Solid State Chemistry",
+    "provider": "MIT OCW",
+    "skills": [
+      "mat.solid_state_basics",
+      "mat.crystallography"
+    ],
+    "level": "intro",
+    "time_est_hours": 80,
+    "quality_score": 9.2,
+    "cost": "free",
+    "format": [
+      "video",
+      "problems"
+    ]
+  },
+  {
+    "resource_id": "book.ratner_biomaterials",
+    "type": "book",
+    "title": "Biomaterials Science",
+    "provider": "Ratner et al.",
+    "skills": [
+      "mat.biomaterials"
+    ],
+    "level": "advanced",
+    "time_est_hours": 100,
+    "quality_score": 9.0,
+    "cost": "paid",
+    "format": [
+      "text",
+      "cases"
+    ]
+  },
+  {
+    "resource_id": "book.cao_nanostructures",
+    "type": "book",
+    "title": "Nanostructures and Nanomaterials",
+    "provider": "Cao & Wang",
+    "skills": [
+      "mat.nanomaterials"
+    ],
+    "level": "advanced",
+    "time_est_hours": 90,
+    "quality_score": 8.7,
+    "cost": "paid",
+    "format": [
+      "text"
+    ]
+  },
+  {
+    "resource_id": "course.computational_materials",
+    "type": "course",
+    "title": "Computational Materials Science",
+    "provider": "NPTEL",
+    "skills": [
+      "mat.computational"
+    ],
+    "level": "intermediate",
+    "time_est_hours": 60,
+    "quality_score": 8.5,
+    "cost": "free",
+    "format": [
+      "video",
+      "assignments"
+    ]
   }
 ]
