@@ -506,7 +506,8 @@
                     </div>
                     
                     <!-- Emma AI Tutor Card -->
-                    <div class="goal-card" style="border: 1px solid var(--border-color); background: var(--card-bg); opacity: 0.7;">
+                    <div class="goal-card" style="border: 1px solid var(--border-color); background: var(--card-bg); position: relative;">
+                        <span class="badge" style="position: absolute; top: 1rem; right: 1rem; background: var(--success-bg); color: var(--success-color);">ACTIVE</span>
                         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
                             <div class="goal-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
                                 <i class="fas fa-chalkboard-teacher"></i>
@@ -521,9 +522,24 @@
                             Instant homework help, step-by-step solutions, and concept explanations across all subjects.
                         </p>
                         
-                        <div style="text-align: center; padding: 2rem 0;">
-                            <span class="badge" style="background: var(--warning-bg); color: var(--warning-color);">Coming Soon</span>
+                        <div class="advisor-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.25rem; font-weight: 600; color: var(--primary-color);">4.8</div>
+                                <div class="text-secondary" style="font-size: 0.8rem;">Rating</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.25rem; font-weight: 600; color: var(--primary-color);">5.2k+</div>
+                                <div class="text-secondary" style="font-size: 0.8rem;">Users</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.25rem; font-weight: 600; color: var(--primary-color);">24/7</div>
+                                <div class="text-secondary" style="font-size: 0.8rem;">Available</div>
+                            </div>
                         </div>
+                        
+                        <a href="emma-platform/index.html" class="btn btn-primary" style="width: 100%; text-align: center; text-decoration: none;">
+                            <i class="fas fa-graduation-cap"></i> Start Homework Help
+                        </a>
                     </div>
                     
                     <!-- Max AI Research Assistant Card -->
