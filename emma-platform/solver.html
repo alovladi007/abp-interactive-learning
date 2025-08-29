@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emma Solver - Advanced AI Homework Engine</title>
+    <link rel="stylesheet" href="emma-advanced.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js"></script>
+</head>
+<body>
+    <div class="solver-app">
+        <!-- Advanced Navigation -->
+        <nav class="solver-nav">
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">E</div>
+                    <span>Emma Solver</span>
+                </a>
+                <div class="nav-tools">
+                    <button class="tool-btn active" data-tool="math">
+                        <i class="fas fa-calculator"></i>
+                        Mathematics
+                    </button>
+                    <button class="tool-btn" data-tool="physics">
+                        <i class="fas fa-atom"></i>
+                        Physics
+                    </button>
+                    <button class="tool-btn" data-tool="chemistry">
+                        <i class="fas fa-flask"></i>
+                        Chemistry
+                    </button>
+                    <button class="tool-btn" data-tool="code">
+                        <i class="fas fa-code"></i>
+                        Programming
+                    </button>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn-history">
+                        <i class="fas fa-history"></i>
+                        History
+                    </button>
+                    <button class="btn-account">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Solver Interface -->
+        <div class="solver-container">
+            <div class="solver-workspace">
+                <!-- Input Panel -->
+                <div class="input-panel">
+                    <div class="input-header">
+                        <h2>Enter Your Problem</h2>
+                        <div class="input-modes">
+                            <button class="mode-btn active" data-mode="equation">
+                                <i class="fas fa-square-root-alt"></i>
+                                Equation
+                            </button>
+                            <button class="mode-btn" data-mode="text">
+                                <i class="fas fa-paragraph"></i>
+                                Text
+                            </button>
+                            <button class="mode-btn" data-mode="image">
+                                <i class="fas fa-image"></i>
+                                Image
+                            </button>
+                            <button class="mode-btn" data-mode="handwriting">
+                                <i class="fas fa-pencil-alt"></i>
+                                Draw
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Equation Editor -->
+                    <div class="equation-editor" id="equation-mode">
+                        <div class="math-toolbar">
+                            <button class="math-btn" data-insert="\\sqrt{}">&radic;</button>
+                            <button class="math-btn" data-insert="x^2">x²</button>
+                            <button class="math-btn" data-insert="x^n">xⁿ</button>
+                            <button class="math-btn" data-insert="\\frac{}{}">÷</button>
+                            <button class="math-btn" data-insert="\\int">∫</button>
+                            <button class="math-btn" data-insert="\\sum">Σ</button>
+                            <button class="math-btn" data-insert="\\pi">π</button>
+                            <button class="math-btn" data-insert="\\theta">θ</button>
+                            <button class="math-btn" data-insert="\\alpha">α</button>
+                            <button class="math-btn" data-insert="\\beta">β</button>
+                            <button class="math-btn" data-insert="\\infty">∞</button>
+                            <button class="math-btn" data-insert="\\pm">±</button>
+                        </div>
+                        <textarea class="math-input" id="mathInput" placeholder="Enter equation: e.g., x^2 + 5x - 6 = 0"></textarea>
+                        <div class="math-preview" id="mathPreview"></div>
+                    </div>
+
+                    <!-- Text Mode -->
+                    <div class="text-editor hidden" id="text-mode">
+                        <textarea class="text-input" placeholder="Describe your problem in plain English..."></textarea>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div class="image-upload hidden" id="image-mode">
+                        <div class="upload-zone">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag & drop or click to upload</p>
+                            <input type="file" accept="image/*" hidden>
+                        </div>
+                        <div class="image-preview hidden">
+                            <img src="" alt="Preview">
+                            <button class="btn-remove">Remove</button>
+                        </div>
+                    </div>
+
+                    <!-- Drawing Canvas -->
+                    <div class="drawing-canvas hidden" id="handwriting-mode">
+                        <canvas id="drawCanvas" width="600" height="300"></canvas>
+                        <div class="canvas-tools">
+                            <button class="canvas-btn" id="clearCanvas">
+                                <i class="fas fa-eraser"></i> Clear
+                            </button>
+                            <button class="canvas-btn" id="undoCanvas">
+                                <i class="fas fa-undo"></i> Undo
+                            </button>
+                            <input type="color" id="penColor" value="#000000">
+                            <input type="range" id="penSize" min="1" max="10" value="2">
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="input-actions">
+                        <button class="btn-solve">
+                            <i class="fas fa-bolt"></i>
+                            Solve Now
+                        </button>
+                        <button class="btn-example">
+                            <i class="fas fa-lightbulb"></i>
+                            Show Example
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Solution Panel -->
+                <div class="solution-panel">
+                    <div class="solution-header">
+                        <h2>Solution</h2>
+                        <div class="solution-tools">
+                            <button class="tool-btn" id="toggleSteps">
+                                <i class="fas fa-list-ol"></i>
+                                Steps
+                            </button>
+                            <button class="tool-btn" id="showGraph">
+                                <i class="fas fa-chart-line"></i>
+                                Graph
+                            </button>
+                            <button class="tool-btn" id="exportSolution">
+                                <i class="fas fa-download"></i>
+                                Export
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="solution-content" id="solutionContent">
+                        <!-- Welcome State -->
+                        <div class="welcome-state">
+                            <div class="welcome-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>Ready to Help!</h3>
+                            <p>Enter a problem to get started</p>
+                            
+                            <div class="quick-examples">
+                                <h4>Try these examples:</h4>
+                                <div class="example-cards">
+                                    <button class="example-card" data-problem="x^2 + 5x + 6 = 0">
+                                        <span class="example-type">Algebra</span>
+                                        <span class="example-text">x² + 5x + 6 = 0</span>
+                                    </button>
+                                    <button class="example-card" data-problem="\\int x^2 dx">
+                                        <span class="example-type">Calculus</span>
+                                        <span class="example-text">∫x² dx</span>
+                                    </button>
+                                    <button class="example-card" data-problem="\\lim_{x \\to 0} \\frac{\\sin x}{x}">
+                                        <span class="example-type">Limits</span>
+                                        <span class="example-text">lim(sin x/x)</span>
+                                    </button>
+                                    <button class="example-card" data-problem="2x + 3y = 12, x - y = 1">
+                                        <span class="example-type">Systems</span>
+                                        <span class="example-text">2x + 3y = 12</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Solution Display (Hidden initially) -->
+                        <div class="solution-display hidden" id="solutionDisplay">
+                            <!-- Will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Panel -->
+            <div class="side-panel">
+                <!-- Recent Problems -->
+                <div class="panel-section">
+                    <h3><i class="fas fa-clock"></i> Recent</h3>
+                    <div class="recent-list" id="recentList">
+                        <div class="empty-state">No recent problems</div>
+                    </div>
+                </div>
+
+                <!-- Saved Solutions -->
+                <div class="panel-section">
+                    <h3><i class="fas fa-bookmark"></i> Saved</h3>
+                    <div class="saved-list" id="savedList">
+                        <div class="empty-state">No saved solutions</div>
+                    </div>
+                </div>
+
+                <!-- Help Tips -->
+                <div class="panel-section">
+                    <h3><i class="fas fa-question-circle"></i> Tips</h3>
+                    <div class="tips-content">
+                        <div class="tip">
+                            <strong>Equation Mode:</strong> Use LaTeX syntax for complex math
+                        </div>
+                        <div class="tip">
+                            <strong>Quick Input:</strong> Press Ctrl+Enter to solve
+                        </div>
+                        <div class="tip">
+                            <strong>Save Work:</strong> Click bookmark icon to save solutions
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graph Modal -->
+        <div class="modal hidden" id="graphModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Function Graph</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <canvas id="graphCanvas" width="600" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="solver-engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subjects - Emma AI Platform</title>
+    <link rel="stylesheet" href="emma-advanced.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .subjects-page {
+            min-height: 100vh;
+            background: var(--gradient-dark);
+        }
+        
+        .subjects-hero {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .subjects-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subjects-grid {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .subject-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+        
+        .subject-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        .subject-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .subject-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .subject-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .subject-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .topic-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-darker);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .btn-explore {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-explore:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="subjects-page">
+        <!-- Navigation -->
+        <nav class="solver-nav">
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">E</div>
+                    <span>Emma</span>
+                </a>
+                <div class="nav-tools">
+                    <a href="index.html" class="tool-btn">Home</a>
+                    <a href="subjects.html" class="tool-btn active">Subjects</a>
+                    <a href="solver.html" class="tool-btn">Solver</a>
+                    <a href="study-tools.html" class="tool-btn">Study Tools</a>
+                    <a href="practice.html" class="tool-btn">Practice</a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Hero Section -->
+        <div class="subjects-hero">
+            <h1>All Subjects</h1>
+            <p style="color: var(--text-secondary); font-size: 1.25rem;">
+                Master any subject with AI-powered learning
+            </p>
+        </div>
+        
+        <!-- Subjects Grid -->
+        <div class="subjects-grid">
+            <!-- Mathematics -->
+            <div class="subject-card" onclick="window.location.href='solver.html'">
+                <div class="subject-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h2 class="subject-title">Mathematics</h2>
+                <p class="subject-description">
+                    From basic arithmetic to advanced calculus, master mathematical concepts with step-by-step solutions.
+                </p>
+                <div class="subject-stats">
+                    <div class="stat">
+                        <i class="fas fa-book"></i>
+                        <span>500+ Topics</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-users"></i>
+                        <span>50K+ Students</span>
+                    </div>
+                </div>
+                <div class="subject-topics">
+                    <span class="topic-tag">Algebra</span>
+                    <span class="topic-tag">Calculus</span>
+                    <span class="topic-tag">Geometry</span>
+                    <span class="topic-tag">Statistics</span>
+                </div>
+                <button class="btn-explore">Start Learning</button>
+            </div>
+            
+            <!-- Physics -->
+            <div class="subject-card" onclick="window.location.href='solver.html'">
+                <div class="subject-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <h2 class="subject-title">Physics</h2>
+                <p class="subject-description">
+                    Understand the laws of nature, from mechanics to quantum physics with interactive simulations.
+                </p>
+                <div class="subject-stats">
+                    <div class="stat">
+                        <i class="fas fa-book"></i>
+                        <span>300+ Topics</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-users"></i>
+                        <span>30K+ Students</span>
+                    </div>
+                </div>
+                <div class="subject-topics">
+                    <span class="topic-tag">Mechanics</span>
+                    <span class="topic-tag">Thermodynamics</span>
+                    <span class="topic-tag">Optics</span>
+                    <span class="topic-tag">Quantum</span>
+                </div>
+                <button class="btn-explore">Start Learning</button>
+            </div>
+            
+            <!-- Chemistry -->
+            <div class="subject-card" onclick="window.location.href='solver.html'">
+                <div class="subject-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <h2 class="subject-title">Chemistry</h2>
+                <p class="subject-description">
+                    Explore chemical reactions, molecular structures, and periodic trends with visual aids.
+                </p>
+                <div class="subject-stats">
+                    <div class="stat">
+                        <i class="fas fa-book"></i>
+                        <span>250+ Topics</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-users"></i>
+                        <span>25K+ Students</span>
+                    </div>
+                </div>
+                <div class="subject-topics">
+                    <span class="topic-tag">Organic</span>
+                    <span class="topic-tag">Inorganic</span>
+                    <span class="topic-tag">Physical</span>
+                    <span class="topic-tag">Analytical</span>
+                </div>
+                <button class="btn-explore">Start Learning</button>
+            </div>
+            
+            <!-- Biology -->
+            <div class="subject-card" onclick="window.location.href='solver.html'">
+                <div class="subject-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                    <i class="fas fa-dna"></i>
+                </div>
+                <h2 class="subject-title">Biology</h2>
+                <p class="subject-description">
+                    Study life sciences from cellular biology to ecosystems with detailed diagrams.
+                </p>
+                <div class="subject-stats">
+                    <div class="stat">
+                        <i class="fas fa-book"></i>
+                        <span>400+ Topics</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-users"></i>
+                        <span>35K+ Students</span>
+                    </div>
+                </div>
+                <div class="subject-topics">
+                    <span class="topic-tag">Cell Biology</span>
+                    <span class="topic-tag">Genetics</span>
+                    <span class="topic-tag">Ecology</span>
+                    <span class="topic-tag">Evolution</span>
+                </div>
+                <button class="btn-explore">Start Learning</button>
+            </div>
+            
+            <!-- Computer Science -->
+            <div class="subject-card" onclick="window.location.href='solver.html'">
+                <div class="subject-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h2 class="subject-title">Computer Science</h2>
+                <p class="subject-description">
+                    Learn programming, algorithms, and data structures with interactive code examples.
+                </p>
+                <div class="subject-stats">
+                    <div class="stat">
+                        <i class="fas fa-book"></i>
+                        <span>600+ Topics</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-users"></i>
+                        <span>60K+ Students</span>
+                    </div>
+                </div>
+                <div class="subject-topics">
+                    <span class="topic-tag">Python</span>
+                    <span class="topic-tag">Algorithms</span>
+                    <span class="topic-tag">Web Dev</span>
+                    <span class="topic-tag">AI/ML</span>
+                </div>
+                <button class="btn-explore">Start Learning</button>
+            </div>
+            
+            <!-- History -->
+            <div class="subject-card" onclick="window.location.href='solver.html'">
+                <div class="subject-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <h2 class="subject-title">History</h2>
+                <p class="subject-description">
+                    Journey through time with comprehensive historical analysis and timelines.
+                </p>
+                <div class="subject-stats">
+                    <div class="stat">
+                        <i class="fas fa-book"></i>
+                        <span>350+ Topics</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-users"></i>
+                        <span>20K+ Students</span>
+                    </div>
+                </div>
+                <div class="subject-topics">
+                    <span class="topic-tag">World History</span>
+                    <span class="topic-tag">US History</span>
+                    <span class="topic-tag">Ancient</span>
+                    <span class="topic-tag">Modern</span>
+                </div>
+                <button class="btn-explore">Start Learning</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
