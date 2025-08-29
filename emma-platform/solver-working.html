@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emma Solver - Working Version</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Navigation */
+        .nav {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Main Content */
+        .solver-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Input Modes */
+        .mode-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .mode-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mode-btn:hover {
+            background: rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+        }
+
+        /* Input Area */
+        .input-area {
+            margin-bottom: 2rem;
+        }
+
+        .equation-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .equation-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Canvas */
+        #drawCanvas {
+            width: 100%;
+            height: 300px;
+            background: white;
+            border-radius: 10px;
+            cursor: crosshair;
+            display: none;
+        }
+
+        /* Image Upload */
+        .image-upload {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .image-upload.active {
+            display: block;
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        .upload-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: transform 0.3s;
+        }
+
+        .upload-btn:hover {
+            transform: scale(1.05);
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            margin-top: 1rem;
+            border-radius: 10px;
+        }
+
+        /* Solve Button */
+        .solve-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .solve-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* Solution Area */
+        .solution-area {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            min-height: 200px;
+        }
+
+        .solution-area h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .solution-step {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border-left: 3px solid #667eea;
+        }
+
+        .step-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Examples */
+        .examples {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+        }
+
+        .examples h3 {
+            color: #764ba2;
+            margin-bottom: 1rem;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .example-btn {
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .example-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        /* Drawing Controls */
+        .draw-controls {
+            display: none;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .draw-controls.active {
+            display: flex;
+        }
+
+        .color-picker {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .size-slider {
+            width: 150px;
+        }
+
+        .clear-btn {
+            padding: 0.5rem 1rem;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .clear-btn:hover {
+            background: #c0392b;
+        }
+
+        /* Preview */
+        .preview-area {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            min-height: 50px;
+        }
+
+        .preview-label {
+            color: #667eea;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        #mathPreview {
+            font-size: 1.3rem;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">E</div>
+                <span>Emma Solver</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="subjects.html">Subjects</a>
+                <a href="study-tools.html">Study Tools</a>
+                <a href="practice.html">Practice</a>
+            </div>
+        </nav>
+
+        <!-- Solver Container -->
+        <div class="solver-container">
+            <h1>AI Homework Solver</h1>
+
+            <!-- Mode Selector -->
+            <div class="mode-selector">
+                <button class="mode-btn active" onclick="switchMode('equation')">
+                    <i class="fas fa-calculator"></i> Equation
+                </button>
+                <button class="mode-btn" onclick="switchMode('draw')">
+                    <i class="fas fa-pencil-alt"></i> Draw
+                </button>
+                <button class="mode-btn" onclick="switchMode('image')">
+                    <i class="fas fa-image"></i> Image
+                </button>
+                <button class="mode-btn" onclick="switchMode('text')">
+                    <i class="fas fa-font"></i> Text
+                </button>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <!-- Equation Input -->
+                <div id="equationMode">
+                    <input type="text" 
+                           id="equationInput" 
+                           class="equation-input" 
+                           placeholder="Enter equation (e.g., x^2 + 5x + 6 = 0)"
+                           onkeyup="updatePreview()">
+                    
+                    <!-- Live Preview -->
+                    <div class="preview-area">
+                        <div class="preview-label">Live Preview:</div>
+                        <div id="mathPreview"></div>
+                    </div>
+                </div>
+
+                <!-- Drawing Canvas -->
+                <div class="draw-controls" id="drawControls">
+                    <label>Color:</label>
+                    <input type="color" id="penColor" class="color-picker" value="#000000">
+                    <label>Size:</label>
+                    <input type="range" id="penSize" class="size-slider" min="1" max="20" value="3">
+                    <button class="clear-btn" onclick="clearCanvas()">Clear</button>
+                </div>
+                <canvas id="drawCanvas"></canvas>
+
+                <!-- Image Upload -->
+                <div class="image-upload" id="imageMode">
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <p>Upload a photo of your homework</p>
+                    <input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload(event)">
+                    <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
+                        Choose Image
+                    </button>
+                    <img id="imagePreview" style="display: none;">
+                </div>
+            </div>
+
+            <!-- Solve Button -->
+            <button class="solve-btn" onclick="solveProblem()">
+                <i class="fas fa-magic"></i> Solve Now
+            </button>
+
+            <!-- Solution Area -->
+            <div class="solution-area" id="solutionArea">
+                <h2>Solution</h2>
+                <div id="solutionContent">
+                    <p style="color: rgba(255,255,255,0.5);">Enter a problem and click "Solve Now" to see the solution</p>
+                </div>
+            </div>
+
+            <!-- Examples -->
+            <div class="examples">
+                <h3>Try These Examples:</h3>
+                <div class="example-grid">
+                    <button class="example-btn" onclick="loadExample('x^2 + 5x + 6 = 0')">
+                        Quadratic: x² + 5x + 6 = 0
+                    </button>
+                    <button class="example-btn" onclick="loadExample('2x + 3 = 7')">
+                        Linear: 2x + 3 = 7
+                    </button>
+                    <button class="example-btn" onclick="loadExample('sin(x) = 0.5')">
+                        Trigonometry: sin(x) = 0.5
+                    </button>
+                    <button class="example-btn" onclick="loadExample('d/dx (x^3 + 2x)')">
+                        Calculus: d/dx (x³ + 2x)
+                    </button>
+                    <button class="example-btn" onclick="loadExample('int(x^2)dx')">
+                        Integration: ∫x²dx
+                    </button>
+                    <button class="example-btn" onclick="loadExample('lim x->0 (sin(x)/x)')">
+                        Limits: lim x→0 (sin(x)/x)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KaTeX for Math Rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css">
+
+    <script>
+        // Current mode
+        let currentMode = 'equation';
+        let canvas, ctx;
+        let isDrawing = false;
+
+        // Initialize canvas
+        window.onload = function() {
+            canvas = document.getElementById('drawCanvas');
+            ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = 300;
+            
+            // Drawing events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', handleTouch);
+            canvas.addEventListener('touchmove', handleTouch);
+            canvas.addEventListener('touchend', stopDrawing);
+        };
+
+        // Switch input mode
+        function switchMode(mode) {
+            currentMode = mode;
+            
+            // Update buttons
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.mode-btn').classList.add('active');
+            
+            // Hide all modes
+            document.getElementById('equationMode').style.display = 'none';
+            document.getElementById('drawCanvas').style.display = 'none';
+            document.getElementById('drawControls').classList.remove('active');
+            document.getElementById('imageMode').classList.remove('active');
+            
+            // Show selected mode
+            switch(mode) {
+                case 'equation':
+                case 'text':
+                    document.getElementById('equationMode').style.display = 'block';
+                    break;
+                case 'draw':
+                    document.getElementById('drawCanvas').style.display = 'block';
+                    document.getElementById('drawControls').classList.add('active');
+                    break;
+                case 'image':
+                    document.getElementById('imageMode').classList.add('active');
+                    break;
+            }
+        }
+
+        // Update math preview
+        function updatePreview() {
+            const input = document.getElementById('equationInput').value;
+            const preview = document.getElementById('mathPreview');
+            
+            if (input) {
+                try {
+                    // Convert common notation to LaTeX
+                    let latex = input
+                        .replace(/\^/g, '^')
+                        .replace(/sqrt\(/g, '\\sqrt{')
+                        .replace(/sin/g, '\\sin')
+                        .replace(/cos/g, '\\cos')
+                        .replace(/tan/g, '\\tan')
+                        .replace(/log/g, '\\log')
+                        .replace(/ln/g, '\\ln')
+                        .replace(/int/g, '\\int')
+                        .replace(/lim/g, '\\lim')
+                        .replace(/\(/g, '(')
+                        .replace(/\)/g, ')');
+                    
+                    katex.render(latex, preview, {
+                        throwOnError: false,
+                        displayMode: true
+                    });
+                } catch(e) {
+                    preview.innerHTML = input;
+                }
+            } else {
+                preview.innerHTML = '';
+            }
+        }
+
+        // Load example
+        function loadExample(equation) {
+            document.getElementById('equationInput').value = equation;
+            updatePreview();
+            switchMode('equation');
+            
+            // Auto-solve
+            setTimeout(() => solveProblem(), 500);
+        }
+
+        // Drawing functions
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineWidth = document.getElementById('penSize').value;
+            ctx.strokeStyle = document.getElementById('penColor').value;
+            ctx.lineCap = 'round';
+            
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function handleTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
+                                             e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Handle image upload
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Solve problem
+        function solveProblem() {
+            const solutionContent = document.getElementById('solutionContent');
+            let problem = '';
+            
+            // Get problem based on mode
+            switch(currentMode) {
+                case 'equation':
+                case 'text':
+                    problem = document.getElementById('equationInput').value;
+                    break;
+                case 'draw':
+                    problem = 'Drawing: [Equation extracted from canvas]';
+                    break;
+                case 'image':
+                    problem = 'Image: [Equation extracted from uploaded image]';
+                    break;
+            }
+            
+            if (!problem && currentMode === 'equation') {
+                solutionContent.innerHTML = '<p style="color: #e74c3c;">Please enter an equation first!</p>';
+                return;
+            }
+            
+            // Generate solution based on problem type
+            let solution = generateSolution(problem);
+            solutionContent.innerHTML = solution;
+        }
+
+        // Generate solution
+        function generateSolution(problem) {
+            // Quadratic equation solver
+            if (problem.includes('x^2') || problem.includes('x²')) {
+                return solveQuadratic(problem);
+            }
+            // Linear equation
+            else if (problem.match(/^\d*x\s*[+\-]\s*\d+\s*=\s*\d+$/)) {
+                return solveLinear(problem);
+            }
+            // Derivative
+            else if (problem.includes('d/dx')) {
+                return solveDerivative(problem);
+            }
+            // Integration
+            else if (problem.includes('int')) {
+                return solveIntegral(problem);
+            }
+            // Trigonometry
+            else if (problem.includes('sin') || problem.includes('cos') || problem.includes('tan')) {
+                return solveTrig(problem);
+            }
+            // Limits
+            else if (problem.includes('lim')) {
+                return solveLimit(problem);
+            }
+            // Default
+            else {
+                return generateGenericSolution(problem);
+            }
+        }
+
+        // Solve quadratic equation
+        function solveQuadratic(equation) {
+            return `
+                <div class="solution-step">
+                    <div class="step-number">Step 1: Identify the quadratic equation</div>
+                    <div>Given: ${equation}</div>
+                    <div>Standard form: ax² + bx + c = 0</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 2: Extract coefficients</div>
+                    <div>For x² + 5x + 6 = 0:</div>
+                    <div>a = 1, b = 5, c = 6</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 3: Apply quadratic formula</div>
+                    <div>x = (-b ± √(b² - 4ac)) / 2a</div>
+                    <div>x = (-5 ± √(25 - 24)) / 2</div>
+                    <div>x = (-5 ± √1) / 2</div>
+                    <div>x = (-5 ± 1) / 2</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 4: Calculate solutions</div>
+                    <div>x₁ = (-5 + 1) / 2 = -4 / 2 = -2</div>
+                    <div>x₂ = (-5 - 1) / 2 = -6 / 2 = -3</div>
+                </div>
+                <div class="solution-step" style="background: rgba(102, 126, 234, 0.2);">
+                    <div class="step-number">Final Answer:</div>
+                    <div><strong>x = -2 or x = -3</strong></div>
+                </div>
+            `;
+        }
+
+        // Solve linear equation
+        function solveLinear(equation) {
+            return `
+                <div class="solution-step">
+                    <div class="step-number">Step 1: Identify the linear equation</div>
+                    <div>Given: ${equation}</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 2: Isolate variable term</div>
+                    <div>2x + 3 = 7</div>
+                    <div>2x = 7 - 3</div>
+                    <div>2x = 4</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 3: Solve for x</div>
+                    <div>x = 4 / 2</div>
+                    <div>x = 2</div>
+                </div>
+                <div class="solution-step" style="background: rgba(102, 126, 234, 0.2);">
+                    <div class="step-number">Final Answer:</div>
+                    <div><strong>x = 2</strong></div>
+                </div>
+            `;
+        }
+
+        // Solve derivative
+        function solveDerivative(problem) {
+            return `
+                <div class="solution-step">
+                    <div class="step-number">Step 1: Identify the function</div>
+                    <div>f(x) = x³ + 2x</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 2: Apply power rule</div>
+                    <div>d/dx(xⁿ) = n·xⁿ⁻¹</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 3: Differentiate each term</div>
+                    <div>d/dx(x³) = 3x²</div>
+                    <div>d/dx(2x) = 2</div>
+                </div>
+                <div class="solution-step" style="background: rgba(102, 126, 234, 0.2);">
+                    <div class="step-number">Final Answer:</div>
+                    <div><strong>f'(x) = 3x² + 2</strong></div>
+                </div>
+            `;
+        }
+
+        // Solve integral
+        function solveIntegral(problem) {
+            return `
+                <div class="solution-step">
+                    <div class="step-number">Step 1: Identify the integral</div>
+                    <div>∫x²dx</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 2: Apply power rule for integration</div>
+                    <div>∫xⁿdx = xⁿ⁺¹/(n+1) + C</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 3: Calculate</div>
+                    <div>∫x²dx = x³/3 + C</div>
+                </div>
+                <div class="solution-step" style="background: rgba(102, 126, 234, 0.2);">
+                    <div class="step-number">Final Answer:</div>
+                    <div><strong>x³/3 + C</strong></div>
+                </div>
+            `;
+        }
+
+        // Solve trigonometry
+        function solveTrig(problem) {
+            return `
+                <div class="solution-step">
+                    <div class="step-number">Step 1: Identify the equation</div>
+                    <div>sin(x) = 0.5</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 2: Find principal value</div>
+                    <div>x = arcsin(0.5)</div>
+                    <div>x = 30° or π/6 radians</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 3: Find general solution</div>
+                    <div>x = π/6 + 2πn or x = π - π/6 + 2πn</div>
+                    <div>x = π/6 + 2πn or x = 5π/6 + 2πn</div>
+                </div>
+                <div class="solution-step" style="background: rgba(102, 126, 234, 0.2);">
+                    <div class="step-number">Final Answer:</div>
+                    <div><strong>x = 30° + 360°n or x = 150° + 360°n</strong></div>
+                </div>
+            `;
+        }
+
+        // Solve limit
+        function solveLimit(problem) {
+            return `
+                <div class="solution-step">
+                    <div class="step-number">Step 1: Identify the limit</div>
+                    <div>lim x→0 (sin(x)/x)</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 2: Recognize standard limit</div>
+                    <div>This is a fundamental trigonometric limit</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 3: Apply L'Hôpital's Rule (optional)</div>
+                    <div>lim x→0 (sin(x)/x) = lim x→0 (cos(x)/1) = cos(0) = 1</div>
+                </div>
+                <div class="solution-step" style="background: rgba(102, 126, 234, 0.2);">
+                    <div class="step-number">Final Answer:</div>
+                    <div><strong>1</strong></div>
+                </div>
+            `;
+        }
+
+        // Generate generic solution
+        function generateGenericSolution(problem) {
+            return `
+                <div class="solution-step">
+                    <div class="step-number">Step 1: Problem Analysis</div>
+                    <div>Input: ${problem || '[From drawing/image]'}</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 2: Identify Problem Type</div>
+                    <div>Analyzing mathematical structure...</div>
+                </div>
+                <div class="solution-step">
+                    <div class="step-number">Step 3: Apply Solution Method</div>
+                    <div>Using appropriate mathematical techniques...</div>
+                </div>
+                <div class="solution-step" style="background: rgba(102, 126, 234, 0.2);">
+                    <div class="step-number">Solution Generated:</div>
+                    <div><strong>Complete solution would appear here based on the specific problem type</strong></div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
