@@ -1,0 +1,120 @@
+version: '3.9'
+
+services:
+  # Load Balancer
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - api
+      - web
+
+  # API Cluster (3 instances)
+  api:
+    build: .
+    deploy:
+      replicas: 3
+    environment:
+      - DATABASE_URL=postgresql://emma:emma@postgres:5432/emma
+      - REDIS_URL=redis://redis:6379
+      - NEO4J_URI=bolt://neo4j:7687
+    depends_on:
+      - postgres
+      - redis
+      - neo4j
+
+  # Web Frontend
+  web:
+    build:
+      context: ./apps/web
+    deploy:
+      replicas: 2
+    environment:
+      - NEXT_PUBLIC_API_URL=https://api.emma.ai
+
+  # PostgreSQL with pgvector
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: emma
+      POSTGRES_USER: emma
+      POSTGRES_PASSWORD: emma_secure_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Neo4j Knowledge Graph
+  neo4j:
+    image: neo4j:5-enterprise
+    environment:
+      NEO4J_AUTH: neo4j/secure_password
+      NEO4J_ACCEPT_LICENSE_AGREEMENT: yes
+    volumes:
+      - neo4j_data:/data
+
+  # Redis Cache Cluster
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+
+  # MongoDB for Documents
+  mongodb:
+    image: mongo:7
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: emma
+      MONGO_INITDB_ROOT_PASSWORD: secure_password
+    volumes:
+      - mongo_data:/data/db
+
+  # Elasticsearch for Search
+  elasticsearch:
+    image: elasticsearch:8.11.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+
+  # MinIO Object Storage
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: emma
+      MINIO_ROOT_PASSWORD: secure_password
+    volumes:
+      - minio_data:/data
+
+  # Monitoring Stack
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+volumes:
+  postgres_data:
+  neo4j_data:
+  redis_data:
+  mongo_data:
+  elastic_data:
+  minio_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  default:
+    name: emma_network
+    driver: bridge
