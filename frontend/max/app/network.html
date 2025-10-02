@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citation Network - MAX Research Assistant</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .network-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 24px;
+            height: calc(100vh - 120px);
+        }
+
+        .network-controls {
+            background: white;
+            border-radius: var(--max-border-radius);
+            padding: 24px;
+            box-shadow: var(--max-shadow-md);
+            overflow-y: auto;
+        }
+
+        .controls-section {
+            margin-bottom: 32px;
+        }
+
+        .controls-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--max-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .paper-search-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--max-border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+
+        .paper-search-input:focus {
+            outline: none;
+            border-color: var(--max-primary);
+        }
+
+        .selected-papers {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .selected-paper {
+            background: var(--max-bg-light);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            gap: 8px;
+        }
+
+        .selected-paper-title {
+            flex: 1;
+            font-weight: 500;
+            color: var(--max-text-primary);
+        }
+
+        .remove-paper {
+            background: none;
+            border: none;
+            color: var(--max-danger);
+            cursor: pointer;
+            padding: 4px;
+            font-size: 1rem;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--max-text-secondary);
+        }
+
+        .control-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--max-border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .control-input:focus {
+            outline: none;
+            border-color: var(--max-primary);
+        }
+
+        .slider-value {
+            display: inline-block;
+            font-weight: 600;
+            color: var(--max-primary);
+            margin-left: 8px;
+        }
+
+        .build-network-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: var(--max-shadow-md);
+        }
+
+        .build-network-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--max-shadow-lg);
+        }
+
+        .build-network-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .network-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .stat-card {
+            background: var(--max-bg-light);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--max-primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--max-text-secondary);
+            margin-top: 4px;
+        }
+
+        .network-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: var(--max-bg-light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .option-checkbox:hover {
+            background: var(--max-border-color);
+        }
+
+        .option-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .option-checkbox label {
+            cursor: pointer;
+            font-size: 0.9rem;
+            flex: 1;
+        }
+
+        .network-visualization {
+            background: white;
+            border-radius: var(--max-border-radius);
+            box-shadow: var(--max-shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #networkGraph {
+            width: 100%;
+            height: 100%;
+        }
+
+        .graph-toolbar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .toolbar-btn {
+            background: white;
+            border: 2px solid var(--max-border-color);
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: var(--max-shadow-sm);
+        }
+
+        .toolbar-btn:hover {
+            border-color: var(--max-primary);
+            color: var(--max-primary);
+            box-shadow: var(--max-shadow-md);
+        }
+
+        .graph-legend {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: var(--max-shadow-md);
+            z-index: 10;
+        }
+
+        .legend-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            color: var(--max-text-primary);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--max-text-secondary);
+            text-align: center;
+            padding: 40px;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--max-border-color);
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--max-text-primary);
+        }
+
+        .empty-state p {
+            max-width: 400px;
+            line-height: 1.6;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .spinner {
+            border: 4px solid var(--max-border-color);
+            border-top: 4px solid var(--max-primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--max-text-primary);
+        }
+
+        .node-tooltip {
+            position: absolute;
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: var(--max-shadow-lg);
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 350px;
+            display: none;
+        }
+
+        .tooltip-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--max-text-primary);
+        }
+
+        .tooltip-meta {
+            font-size: 0.85rem;
+            color: var(--max-text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .tooltip-score {
+            display: inline-block;
+            background: var(--max-primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-microscope"></i>
+                <span>MAX Research</span>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="search.html"><i class="fas fa-search"></i> Search Papers</a></li>
+                    <li><a href="network.html" class="active"><i class="fas fa-project-diagram"></i> Networks</a></li>
+                    <li><a href="synthesis.html"><i class="fas fa-magic"></i> Synthesis</a></li>
+                    <li><a href="collections.html"><i class="fas fa-folder"></i> Collections</a></li>
+                    <li><a href="library.html"><i class="fas fa-book"></i> Library</a></li>
+                    <li><a href="trends.html"><i class="fas fa-chart-line"></i> Trends</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Citation Network Analysis</h1>
+                <p class="page-subtitle">Visualize and explore citation relationships between papers</p>
+            </div>
+
+            <div class="network-container">
+                <div class="network-controls">
+                    <div class="controls-section">
+                        <h3><i class="fas fa-file-alt"></i> Select Papers</h3>
+                        <input
+                            type="text"
+                            id="paperSearchInput"
+                            class="paper-search-input"
+                            placeholder="Enter paper ID or search from library..."
+                        >
+                        <button class="max-btn max-btn-secondary" onclick="addPaperFromLibrary()" style="width: 100%; margin-bottom: 16px;">
+                            <i class="fas fa-plus"></i> Add from Library
+                        </button>
+                        <div id="selectedPapers" class="selected-papers">
+                            <!-- Selected papers will appear here -->
+                        </div>
+                    </div>
+
+                    <div class="controls-section">
+                        <h3><i class="fas fa-sliders-h"></i> Network Parameters</h3>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                Network Depth
+                                <span class="slider-value" id="depthValue">2</span>
+                            </label>
+                            <input
+                                type="range"
+                                id="depthSlider"
+                                class="control-input"
+                                min="1"
+                                max="3"
+                                value="2"
+                                oninput="updateSliderValue('depth', this.value)"
+                            >
+                            <small style="color: var(--max-text-secondary); font-size: 0.8rem;">
+                                Number of citation hops from seed papers
+                            </small>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                Minimum Citations
+                                <span class="slider-value" id="minCitationsValue">10</span>
+                            </label>
+                            <input
+                                type="range"
+                                id="minCitationsSlider"
+                                class="control-input"
+                                min="0"
+                                max="100"
+                                value="10"
+                                step="5"
+                                oninput="updateSliderValue('minCitations', this.value)"
+                            >
+                            <small style="color: var(--max-text-secondary); font-size: 0.8rem;">
+                                Filter papers by citation count
+                            </small>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                Max Nodes
+                                <span class="slider-value" id="maxNodesValue">100</span>
+                            </label>
+                            <input
+                                type="range"
+                                id="maxNodesSlider"
+                                class="control-input"
+                                min="20"
+                                max="300"
+                                value="100"
+                                step="10"
+                                oninput="updateSliderValue('maxNodes', this.value)"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="controls-section">
+                        <h3><i class="fas fa-eye"></i> Visualization Options</h3>
+                        <div class="network-options">
+                            <div class="option-checkbox">
+                                <input type="checkbox" id="showPageRank" checked>
+                                <label for="showPageRank">Show PageRank scores</label>
+                            </div>
+                            <div class="option-checkbox">
+                                <input type="checkbox" id="showCommunities" checked>
+                                <label for="showCommunities">Color by communities</label>
+                            </div>
+                            <div class="option-checkbox">
+                                <input type="checkbox" id="showLabels" checked>
+                                <label for="showLabels">Show node labels</label>
+                            </div>
+                            <div class="option-checkbox">
+                                <input type="checkbox" id="highlightSeed" checked>
+                                <label for="highlightSeed">Highlight seed papers</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="buildNetworkBtn" class="build-network-btn" onclick="buildNetwork()" disabled>
+                        <i class="fas fa-project-diagram"></i> Build Network
+                    </button>
+
+                    <div class="network-stats" id="networkStats" style="display: none;">
+                        <div class="stat-card">
+                            <div class="stat-value" id="nodeCount">0</div>
+                            <div class="stat-label">Nodes</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="edgeCount">0</div>
+                            <div class="stat-label">Edges</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="communityCount">0</div>
+                            <div class="stat-label">Communities</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="avgDegree">0</div>
+                            <div class="stat-label">Avg Degree</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="network-visualization">
+                    <div id="emptyState" class="empty-state">
+                        <i class="fas fa-project-diagram"></i>
+                        <h3>Build Your Citation Network</h3>
+                        <p>
+                            Select one or more papers from your library or enter paper IDs to visualize
+                            the citation network. Discover influential papers, research communities, and
+                            hidden connections in the literature.
+                        </p>
+                    </div>
+                    <svg id="networkGraph"></svg>
+                    <div class="graph-toolbar" style="display: none;" id="graphToolbar">
+                        <button class="toolbar-btn" onclick="resetZoom()">
+                            <i class="fas fa-search-minus"></i> Reset Zoom
+                        </button>
+                        <button class="toolbar-btn" onclick="exportNetwork()">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <button class="toolbar-btn" onclick="saveNetwork()">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                    </div>
+                    <div class="graph-legend" style="display: none;" id="graphLegend">
+                        <div class="legend-title">Legend</div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #f59e0b;"></div>
+                            <span>Seed Papers</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #3b82f6;"></div>
+                            <span>High PageRank</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #8b5cf6;"></div>
+                            <span>Medium PageRank</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #64748b;"></div>
+                            <span>Low PageRank</span>
+                        </div>
+                    </div>
+                    <div class="node-tooltip" id="nodeTooltip"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+        let selectedPapers = [];
+        let currentNetwork = null;
+        let simulation = null;
+
+        // Update slider values
+        function updateSliderValue(type, value) {
+            document.getElementById(`${type}Value`).textContent = value;
+        }
+
+        // Add paper to selection
+        function addPaper(paperId, title) {
+            if (!selectedPapers.find(p => p.id === paperId)) {
+                selectedPapers.push({ id: paperId, title: title });
+                renderSelectedPapers();
+                updateBuildButton();
+            }
+        }
+
+        // Add paper from library (opens modal in real implementation)
+        function addPaperFromLibrary() {
+            // Mock paper for demonstration
+            const mockPaper = {
+                id: `paper_${Date.now()}`,
+                title: 'Example Paper: Attention Is All You Need'
+            };
+            addPaper(mockPaper.id, mockPaper.title);
+        }
+
+        // Listen for Enter key on paper search
+        document.getElementById('paperSearchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const input = e.target.value.trim();
+                if (input) {
+                    addPaper(input, `Paper: ${input}`);
+                    e.target.value = '';
+                }
+            }
+        });
+
+        // Remove paper
+        function removePaper(paperId) {
+            selectedPapers = selectedPapers.filter(p => p.id !== paperId);
+            renderSelectedPapers();
+            updateBuildButton();
+        }
+
+        // Render selected papers
+        function renderSelectedPapers() {
+            const container = document.getElementById('selectedPapers');
+            if (selectedPapers.length === 0) {
+                container.innerHTML = '<p style="color: var(--max-text-secondary); font-size: 0.9rem; text-align: center; padding: 20px;">No papers selected</p>';
+            } else {
+                container.innerHTML = selectedPapers.map(paper => `
+                    <div class="selected-paper">
+                        <div class="selected-paper-title">${escapeHtml(paper.title)}</div>
+                        <button class="remove-paper" onclick="removePaper('${paper.id}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Update build button state
+        function updateBuildButton() {
+            const btn = document.getElementById('buildNetworkBtn');
+            btn.disabled = selectedPapers.length === 0;
+        }
+
+        // Build network
+        async function buildNetwork() {
+            const btn = document.getElementById('buildNetworkBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Building Network...';
+
+            showLoading('Building citation network...');
+
+            try {
+                const depth = parseInt(document.getElementById('depthSlider').value);
+                const minCitations = parseInt(document.getElementById('minCitationsSlider').value);
+                const maxNodes = parseInt(document.getElementById('maxNodesSlider').value);
+
+                const response = await fetch(`${API_BASE}/api/max/citations/network`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        paper_ids: selectedPapers.map(p => p.id),
+                        depth: depth,
+                        min_citations: minCitations,
+                        max_nodes: maxNodes
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                currentNetwork = data;
+                visualizeNetwork(data);
+                updateNetworkStats(data);
+
+                // Hide empty state, show toolbar and legend
+                document.getElementById('emptyState').style.display = 'none';
+                document.getElementById('graphToolbar').style.display = 'flex';
+                document.getElementById('graphLegend').style.display = 'block';
+                document.getElementById('networkStats').style.display = 'grid';
+
+            } catch (error) {
+                console.error('Error building network:', error);
+                alert('Failed to build network. Please check that the backend is running and try again.');
+            } finally {
+                hideLoading();
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-project-diagram"></i> Build Network';
+            }
+        }
+
+        // Visualize network with D3.js
+        function visualizeNetwork(networkData) {
+            const svg = d3.select('#networkGraph');
+            svg.selectAll('*').remove();
+
+            const container = document.querySelector('.network-visualization');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            svg.attr('width', width).attr('height', height);
+
+            // Create graph data
+            const nodes = networkData.nodes.map(n => ({
+                id: n.paper_id,
+                title: n.title,
+                year: n.year,
+                citations: n.citations_count,
+                pagerank: n.pagerank || 0,
+                community: n.community || 0,
+                isSeed: selectedPapers.some(p => p.id === n.paper_id)
+            }));
+
+            const links = networkData.edges.map(e => ({
+                source: e.source,
+                target: e.target
+            }));
+
+            // Color scale for communities
+            const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+
+            // Size scale based on PageRank
+            const sizeScale = d3.scaleLinear()
+                .domain([0, d3.max(nodes, d => d.pagerank) || 1])
+                .range([5, 20]);
+
+            // Create force simulation
+            simulation = d3.forceSimulation(nodes)
+                .force('link', d3.forceLink(links).id(d => d.id).distance(100))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collision', d3.forceCollide().radius(d => sizeScale(d.pagerank) + 5));
+
+            // Create zoom behavior
+            const zoom = d3.zoom()
+                .scaleExtent([0.1, 10])
+                .on('zoom', (event) => {
+                    g.attr('transform', event.transform);
+                });
+
+            svg.call(zoom);
+
+            const g = svg.append('g');
+
+            // Draw links
+            const link = g.append('g')
+                .selectAll('line')
+                .data(links)
+                .join('line')
+                .attr('stroke', '#cbd5e1')
+                .attr('stroke-opacity', 0.6)
+                .attr('stroke-width', 1.5);
+
+            // Draw nodes
+            const showCommunities = document.getElementById('showCommunities').checked;
+            const highlightSeed = document.getElementById('highlightSeed').checked;
+
+            const node = g.append('g')
+                .selectAll('circle')
+                .data(nodes)
+                .join('circle')
+                .attr('r', d => sizeScale(d.pagerank))
+                .attr('fill', d => {
+                    if (highlightSeed && d.isSeed) return '#f59e0b';
+                    if (showCommunities) return colorScale(d.community);
+                    // Color by PageRank
+                    if (d.pagerank > 0.01) return '#3b82f6';
+                    if (d.pagerank > 0.001) return '#8b5cf6';
+                    return '#64748b';
+                })
+                .attr('stroke', d => d.isSeed ? '#d97706' : '#fff')
+                .attr('stroke-width', d => d.isSeed ? 3 : 2)
+                .style('cursor', 'pointer')
+                .call(d3.drag()
+                    .on('start', dragstarted)
+                    .on('drag', dragged)
+                    .on('end', dragended))
+                .on('mouseover', showTooltip)
+                .on('mouseout', hideTooltip)
+                .on('click', (event, d) => openPaperDetails(d.id));
+
+            // Add labels if enabled
+            let labels;
+            if (document.getElementById('showLabels').checked) {
+                labels = g.append('g')
+                    .selectAll('text')
+                    .data(nodes)
+                    .join('text')
+                    .text(d => d.title.length > 30 ? d.title.substring(0, 30) + '...' : d.title)
+                    .attr('font-size', 10)
+                    .attr('dx', 12)
+                    .attr('dy', 4)
+                    .style('pointer-events', 'none');
+            }
+
+            // Update positions on each tick
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+
+                node
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y);
+
+                if (labels) {
+                    labels
+                        .attr('x', d => d.x)
+                        .attr('y', d => d.y);
+                }
+            });
+
+            // Drag functions
+            function dragstarted(event) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+            }
+
+            function dragged(event) {
+                event.subject.fx = event.x;
+                event.subject.fy = event.y;
+            }
+
+            function dragended(event) {
+                if (!event.active) simulation.alphaTarget(0);
+                event.subject.fx = null;
+                event.subject.fy = null;
+            }
+        }
+
+        // Show tooltip
+        function showTooltip(event, d) {
+            const tooltip = document.getElementById('nodeTooltip');
+            const showPageRank = document.getElementById('showPageRank').checked;
+
+            tooltip.innerHTML = `
+                <div class="tooltip-title">${escapeHtml(d.title)}</div>
+                <div class="tooltip-meta"><i class="fas fa-calendar"></i> ${d.year}</div>
+                <div class="tooltip-meta"><i class="fas fa-quote-right"></i> ${d.citations} citations</div>
+                ${showPageRank ? `<span class="tooltip-score">PageRank: ${d.pagerank.toFixed(4)}</span>` : ''}
+            `;
+
+            tooltip.style.display = 'block';
+            tooltip.style.left = (event.pageX + 15) + 'px';
+            tooltip.style.top = (event.pageY - 15) + 'px';
+        }
+
+        // Hide tooltip
+        function hideTooltip() {
+            document.getElementById('nodeTooltip').style.display = 'none';
+        }
+
+        // Update network statistics
+        function updateNetworkStats(data) {
+            document.getElementById('nodeCount').textContent = data.nodes.length;
+            document.getElementById('edgeCount').textContent = data.edges.length;
+
+            const communities = new Set(data.nodes.map(n => n.community)).size;
+            document.getElementById('communityCount').textContent = communities;
+
+            const avgDegree = (data.edges.length * 2 / data.nodes.length).toFixed(1);
+            document.getElementById('avgDegree').textContent = avgDegree;
+        }
+
+        // Reset zoom
+        function resetZoom() {
+            const svg = d3.select('#networkGraph');
+            svg.transition().duration(750).call(
+                d3.zoom().transform,
+                d3.zoomIdentity
+            );
+        }
+
+        // Export network
+        function exportNetwork() {
+            if (!currentNetwork) return;
+
+            const dataStr = JSON.stringify(currentNetwork, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `citation-network-${Date.now()}.json`;
+            link.click();
+        }
+
+        // Save network
+        async function saveNetwork() {
+            if (!currentNetwork) return;
+
+            try {
+                const name = prompt('Enter a name for this network:');
+                if (!name) return;
+
+                // In real implementation, save to backend
+                alert(`Network "${name}" saved successfully!`);
+            } catch (error) {
+                console.error('Error saving network:', error);
+                alert('Failed to save network');
+            }
+        }
+
+        // Open paper details
+        function openPaperDetails(paperId) {
+            console.log('Opening paper:', paperId);
+            // In real implementation, open paper detail modal or navigate to paper page
+        }
+
+        // Loading state
+        function showLoading(message) {
+            const overlay = document.createElement('div');
+            overlay.id = 'loadingOverlay';
+            overlay.className = 'loading-overlay';
+            overlay.innerHTML = `
+                <div class="spinner"></div>
+                <div class="loading-text">${message}</div>
+            `;
+            document.querySelector('.network-visualization').appendChild(overlay);
+        }
+
+        function hideLoading() {
+            const overlay = document.getElementById('loadingOverlay');
+            if (overlay) overlay.remove();
+        }
+
+        // Utility function
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize
+        renderSelectedPapers();
+    </script>
+</body>
+</html>

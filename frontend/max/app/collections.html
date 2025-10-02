@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collections - MAX Research Assistant</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .collections-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .create-collection-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: var(--max-shadow-md);
+        }
+
+        .create-collection-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--max-shadow-lg);
+        }
+
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .collection-card {
+            background: white;
+            border-radius: var(--max-border-radius);
+            padding: 24px;
+            box-shadow: var(--max-shadow-md);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--max-shadow-lg);
+            border-color: var(--max-primary);
+        }
+
+        .collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 16px;
+        }
+
+        .collection-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .collection-menu {
+            position: relative;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--max-text-secondary);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .menu-btn:hover {
+            background: var(--max-bg-light);
+        }
+
+        .collection-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--max-text-primary);
+        }
+
+        .collection-description {
+            font-size: 0.9rem;
+            color: var(--max-text-secondary);
+            line-height: 1.5;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .collection-stats {
+            display: flex;
+            gap: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--max-border-color);
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--max-text-secondary);
+        }
+
+        .stat i {
+            color: var(--max-primary);
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: var(--max-text-primary);
+        }
+
+        .collection-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .collection-tag {
+            background: var(--max-bg-light);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--max-text-secondary);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--max-border-radius);
+            padding: 32px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--max-shadow-lg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--max-text-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--max-text-secondary);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--max-bg-light);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--max-text-primary);
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--max-border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--max-primary);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+
+        .btn-secondary {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid var(--max-border-color);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--max-primary);
+            color: var(--max-primary);
+        }
+
+        .btn-primary {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--max-text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 5rem;
+            color: var(--max-border-color);
+            margin-bottom: 24px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--max-text-primary);
+        }
+
+        .empty-state p {
+            max-width: 500px;
+            margin: 0 auto 24px auto;
+            line-height: 1.6;
+        }
+
+        .color-picker {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.selected {
+            border-color: var(--max-text-primary);
+        }
+
+        /* Collection Detail View */
+        .collection-detail {
+            display: none;
+        }
+
+        .collection-detail.active {
+            display: block;
+        }
+
+        .detail-header {
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            color: white;
+            padding: 40px;
+            border-radius: var(--max-border-radius);
+            margin-bottom: 32px;
+        }
+
+        .detail-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .papers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .paper-item {
+            background: white;
+            padding: 20px;
+            border-radius: var(--max-border-radius);
+            box-shadow: var(--max-shadow-sm);
+            transition: box-shadow 0.2s, transform 0.2s;
+            cursor: pointer;
+        }
+
+        .paper-item:hover {
+            box-shadow: var(--max-shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .paper-item-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--max-text-primary);
+        }
+
+        .paper-item-authors {
+            font-size: 0.9rem;
+            color: var(--max-text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .paper-item-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.85rem;
+            color: var(--max-text-secondary);
+        }
+
+        .paper-item-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .paper-action-btn {
+            padding: 8px 16px;
+            background: var(--max-bg-light);
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .paper-action-btn:hover {
+            background: var(--max-border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-microscope"></i>
+                <span>MAX Research</span>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="search.html"><i class="fas fa-search"></i> Search Papers</a></li>
+                    <li><a href="network.html"><i class="fas fa-project-diagram"></i> Networks</a></li>
+                    <li><a href="synthesis.html"><i class="fas fa-magic"></i> Synthesis</a></li>
+                    <li><a href="collections.html" class="active"><i class="fas fa-folder"></i> Collections</a></li>
+                    <li><a href="library.html"><i class="fas fa-book"></i> Library</a></li>
+                    <li><a href="trends.html"><i class="fas fa-chart-line"></i> Trends</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div id="collectionsView">
+                <div class="collections-header">
+                    <div>
+                        <h1 class="page-title">Paper Collections</h1>
+                        <p class="page-subtitle">Organize your research into curated collections</p>
+                    </div>
+                    <button class="create-collection-btn" onclick="openCreateModal()">
+                        <i class="fas fa-plus"></i> New Collection
+                    </button>
+                </div>
+
+                <div id="collectionsGrid" class="collections-grid">
+                    <!-- Collections will be rendered here -->
+                </div>
+
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <i class="fas fa-folder-open"></i>
+                    <h3>No Collections Yet</h3>
+                    <p>
+                        Create your first collection to organize papers by topic, project, or any way that
+                        makes sense for your research workflow.
+                    </p>
+                    <button class="create-collection-btn" onclick="openCreateModal()">
+                        <i class="fas fa-plus"></i> Create Collection
+                    </button>
+                </div>
+            </div>
+
+            <div id="collectionDetail" class="collection-detail">
+                <!-- Collection detail view will be rendered here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Create/Edit Collection Modal -->
+    <div id="collectionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Create Collection</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <form id="collectionForm" onsubmit="saveCollection(event)">
+                <div class="form-group">
+                    <label class="form-label">Collection Name</label>
+                    <input type="text" id="collectionName" class="form-input" placeholder="E.g., Deep Learning Papers" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea id="collectionDescription" class="form-textarea" placeholder="What is this collection about?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tags (comma-separated)</label>
+                    <input type="text" id="collectionTags" class="form-input" placeholder="machine-learning, computer-vision, nlp">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Color</label>
+                    <div class="color-picker">
+                        <div class="color-option selected" data-color="#f59e0b" style="background: #f59e0b;"></div>
+                        <div class="color-option" data-color="#3b82f6" style="background: #3b82f6;"></div>
+                        <div class="color-option" data-color="#10b981" style="background: #10b981;"></div>
+                        <div class="color-option" data-color="#ec4899" style="background: #ec4899;"></div>
+                        <div class="color-option" data-color="#8b5cf6" style="background: #8b5cf6;"></div>
+                        <div class="color-option" data-color="#ef4444" style="background: #ef4444;"></div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Save Collection
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+        let collections = [];
+        let selectedColor = '#f59e0b';
+        let editingCollectionId = null;
+
+        // Load collections on page load
+        async function loadCollections() {
+            try {
+                const response = await fetch(`${API_BASE}/api/max/collections`);
+                if (response.ok) {
+                    collections = await response.json();
+                    renderCollections();
+                } else {
+                    // Use mock data if backend not available
+                    useMockData();
+                }
+            } catch (error) {
+                console.error('Error loading collections:', error);
+                useMockData();
+            }
+        }
+
+        // Use mock data for demonstration
+        function useMockData() {
+            collections = [
+                {
+                    id: '1',
+                    name: 'Transformer Architecture',
+                    description: 'Papers about transformer models and attention mechanisms',
+                    paper_count: 12,
+                    created_at: '2024-01-15',
+                    tags: ['deep-learning', 'nlp', 'transformers'],
+                    color: '#f59e0b'
+                },
+                {
+                    id: '2',
+                    name: 'Computer Vision',
+                    description: 'Recent advances in image recognition and visual understanding',
+                    paper_count: 8,
+                    created_at: '2024-02-10',
+                    tags: ['computer-vision', 'cnn', 'image-processing'],
+                    color: '#3b82f6'
+                },
+                {
+                    id: '3',
+                    name: 'Reinforcement Learning',
+                    description: 'RL algorithms and applications',
+                    paper_count: 15,
+                    created_at: '2024-01-20',
+                    tags: ['reinforcement-learning', 'ai', 'robotics'],
+                    color: '#10b981'
+                }
+            ];
+            renderCollections();
+        }
+
+        // Render collections grid
+        function renderCollections() {
+            const grid = document.getElementById('collectionsGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (collections.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                grid.style.display = 'grid';
+                emptyState.style.display = 'none';
+
+                grid.innerHTML = collections.map(collection => `
+                    <div class="collection-card" onclick="openCollection('${collection.id}')">
+                        <div class="collection-header">
+                            <div class="collection-icon" style="background: ${collection.color};">
+                                <i class="fas fa-folder"></i>
+                            </div>
+                            <div class="collection-menu">
+                                <button class="menu-btn" onclick="event.stopPropagation(); editCollection('${collection.id}')">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <h3 class="collection-title">${escapeHtml(collection.name)}</h3>
+                        <p class="collection-description">${escapeHtml(collection.description || 'No description')}</p>
+                        ${collection.tags && collection.tags.length > 0 ? `
+                            <div class="collection-tags">
+                                ${collection.tags.slice(0, 3).map(tag =>
+                                    `<span class="collection-tag">${escapeHtml(tag)}</span>`
+                                ).join('')}
+                            </div>
+                        ` : ''}
+                        <div class="collection-stats">
+                            <div class="stat">
+                                <i class="fas fa-file-alt"></i>
+                                <span class="stat-value">${collection.paper_count || 0}</span>
+                                <span>papers</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-calendar"></i>
+                                <span>${formatDate(collection.created_at)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Open create modal
+        function openCreateModal() {
+            editingCollectionId = null;
+            document.getElementById('modalTitle').textContent = 'Create Collection';
+            document.getElementById('collectionForm').reset();
+            selectedColor = '#f59e0b';
+            updateColorSelection();
+            document.getElementById('collectionModal').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('collectionModal').classList.remove('active');
+        }
+
+        // Color picker
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                selectedColor = this.getAttribute('data-color');
+                updateColorSelection();
+            });
+        });
+
+        function updateColorSelection() {
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.toggle('selected', option.getAttribute('data-color') === selectedColor);
+            });
+        }
+
+        // Save collection
+        async function saveCollection(event) {
+            event.preventDefault();
+
+            const data = {
+                name: document.getElementById('collectionName').value,
+                description: document.getElementById('collectionDescription').value,
+                tags: document.getElementById('collectionTags').value.split(',').map(t => t.trim()).filter(t => t),
+                color: selectedColor
+            };
+
+            try {
+                const url = editingCollectionId
+                    ? `${API_BASE}/api/max/collections/${editingCollectionId}`
+                    : `${API_BASE}/api/max/collections`;
+
+                const method = editingCollectionId ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    await loadCollections();
+                    closeModal();
+                } else {
+                    // Mock save for demo
+                    if (editingCollectionId) {
+                        const index = collections.findIndex(c => c.id === editingCollectionId);
+                        collections[index] = { ...collections[index], ...data };
+                    } else {
+                        collections.push({
+                            id: Date.now().toString(),
+                            ...data,
+                            paper_count: 0,
+                            created_at: new Date().toISOString()
+                        });
+                    }
+                    renderCollections();
+                    closeModal();
+                }
+            } catch (error) {
+                console.error('Error saving collection:', error);
+                alert('Failed to save collection');
+            }
+        }
+
+        // Edit collection
+        function editCollection(collectionId) {
+            const collection = collections.find(c => c.id === collectionId);
+            if (!collection) return;
+
+            editingCollectionId = collectionId;
+            document.getElementById('modalTitle').textContent = 'Edit Collection';
+            document.getElementById('collectionName').value = collection.name;
+            document.getElementById('collectionDescription').value = collection.description || '';
+            document.getElementById('collectionTags').value = (collection.tags || []).join(', ');
+            selectedColor = collection.color || '#f59e0b';
+            updateColorSelection();
+            document.getElementById('collectionModal').classList.add('active');
+        }
+
+        // Open collection detail view
+        function openCollection(collectionId) {
+            const collection = collections.find(c => c.id === collectionId);
+            if (!collection) return;
+
+            document.getElementById('collectionsView').style.display = 'none';
+            const detailView = document.getElementById('collectionDetail');
+            detailView.classList.add('active');
+
+            detailView.innerHTML = `
+                <button class="back-btn" onclick="closeCollectionDetail()">
+                    <i class="fas fa-arrow-left"></i> Back to Collections
+                </button>
+
+                <div class="detail-header" style="background: linear-gradient(135deg, ${collection.color}, ${adjustColor(collection.color, -20)});">
+                    <div class="detail-header-content">
+                        <div>
+                            <h1 style="font-size: 2rem; margin-bottom: 12px;">${escapeHtml(collection.name)}</h1>
+                            <p style="font-size: 1.1rem; opacity: 0.9;">${escapeHtml(collection.description || 'No description')}</p>
+                            <div style="margin-top: 16px; display: flex; gap: 16px;">
+                                <div><i class="fas fa-file-alt"></i> ${collection.paper_count || 0} papers</div>
+                                <div><i class="fas fa-calendar"></i> Created ${formatDate(collection.created_at)}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="back-btn" onclick="editCollection('${collection.id}')">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="papers-list" id="collectionPapersList">
+                    <p style="text-align: center; color: var(--max-text-secondary); padding: 40px;">
+                        No papers in this collection yet. Search for papers and add them to this collection.
+                    </p>
+                </div>
+            `;
+        }
+
+        // Close collection detail view
+        function closeCollectionDetail() {
+            document.getElementById('collectionDetail').classList.remove('active');
+            document.getElementById('collectionsView').style.display = 'block';
+        }
+
+        // Utility functions
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 30) return `${diffDays} days ago`;
+            if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+            return date.toLocaleDateString();
+        }
+
+        function adjustColor(color, amount) {
+            const num = parseInt(color.replace('#', ''), 16);
+            const r = Math.max(0, Math.min(255, (num >> 16) + amount));
+            const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + amount));
+            const b = Math.max(0, Math.min(255, (num & 0x0000FF) + amount));
+            return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+        }
+
+        // Initialize
+        loadCollections();
+    </script>
+</body>
+</html>

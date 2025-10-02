@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library - MAX Research Assistant</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .library-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .library-toolbar {
+            background: white;
+            padding: 20px 24px;
+            border-radius: var(--max-border-radius);
+            box-shadow: var(--max-shadow-sm);
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            border: 2px solid var(--max-border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--max-primary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--max-text-secondary);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 10px 16px;
+            border: 2px solid var(--max-border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: white;
+            transition: border-color 0.2s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--max-primary);
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 4px;
+            background: var(--max-bg-light);
+            padding: 4px;
+            border-radius: 8px;
+        }
+
+        .view-btn {
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s;
+            color: var(--max-text-secondary);
+        }
+
+        .view-btn.active {
+            background: white;
+            color: var(--max-primary);
+            box-shadow: var(--max-shadow-sm);
+        }
+
+        .library-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--max-border-radius);
+            box-shadow: var(--max-shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--max-text-primary);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--max-text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Grid View */
+        .papers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .paper-card {
+            background: white;
+            border-radius: var(--max-border-radius);
+            padding: 20px;
+            box-shadow: var(--max-shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .paper-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--max-shadow-md);
+            border-color: var(--max-primary);
+        }
+
+        .paper-header {
+            display: flex;
+            justify-content: between;
+            align-items: start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .paper-badge {
+            background: var(--max-primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .paper-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--max-text-primary);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .paper-authors {
+            font-size: 0.85rem;
+            color: var(--max-text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .paper-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.8rem;
+            color: var(--max-text-secondary);
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .paper-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .paper-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .paper-tag {
+            background: var(--max-bg-light);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--max-text-secondary);
+        }
+
+        .paper-actions {
+            display: flex;
+            gap: 8px;
+            padding-top: 12px;
+            border-top: 1px solid var(--max-border-color);
+        }
+
+        .paper-action-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--max-border-color);
+            background: white;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .paper-action-btn:hover {
+            border-color: var(--max-primary);
+            color: var(--max-primary);
+            background: var(--max-bg-light);
+        }
+
+        /* List View */
+        .papers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .papers-list .paper-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 16px 20px;
+        }
+
+        .papers-list .paper-content {
+            flex: 1;
+        }
+
+        .papers-list .paper-title {
+            margin-bottom: 6px;
+        }
+
+        .papers-list .paper-meta {
+            margin-bottom: 0;
+        }
+
+        .papers-list .paper-actions {
+            border: none;
+            padding: 0;
+            flex-direction: row;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--max-text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 5rem;
+            color: var(--max-border-color);
+            margin-bottom: 24px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--max-text-primary);
+        }
+
+        .empty-state p {
+            max-width: 500px;
+            margin: 0 auto 24px auto;
+            line-height: 1.6;
+        }
+
+        .bulk-actions {
+            background: white;
+            padding: 16px 24px;
+            border-radius: var(--max-border-radius);
+            box-shadow: var(--max-shadow-md);
+            margin-bottom: 16px;
+            display: none;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .bulk-actions.active {
+            display: flex;
+        }
+
+        .bulk-actions-text {
+            flex: 1;
+            font-weight: 600;
+            color: var(--max-text-primary);
+        }
+
+        .bulk-action-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--max-border-color);
+            background: white;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .bulk-action-btn:hover {
+            border-color: var(--max-primary);
+            color: var(--max-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-microscope"></i>
+                <span>MAX Research</span>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="search.html"><i class="fas fa-search"></i> Search Papers</a></li>
+                    <li><a href="network.html"><i class="fas fa-project-diagram"></i> Networks</a></li>
+                    <li><a href="synthesis.html"><i class="fas fa-magic"></i> Synthesis</a></li>
+                    <li><a href="collections.html"><i class="fas fa-folder"></i> Collections</a></li>
+                    <li><a href="library.html" class="active"><i class="fas fa-book"></i> Library</a></li>
+                    <li><a href="trends.html"><i class="fas fa-chart-line"></i> Trends</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="library-container">
+                <div class="page-header">
+                    <h1 class="page-title">My Library</h1>
+                    <p class="page-subtitle">Your personal collection of saved research papers</p>
+                </div>
+
+                <div class="library-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalPapers">0</div>
+                            <div class="stat-label">Total Papers</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="favoriteCount">0</div>
+                            <div class="stat-label">Favorites</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="readCount">0</div>
+                            <div class="stat-label">Read</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #ec4899, #be185d);">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="recentCount">0</div>
+                            <div class="stat-label">Added This Week</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="library-toolbar">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input
+                            type="text"
+                            id="librarySearch"
+                            class="search-input"
+                            placeholder="Search your library by title, author, or keywords..."
+                            oninput="filterLibrary()"
+                        >
+                    </div>
+
+                    <div class="filter-group">
+                        <select id="sortBy" class="filter-select" onchange="sortLibrary()">
+                            <option value="recent">Recently Added</option>
+                            <option value="title">Title (A-Z)</option>
+                            <option value="year">Year (Newest)</option>
+                            <option value="citations">Most Cited</option>
+                        </select>
+
+                        <select id="filterBy" class="filter-select" onchange="filterLibrary()">
+                            <option value="all">All Papers</option>
+                            <option value="favorites">Favorites</option>
+                            <option value="read">Read</option>
+                            <option value="unread">Unread</option>
+                            <option value="recent">Added This Week</option>
+                        </select>
+
+                        <div class="view-toggle">
+                            <button class="view-btn active" data-view="grid" onclick="setView('grid')">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="view-btn" data-view="list" onclick="setView('list')">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bulkActions" class="bulk-actions">
+                    <span class="bulk-actions-text"><span id="selectedCount">0</span> papers selected</span>
+                    <button class="bulk-action-btn" onclick="bulkAddToCollection()">
+                        <i class="fas fa-folder-plus"></i> Add to Collection
+                    </button>
+                    <button class="bulk-action-btn" onclick="bulkExport()">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                    <button class="bulk-action-btn" onclick="bulkDelete()">
+                        <i class="fas fa-trash"></i> Remove
+                    </button>
+                </div>
+
+                <div id="papersContainer" class="papers-grid">
+                    <!-- Papers will be rendered here -->
+                </div>
+
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Your Library is Empty</h3>
+                    <p>
+                        Start building your research library by searching for papers and saving them here.
+                        You can organize papers into collections, add notes, and keep track of what you've read.
+                    </p>
+                    <a href="search.html" class="max-btn max-btn-primary">
+                        <i class="fas fa-search"></i> Search for Papers
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+        let library = [];
+        let filteredLibrary = [];
+        let currentView = 'grid';
+
+        // Load library on page load
+        async function loadLibrary() {
+            try {
+                const response = await fetch(`${API_BASE}/api/max/library`);
+                if (response.ok) {
+                    library = await response.json();
+                    initializeLibrary();
+                } else {
+                    useMockData();
+                }
+            } catch (error) {
+                console.error('Error loading library:', error);
+                useMockData();
+            }
+        }
+
+        // Use mock data for demonstration
+        function useMockData() {
+            library = [
+                {
+                    id: '1',
+                    title: 'Attention Is All You Need',
+                    authors: ['Vaswani, A.', 'Shazeer, N.', 'Parmar, N.', 'Uszkoreit, J.'],
+                    year: 2017,
+                    citations_count: 85432,
+                    venue: 'NeurIPS',
+                    added_date: '2024-01-15',
+                    is_favorite: true,
+                    is_read: true,
+                    tags: ['transformers', 'attention', 'deep-learning']
+                },
+                {
+                    id: '2',
+                    title: 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding',
+                    authors: ['Devlin, J.', 'Chang, M.', 'Lee, K.', 'Toutanova, K.'],
+                    year: 2018,
+                    citations_count: 62103,
+                    venue: 'NAACL',
+                    added_date: '2024-02-01',
+                    is_favorite: true,
+                    is_read: false,
+                    tags: ['bert', 'nlp', 'transformers']
+                },
+                {
+                    id: '3',
+                    title: 'Language Models are Few-Shot Learners',
+                    authors: ['Brown, T.', 'Mann, B.', 'Ryder, N.'],
+                    year: 2020,
+                    citations_count: 41256,
+                    venue: 'NeurIPS',
+                    added_date: '2024-02-10',
+                    is_favorite: false,
+                    is_read: true,
+                    tags: ['gpt-3', 'language-models', 'few-shot']
+                }
+            ];
+            initializeLibrary();
+        }
+
+        // Initialize library
+        function initializeLibrary() {
+            filteredLibrary = [...library];
+            updateStats();
+            renderLibrary();
+        }
+
+        // Update statistics
+        function updateStats() {
+            const total = library.length;
+            const favorites = library.filter(p => p.is_favorite).length;
+            const read = library.filter(p => p.is_read).length;
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            const recent = library.filter(p => new Date(p.added_date) >= weekAgo).length;
+
+            document.getElementById('totalPapers').textContent = total;
+            document.getElementById('favoriteCount').textContent = favorites;
+            document.getElementById('readCount').textContent = read;
+            document.getElementById('recentCount').textContent = recent;
+        }
+
+        // Render library
+        function renderLibrary() {
+            const container = document.getElementById('papersContainer');
+            const emptyState = document.getElementById('emptyState');
+
+            if (filteredLibrary.length === 0) {
+                container.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                container.style.display = currentView === 'grid' ? 'grid' : 'flex';
+                container.className = currentView === 'grid' ? 'papers-grid' : 'papers-list';
+                emptyState.style.display = 'none';
+
+                container.innerHTML = filteredLibrary.map(paper => `
+                    <div class="paper-card" onclick="openPaper('${paper.id}')">
+                        <div class="paper-header">
+                            <div class="paper-badge">${escapeHtml(paper.venue || 'Journal')}</div>
+                            ${paper.is_favorite ? '<i class="fas fa-star" style="color: #f59e0b;"></i>' : ''}
+                        </div>
+                        <h3 class="paper-title">${escapeHtml(paper.title)}</h3>
+                        <p class="paper-authors">${escapeHtml(paper.authors.slice(0, 3).join(', '))}${paper.authors.length > 3 ? ' et al.' : ''}</p>
+                        <div class="paper-meta">
+                            <div class="paper-meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>${paper.year}</span>
+                            </div>
+                            <div class="paper-meta-item">
+                                <i class="fas fa-quote-right"></i>
+                                <span>${formatNumber(paper.citations_count)} citations</span>
+                            </div>
+                            <div class="paper-meta-item">
+                                ${paper.is_read ? '<i class="fas fa-check-circle" style="color: #10b981;"></i> Read' : '<i class="far fa-circle"></i> Unread'}
+                            </div>
+                        </div>
+                        ${paper.tags && paper.tags.length > 0 ? `
+                            <div class="paper-tags">
+                                ${paper.tags.slice(0, 3).map(tag =>
+                                    `<span class="paper-tag">${escapeHtml(tag)}</span>`
+                                ).join('')}
+                            </div>
+                        ` : ''}
+                        <div class="paper-actions">
+                            <button class="paper-action-btn" onclick="event.stopPropagation(); toggleFavorite('${paper.id}')">
+                                <i class="fa${paper.is_favorite ? 's' : 'r'} fa-star"></i>
+                            </button>
+                            <button class="paper-action-btn" onclick="event.stopPropagation(); toggleRead('${paper.id}')">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="paper-action-btn" onclick="event.stopPropagation(); addToCollection('${paper.id}')">
+                                <i class="fas fa-folder-plus"></i>
+                            </button>
+                            <button class="paper-action-btn" onclick="event.stopPropagation(); viewCitations('${paper.id}')">
+                                <i class="fas fa-project-diagram"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Filter library
+        function filterLibrary() {
+            const searchQuery = document.getElementById('librarySearch').value.toLowerCase();
+            const filterBy = document.getElementById('filterBy').value;
+
+            filteredLibrary = library.filter(paper => {
+                // Search filter
+                const matchesSearch = !searchQuery ||
+                    paper.title.toLowerCase().includes(searchQuery) ||
+                    paper.authors.some(a => a.toLowerCase().includes(searchQuery)) ||
+                    (paper.tags && paper.tags.some(t => t.toLowerCase().includes(searchQuery)));
+
+                // Category filter
+                let matchesFilter = true;
+                switch (filterBy) {
+                    case 'favorites':
+                        matchesFilter = paper.is_favorite;
+                        break;
+                    case 'read':
+                        matchesFilter = paper.is_read;
+                        break;
+                    case 'unread':
+                        matchesFilter = !paper.is_read;
+                        break;
+                    case 'recent':
+                        const weekAgo = new Date();
+                        weekAgo.setDate(weekAgo.getDate() - 7);
+                        matchesFilter = new Date(paper.added_date) >= weekAgo;
+                        break;
+                }
+
+                return matchesSearch && matchesFilter;
+            });
+
+            sortLibrary();
+        }
+
+        // Sort library
+        function sortLibrary() {
+            const sortBy = document.getElementById('sortBy').value;
+
+            switch (sortBy) {
+                case 'recent':
+                    filteredLibrary.sort((a, b) => new Date(b.added_date) - new Date(a.added_date));
+                    break;
+                case 'title':
+                    filteredLibrary.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+                case 'year':
+                    filteredLibrary.sort((a, b) => b.year - a.year);
+                    break;
+                case 'citations':
+                    filteredLibrary.sort((a, b) => b.citations_count - a.citations_count);
+                    break;
+            }
+
+            renderLibrary();
+        }
+
+        // Set view mode
+        function setView(view) {
+            currentView = view;
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-view') === view);
+            });
+            renderLibrary();
+        }
+
+        // Toggle favorite
+        function toggleFavorite(paperId) {
+            const paper = library.find(p => p.id === paperId);
+            if (paper) {
+                paper.is_favorite = !paper.is_favorite;
+                updateStats();
+                renderLibrary();
+            }
+        }
+
+        // Toggle read status
+        function toggleRead(paperId) {
+            const paper = library.find(p => p.id === paperId);
+            if (paper) {
+                paper.is_read = !paper.is_read;
+                updateStats();
+                renderLibrary();
+            }
+        }
+
+        // Add to collection
+        function addToCollection(paperId) {
+            alert('Add to collection functionality - opens collection selector');
+        }
+
+        // View citations
+        function viewCitations(paperId) {
+            window.location.href = `network.html?paper=${paperId}`;
+        }
+
+        // Open paper
+        function openPaper(paperId) {
+            console.log('Opening paper:', paperId);
+            // In real implementation, open paper detail view
+        }
+
+        // Bulk actions
+        function bulkAddToCollection() {
+            alert('Bulk add to collection');
+        }
+
+        function bulkExport() {
+            alert('Bulk export papers');
+        }
+
+        function bulkDelete() {
+            if (confirm('Are you sure you want to remove selected papers from your library?')) {
+                alert('Papers removed');
+            }
+        }
+
+        // Utility functions
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+
+        // Initialize
+        loadLibrary();
+    </script>
+</body>
+</html>

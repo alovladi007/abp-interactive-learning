@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Trends - MAX Research Assistant</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .trends-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .trends-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .trend-card {
+            background: white;
+            border-radius: var(--max-border-radius);
+            padding: 24px;
+            box-shadow: var(--max-shadow-md);
+        }
+
+        .trend-card-full {
+            grid-column: 1 / -1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--max-border-color);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--max-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .card-action-btn {
+            padding: 8px 12px;
+            background: var(--max-bg-light);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .card-action-btn:hover {
+            background: var(--max-border-color);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .trending-topics {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .topic-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--max-bg-light);
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .topic-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--max-shadow-sm);
+        }
+
+        .topic-rank {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--max-primary);
+            min-width: 40px;
+        }
+
+        .topic-info {
+            flex: 1;
+        }
+
+        .topic-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--max-text-primary);
+        }
+
+        .topic-stats {
+            font-size: 0.85rem;
+            color: var(--max-text-secondary);
+            display: flex;
+            gap: 16px;
+        }
+
+        .topic-trend {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        .topic-trend.up {
+            color: #10b981;
+        }
+
+        .topic-trend.down {
+            color: #ef4444;
+        }
+
+        .hot-papers {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .hot-paper-item {
+            padding: 16px;
+            background: var(--max-bg-light);
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border-left: 4px solid var(--max-primary);
+        }
+
+        .hot-paper-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--max-shadow-sm);
+        }
+
+        .hot-paper-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--max-text-primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .hot-paper-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.8rem;
+            color: var(--max-text-secondary);
+        }
+
+        .hot-paper-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--max-primary);
+            color: white;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .top-authors {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .author-item {
+            padding: 16px;
+            background: var(--max-bg-light);
+            border-radius: 8px;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .author-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--max-shadow-sm);
+        }
+
+        .author-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--max-text-primary);
+        }
+
+        .author-stats {
+            display: flex;
+            gap: 12px;
+            font-size: 0.8rem;
+            color: var(--max-text-secondary);
+        }
+
+        .field-distribution {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .field-item {
+            text-align: center;
+            padding: 20px;
+            background: var(--max-bg-light);
+            border-radius: 8px;
+        }
+
+        .field-percentage {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .field-name {
+            font-size: 0.9rem;
+            color: var(--max-text-secondary);
+        }
+
+        .filter-toolbar {
+            background: white;
+            padding: 20px 24px;
+            border-radius: var(--max-border-radius);
+            box-shadow: var(--max-shadow-sm);
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 10px 16px;
+            border: 2px solid var(--max-border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: white;
+            transition: border-color 0.2s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--max-primary);
+        }
+
+        .time-range-btns {
+            display: flex;
+            gap: 4px;
+            background: var(--max-bg-light);
+            padding: 4px;
+            border-radius: 8px;
+        }
+
+        .time-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s;
+            color: var(--max-text-secondary);
+        }
+
+        .time-btn.active {
+            background: white;
+            color: var(--max-primary);
+            box-shadow: var(--max-shadow-sm);
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 24px;
+            border-radius: var(--max-border-radius);
+            box-shadow: var(--max-shadow-sm);
+            text-align: center;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 auto 12px auto;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--max-text-primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--max-text-secondary);
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #10b981;
+        }
+
+        .stat-change.negative {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-microscope"></i>
+                <span>MAX Research</span>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="search.html"><i class="fas fa-search"></i> Search Papers</a></li>
+                    <li><a href="network.html"><i class="fas fa-project-diagram"></i> Networks</a></li>
+                    <li><a href="synthesis.html"><i class="fas fa-magic"></i> Synthesis</a></li>
+                    <li><a href="collections.html"><i class="fas fa-folder"></i> Collections</a></li>
+                    <li><a href="library.html"><i class="fas fa-book"></i> Library</a></li>
+                    <li><a href="trends.html" class="active"><i class="fas fa-chart-line"></i> Trends</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="trends-container">
+                <div class="page-header">
+                    <h1 class="page-title">Research Trends & Analytics</h1>
+                    <p class="page-subtitle">Discover emerging topics and track research momentum across fields</p>
+                </div>
+
+                <div class="filter-toolbar">
+                    <select id="fieldFilter" class="filter-select" onchange="updateTrends()">
+                        <option value="all">All Fields</option>
+                        <option value="ai">Artificial Intelligence</option>
+                        <option value="ml">Machine Learning</option>
+                        <option value="cv">Computer Vision</option>
+                        <option value="nlp">Natural Language Processing</option>
+                        <option value="robotics">Robotics</option>
+                    </select>
+
+                    <div class="time-range-btns">
+                        <button class="time-btn" data-range="week" onclick="setTimeRange('week')">Week</button>
+                        <button class="time-btn active" data-range="month" onclick="setTimeRange('month')">Month</button>
+                        <button class="time-btn" data-range="quarter" onclick="setTimeRange('quarter')">Quarter</button>
+                        <button class="time-btn" data-range="year" onclick="setTimeRange('year')">Year</button>
+                    </div>
+
+                    <div style="flex: 1;"></div>
+
+                    <button class="card-action-btn" onclick="refreshTrends()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+
+                <div class="stats-overview">
+                    <div class="stat-box">
+                        <div class="stat-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="stat-value">42.3K</div>
+                        <div class="stat-label">Papers This Month</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> 12.5% vs last month
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="stat-value">2,847</div>
+                        <div class="stat-label">Trending Papers</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> 8.3%
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-value">15.2K</div>
+                        <div class="stat-label">Active Authors</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> 5.7%
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #ec4899, #be185d);">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-value">326</div>
+                        <div class="stat-label">New Topics</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> 18.2%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="trends-grid">
+                    <div class="trend-card trend-card-full">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-chart-area"></i>
+                                Publication Volume Over Time
+                            </h2>
+                            <div class="card-actions">
+                                <button class="card-action-btn" onclick="exportChart('publications')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="publicationsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-fire"></i>
+                                Trending Topics
+                            </h2>
+                        </div>
+                        <div class="trending-topics">
+                            <div class="topic-item" onclick="exploreTopic('llm-agents')">
+                                <div class="topic-rank">1</div>
+                                <div class="topic-info">
+                                    <div class="topic-name">LLM Agents & Tool Use</div>
+                                    <div class="topic-stats">
+                                        <span>1,247 papers</span>
+                                        <span>523K citations</span>
+                                    </div>
+                                </div>
+                                <div class="topic-trend up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+42%</span>
+                                </div>
+                            </div>
+                            <div class="topic-item" onclick="exploreTopic('multimodal')">
+                                <div class="topic-rank">2</div>
+                                <div class="topic-info">
+                                    <div class="topic-name">Multimodal Learning</div>
+                                    <div class="topic-stats">
+                                        <span>982 papers</span>
+                                        <span>412K citations</span>
+                                    </div>
+                                </div>
+                                <div class="topic-trend up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+38%</span>
+                                </div>
+                            </div>
+                            <div class="topic-item" onclick="exploreTopic('diffusion')">
+                                <div class="topic-rank">3</div>
+                                <div class="topic-info">
+                                    <div class="topic-name">Diffusion Models</div>
+                                    <div class="topic-stats">
+                                        <span>856 papers</span>
+                                        <span>387K citations</span>
+                                    </div>
+                                </div>
+                                <div class="topic-trend up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+35%</span>
+                                </div>
+                            </div>
+                            <div class="topic-item" onclick="exploreTopic('reasoning')">
+                                <div class="topic-rank">4</div>
+                                <div class="topic-info">
+                                    <div class="topic-name">AI Reasoning & Planning</div>
+                                    <div class="topic-stats">
+                                        <span>743 papers</span>
+                                        <span>298K citations</span>
+                                    </div>
+                                </div>
+                                <div class="topic-trend up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+29%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-bolt"></i>
+                                Hot Papers This Week
+                            </h2>
+                        </div>
+                        <div class="hot-papers">
+                            <div class="hot-paper-item" onclick="openPaper('1')">
+                                <div class="hot-paper-title">Constitutional AI: Harmlessness from AI Feedback</div>
+                                <div class="hot-paper-meta">
+                                    <span><i class="fas fa-quote-right"></i> 342 citations</span>
+                                    <span><i class="fas fa-eye"></i> 12.4K views</span>
+                                    <span class="hot-paper-badge">NEW</span>
+                                </div>
+                            </div>
+                            <div class="hot-paper-item" onclick="openPaper('2')">
+                                <div class="hot-paper-title">Generative Agents: Interactive Simulacra of Human Behavior</div>
+                                <div class="hot-paper-meta">
+                                    <span><i class="fas fa-quote-right"></i> 287 citations</span>
+                                    <span><i class="fas fa-eye"></i> 9.8K views</span>
+                                    <span class="hot-paper-badge">TRENDING</span>
+                                </div>
+                            </div>
+                            <div class="hot-paper-item" onclick="openPaper('3')">
+                                <div class="hot-paper-title">Tree of Thoughts: Deliberate Problem Solving with LLMs</div>
+                                <div class="hot-paper-meta">
+                                    <span><i class="fas fa-quote-right"></i> 213 citations</span>
+                                    <span><i class="fas fa-eye"></i> 8.2K views</span>
+                                    <span class="hot-paper-badge">HOT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-award"></i>
+                                Top Contributing Authors
+                            </h2>
+                        </div>
+                        <div class="top-authors">
+                            <div class="author-item" onclick="exploreAuthor('author1')">
+                                <div class="author-name">Yoshua Bengio</div>
+                                <div class="author-stats">
+                                    <span><i class="fas fa-file-alt"></i> 28 papers</span>
+                                    <span><i class="fas fa-quote-right"></i> 42K citations</span>
+                                </div>
+                            </div>
+                            <div class="author-item" onclick="exploreAuthor('author2')">
+                                <div class="author-name">Ilya Sutskever</div>
+                                <div class="author-stats">
+                                    <span><i class="fas fa-file-alt"></i> 24 papers</span>
+                                    <span><i class="fas fa-quote-right"></i> 38K citations</span>
+                                </div>
+                            </div>
+                            <div class="author-item" onclick="exploreAuthor('author3')">
+                                <div class="author-name">Yann LeCun</div>
+                                <div class="author-stats">
+                                    <span><i class="fas fa-file-alt"></i> 22 papers</span>
+                                    <span><i class="fas fa-quote-right"></i> 35K citations</span>
+                                </div>
+                            </div>
+                            <div class="author-item" onclick="exploreAuthor('author4')">
+                                <div class="author-name">Fei-Fei Li</div>
+                                <div class="author-stats">
+                                    <span><i class="fas fa-file-alt"></i> 19 papers</span>
+                                    <span><i class="fas fa-quote-right"></i> 31K citations</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-chart-pie"></i>
+                                Citation Impact by Field
+                            </h2>
+                            <div class="card-actions">
+                                <button class="card-action-btn" onclick="exportChart('citations')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="citationsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="trend-card trend-card-full">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-layer-group"></i>
+                                Research Field Distribution
+                            </h2>
+                        </div>
+                        <div class="field-distribution">
+                            <div class="field-item">
+                                <div class="field-percentage">34%</div>
+                                <div class="field-name">Deep Learning</div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-percentage">28%</div>
+                                <div class="field-name">Computer Vision</div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-percentage">22%</div>
+                                <div class="field-name">Natural Language Processing</div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-percentage">8%</div>
+                                <div class="field-name">Reinforcement Learning</div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-percentage">5%</div>
+                                <div class="field-name">Robotics</div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-percentage">3%</div>
+                                <div class="field-name">Other</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+        let currentTimeRange = 'month';
+        let publicationsChart, citationsChart;
+
+        // Initialize charts
+        function initCharts() {
+            // Publications chart
+            const pubCtx = document.getElementById('publicationsChart').getContext('2d');
+            publicationsChart = new Chart(pubCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Papers Published',
+                        data: [3200, 3450, 3890, 4120, 4580, 4920, 5340, 5680, 5920, 6240, 6580, 6890],
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Citations chart
+            const citCtx = document.getElementById('citationsChart').getContext('2d');
+            citationsChart = new Chart(citCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Deep Learning', 'Computer Vision', 'NLP', 'RL', 'Robotics', 'Other'],
+                    datasets: [{
+                        data: [34, 28, 22, 8, 5, 3],
+                        backgroundColor: [
+                            '#f59e0b',
+                            '#3b82f6',
+                            '#10b981',
+                            '#8b5cf6',
+                            '#ec4899',
+                            '#64748b'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Set time range
+        function setTimeRange(range) {
+            currentTimeRange = range;
+            document.querySelectorAll('.time-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-range') === range);
+            });
+            updateTrends();
+        }
+
+        // Update trends based on filters
+        async function updateTrends() {
+            // In real implementation, fetch from backend
+            console.log('Updating trends for time range:', currentTimeRange);
+        }
+
+        // Refresh trends
+        function refreshTrends() {
+            updateTrends();
+        }
+
+        // Explore topic
+        function exploreTopic(topicId) {
+            window.location.href = `search.html?topic=${topicId}`;
+        }
+
+        // Explore author
+        function exploreAuthor(authorId) {
+            window.location.href = `search.html?author=${authorId}`;
+        }
+
+        // Open paper
+        function openPaper(paperId) {
+            console.log('Opening paper:', paperId);
+        }
+
+        // Export chart
+        function exportChart(chartName) {
+            alert(`Export ${chartName} chart`);
+        }
+
+        // Initialize
+        initCharts();
+    </script>
+</body>
+</html>

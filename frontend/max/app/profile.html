@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - MAX Research Assistant</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 24px;
+        }
+
+        .profile-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: var(--max-border-radius);
+            padding: 32px;
+            box-shadow: var(--max-shadow-md);
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin: 0 auto 20px auto;
+            position: relative;
+        }
+
+        .avatar-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 36px;
+            height: 36px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--max-shadow-md);
+            transition: transform 0.2s;
+        }
+
+        .avatar-upload:hover {
+            transform: scale(1.1);
+        }
+
+        .avatar-upload input {
+            display: none;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--max-text-primary);
+        }
+
+        .profile-email {
+            font-size: 0.9rem;
+            color: var(--max-text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .profile-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: var(--max-border-radius);
+            padding: 24px;
+            box-shadow: var(--max-shadow-md);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+            background: var(--max-bg-light);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--max-primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--max-text-secondary);
+        }
+
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: var(--max-border-radius);
+            padding: 32px;
+            box-shadow: var(--max-shadow-md);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--max-border-color);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--max-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .edit-btn {
+            padding: 10px 20px;
+            background: var(--max-bg-light);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .edit-btn:hover {
+            background: var(--max-border-color);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--max-text-primary);
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--max-border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--max-primary);
+        }
+
+        .form-input:disabled {
+            background: var(--max-bg-light);
+            cursor: not-allowed;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .save-btn {
+            padding: 12px 32px;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: var(--max-shadow-md);
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--max-shadow-lg);
+        }
+
+        .interests-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .interest-tag {
+            padding: 8px 16px;
+            background: var(--max-bg-light);
+            border: 2px solid var(--max-border-color);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remove-tag {
+            background: none;
+            border: none;
+            color: var(--max-text-secondary);
+            cursor: pointer;
+            padding: 0;
+            font-size: 1rem;
+        }
+
+        .add-interest {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .add-interest:hover {
+            transform: translateY(-2px);
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .activity-item {
+            padding: 16px;
+            background: var(--max-bg-light);
+            border-radius: 8px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--max-text-primary);
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: var(--max-text-secondary);
+        }
+
+        .danger-zone {
+            border: 2px solid var(--max-danger);
+            border-radius: var(--max-border-radius);
+            padding: 24px;
+            margin-top: 24px;
+        }
+
+        .danger-zone h3 {
+            color: var(--max-danger);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .danger-zone p {
+            color: var(--max-text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .danger-btn {
+            padding: 10px 20px;
+            background: var(--max-danger);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .danger-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-microscope"></i>
+                <span>MAX Research</span>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="search.html"><i class="fas fa-search"></i> Search Papers</a></li>
+                    <li><a href="network.html"><i class="fas fa-project-diagram"></i> Networks</a></li>
+                    <li><a href="synthesis.html"><i class="fas fa-magic"></i> Synthesis</a></li>
+                    <li><a href="collections.html"><i class="fas fa-folder"></i> Collections</a></li>
+                    <li><a href="library.html"><i class="fas fa-book"></i> Library</a></li>
+                    <li><a href="trends.html"><i class="fas fa-chart-line"></i> Trends</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="profile.html" class="active"><i class="fas fa-user"></i> Profile</a>
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="profile-container">
+                <div class="page-header">
+                    <h1 class="page-title">My Profile</h1>
+                    <p class="page-subtitle">Manage your account and research preferences</p>
+                </div>
+
+                <div class="profile-grid">
+                    <div class="profile-sidebar">
+                        <div class="profile-card">
+                            <div class="profile-avatar">
+                                <i class="fas fa-user"></i>
+                                <label class="avatar-upload">
+                                    <i class="fas fa-camera" style="color: var(--max-primary);"></i>
+                                    <input type="file" accept="image/*" onchange="uploadAvatar(event)">
+                                </label>
+                            </div>
+                            <h2 class="profile-name" id="profileName">Dr. Jane Smith</h2>
+                            <p class="profile-email" id="profileEmail">jane.smith@university.edu</p>
+                            <span class="profile-badge">
+                                <i class="fas fa-crown"></i>
+                                Pro Member
+                            </span>
+                        </div>
+
+                        <div class="stats-card">
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-value">247</div>
+                                    <div class="stat-label">Papers Saved</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">18</div>
+                                    <div class="stat-label">Collections</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">42</div>
+                                    <div class="stat-label">Networks Created</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">156</div>
+                                    <div class="stat-label">Syntheses</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-content">
+                        <div class="section-card">
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <i class="fas fa-user-edit"></i>
+                                    Personal Information
+                                </h2>
+                                <button class="edit-btn" onclick="toggleEdit('personal')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                            </div>
+
+                            <form id="personalForm" onsubmit="savePersonalInfo(event)">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">First Name</label>
+                                        <input type="text" id="firstName" class="form-input" value="Jane" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Last Name</label>
+                                        <input type="text" id="lastName" class="form-input" value="Smith" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" id="email" class="form-input" value="jane.smith@university.edu" disabled>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Institution</label>
+                                        <input type="text" id="institution" class="form-input" value="Stanford University" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Department</label>
+                                        <input type="text" id="department" class="form-input" value="Computer Science" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Bio</label>
+                                    <textarea id="bio" class="form-textarea" disabled>AI researcher focusing on natural language processing and machine learning. Interested in transformer architectures and their applications.</textarea>
+                                </div>
+
+                                <button type="submit" class="save-btn" id="personalSaveBtn" style="display: none;">
+                                    <i class="fas fa-save"></i> Save Changes
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="section-card">
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <i class="fas fa-lightbulb"></i>
+                                    Research Interests
+                                </h2>
+                            </div>
+
+                            <div class="interests-tags" id="interestsTags">
+                                <div class="interest-tag">
+                                    <span>Natural Language Processing</span>
+                                    <button class="remove-tag" onclick="removeInterest('nlp')">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="interest-tag">
+                                    <span>Machine Learning</span>
+                                    <button class="remove-tag" onclick="removeInterest('ml')">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="interest-tag">
+                                    <span>Transformers</span>
+                                    <button class="remove-tag" onclick="removeInterest('transformers')">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="interest-tag">
+                                    <span>Deep Learning</span>
+                                    <button class="remove-tag" onclick="removeInterest('dl')">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <button class="add-interest" onclick="addInterest()">
+                                    <i class="fas fa-plus"></i> Add Interest
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="section-card">
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <i class="fas fa-history"></i>
+                                    Recent Activity
+                                </h2>
+                            </div>
+
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-save"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Saved paper: "Attention Is All You Need"</div>
+                                        <div class="activity-time">2 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">
+                                        <i class="fas fa-project-diagram"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Created citation network for Transformer papers</div>
+                                        <div class="activity-time">5 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                                        <i class="fas fa-magic"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Generated synthesis: "Recent Advances in LLMs"</div>
+                                        <div class="activity-time">1 day ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: linear-gradient(135deg, #ec4899, #be185d);">
+                                        <i class="fas fa-folder-plus"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Created collection: "Multimodal Learning"</div>
+                                        <div class="activity-time">2 days ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card">
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <i class="fas fa-shield-alt"></i>
+                                    Account Security
+                                </h2>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Change Password</label>
+                                <button class="edit-btn" onclick="changePassword()">
+                                    <i class="fas fa-key"></i> Update Password
+                                </button>
+                            </div>
+
+                            <div class="danger-zone">
+                                <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+                                <p>Once you delete your account, there is no going back. Please be certain.</p>
+                                <button class="danger-btn" onclick="deleteAccount()">
+                                    <i class="fas fa-trash"></i> Delete Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+
+        // Toggle edit mode
+        function toggleEdit(section) {
+            if (section === 'personal') {
+                const inputs = document.querySelectorAll('#personalForm input, #personalForm textarea');
+                const saveBtn = document.getElementById('personalSaveBtn');
+                const isDisabled = inputs[0].disabled;
+
+                inputs.forEach(input => {
+                    input.disabled = !isDisabled;
+                });
+
+                saveBtn.style.display = isDisabled ? 'block' : 'none';
+            }
+        }
+
+        // Save personal info
+        async function savePersonalInfo(event) {
+            event.preventDefault();
+
+            const data = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                institution: document.getElementById('institution').value,
+                department: document.getElementById('department').value,
+                bio: document.getElementById('bio').value
+            };
+
+            try {
+                // In real implementation, save to backend
+                console.log('Saving profile:', data);
+                alert('Profile updated successfully!');
+                toggleEdit('personal');
+
+                // Update display name
+                document.getElementById('profileName').textContent = `Dr. ${data.firstName} ${data.lastName}`;
+                document.getElementById('profileEmail').textContent = data.email;
+            } catch (error) {
+                console.error('Error saving profile:', error);
+                alert('Failed to save profile');
+            }
+        }
+
+        // Upload avatar
+        function uploadAvatar(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // In real implementation, upload to server
+                    console.log('Avatar uploaded:', file.name);
+                    alert('Avatar updated successfully!');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Add interest
+        function addInterest() {
+            const interest = prompt('Enter a research interest:');
+            if (interest && interest.trim()) {
+                const container = document.getElementById('interestsTags');
+                const addBtn = container.querySelector('.add-interest');
+
+                const tag = document.createElement('div');
+                tag.className = 'interest-tag';
+                tag.innerHTML = `
+                    <span>${escapeHtml(interest.trim())}</span>
+                    <button class="remove-tag" onclick="removeInterest('${escapeHtml(interest.trim())}')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+
+                container.insertBefore(tag, addBtn);
+            }
+        }
+
+        // Remove interest
+        function removeInterest(interest) {
+            if (confirm(`Remove "${interest}" from your interests?`)) {
+                event.target.closest('.interest-tag').remove();
+            }
+        }
+
+        // Change password
+        function changePassword() {
+            const newPassword = prompt('Enter new password:');
+            if (newPassword) {
+                // In real implementation, call backend API
+                alert('Password changed successfully!');
+            }
+        }
+
+        // Delete account
+        function deleteAccount() {
+            const confirmation = prompt('Type "DELETE" to confirm account deletion:');
+            if (confirmation === 'DELETE') {
+                // In real implementation, call backend API
+                alert('Account deletion initiated. You will receive a confirmation email.');
+            }
+        }
+
+        // Utility function
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

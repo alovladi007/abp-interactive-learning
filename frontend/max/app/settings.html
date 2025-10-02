@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - MAX Research Assistant</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .settings-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .settings-nav {
+            background: white;
+            border-radius: var(--max-border-radius);
+            padding: 8px;
+            box-shadow: var(--max-shadow-sm);
+            margin-bottom: 24px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+        }
+
+        .settings-tab {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--max-text-secondary);
+            transition: all 0.2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .settings-tab:hover {
+            background: var(--max-bg-light);
+        }
+
+        .settings-tab.active {
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            color: white;
+        }
+
+        .settings-panel {
+            display: none;
+        }
+
+        .settings-panel.active {
+            display: block;
+        }
+
+        .settings-card {
+            background: white;
+            border-radius: var(--max-border-radius);
+            padding: 32px;
+            box-shadow: var(--max-shadow-md);
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--max-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--max-border-color);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--max-border-color);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-label {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--max-text-primary);
+        }
+
+        .setting-description {
+            font-size: 0.85rem;
+            color: var(--max-text-secondary);
+            line-height: 1.5;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 56px;
+            height: 28px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--max-border-color);
+            transition: 0.3s;
+            border-radius: 28px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(28px);
+        }
+
+        .select-input {
+            padding: 10px 16px;
+            border: 2px solid var(--max-border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: white;
+            min-width: 200px;
+        }
+
+        .select-input:focus {
+            outline: none;
+            border-color: var(--max-primary);
+        }
+
+        .api-key-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .api-key-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--max-border-color);
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .api-key-input:focus {
+            outline: none;
+            border-color: var(--max-primary);
+        }
+
+        .btn-secondary {
+            padding: 10px 20px;
+            background: var(--max-bg-light);
+            border: 2px solid var(--max-border-color);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--max-primary);
+            background: white;
+        }
+
+        .save-settings-btn {
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: var(--max-shadow-md);
+            margin-top: 24px;
+        }
+
+        .save-settings-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--max-shadow-lg);
+        }
+
+        .export-section {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .export-btn {
+            flex: 1;
+            padding: 16px;
+            background: white;
+            border: 2px solid var(--max-border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .export-btn:hover {
+            border-color: var(--max-primary);
+            background: var(--max-bg-light);
+        }
+
+        .export-btn i {
+            font-size: 2rem;
+            color: var(--max-primary);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .export-btn-label {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .export-btn-desc {
+            font-size: 0.8rem;
+            color: var(--max-text-secondary);
+        }
+
+        .storage-usage {
+            margin-top: 16px;
+        }
+
+        .usage-bar {
+            height: 8px;
+            background: var(--max-bg-light);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .usage-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            width: 65%;
+            transition: width 0.3s;
+        }
+
+        .usage-text {
+            font-size: 0.85rem;
+            color: var(--max-text-secondary);
+        }
+
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .notification-item {
+            padding: 16px;
+            background: var(--max-bg-light);
+            border-radius: 8px;
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: var(--max-text-primary);
+        }
+
+        .notification-channels {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .channel-toggle {
+            padding: 6px 12px;
+            border: 2px solid var(--max-border-color);
+            background: white;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .channel-toggle.active {
+            border-color: var(--max-primary);
+            background: var(--max-primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-microscope"></i>
+                <span>MAX Research</span>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="search.html"><i class="fas fa-search"></i> Search Papers</a></li>
+                    <li><a href="network.html"><i class="fas fa-project-diagram"></i> Networks</a></li>
+                    <li><a href="synthesis.html"><i class="fas fa-magic"></i> Synthesis</a></li>
+                    <li><a href="collections.html"><i class="fas fa-folder"></i> Collections</a></li>
+                    <li><a href="library.html"><i class="fas fa-book"></i> Library</a></li>
+                    <li><a href="trends.html"><i class="fas fa-chart-line"></i> Trends</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="settings.html" class="active"><i class="fas fa-cog"></i> Settings</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="settings-container">
+                <div class="page-header">
+                    <h1 class="page-title">Settings</h1>
+                    <p class="page-subtitle">Customize your MAX experience</p>
+                </div>
+
+                <div class="settings-nav">
+                    <button class="settings-tab active" onclick="switchTab('general')">
+                        <i class="fas fa-sliders-h"></i> General
+                    </button>
+                    <button class="settings-tab" onclick="switchTab('search')">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                    <button class="settings-tab" onclick="switchTab('notifications')">
+                        <i class="fas fa-bell"></i> Notifications
+                    </button>
+                    <button class="settings-tab" onclick="switchTab('api')">
+                        <i class="fas fa-key"></i> API Keys
+                    </button>
+                    <button class="settings-tab" onclick="switchTab('data')">
+                        <i class="fas fa-database"></i> Data & Export
+                    </button>
+                </div>
+
+                <!-- General Settings -->
+                <div id="generalPanel" class="settings-panel active">
+                    <div class="settings-card">
+                        <h2 class="card-title">
+                            <i class="fas fa-cog"></i>
+                            General Preferences
+                        </h2>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Theme</div>
+                                <div class="setting-description">Choose your preferred color theme</div>
+                            </div>
+                            <select class="select-input">
+                                <option>Light</option>
+                                <option>Dark</option>
+                                <option>Auto</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Language</div>
+                                <div class="setting-description">Interface language preference</div>
+                            </div>
+                            <select class="select-input">
+                                <option>English</option>
+                                <option>Español</option>
+                                <option>Français</option>
+                                <option>Deutsch</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Auto-save</div>
+                                <div class="setting-description">Automatically save your work as you go</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Keyboard Shortcuts</div>
+                                <div class="setting-description">Enable keyboard shortcuts for faster navigation</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Settings -->
+                <div id="searchPanel" class="settings-panel">
+                    <div class="settings-card">
+                        <h2 class="card-title">
+                            <i class="fas fa-search"></i>
+                            Search Preferences
+                        </h2>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Default Sources</div>
+                                <div class="setting-description">Choose which sources to search by default</div>
+                            </div>
+                            <select class="select-input">
+                                <option>All Sources</option>
+                                <option>Semantic Scholar Only</option>
+                                <option>ArXiv Only</option>
+                                <option>Custom</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Results Per Page</div>
+                                <div class="setting-description">Number of search results to display</div>
+                            </div>
+                            <select class="select-input">
+                                <option>10</option>
+                                <option>25</option>
+                                <option selected>50</option>
+                                <option>100</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Auto-expand Abstracts</div>
+                                <div class="setting-description">Show full abstracts in search results</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Filter by Open Access</div>
+                                <div class="setting-description">Prioritize freely accessible papers</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Settings -->
+                <div id="notificationsPanel" class="settings-panel">
+                    <div class="settings-card">
+                        <h2 class="card-title">
+                            <i class="fas fa-bell"></i>
+                            Notification Preferences
+                        </h2>
+
+                        <div class="notification-list">
+                            <div class="notification-item">
+                                <div class="notification-header">
+                                    <div class="notification-title">New Papers in Your Interests</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-description">Get notified when new papers match your research interests</div>
+                                <div class="notification-channels">
+                                    <button class="channel-toggle active"><i class="fas fa-envelope"></i> Email</button>
+                                    <button class="channel-toggle"><i class="fas fa-desktop"></i> In-app</button>
+                                </div>
+                            </div>
+
+                            <div class="notification-item">
+                                <div class="notification-header">
+                                    <div class="notification-title">Citation Alerts</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-description">When papers you saved receive new citations</div>
+                                <div class="notification-channels">
+                                    <button class="channel-toggle active"><i class="fas fa-envelope"></i> Email</button>
+                                    <button class="channel-toggle active"><i class="fas fa-desktop"></i> In-app</button>
+                                </div>
+                            </div>
+
+                            <div class="notification-item">
+                                <div class="notification-header">
+                                    <div class="notification-title">Trending Topics</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-description">Weekly digest of trending research topics</div>
+                                <div class="notification-channels">
+                                    <button class="channel-toggle active"><i class="fas fa-envelope"></i> Email</button>
+                                    <button class="channel-toggle"><i class="fas fa-desktop"></i> In-app</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Settings -->
+                <div id="apiPanel" class="settings-panel">
+                    <div class="settings-card">
+                        <h2 class="card-title">
+                            <i class="fas fa-key"></i>
+                            API Keys
+                        </h2>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">OpenAI API Key</div>
+                                <div class="setting-description">Required for AI synthesis features</div>
+                            </div>
+                            <div class="api-key-group">
+                                <input type="password" class="api-key-input" placeholder="sk-...">
+                                <button class="btn-secondary">Update</button>
+                            </div>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Semantic Scholar API Key</div>
+                                <div class="setting-description">Optional: Higher rate limits for searches</div>
+                            </div>
+                            <div class="api-key-group">
+                                <input type="password" class="api-key-input" placeholder="Enter API key">
+                                <button class="btn-secondary">Update</button>
+                            </div>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">MAX API Key</div>
+                                <div class="setting-description">Your personal API key for MAX integrations</div>
+                            </div>
+                            <div class="api-key-group">
+                                <input type="text" class="api-key-input" value="max_xxxxxxxxxxxxxxxxxxxxx" readonly>
+                                <button class="btn-secondary" onclick="regenerateKey()">Regenerate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data & Export Settings -->
+                <div id="dataPanel" class="settings-panel">
+                    <div class="settings-card">
+                        <h2 class="card-title">
+                            <i class="fas fa-database"></i>
+                            Data Management
+                        </h2>
+
+                        <div class="storage-usage">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div class="setting-label">Storage Usage</div>
+                                <div class="usage-text"><strong>6.5 GB</strong> of 10 GB used</div>
+                            </div>
+                            <div class="usage-bar">
+                                <div class="usage-fill"></div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 32px;">
+                            <div class="setting-label" style="margin-bottom: 12px;">Export Your Data</div>
+                            <div class="export-section">
+                                <button class="export-btn" onclick="exportData('library')">
+                                    <i class="fas fa-book"></i>
+                                    <div class="export-btn-label">Library</div>
+                                    <div class="export-btn-desc">247 papers</div>
+                                </button>
+                                <button class="export-btn" onclick="exportData('collections')">
+                                    <i class="fas fa-folder"></i>
+                                    <div class="export-btn-label">Collections</div>
+                                    <div class="export-btn-desc">18 collections</div>
+                                </button>
+                                <button class="export-btn" onclick="exportData('syntheses')">
+                                    <i class="fas fa-magic"></i>
+                                    <div class="export-btn-label">Syntheses</div>
+                                    <div class="export-btn-desc">156 syntheses</div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 32px; padding-top: 32px; border-top: 2px solid var(--max-border-color);">
+                            <div class="setting-label" style="margin-bottom: 12px; color: var(--max-danger);">
+                                <i class="fas fa-exclamation-triangle"></i> Clear All Data
+                            </div>
+                            <div class="setting-description" style="margin-bottom: 16px;">
+                                This will permanently delete all your papers, collections, and syntheses. This action cannot be undone.
+                            </div>
+                            <button class="btn-secondary" style="border-color: var(--max-danger); color: var(--max-danger);" onclick="clearAllData()">
+                                <i class="fas fa-trash"></i> Clear All Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="save-settings-btn" onclick="saveSettings()">
+                    <i class="fas fa-save"></i> Save All Settings
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+
+        // Switch tabs
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.settings-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.closest('.settings-tab').classList.add('active');
+
+            // Update panels
+            document.querySelectorAll('.settings-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            document.getElementById(tabName + 'Panel').classList.add('active');
+        }
+
+        // Toggle notification channels
+        document.querySelectorAll('.channel-toggle').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+
+        // Regenerate API key
+        function regenerateKey() {
+            if (confirm('Are you sure you want to regenerate your API key? Your old key will stop working immediately.')) {
+                const newKey = 'max_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                document.querySelector('#apiPanel .api-key-input[readonly]').value = newKey;
+                alert('New API key generated!');
+            }
+        }
+
+        // Export data
+        function exportData(type) {
+            alert(`Exporting ${type} data...`);
+            // In real implementation, trigger download
+        }
+
+        // Clear all data
+        function clearAllData() {
+            const confirmation = prompt('Type "DELETE ALL" to confirm:');
+            if (confirmation === 'DELETE ALL') {
+                alert('All data has been cleared.');
+                // In real implementation, call backend API
+            }
+        }
+
+        // Save settings
+        async function saveSettings() {
+            try {
+                // In real implementation, save to backend
+                alert('Settings saved successfully!');
+            } catch (error) {
+                console.error('Error saving settings:', error);
+                alert('Failed to save settings');
+            }
+        }
+    </script>
+</body>
+</html>
