@@ -958,13 +958,8 @@
         // Function to open AI Advisor chat interfaces
         function openAIAdvisorChat(advisorName) {
             if (advisorName === 'Dr. Sarah') {
-                // Open Dr. Sarah's KGAREVION Medical Research interface
-                // Check if running locally or on GitHub Pages
-                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                    window.open('kgarevion/dr-sarah-interface.html', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
-                } else {
-                    window.open('kgarevion/dr-sarah-github.html', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
-                }
+                // Open Dr. Sarah's Medical Research interface
+                window.open('frontend/dr-sarah.html', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
             } else if (advisorName === 'Louis') {
                 // Open Louis's AI Path Advisor
                 window.open('ai-path-advisor.html', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
