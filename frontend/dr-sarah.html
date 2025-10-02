@@ -3,558 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dr. Sarah - AI Medical Research Assistant</title>
+    <title>Dr. Sarah - Redirecting...</title>
     <style>
-        * {
+        body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+        .redirect-container {
             text-align: center;
+            padding: 40px;
         }
 
-        .header h1 {
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .header .subtitle {
-            color: #666;
-            font-size: 1.1em;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .stat-card .label {
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-        }
-
-        .stat-card .value {
-            color: #667eea;
-            font-size: 2em;
-            font-weight: bold;
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 30px;
-        }
-
-        .sidebar {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            height: fit-content;
-        }
-
-        .sidebar h2 {
-            color: #667eea;
+        .logo {
+            font-size: 4rem;
             margin-bottom: 20px;
-            font-size: 1.5em;
+            animation: pulse 2s infinite;
         }
 
-        .feature-list {
-            list-style: none;
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
-        .feature-list li {
-            padding: 12px;
-            margin-bottom: 10px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
         }
 
-        .feature-list li:hover {
-            background: #667eea;
-            color: white;
-            transform: translateX(5px);
+        p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
         }
 
-        .chat-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            height: 600px;
-        }
-
-        .chat-header {
-            padding: 20px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .chat-header h2 {
-            color: #667eea;
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            background: #f8f9fa;
-        }
-
-        .message {
-            margin-bottom: 15px;
-            padding: 15px;
-            border-radius: 10px;
-            max-width: 80%;
-            animation: slideIn 0.3s;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message.user {
-            background: #667eea;
-            color: white;
-            margin-left: auto;
-        }
-
-        .message.assistant {
-            background: white;
-            border: 2px solid #e0e0e0;
-        }
-
-        .message .header {
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 0.9em;
-        }
-
-        .triplet-visualization {
-            margin-top: 10px;
-            padding: 10px;
-            background: #f0f0f0;
-            border-radius: 5px;
-            font-family: monospace;
-            font-size: 0.85em;
-        }
-
-        .triplet {
-            padding: 5px;
-            margin: 3px 0;
-            background: white;
-            border-radius: 3px;
-        }
-
-        .loading {
-            display: flex;
-            gap: 5px;
-            padding: 10px;
-        }
-
-        .loading-dot {
-            width: 8px;
-            height: 8px;
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
             border-radius: 50%;
-            background: #667eea;
-            animation: bounce 1.4s infinite ease-in-out;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
         }
 
-        .loading-dot:nth-child(1) {
-            animation-delay: -0.32s;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .loading-dot:nth-child(2) {
-            animation-delay: -0.16s;
+        .features {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 40px;
+            max-width: 600px;
         }
 
-        @keyframes bounce {
-            0%, 80%, 100% {
-                transform: scale(0);
-            }
-            40% {
-                transform: scale(1);
-            }
+        .features h3 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
         }
 
-        .chat-input-container {
-            padding: 20px;
-            border-top: 2px solid #f0f0f0;
+        .features ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
         }
 
-        .chat-input {
-            display: flex;
-            gap: 10px;
+        .features li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .chat-input textarea {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            resize: none;
-            font-family: inherit;
-            font-size: 1em;
+        .features li:last-child {
+            border-bottom: none;
         }
 
-        .chat-input textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .confidence-badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-
-        .confidence-high {
-            background: #4caf50;
-            color: white;
-        }
-
-        .confidence-medium {
-            background: #ff9800;
-            color: white;
-        }
-
-        .confidence-low {
-            background: #f44336;
-            color: white;
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .header h1 {
-                font-size: 1.8em;
-            }
+        .features li i {
+            margin-right: 10px;
+            color: #f093fb;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Dr. Sarah</h1>
-            <p class="subtitle">AI Medical Research Assistant</p>
-        </div>
+    <div class="redirect-container">
+        <div class="logo">🩺</div>
+        <h1>Dr. Sarah AI Medical Assistant</h1>
+        <p>Redirecting to the new enhanced version...</p>
+        <div class="spinner"></div>
 
-        <div class="stats">
-            <div class="stat-card">
-                <div class="label">Medical Literature Analysis</div>
-                <div class="value">✓</div>
-            </div>
-            <div class="stat-card">
-                <div class="label">Rating</div>
-                <div class="value">4.7</div>
-            </div>
-            <div class="stat-card">
-                <div class="label">Medical Students</div>
-                <div class="value">1.9k+</div>
-            </div>
-            <div class="stat-card">
-                <div class="label">Availability</div>
-                <div class="value">24/7</div>
-            </div>
-        </div>
-
-        <div class="main-content">
-            <div class="sidebar">
-                <h2>Capabilities</h2>
-                <ul class="feature-list">
-                    <li onclick="setQuestionTemplate('medical_literature')">📚 Medical Literature Analysis</li>
-                    <li onclick="setQuestionTemplate('clinical_study')">🔬 Clinical Study Design</li>
-                    <li onclick="setQuestionTemplate('terminology')">📖 Medical Terminology</li>
-                    <li onclick="setQuestionTemplate('diagnosis')">🩺 Disease Diagnosis</li>
-                    <li onclick="setQuestionTemplate('drug_interaction')">💊 Drug Interactions</li>
-                    <li onclick="setQuestionTemplate('research')">🔍 Research Assistance</li>
-                </ul>
-            </div>
-
-            <div class="chat-container">
-                <div class="chat-header">
-                    <h2>Medical Research Chat</h2>
-                </div>
-
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message assistant">
-                        <div class="header">Dr. Sarah</div>
-                        <div class="content">
-                            Hello! I'm Dr. Sarah, your AI Medical Research Assistant. I can help you with:
-                            <ul style="margin-top: 10px; margin-left: 20px;">
-                                <li>Comprehensive medical literature analysis</li>
-                                <li>Clinical study design guidance</li>
-                                <li>Medical terminology explanations</li>
-                                <li>Research methodology assistance</li>
-                            </ul>
-                            How can I assist you today?
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chat-input-container">
-                    <div class="chat-input">
-                        <textarea
-                            id="questionInput"
-                            placeholder="Ask a medical research question..."
-                            rows="2"
-                            onkeypress="handleKeyPress(event)"
-                        ></textarea>
-                        <button class="btn" onclick="sendQuestion()" id="sendBtn">Send</button>
-                    </div>
-                </div>
-            </div>
+        <div class="features">
+            <h3>✨ New Features</h3>
+            <ul>
+                <li><i class="fas fa-brain"></i> Advanced Medical NER with BioBERT</li>
+                <li><i class="fas fa-project-diagram"></i> 4M+ Medical Knowledge Relationships</li>
+                <li><i class="fas fa-pills"></i> Comprehensive Drug Interaction Checker</li>
+                <li><i class="fas fa-clipboard-check"></i> Evidence-Based Clinical Guidelines</li>
+                <li><i class="fas fa-user-md"></i> Patient Case Analysis</li>
+                <li><i class="fas fa-book-medical"></i> Medical Literature Search</li>
+            </ul>
         </div>
     </div>
 
     <script>
-        const API_URL = 'http://localhost:8000/api';
-        let isProcessing = false;
+        // Redirect after 2 seconds
+        setTimeout(() => {
+            window.location.href = 'dr-sarah/index.html';
+        }, 2000);
 
-        const questionTemplates = {
-            medical_literature: "Can you analyze recent research on cardiovascular disease prevention?",
-            clinical_study: "What are the key considerations for designing a randomized controlled trial?",
-            terminology: "Can you explain the difference between systolic and diastolic blood pressure?",
-            diagnosis: "Which protein is associated with Retinitis Pigmentosa 59?",
-            drug_interaction: "What are the potential interactions between metformin and ACE inhibitors?",
-            research: "How should I structure a systematic review on diabetes treatments?"
-        };
-
-        function setQuestionTemplate(type) {
-            document.getElementById('questionInput').value = questionTemplates[type];
-        }
-
-        function handleKeyPress(event) {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                sendQuestion();
-            }
-        }
-
-        async function sendQuestion() {
-            const input = document.getElementById('questionInput');
-            const question = input.value.trim();
-
-            if (!question || isProcessing) return;
-
-            isProcessing = true;
-            document.getElementById('sendBtn').disabled = true;
-
-            // Add user message
-            addMessage('user', question);
-            input.value = '';
-
-            // Show loading
-            const loadingId = addLoadingMessage();
-
-            try {
-                const response = await fetch(`${API_URL}/medical-qa`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        text: question,
-                        question_type: 'open_ended'
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to process question');
-                }
-
-                const data = await response.json();
-
-                // Remove loading message
-                removeMessage(loadingId);
-
-                // Add response
-                addAnswerMessage(data);
-
-            } catch (error) {
-                removeMessage(loadingId);
-                addMessage('assistant', `Sorry, I encountered an error: ${error.message}`);
-            } finally {
-                isProcessing = false;
-                document.getElementById('sendBtn').disabled = false;
-            }
-        }
-
-        function addMessage(role, content) {
-            const messagesDiv = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${role}`;
-            messageDiv.innerHTML = `
-                <div class="header">${role === 'user' ? 'You' : 'Dr. Sarah'}</div>
-                <div class="content">${content}</div>
-            `;
-            messagesDiv.appendChild(messageDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            return messageDiv;
-        }
-
-        function addLoadingMessage() {
-            const messagesDiv = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            const id = 'loading-' + Date.now();
-            messageDiv.id = id;
-            messageDiv.className = 'message assistant';
-            messageDiv.innerHTML = `
-                <div class="header">Dr. Sarah</div>
-                <div class="loading">
-                    <div class="loading-dot"></div>
-                    <div class="loading-dot"></div>
-                    <div class="loading-dot"></div>
-                </div>
-            `;
-            messagesDiv.appendChild(messageDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            return id;
-        }
-
-        function removeMessage(id) {
-            const message = document.getElementById(id);
-            if (message) {
-                message.remove();
-            }
-        }
-
-        function addAnswerMessage(data) {
-            const messagesDiv = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message assistant';
-
-            let confidence = data.confidence_score || 0;
-            let confidenceClass = confidence > 0.8 ? 'confidence-high' :
-                                 confidence > 0.5 ? 'confidence-medium' :
-                                 'confidence-low';
-
-            let tripletsHTML = '';
-            if (data.verified_triplets && data.verified_triplets.length > 0) {
-                tripletsHTML = `
-                    <div class="triplet-visualization">
-                        <strong>Knowledge Triplets:</strong>
-                        ${data.verified_triplets.map(t => `
-                            <div class="triplet">
-                                ${t.head} → <em>${t.relation}</em> → ${t.tail}
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            }
-
-            let entitiesHTML = '';
-            if (data.medical_entities && data.medical_entities.length > 0) {
-                entitiesHTML = `
-                    <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
-                        <strong>Medical Entities:</strong> ${data.medical_entities.join(', ')}
-                    </div>
-                `;
-            }
-
-            messageDiv.innerHTML = `
-                <div class="header">
-                    Dr. Sarah
-                    <span class="confidence-badge ${confidenceClass}">
-                        ${Math.round(confidence * 100)}% confidence
-                    </span>
-                </div>
-                <div class="content">
-                    ${data.answer}
-                    ${tripletsHTML}
-                    ${entitiesHTML}
-                    <div style="margin-top: 10px; font-size: 0.8em; color: #999;">
-                        Processed in ${data.processing_time_ms}ms
-                    </div>
-                </div>
-            `;
-
-            messagesDiv.appendChild(messageDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-
-        // Test connection on load
-        window.addEventListener('load', async () => {
-            try {
-                const response = await fetch(`${API_URL.replace('/api', '')}/health`);
-                if (response.ok) {
-                    console.log('Connected to KGAREVION backend');
-                }
-            } catch (error) {
-                console.warn('Backend not available. Using demo mode.');
-            }
+        // Immediate redirect on click
+        document.body.addEventListener('click', () => {
+            window.location.href = 'dr-sarah/index.html';
         });
     </script>
 </body>
