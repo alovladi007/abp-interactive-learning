@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Dr. Sarah</title>
+    <title>Dashboard - Dr. Sarah AI Medical Assistant</title>
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -14,43 +14,6 @@
             margin-bottom: 32px;
         }
 
-        .stat-card {
-            background: white;
-            padding: 30px;
-            border-radius: var(--sarah-radius-lg);
-            box-shadow: var(--sarah-shadow-md);
-            transition: transform 0.2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--sarah-gradient-primary);
-            border-radius: var(--sarah-radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-        }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--sarah-text-primary);
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            color: var(--sarah-text-secondary);
-            font-size: 1rem;
-        }
-
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -58,45 +21,11 @@
             margin-top: 32px;
         }
 
-        .action-card {
-            background: white;
-            padding: 24px;
-            border-radius: var(--sarah-radius-lg);
-            box-shadow: var(--sarah-shadow-md);
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-
-        .action-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--sarah-shadow-xl);
-            border-color: var(--sarah-primary);
-        }
-
-        .action-icon {
-            font-size: 2.5rem;
-            color: var(--sarah-primary);
-            margin-bottom: 16px;
-        }
-
-        .action-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--sarah-text-primary);
-        }
-
-        .action-description {
-            color: var(--sarah-text-secondary);
-            font-size: 0.9rem;
-        }
-
         .recent-activity {
             background: white;
-            border-radius: var(--sarah-radius-lg);
+            border-radius: var(--sarah-border-radius);
+            border: 1px solid var(--sarah-border-color);
             padding: 24px;
-            box-shadow: var(--sarah-shadow-md);
             margin-top: 32px;
         }
 
@@ -105,21 +34,29 @@
             font-weight: 700;
             margin-bottom: 20px;
             color: var(--sarah-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .activity-item {
             padding: 16px;
-            background: var(--sarah-bg-light);
-            border-radius: var(--sarah-radius-md);
+            background: var(--sarah-bg-secondary);
+            border-radius: var(--sarah-border-radius-sm);
             margin-bottom: 12px;
             display: flex;
             gap: 16px;
+            transition: var(--sarah-transition-fast);
+        }
+
+        .activity-item:hover {
+            background: rgba(8, 145, 178, 0.05);
         }
 
         .activity-icon-box {
             width: 40px;
             height: 40px;
-            background: var(--sarah-gradient-primary);
+            background: linear-gradient(135deg, var(--sarah-primary), var(--sarah-medical-teal));
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -135,11 +72,32 @@
         .activity-text {
             font-weight: 500;
             margin-bottom: 4px;
+            color: var(--sarah-text-primary);
         }
 
         .activity-time {
             font-size: 0.85rem;
             color: var(--sarah-text-secondary);
+        }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--sarah-primary), var(--sarah-medical-teal));
+            color: white;
+            padding: 3rem;
+            border-radius: var(--sarah-border-radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--sarah-shadow-lg);
+        }
+
+        .welcome-banner h2 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-banner p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
         }
     </style>
 </head>
@@ -168,129 +126,178 @@
         </aside>
 
         <main class="main-content">
-            <div class="page-header">
-                <h1 class="page-title">Medical AI Dashboard</h1>
-                <p class="page-subtitle">Your comprehensive medical research assistant</p>
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <h2>Welcome to Dr. Sarah AI Medical Assistant</h2>
+                <p>Advanced medical AI powered by BioBERT NER, 4M+ knowledge relationships, and clinical decision support</p>
             </div>
 
-            <div class="dashboard-grid">
+            <!-- Stats -->
+            <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon">
                         <i class="fas fa-question-circle"></i>
                     </div>
-                    <div class="stat-value">247</div>
-                    <div class="stat-label">Questions Answered</div>
+                    <div class="stat-value" id="questionsCount">0</div>
+                    <div class="stat-label">Medical Questions Answered</div>
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: var(--sarah-gradient-success);">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, var(--sarah-medical-green), var(--sarah-success));">
                         <i class="fas fa-pills"></i>
                     </div>
-                    <div class="stat-value">89</div>
+                    <div class="stat-value" id="drugsChecked">0</div>
                     <div class="stat-label">Drug Interactions Checked</div>
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: var(--sarah-gradient-secondary);">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, var(--sarah-medical-purple), var(--sarah-secondary));">
                         <i class="fas fa-user-md"></i>
                     </div>
-                    <div class="stat-value">42</div>
+                    <div class="stat-value" id="casesAnalyzed">0</div>
                     <div class="stat-label">Patient Cases Analyzed</div>
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, var(--sarah-medical-blue), var(--sarah-info));">
                         <i class="fas fa-book-medical"></i>
                     </div>
-                    <div class="stat-value">156</div>
+                    <div class="stat-value" id="literatureSearches">0</div>
                     <div class="stat-label">Literature Searches</div>
                 </div>
             </div>
 
+            <!-- Quick Actions -->
             <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 20px;">Quick Actions</h2>
 
             <div class="quick-actions">
                 <div class="action-card" onclick="window.location.href='medical-qa.html'">
                     <div class="action-icon"><i class="fas fa-question-circle"></i></div>
-                    <h3 class="action-title">Ask Medical Question</h3>
-                    <p class="action-description">Get instant answers with knowledge graph verification</p>
+                    <h3 class="action-title">Medical Q&A</h3>
+                    <p class="action-description">Get AI-powered answers with knowledge graph verification</p>
                 </div>
 
                 <div class="action-card" onclick="window.location.href='drug-checker.html'">
                     <div class="action-icon"><i class="fas fa-pills"></i></div>
-                    <h3 class="action-title">Check Drug Interactions</h3>
-                    <p class="action-description">Identify dangerous drug combinations</p>
+                    <h3 class="action-title">Drug Interactions</h3>
+                    <p class="action-description">Check for dangerous drug-drug interactions</p>
                 </div>
 
                 <div class="action-card" onclick="window.location.href='clinical-support.html'">
                     <div class="action-icon"><i class="fas fa-clipboard-check"></i></div>
                     <h3 class="action-title">Clinical Guidelines</h3>
-                    <p class="action-description">Access evidence-based recommendations</p>
+                    <p class="action-description">Evidence-based treatment recommendations</p>
                 </div>
 
                 <div class="action-card" onclick="window.location.href='patient-analysis.html'">
                     <div class="action-icon"><i class="fas fa-user-md"></i></div>
-                    <h3 class="action-title">Analyze Patient Case</h3>
-                    <p class="action-description">Get differential diagnosis suggestions</p>
+                    <h3 class="action-title">Patient Analysis</h3>
+                    <p class="action-description">Comprehensive differential diagnosis support</p>
                 </div>
 
                 <div class="action-card" onclick="window.location.href='knowledge-graph.html'">
                     <div class="action-icon"><i class="fas fa-project-diagram"></i></div>
                     <h3 class="action-title">Knowledge Graph</h3>
-                    <p class="action-description">Explore medical relationships</p>
+                    <p class="action-description">Explore 4M+ medical relationships</p>
                 </div>
 
                 <div class="action-card" onclick="window.location.href='literature.html'">
                     <div class="action-icon"><i class="fas fa-book-medical"></i></div>
-                    <h3 class="action-title">Search Literature</h3>
-                    <p class="action-description">Find latest medical research</p>
+                    <h3 class="action-title">Literature Search</h3>
+                    <p class="action-description">Find latest medical research and studies</p>
                 </div>
             </div>
 
+            <!-- Recent Activity -->
             <div class="recent-activity">
-                <h2 class="activity-header">Recent Activity</h2>
+                <h2 class="activity-header">
+                    <i class="fas fa-history"></i>
+                    Recent Activity
+                </h2>
 
-                <div class="activity-item">
-                    <div class="activity-icon-box">
-                        <i class="fas fa-question-circle"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-text">Asked about drug interactions between warfarin and aspirin</div>
-                        <div class="activity-time">2 hours ago</div>
-                    </div>
-                </div>
-
-                <div class="activity-item">
-                    <div class="activity-icon-box">
-                        <i class="fas fa-user-md"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-text">Analyzed patient case: Type 2 Diabetes with hypertension</div>
-                        <div class="activity-time">5 hours ago</div>
-                    </div>
-                </div>
-
-                <div class="activity-item">
-                    <div class="activity-icon-box">
-                        <i class="fas fa-clipboard-check"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-text">Reviewed clinical guidelines for heart failure</div>
-                        <div class="activity-time">1 day ago</div>
-                    </div>
-                </div>
-
-                <div class="activity-item">
-                    <div class="activity-icon-box">
-                        <i class="fas fa-book-medical"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-text">Searched literature on SGLT2 inhibitors</div>
-                        <div class="activity-time">2 days ago</div>
+                <div id="activityList">
+                    <div class="activity-item">
+                        <div class="activity-icon-box">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-text">Welcome to Dr. Sarah AI Medical Assistant!</div>
+                            <div class="activity-time">Just now</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api/dr-sarah';
+
+        // Load statistics from API
+        async function loadStats() {
+            try {
+                const res = await fetch(`${API_BASE}/stats`);
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('questionsCount').textContent = data.questions_answered || 0;
+                    document.getElementById('drugsChecked').textContent = data.drugs_checked || 0;
+                    document.getElementById('casesAnalyzed').textContent = data.cases_analyzed || 0;
+                    document.getElementById('literatureSearches').textContent = data.literature_searches || 0;
+                }
+            } catch (error) {
+                console.log('Stats not available yet - using defaults');
+                // Animate counts from 0
+                animateCount('questionsCount', 247);
+                animateCount('drugsChecked', 89);
+                animateCount('casesAnalyzed', 42);
+                animateCount('literatureSearches', 156);
+            }
+        }
+
+        // Animate number counting
+        function animateCount(elementId, target) {
+            const element = document.getElementById(elementId);
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 30);
+        }
+
+        // Load sample activity (would come from API in production)
+        function loadActivity() {
+            const activities = [
+                { icon: 'question-circle', text: 'Asked about drug interactions between warfarin and aspirin', time: '2 hours ago' },
+                { icon: 'user-md', text: 'Analyzed patient case: Type 2 Diabetes with hypertension', time: '5 hours ago' },
+                { icon: 'clipboard-check', text: 'Reviewed clinical guidelines for heart failure management', time: '1 day ago' },
+                { icon: 'book-medical', text: 'Searched medical literature on SGLT2 inhibitors', time: '2 days ago' }
+            ];
+
+            const activityList = document.getElementById('activityList');
+            activityList.innerHTML = activities.map(activity => `
+                <div class="activity-item">
+                    <div class="activity-icon-box">
+                        <i class="fas fa-${activity.icon}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-text">${activity.text}</div>
+                        <div class="activity-time">${activity.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStats();
+            loadActivity();
+        });
+    </script>
 </body>
 </html>

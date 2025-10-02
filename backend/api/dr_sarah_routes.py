@@ -9,7 +9,7 @@ from typing import List, Optional, Dict
 from datetime import datetime
 import logging
 
-from backend.services.dr_sarah_core import DrSarahCore
+from services.dr_sarah_core import DrSarahCore
 
 logger = logging.getLogger(__name__)
 

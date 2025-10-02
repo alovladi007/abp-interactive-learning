@@ -16,6 +16,9 @@ from services.quality_control import qc_service
 from services.cdn import storage_service
 from services.stripe_service import payment_service
 
+# Import Dr. Sarah routes
+from api.dr_sarah_routes import router as dr_sarah_router
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -36,6 +39,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include Dr. Sarah router
+app.include_router(dr_sarah_router, prefix="/api/dr-sarah", tags=["Dr. Sarah Medical AI"])
 
 # Request/Response Models
 class GenerateVoiceRequest(BaseModel):
