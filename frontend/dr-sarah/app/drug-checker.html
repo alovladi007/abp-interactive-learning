@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drug Interaction Checker - Dr. Sarah</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .checker-container { max-width: 1200px; margin: 0 auto; }
+        .drug-input-panel { background: white; padding: 32px; border-radius: var(--sarah-radius-lg); box-shadow: var(--sarah-shadow-md); margin-bottom: 24px; }
+        .drug-list { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+        .drug-chip { background: var(--sarah-gradient-primary); color: white; padding: 10px 16px; border-radius: 20px; display: flex; align-items: center; gap: 8px; }
+        .drug-chip button { background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem; }
+        .add-drug-section { display: flex; gap: 12px; margin-top: 16px; }
+        .results-panel { background: white; padding: 32px; border-radius: var(--sarah-radius-lg); box-shadow: var(--sarah-shadow-md); }
+        .interaction-card { padding: 20px; background: var(--sarah-bg-light); border-radius: var(--sarah-radius-md); margin-bottom: 16px; border-left: 4px solid; }
+        .severity-major { border-left-color: var(--sarah-danger); }
+        .severity-moderate { border-left-color: var(--sarah-warning); }
+        .severity-minor { border-left-color: var(--sarah-info); }
+        .severity-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; color: white; text-transform: uppercase; }
+        .badge-major { background: var(--sarah-danger); }
+        .badge-moderate { background: var(--sarah-warning); }
+        .badge-minor { background: var(--sarah-info); }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header"><i class="fas fa-stethoscope"></i><span>Dr. Sarah</span></div>
+            <nav><ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                <li><a href="medical-qa.html"><i class="fas fa-question-circle"></i> Medical Q&A</a></li>
+                <li><a href="drug-checker.html" class="active"><i class="fas fa-pills"></i> Drug Checker</a></li>
+                <li><a href="clinical-support.html"><i class="fas fa-clipboard-check"></i> Clinical Support</a></li>
+                <li><a href="patient-analysis.html"><i class="fas fa-user-md"></i> Patient Analysis</a></li>
+                <li><a href="knowledge-graph.html"><i class="fas fa-project-diagram"></i> Knowledge Graph</a></li>
+                <li><a href="literature.html"><i class="fas fa-book-medical"></i> Literature</a></li>
+            </ul></nav>
+            <div class="sidebar-footer">
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="checker-container">
+                <div class="page-header">
+                    <h1 class="page-title">Drug Interaction Checker</h1>
+                    <p class="page-subtitle">Identify dangerous drug combinations and get clinical management recommendations</p>
+                </div>
+                <div class="drug-input-panel">
+                    <h3>Enter Medications</h3>
+                    <div class="drug-list" id="drugList"></div>
+                    <div class="add-drug-section">
+                        <input type="text" id="drugInput" class="sarah-input" placeholder="Enter drug name (e.g., warfarin, aspirin)">
+                        <button class="sarah-btn sarah-btn-primary" onclick="addDrug()"><i class="fas fa-plus"></i> Add Drug</button>
+                        <button class="sarah-btn sarah-btn-success" onclick="checkInteractions()" id="checkBtn" disabled><i class="fas fa-check"></i> Check Interactions</button>
+                    </div>
+                </div>
+                <div class="results-panel" id="results" style="display:none;">
+                    <h3>Interaction Results</h3>
+                    <div id="interactionsList"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        const API_BASE = 'http://localhost:8000/api/dr-sarah'; let drugs = [];
+        function addDrug() {
+            const input = document.getElementById('drugInput'); const drug = input.value.trim();
+            if (drug && !drugs.includes(drug.toLowerCase())) {
+                drugs.push(drug.toLowerCase()); renderDrugs(); input.value = '';
+                document.getElementById('checkBtn').disabled = drugs.length < 2;
+            }
+        }
+        function removeDrug(drug) { drugs = drugs.filter(d => d !== drug); renderDrugs(); document.getElementById('checkBtn').disabled = drugs.length < 2; }
+        function renderDrugs() {
+            document.getElementById('drugList').innerHTML = drugs.map(d => 
+                \`<div class="drug-chip"><span>\${d}</span><button onclick="removeDrug('\${d}')">×</button></div>\`).join('');
+        }
+        async function checkInteractions() {
+            try {
+                const res = await fetch(\`\${API_BASE}/drug-interactions\`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({drugs})
+                });
+                const data = await res.json();
+                const resultsDiv = document.getElementById('results'); const listDiv = document.getElementById('interactionsList');
+                if (data.interactions.length === 0) {
+                    listDiv.innerHTML = '<p style="color: var(--sarah-success); font-weight: 600;"><i class="fas fa-check-circle"></i> No significant interactions found between these medications.</p>';
+                } else {
+                    listDiv.innerHTML = data.interactions.map(i => \`
+                        <div class="interaction-card severity-\${i.severity}">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                                <h4 style="margin: 0;">\${i.drug1} + \${i.drug2}</h4>
+                                <span class="severity-badge badge-\${i.severity}">\${i.severity}</span>
+                            </div>
+                            <p style="margin-bottom: 10px;"><strong>Description:</strong> \${i.description}</p>
+                            <p style="margin-bottom: 10px;"><strong>Mechanism:</strong> \${i.mechanism}</p>
+                            <p style="margin: 0;"><strong>Management:</strong> \${i.management}</p>
+                        </div>
+                    \`).join('');
+                }
+                resultsDiv.style.display = 'block';
+            } catch (error) { alert('Error checking interactions: ' + error.message); }
+        }
+        document.getElementById('drugInput').addEventListener('keypress', e => { if (e.key === 'Enter') addDrug(); });
+    </script>
+</body>
+</html>

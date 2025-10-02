@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Decision Support - Dr. Sarah</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .support-container { max-width: 1200px; margin: 0 auto; }
+        .search-panel { background: white; padding: 32px; border-radius: var(--sarah-radius-lg); box-shadow: var(--sarah-shadow-md); margin-bottom: 24px; }
+        .guideline-card { background: white; padding: 32px; border-radius: var(--sarah-radius-lg); box-shadow: var(--sarah-shadow-md); margin-bottom: 24px; }
+        .guideline-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--sarah-border-color); }
+        .evidence-badge { padding: 6px 12px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
+        .evidence-a { background: var(--sarah-success); color: white; }
+        .evidence-b { background: var(--sarah-info); color: white; }
+        .evidence-c { background: var(--sarah-warning); color: white; }
+        .recommendation-list { list-style: none; padding: 0; }
+        .recommendation-list li { padding: 12px; background: var(--sarah-bg-light); border-radius: 8px; margin-bottom: 8px; display: flex; gap: 12px; }
+        .recommendation-list li::before { content: "→"; color: var(--sarah-primary); font-weight: 700; }
+        .contraindication-box { background: #fef2f2; border: 2px solid var(--sarah-danger); border-radius: 8px; padding: 16px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header"><i class="fas fa-stethoscope"></i><span>Dr. Sarah</span></div>
+            <nav><ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                <li><a href="medical-qa.html"><i class="fas fa-question-circle"></i> Medical Q&A</a></li>
+                <li><a href="drug-checker.html"><i class="fas fa-pills"></i> Drug Checker</a></li>
+                <li><a href="clinical-support.html" class="active"><i class="fas fa-clipboard-check"></i> Clinical Support</a></li>
+                <li><a href="patient-analysis.html"><i class="fas fa-user-md"></i> Patient Analysis</a></li>
+                <li><a href="knowledge-graph.html"><i class="fas fa-project-diagram"></i> Knowledge Graph</a></li>
+                <li><a href="literature.html"><i class="fas fa-book-medical"></i> Literature</a></li>
+            </ul></nav>
+            <div class="sidebar-footer"><a href="profile.html"><i class="fas fa-user"></i> Profile</a><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></div>
+        </aside>
+        <main class="main-content">
+            <div class="support-container">
+                <div class="page-header">
+                    <h1 class="page-title">Clinical Decision Support</h1>
+                    <p class="page-subtitle">Evidence-based treatment guidelines from ADA, ACC/AHA, and ESC</p>
+                </div>
+                <div class="search-panel">
+                    <h3>Search Clinical Guidelines</h3>
+                    <div style="display: flex; gap: 12px; margin-top: 16px;">
+                        <input type="text" id="conditionInput" class="sarah-input" placeholder="Enter condition (e.g., diabetes, hypertension)">
+                        <button class="sarah-btn sarah-btn-primary" onclick="searchGuidelines()"><i class="fas fa-search"></i> Search</button>
+                    </div>
+                </div>
+                <div id="guidelineResults"></div>
+            </div>
+        </main>
+    </div>
+    <script>
+        const API_BASE = 'http://localhost:8000/api/dr-sarah';
+        async function searchGuidelines() {
+            const condition = document.getElementById('conditionInput').value.trim();
+            if (!condition) return;
+            try {
+                const res = await fetch(\`\${API_BASE}/clinical-guidelines\`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({condition})
+                });
+                const data = await res.json(); const resultsDiv = document.getElementById('guidelineResults');
+                if (data.condition && data.recommendations) {
+                    resultsDiv.innerHTML = \`
+                        <div class="guideline-card">
+                            <div class="guideline-header">
+                                <h2>\${data.condition}</h2>
+                                <span class="evidence-badge evidence-\${data.evidence_level.toLowerCase()}">Evidence Level \${data.evidence_level}</span>
+                            </div>
+                            <h4 style="margin-bottom: 16px;">Treatment Recommendations</h4>
+                            <ul class="recommendation-list">\${data.recommendations.map(r => \`<li>\${r}</li>\`).join('')}</ul>
+                            \${data.contraindications?.length ? \`
+                                <div class="contraindication-box">
+                                    <h4 style="color: var(--sarah-danger); margin-bottom: 12px;"><i class="fas fa-exclamation-triangle"></i> Contraindications</h4>
+                                    <ul>\${data.contraindications.map(c => \`<li>\${c}</li>\`).join('')}</ul>
+                                </div>
+                            \` : ''}
+                            <p style="margin-top: 20px; color: var(--sarah-text-secondary); font-size: 0.9rem;"><strong>Source:</strong> \${data.source}</p>
+                        </div>
+                    \`;
+                } else {
+                    resultsDiv.innerHTML = \`<div class="guideline-card"><p style="color: var(--sarah-text-secondary);">\${data.message || 'No guidelines found'}</p></div>\`;
+                }
+            } catch (error) { alert('Error searching guidelines: ' + error.message); }
+        }
+        document.getElementById('conditionInput').addEventListener('keypress', e => { if (e.key === 'Enter') searchGuidelines(); });
+    </script>
+</body>
+</html>
