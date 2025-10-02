@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAX - AI Research Assistant</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .search-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.95em;
+        }
+
+        .results-container {
+            display: grid;
+            gap: 20px;
+        }
+
+        .paper-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .paper-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .paper-title {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .paper-authors {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .paper-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .paper-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .paper-abstract {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .paper-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .credibility-badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .credibility-high {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .credibility-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .credibility-low {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .paper-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stats-bar {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .example-queries {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .example-query {
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .example-query:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .no-results h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 MAX</h1>
+            <p class="subtitle">AI Research Assistant - Discover, Analyze, Synthesize Academic Papers</p>
+        </div>
+
+        <div class="search-container">
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search-input"
+                    placeholder="Search research papers... (e.g., 'machine learning healthcare')"
+                    onkeypress="if(event.key==='Enter') searchPapers()"
+                >
+                <button class="btn" onclick="searchPapers()" id="searchBtn">
+                    Search
+                </button>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Year From</label>
+                    <input type="number" id="yearMin" placeholder="2020" min="1900" max="2030">
+                </div>
+                <div class="filter-group">
+                    <label>Year To</label>
+                    <input type="number" id="yearMax" placeholder="2024" min="1900" max="2030">
+                </div>
+                <div class="filter-group">
+                    <label>Min Citations</label>
+                    <input type="number" id="minCitations" placeholder="0" min="0">
+                </div>
+                <div class="filter-group">
+                    <label>Max Results</label>
+                    <select id="maxResults">
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="example-queries">
+                <strong style="align-self: center;">Examples:</strong>
+                <span class="example-query" onclick="loadExample('machine learning healthcare')">Machine Learning Healthcare</span>
+                <span class="example-query" onclick="loadExample('deep learning natural language processing')">Deep Learning NLP</span>
+                <span class="example-query" onclick="loadExample('quantum computing')">Quantum Computing</span>
+                <span class="example-query" onclick="loadExample('climate change modeling')">Climate Change</span>
+            </div>
+        </div>
+
+        <div id="statsBar"></div>
+        <div id="resultsContainer"></div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE = window.location.hostname === 'localhost'
+            ? 'http://localhost:8000'
+            : '';
+
+        // Search papers
+        async function searchPapers() {
+            const query = document.getElementById('searchInput').value.trim();
+
+            if (!query) {
+                alert('Please enter a search query!');
+                return;
+            }
+
+            const yearMin = document.getElementById('yearMin').value;
+            const yearMax = document.getElementById('yearMax').value;
+            const minCitations = document.getElementById('minCitations').value;
+            const maxResults = document.getElementById('maxResults').value;
+
+            const resultsContainer = document.getElementById('resultsContainer');
+            const searchBtn = document.getElementById('searchBtn');
+
+            // Show loading
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div><p>Searching papers...</p></div>';
+            searchBtn.disabled = true;
+            searchBtn.textContent = 'Searching...';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/max/search`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        query: query,
+                        year_min: yearMin ? parseInt(yearMin) : null,
+                        year_max: yearMax ? parseInt(yearMax) : null,
+                        min_citations: minCitations ? parseInt(minCitations) : null,
+                        max_results: parseInt(maxResults)
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Search failed');
+                }
+
+                const data = await response.json();
+                displayResults(data);
+
+            } catch (error) {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <h3>Error</h3>
+                        <p>${error.message}</p>
+                        <p style="margin-top: 10px;">Please check your internet connection and try again.</p>
+                    </div>
+                `;
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.textContent = 'Search';
+            }
+        }
+
+        // Display results
+        function displayResults(data) {
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            if (!data.papers || data.papers.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <h3>No papers found</h3>
+                        <p>Try adjusting your search query or filters</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Show stats
+            const statsBar = document.getElementById('statsBar');
+            statsBar.innerHTML = `
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <div class="stat-value">${data.total_results}</div>
+                        <div class="stat-label">Papers Found</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${Math.round(data.papers.reduce((sum, p) => sum + p.citations_count, 0) / data.papers.length)}</div>
+                        <div class="stat-label">Avg Citations</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${data.execution_time_ms}ms</div>
+                        <div class="stat-label">Search Time</div>
+                    </div>
+                </div>
+            `;
+
+            // Show papers
+            let html = '<div class="results-container">';
+
+            data.papers.forEach(paper => {
+                const credibilityClass =
+                    paper.credibility_score >= 70 ? 'credibility-high' :
+                    paper.credibility_score >= 40 ? 'credibility-medium' :
+                    'credibility-low';
+
+                const credibilityLabel =
+                    paper.credibility_score >= 70 ? 'High Credibility' :
+                    paper.credibility_score >= 40 ? 'Medium Credibility' :
+                    'Low Credibility';
+
+                html += `
+                    <div class="paper-card" onclick="viewPaper('${paper.paper_id}')">
+                        <div class="paper-title">${paper.title}</div>
+                        <div class="paper-authors">
+                            👥 ${paper.authors.slice(0, 3).join(', ')}${paper.authors.length > 3 ? ' et al.' : ''}
+                        </div>
+                        <div class="paper-meta">
+                            <span>📅 ${paper.year}</span>
+                            <span>📚 ${paper.venue || 'N/A'}</span>
+                            <span>📊 ${paper.citations_count} citations</span>
+                            ${paper.fields_of_study.length > 0 ? `<span>🔬 ${paper.fields_of_study[0]}</span>` : ''}
+                        </div>
+                        <div class="paper-abstract">
+                            ${paper.abstract ? (paper.abstract.substring(0, 300) + (paper.abstract.length > 300 ? '...' : '')) : 'No abstract available'}
+                        </div>
+                        <div class="paper-footer">
+                            <div class="credibility-badge ${credibilityClass}">
+                                ${credibilityLabel} (${Math.round(paper.credibility_score)}/100)
+                            </div>
+                            <div class="paper-actions">
+                                ${paper.pdf_url ? `<button class="action-btn" onclick="event.stopPropagation(); window.open('${paper.pdf_url}', '_blank')">📄 PDF</button>` : ''}
+                                <button class="action-btn" onclick="event.stopPropagation(); findSimilar('${paper.paper_id}')">🔍 Similar</button>
+                                <button class="action-btn" onclick="event.stopPropagation(); viewCitations('${paper.paper_id}')">🔗 Citations</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            resultsContainer.innerHTML = html;
+        }
+
+        // View paper details
+        async function viewPaper(paperId) {
+            alert(`Paper ID: ${paperId}\n\nOpening paper details...`);
+            // In full implementation, show paper details modal
+        }
+
+        // Find similar papers
+        async function findSimilar(paperId) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div><p>Finding similar papers...</p></div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/max/similar/${paperId}?limit=10`);
+
+                if (!response.ok) {
+                    throw new Error('Failed to find similar papers');
+                }
+
+                const data = await response.json();
+                displayResults({
+                    papers: data.similar_papers,
+                    total_results: data.count,
+                    execution_time_ms: 0
+                });
+
+            } catch (error) {
+                resultsContainer.innerHTML = `<div class="no-results"><h3>Error</h3><p>${error.message}</p></div>`;
+            }
+        }
+
+        // View citations
+        async function viewCitations(paperId) {
+            alert(`Loading citation network for paper ${paperId}...\n\nThis feature shows papers that cite this work.`);
+            // In full implementation, show citation network visualization
+        }
+
+        // Load example query
+        function loadExample(query) {
+            document.getElementById('searchInput').value = query;
+            searchPapers();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('MAX Research Assistant initialized');
+        });
+    </script>
+</body>
+</html>

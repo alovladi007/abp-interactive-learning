@@ -588,6 +588,82 @@
                             <span class="badge" style="background: var(--warning-bg); color: var(--warning-color);">Coming Soon</span>
                         </div>
                     </div>
+                    
+                    <!-- Dr. Sarah AI Medical Research Assistant Card -->
+                    <div class="goal-card" style="border: 2px solid #1e40af; background: var(--card-bg); position: relative; overflow: hidden;">
+                        <!-- Status Badge -->
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: var(--success-color); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">
+                            <i class="fas fa-circle" style="font-size: 0.5rem; margin-right: 0.25rem;"></i>ACTIVE
+                        </div>
+                        
+                        <!-- Card Header -->
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                            <div class="goal-icon" style="background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%);">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div>
+                                <h3 style="margin: 0; color: var(--text-primary);">Dr. Sarah</h3>
+                                <p class="text-secondary" style="margin: 0.25rem 0 0 0; font-size: 0.9rem;">AI Medical Research Assistant</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Capabilities List -->
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; align-items: start; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <i class="fas fa-check-circle" style="color: var(--success-color); margin-top: 0.25rem;"></i>
+                                <div>
+                                    <strong style="color: var(--text-primary);">Medical Literature Analysis</strong>
+                                    <p class="text-secondary" style="margin: 0.25rem 0 0 0; font-size: 0.85rem;">
+                                        Comprehensive medical research paper analysis and synthesis
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: start; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <i class="fas fa-check-circle" style="color: var(--success-color); margin-top: 0.25rem;"></i>
+                                <div>
+                                    <strong style="color: var(--text-primary);">Clinical Study Design</strong>
+                                    <p class="text-secondary" style="margin: 0.25rem 0 0 0; font-size: 0.85rem;">
+                                        Guidance on research protocols, methodology, and statistical analysis
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: start; gap: 0.75rem;">
+                                <i class="fas fa-check-circle" style="color: var(--success-color); margin-top: 0.25rem;"></i>
+                                <div>
+                                    <strong style="color: var(--text-primary);">Medical Terminology & Concepts</strong>
+                                    <p class="text-secondary" style="margin: 0.25rem 0 0 0; font-size: 0.85rem;">
+                                        Expert explanations of complex medical concepts and procedures
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Stats Row -->
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 1.25rem; font-weight: bold; color: #1e40af;">4.7</div>
+                                <div class="text-secondary" style="font-size: 0.75rem;">Rating</div>
+                            </div>
+                            <div style="flex: 1; text-align: center; border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color);">
+                                <div style="font-size: 1.25rem; font-weight: bold; color: #1e40af;">1.9k+</div>
+                                <div class="text-secondary" style="font-size: 0.75rem;">Medical Students</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-size: 1.25rem; font-weight: bold; color: #1e40af;">24/7</div>
+                                <div class="text-secondary" style="font-size: 0.75rem;">Available</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button class="btn btn-primary" style="flex: 1; background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%); border: none;" onclick="openAIAdvisorChat('Dr. Sarah')">
+                                <i class="fas fa-stethoscope"></i> Start Medical Research
+                            </button>
+                            <button class="btn btn-outline" onclick="openAIAdvisorChat('Dr. Sarah')" style="border-color: #1e40af; color: #1e40af;">
+                                <i class="fas fa-comments"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Info Section -->
@@ -878,6 +954,30 @@
                 }
             }
         });
+
+        // Function to open AI Advisor chat interfaces
+        function openAIAdvisorChat(advisorName) {
+            if (advisorName === 'Dr. Sarah') {
+                // Open Dr. Sarah's KGAREVION Medical Research interface
+                // Check if running locally or on GitHub Pages
+                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                    window.open('kgarevion/dr-sarah-interface.html', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+                } else {
+                    window.open('kgarevion/dr-sarah-github.html', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+                }
+            } else if (advisorName === 'Louis') {
+                // Open Louis's AI Path Advisor
+                window.open('ai-path-advisor.html', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+            } else if (advisorName === 'Emma') {
+                // Open Emma's STEM Tutor (AI-powered symbolic math and visualization)
+                window.open('frontend/emma-simple.html', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+            } else if (advisorName === 'Max') {
+                // Open Max's Research Assistant (academic paper search and citations)
+                window.open('frontend/max.html', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+            } else {
+                alert(`${advisorName} interface is coming soon!`);
+            }
+        }
     </script>
 </body>
 </html>

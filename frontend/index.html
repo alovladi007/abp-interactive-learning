@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Academic Assistant Platform</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .assistants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .assistant-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .assistant-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .assistant-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .assistant-name {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #667eea;
+        }
+
+        .assistant-description {
+            text-align: center;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .features-list li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .launch-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .launch-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            margin-top: 10px;
+        }
+
+        .status-ready {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-beta {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .info-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-top: 40px;
+        }
+
+        .info-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .assistants-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 AI Academic Assistant Platform</h1>
+            <p class="subtitle">Three Powerful AI Assistants for Your Academic Success</p>
+        </div>
+
+        <div class="assistants-grid">
+            <!-- Dr. Sarah -->
+            <div class="assistant-card" onclick="window.location.href='kgarevion/dr-sarah-github.html'">
+                <div class="assistant-icon">🩺</div>
+                <div class="assistant-name">Dr. Sarah</div>
+                <div class="assistant-description">
+                    AI Medical Research Assistant with Knowledge Graph Verification
+                </div>
+                <ul class="features-list">
+                    <li>Medical question answering</li>
+                    <li>Drug interaction checking</li>
+                    <li>Emergency detection</li>
+                    <li>Clinical guidelines</li>
+                    <li>4M+ medical relationships</li>
+                </ul>
+                <button class="launch-btn">Launch Dr. Sarah</button>
+                <div class="status-badge status-ready">✓ Ready</div>
+            </div>
+
+            <!-- EMMA -->
+            <div class="assistant-card" onclick="window.location.href='emma-simple.html'">
+                <div class="assistant-icon">📚</div>
+                <div class="assistant-name">EMMA</div>
+                <div class="assistant-description">
+                    AI STEM Tutor - Math, Science & Engineering Problem Solver
+                </div>
+                <ul class="features-list">
+                    <li>Step-by-step solutions</li>
+                    <li>Function visualization</li>
+                    <li>Algebra & calculus</li>
+                    <li>Interactive learning</li>
+                    <li>Progress tracking</li>
+                </ul>
+                <button class="launch-btn">Launch EMMA</button>
+                <div class="status-badge status-ready">✓ Ready</div>
+            </div>
+
+            <!-- MAX -->
+            <div class="assistant-card" onclick="window.location.href='max.html'">
+                <div class="assistant-icon">🔬</div>
+                <div class="assistant-name">MAX</div>
+                <div class="assistant-description">
+                    AI Research Assistant - Literature Discovery & Analysis
+                </div>
+                <ul class="features-list">
+                    <li>Academic paper search</li>
+                    <li>Citation network analysis</li>
+                    <li>Research synthesis</li>
+                    <li>Credibility scoring</li>
+                    <li>Trend analysis</li>
+                </ul>
+                <button class="launch-btn">Launch MAX</button>
+                <div class="status-badge status-ready">✓ Ready</div>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value">3</div>
+                <div class="stat-label">AI Assistants</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">10,000+</div>
+                <div class="stat-label">Lines of Code</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">30+</div>
+                <div class="stat-label">API Endpoints</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Open Source</div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Platform Features</h2>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🚀 Fast & Reliable</h3>
+                    <p>Built with FastAPI and async/await for lightning-fast response times. Handles concurrent requests efficiently.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🧠 Advanced AI</h3>
+                    <p>Powered by state-of-the-art models including Llama-3, BioBERT, and advanced algorithms like KGAREVION and SM-2.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🔒 Safe & Validated</h3>
+                    <p>Dr. Sarah includes comprehensive safety checks for medical advice. All systems include error handling and validation.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>📊 Rich Visualizations</h3>
+                    <p>Beautiful plots, graphs, and visual representations to help you understand complex concepts better.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🌐 API Access</h3>
+                    <p>Full RESTful API available for integration with your own applications. Comprehensive documentation included.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>💾 Data Privacy</h3>
+                    <p>Your data is secure. All processing happens locally. No data is shared without your explicit consent.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Getting Started</h2>
+
+            <div style="margin-top: 20px; line-height: 1.8; color: #555;">
+                <h3 style="color: #667eea; margin-bottom: 15px;">Quick Start Guide:</h3>
+
+                <ol style="margin-left: 20px; line-height: 2;">
+                    <li><strong>Choose Your Assistant</strong> - Click on any assistant card above to launch</li>
+                    <li><strong>Start Asking</strong> - Enter your question or problem</li>
+                    <li><strong>Get Results</strong> - Receive AI-powered answers with explanations</li>
+                    <li><strong>Explore Further</strong> - Use advanced features like visualizations and synthesis</li>
+                </ol>
+
+                <h3 style="color: #667eea; margin: 30px 0 15px 0;">Backend Setup:</h3>
+
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 0.9em;">
+                    # Start the backend server<br>
+                    cd backend<br>
+                    uvicorn main:app --reload --host 0.0.0.0 --port 8000<br>
+                    <br>
+                    # API will be available at:<br>
+                    # http://localhost:8000<br>
+                    # Docs: http://localhost:8000/docs
+                </div>
+
+                <h3 style="color: #667eea; margin: 30px 0 15px 0;">System Requirements:</h3>
+
+                <ul style="margin-left: 20px;">
+                    <li>Python 3.10+</li>
+                    <li>8GB RAM minimum (16GB recommended)</li>
+                    <li>GPU recommended for Dr. Sarah (optional for EMMA/MAX)</li>
+                    <li>Modern web browser (Chrome, Firefox, Safari, Edge)</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>🤖 AI Academic Assistant Platform</p>
+            <p style="margin-top: 10px; opacity: 0.8; font-size: 0.9em;">
+                Built with FastAPI, PyTorch, SymPy, NetworkX, and ❤️
+            </p>
+            <p style="margin-top: 10px; opacity: 0.7; font-size: 0.85em;">
+                Version 2.0.0 | © 2025 | Open Source
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
