@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MAX Research Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
+
+    <style>
+        body {
+            background: var(--max-bg-secondary);
+        }
+
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background: white;
+            border-right: 1px solid var(--max-border-color);
+            padding: 2rem 0;
+        }
+
+        .sidebar-logo {
+            padding: 0 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--max-text-secondary);
+            text-decoration: none;
+            transition: var(--max-transition-fast);
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--max-primary);
+        }
+
+        .main-content {
+            padding: 2rem;
+        }
+
+        .welcome-header {
+            background: linear-gradient(135deg, var(--max-primary), var(--max-accent));
+            color: white;
+            padding: 3rem;
+            border-radius: var(--max-border-radius);
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--max-border-radius);
+            border: 1px solid var(--max-border-color);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--max-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--max-text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--max-border-radius);
+            border: 1px solid var(--max-border-color);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--max-transition);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--max-shadow-lg);
+            border-color: var(--max-primary);
+        }
+
+        .action-icon {
+            font-size: 3rem;
+            color: var(--max-primary);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <a href="../index.html" class="max-logo">
+                    <div class="max-logo-icon"><i class="fas fa-microscope"></i></div>
+                    <span>MAX</span>
+                </a>
+            </div>
+
+            <nav>
+                <ul class="sidebar-nav">
+                    <li><a href="dashboard.html" class="active"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="search.html"><i class="fas fa-search"></i> Search Papers</a></li>
+                    <li><a href="network.html"><i class="fas fa-project-diagram"></i> Networks</a></li>
+                    <li><a href="synthesis.html"><i class="fas fa-lightbulb"></i> Synthesis</a></li>
+                    <li><a href="collections.html"><i class="fas fa-folder-open"></i> Collections</a></li>
+                    <li><a href="library.html"><i class="fas fa-book"></i> Library</a></li>
+                    <li><a href="trends.html"><i class="fas fa-chart-line"></i> Trends</a></li>
+                    <li style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--max-border-color);">
+                        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                    </li>
+                    <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Header -->
+            <div class="welcome-header">
+                <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Welcome to MAX Research Platform</h1>
+                <p style="font-size: 1.1rem; opacity: 0.9;">
+                    Discover, analyze, and synthesize research across 150M+ academic papers
+                </p>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Papers in Library</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Collections</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Searches This Month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Networks Created</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="max-card">
+                <h2 style="margin-bottom: 1.5rem;">Quick Actions</h2>
+                <div class="quick-actions">
+                    <a href="search.html" class="action-card">
+                        <div class="action-icon"><i class="fas fa-search"></i></div>
+                        <h3>Search Papers</h3>
+                        <p style="color: var(--max-text-secondary); font-size: 0.9rem;">
+                            Search across multiple sources
+                        </p>
+                    </a>
+                    <a href="network.html" class="action-card">
+                        <div class="action-icon"><i class="fas fa-project-diagram"></i></div>
+                        <h3>Build Network</h3>
+                        <p style="color: var(--max-text-secondary); font-size: 0.9rem;">
+                            Visualize citations
+                        </p>
+                    </a>
+                    <a href="synthesis.html" class="action-card">
+                        <div class="action-icon"><i class="fas fa-lightbulb"></i></div>
+                        <h3>Synthesize</h3>
+                        <p style="color: var(--max-text-secondary); font-size: 0.9rem;">
+                            Extract key insights
+                        </p>
+                    </a>
+                    <a href="collections.html" class="action-card">
+                        <div class="action-icon"><i class="fas fa-folder-open"></i></div>
+                        <h3>Collections</h3>
+                        <p style="color: var(--max-text-secondary); font-size: 0.9rem;">
+                            Organize your papers
+                        </p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Getting Started -->
+            <div class="max-card" style="margin-top: 2rem;">
+                <h2 style="margin-bottom: 1rem;">Getting Started</h2>
+                <ol style="color: var(--max-text-secondary); line-height: 2;">
+                    <li>Start by <a href="search.html" style="color: var(--max-primary); font-weight: 600;">searching for papers</a> in your field</li>
+                    <li>Build a <a href="network.html" style="color: var(--max-primary); font-weight: 600;">citation network</a> to explore connections</li>
+                    <li>Create <a href="collections.html" style="color: var(--max-primary); font-weight: 600;">collections</a> to organize your research</li>
+                    <li>Use <a href="synthesis.html" style="color: var(--max-primary); font-weight: 600;">synthesis</a> to extract insights from multiple papers</li>
+                </ol>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
