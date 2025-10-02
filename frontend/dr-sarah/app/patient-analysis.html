@@ -1,10 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>patient analysis - Dr. Sarah</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Case Analysis - Dr. Sarah</title>
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .analysis-container { max-width: 1400px; margin: 0 auto; }
+        .analysis-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .input-panel { background: white; border-radius: var(--sarah-radius-lg); padding: 32px; box-shadow: var(--sarah-shadow-md); }
+        .section-title { font-size: 1.2rem; font-weight: 700; color: var(--sarah-text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .input-group { margin-bottom: 24px; }
+        .input-label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--sarah-text-primary); }
+        .tag-input-container { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; border: 2px solid var(--sarah-border-color); border-radius: var(--sarah-radius-md); min-height: 80px; }
+        .tag-chip { background: var(--sarah-gradient-primary); color: white; padding: 6px 12px; border-radius: 20px; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .tag-chip button { background: none; border: none; color: white; cursor: pointer; font-size: 1.1rem; padding: 0; }
+        .tag-input { flex: 1; border: none; outline: none; min-width: 200px; font-size: 0.95rem; }
+        .patient-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .analyze-btn { width: 100%; padding: 16px; background: var(--sarah-gradient-primary); color: white; border: none; border-radius: var(--sarah-radius-md); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: var(--sarah-shadow-md); }
+        .analyze-btn:hover { transform: translateY(-2px); box-shadow: var(--sarah-shadow-lg); }
+        .analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .results-panel { background: white; border-radius: var(--sarah-radius-lg); padding: 32px; box-shadow: var(--sarah-shadow-md); }
+        .result-section { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 2px solid var(--sarah-border-color); }
+        .result-section:last-child { border-bottom: none; }
+        .result-title { font-size: 1.1rem; font-weight: 700; color: var(--sarah-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .condition-badge { display: inline-block; padding: 8px 16px; background: var(--sarah-gradient-success); color: white; border-radius: 20px; font-weight: 600; margin-right: 8px; margin-bottom: 8px; }
+        .symptom-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .symptom-tag { background: var(--sarah-bg-light); padding: 6px 12px; border-radius: 12px; font-size: 0.9rem; color: var(--sarah-text-secondary); }
+        .interaction-alert { background: #fef2f2; border-left: 4px solid var(--sarah-danger); padding: 16px; border-radius: 8px; margin-bottom: 12px; }
+        .interaction-header { font-weight: 600; color: var(--sarah-danger); margin-bottom: 8px; }
+        .knowledge-item { background: var(--sarah-bg-light); padding: 16px; border-radius: 8px; margin-bottom: 12px; }
+        .knowledge-relationship { font-weight: 600; margin-bottom: 8px; }
+        .confidence-bar { height: 6px; background: var(--sarah-border-color); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+        .confidence-fill { height: 100%; background: var(--sarah-gradient-primary); transition: width 0.3s; }
+        .empty-state { text-align: center; color: var(--sarah-text-secondary); padding: 60px 20px; }
+        .empty-state i { font-size: 4rem; color: var(--sarah-border-color); margin-bottom: 20px; }
+        .loading-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.95); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: var(--sarah-radius-lg); z-index: 10; }
+        .spinner { border: 4px solid var(--sarah-border-color); border-top: 4px solid var(--sarah-primary); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
     <div class="dashboard-layout">
@@ -15,23 +50,123 @@
                 <li><a href="medical-qa.html"><i class="fas fa-question-circle"></i> Medical Q&A</a></li>
                 <li><a href="drug-checker.html"><i class="fas fa-pills"></i> Drug Checker</a></li>
                 <li><a href="clinical-support.html"><i class="fas fa-clipboard-check"></i> Clinical Support</a></li>
-                <li><a href="patient-analysis.html"><i class="fas fa-user-md"></i> Patient Analysis</a></li>
+                <li><a href="patient-analysis.html" class="active"><i class="fas fa-user-md"></i> Patient Analysis</a></li>
                 <li><a href="knowledge-graph.html"><i class="fas fa-project-diagram"></i> Knowledge Graph</a></li>
                 <li><a href="literature.html"><i class="fas fa-book-medical"></i> Literature</a></li>
             </ul></nav>
             <div class="sidebar-footer"><a href="profile.html"><i class="fas fa-user"></i> Profile</a><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></div>
         </aside>
         <main class="main-content">
-            <div class="page-header">
-                <h1 class="page-title">patient analysis</h1>
-                <p class="page-subtitle">This feature is coming soon</p>
-            </div>
-            <div style="background: white; padding: 60px; border-radius: 20px; text-align: center; box-shadow: var(--sarah-shadow-md);">
-                <i class="fas fa-flask" style="font-size: 5rem; color: var(--sarah-primary); margin-bottom: 20px;"></i>
-                <h2 style="margin-bottom: 16px;">Under Development</h2>
-                <p style="color: var(--sarah-text-secondary); max-width: 600px; margin: 0 auto;">This feature is currently being developed. Check back soon!</p>
+            <div class="analysis-container">
+                <div class="page-header">
+                    <h1 class="page-title">Patient Case Analysis</h1>
+                    <p class="page-subtitle">AI-powered differential diagnosis and clinical insights</p>
+                </div>
+                <div class="analysis-layout">
+                    <div class="input-panel">
+                        <h2 class="section-title"><i class="fas fa-user-injured"></i>Patient Information</h2>
+                        <div class="patient-info-grid">
+                            <div class="input-group">
+                                <label class="input-label">Age</label>
+                                <input type="number" id="patientAge" class="sarah-input" placeholder="Enter age" min="0" max="120">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Gender</label>
+                                <select id="patientGender" class="sarah-select">
+                                    <option value="">Select gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Symptoms (press Enter to add)</label>
+                            <div class="tag-input-container" id="symptomsContainer" onclick="document.getElementById('symptomInput').focus()">
+                                <input type="text" id="symptomInput" class="tag-input" placeholder="e.g., fever, cough, chest pain">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Medical History (press Enter to add)</label>
+                            <div class="tag-input-container" id="historyContainer" onclick="document.getElementById('historyInput').focus()">
+                                <input type="text" id="historyInput" class="tag-input" placeholder="e.g., diabetes, hypertension">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Current Medications (press Enter to add)</label>
+                            <div class="tag-input-container" id="medicationsContainer" onclick="document.getElementById('medicationInput').focus()">
+                                <input type="text" id="medicationInput" class="tag-input" placeholder="e.g., metformin, lisinopril">
+                            </div>
+                        </div>
+                        <button class="analyze-btn" onclick="analyzeCase()" id="analyzeBtn"><i class="fas fa-microscope"></i> Analyze Patient Case</button>
+                    </div>
+                    <div class="results-panel" style="position: relative;">
+                        <div id="emptyState" class="empty-state">
+                            <i class="fas fa-file-medical"></i>
+                            <h3>No Analysis Yet</h3>
+                            <p>Enter patient information and click "Analyze Patient Case" to get AI-powered clinical insights</p>
+                        </div>
+                        <div id="resultsContent" style="display: none;"></div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
+    <script>
+        const API_BASE = 'http://localhost:8000/api/dr-sarah';
+        let symptoms = []; let medicalHistory = []; let medications = [];
+        function addTag(array, value, containerId) {
+            if (value && !array.includes(value)) { array.push(value); renderTags(array, containerId); }
+        }
+        function removeTag(array, value, containerId) {
+            const index = array.indexOf(value); if (index > -1) { array.splice(index, 1); renderTags(array, containerId); }
+        }
+        function renderTags(array, containerId) {
+            const container = document.getElementById(containerId); const input = container.querySelector('input');
+            Array.from(container.children).forEach(child => { if (child !== input) child.remove(); });
+            const arrayName = containerId === 'symptomsContainer' ? 'symptoms' : containerId === 'historyContainer' ? 'medicalHistory' : 'medications';
+            array.forEach(tag => {
+                const chip = document.createElement('div'); chip.className = 'tag-chip';
+                chip.innerHTML = \`<span>\${escapeHtml(tag)}</span><button onclick="removeTag(\${arrayName}, '\${tag}', '\${containerId}')">×</button>\`;
+                container.insertBefore(chip, input);
+            });
+        }
+        ['symptomInput', 'historyInput', 'medicationInput'].forEach((id, i) => {
+            document.getElementById(id).addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); const value = e.target.value.trim(); const containers = ['symptomsContainer', 'historyContainer', 'medicationsContainer'];
+                    const arrays = [symptoms, medicalHistory, medications]; addTag(arrays[i], value, containers[i]); e.target.value = '';
+                }
+            });
+        });
+        async function analyzeCase() {
+            if (symptoms.length === 0) { alert('Please add at least one symptom'); return; }
+            const resultsPanel = document.querySelector('.results-panel'); const btn = document.getElementById('analyzeBtn');
+            btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+            const loading = document.createElement('div'); loading.className = 'loading-overlay';
+            loading.innerHTML = '<div class="spinner"></div><p style="margin-top:20px;font-weight:600;">Analyzing patient case...</p>';
+            resultsPanel.appendChild(loading);
+            try {
+                const caseData = { symptoms, medical_history: medicalHistory, medications, age: parseInt(document.getElementById('patientAge').value) || null, gender: document.getElementById('patientGender').value || null };
+                const res = await fetch(\`\${API_BASE}/patient-case-analysis\`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(caseData)
+                });
+                if (!res.ok) throw new Error(\`HTTP error! status: \${res.status}\`);
+                const data = await res.json(); displayResults(data);
+            } catch (error) { console.error('Error:', error); alert('Failed to analyze case. Check that backend is running.'); }
+            finally { loading.remove(); btn.disabled = false; btn.innerHTML = '<i class="fas fa-microscope"></i> Analyze Patient Case'; }
+        }
+        function displayResults(data) {
+            document.getElementById('emptyState').style.display = 'none';
+            const resultsContent = document.getElementById('resultsContent'); resultsContent.style.display = 'block'; let html = '';
+            if (data.identified_conditions?.length) html += \`<div class="result-section"><h3 class="result-title"><i class="fas fa-disease"></i> Identified Conditions</h3><div>\${data.identified_conditions.map(c => \`<span class="condition-badge">\${escapeHtml(c)}</span>\`).join('')}</div></div>\`;
+            if (data.symptoms_analyzed?.length) html += \`<div class="result-section"><h3 class="result-title"><i class="fas fa-notes-medical"></i> Symptoms Analyzed</h3><div class="symptom-list">\${data.symptoms_analyzed.map(s => \`<span class="symptom-tag">\${escapeHtml(s)}</span>\`).join('')}</div></div>\`;
+            if (data.drug_interactions?.length) html += \`<div class="result-section"><h3 class="result-title"><i class="fas fa-exclamation-triangle"></i> Drug Interactions</h3>\${data.drug_interactions.map(i => \`<div class="interaction-alert"><div class="interaction-header">\${escapeHtml(i.drugs)} - \${escapeHtml(i.severity.toUpperCase())}</div><p>\${escapeHtml(i.description)}</p></div>\`).join('')}</div>\`;
+            if (data.clinical_knowledge?.length) html += \`<div class="result-section"><h3 class="result-title"><i class="fas fa-brain"></i> Clinical Knowledge</h3>\${data.clinical_knowledge.map(item => \`<div class="knowledge-item"><div class="knowledge-relationship">\${escapeHtml(item.relationship)}</div><div class="confidence-bar"><div class="confidence-fill" style="width:\${item.confidence*100}%"></div></div><small style="color:var(--sarah-text-secondary);">Confidence: \${(item.confidence*100).toFixed(1)}%</small></div>\`).join('')}</div>\`;
+            if (data.recommendations) html += \`<div class="result-section"><h3 class="result-title"><i class="fas fa-clipboard-list"></i> Recommendations</h3><p style="color:var(--sarah-text-secondary);font-style:italic;">\${escapeHtml(data.recommendations)}</p></div>\`;
+            resultsContent.innerHTML = html;
+        }
+        function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+    </script>
 </body>
 </html>

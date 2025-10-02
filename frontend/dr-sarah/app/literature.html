@@ -2,9 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>literature - Dr. Sarah</title>
+    <title>Medical Literature - Dr. Sarah</title>
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .lit-container { max-width: 1400px; margin: 0 auto; }
+        .search-panel { background: white; border-radius: var(--sarah-radius-lg); padding: 32px; box-shadow: var(--sarah-shadow-md); margin-bottom: 24px; }
+        .search-bar { display: flex; gap: 12px; }
+        .search-filters { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+        .filter-chip { padding: 8px 16px; background: var(--sarah-bg-light); border: 2px solid var(--sarah-border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; }
+        .filter-chip.active { background: var(--sarah-gradient-primary); color: white; border-color: var(--sarah-primary); }
+        .results-container { background: white; border-radius: var(--sarah-radius-lg); padding: 32px; box-shadow: var(--sarah-shadow-md); }
+        .paper-card { padding: 24px; background: var(--sarah-bg-light); border-radius: var(--sarah-radius-md); margin-bottom: 16px; transition: all 0.2s; cursor: pointer; }
+        .paper-card:hover { transform: translateY(-2px); box-shadow: var(--sarah-shadow-md); }
+        .paper-title { font-size: 1.2rem; font-weight: 700; color: var(--sarah-text-primary); margin-bottom: 12px; }
+        .paper-authors { color: var(--sarah-text-secondary); margin-bottom: 8px; font-size: 0.9rem; }
+        .paper-meta { display: flex; gap: 20px; font-size: 0.85rem; color: var(--sarah-text-secondary); margin-bottom: 12px; }
+        .paper-abstract { color: var(--sarah-text-secondary); line-height: 1.6; margin-top: 12px; }
+        .relevance-badge { display: inline-block; padding: 4px 12px; background: var(--sarah-success); color: white; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+        .pmid-link { color: var(--sarah-primary); text-decoration: none; font-weight: 600; }
+        .empty-state { text-align: center; padding: 80px 20px; color: var(--sarah-text-secondary); }
+        .empty-state i { font-size: 5rem; color: var(--sarah-border-color); margin-bottom: 20px; }
+    </style>
 </head>
 <body>
     <div class="dashboard-layout">
@@ -17,21 +36,85 @@
                 <li><a href="clinical-support.html"><i class="fas fa-clipboard-check"></i> Clinical Support</a></li>
                 <li><a href="patient-analysis.html"><i class="fas fa-user-md"></i> Patient Analysis</a></li>
                 <li><a href="knowledge-graph.html"><i class="fas fa-project-diagram"></i> Knowledge Graph</a></li>
-                <li><a href="literature.html"><i class="fas fa-book-medical"></i> Literature</a></li>
+                <li><a href="literature.html" class="active"><i class="fas fa-book-medical"></i> Literature</a></li>
             </ul></nav>
             <div class="sidebar-footer"><a href="profile.html"><i class="fas fa-user"></i> Profile</a><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></div>
         </aside>
         <main class="main-content">
-            <div class="page-header">
-                <h1 class="page-title">literature</h1>
-                <p class="page-subtitle">This feature is coming soon</p>
-            </div>
-            <div style="background: white; padding: 60px; border-radius: 20px; text-align: center; box-shadow: var(--sarah-shadow-md);">
-                <i class="fas fa-flask" style="font-size: 5rem; color: var(--sarah-primary); margin-bottom: 20px;"></i>
-                <h2 style="margin-bottom: 16px;">Under Development</h2>
-                <p style="color: var(--sarah-text-secondary); max-width: 600px; margin: 0 auto;">This feature is currently being developed. Check back soon!</p>
+            <div class="lit-container">
+                <div class="page-header">
+                    <h1 class="page-title">Medical Literature Search</h1>
+                    <p class="page-subtitle">Search PubMed and medical databases with AI-powered relevance ranking</p>
+                </div>
+                <div class="search-panel">
+                    <div class="search-bar">
+                        <input type="text" id="searchQuery" class="sarah-input" placeholder="Search medical literature..." style="flex: 1;">
+                        <button class="sarah-btn sarah-btn-primary" onclick="searchLiterature()"><i class="fas fa-search"></i> Search</button>
+                    </div>
+                    <div class="search-filters">
+                        <div class="filter-chip active" data-filter="all" onclick="toggleFilter(this, 'all')">All Results</div>
+                        <div class="filter-chip" data-filter="recent" onclick="toggleFilter(this, 'recent')">Recent (2024)</div>
+                        <div class="filter-chip" data-filter="rct" onclick="toggleFilter(this, 'rct')">Clinical Trials</div>
+                        <div class="filter-chip" data-filter="review" onclick="toggleFilter(this, 'review')">Reviews</div>
+                        <div class="filter-chip" data-filter="meta" onclick="toggleFilter(this, 'meta')">Meta-Analysis</div>
+                    </div>
+                </div>
+                <div class="results-container">
+                    <div id="emptyState" class="empty-state">
+                        <i class="fas fa-book-medical"></i>
+                        <h3>Search Medical Literature</h3>
+                        <p>Enter keywords to search PubMed and discover relevant research papers</p>
+                    </div>
+                    <div id="resultsContainer" style="display: none;"></div>
+                </div>
             </div>
         </main>
     </div>
+    <script>
+        const API_BASE = 'http://localhost:8000/api/dr-sarah'; let currentFilter = 'all';
+        function toggleFilter(el, filter) {
+            document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
+            el.classList.add('active'); currentFilter = filter;
+        }
+        document.getElementById('searchQuery').addEventListener('keypress', e => { if (e.key === 'Enter') searchLiterature(); });
+        async function searchLiterature() {
+            const query = document.getElementById('searchQuery').value.trim();
+            if (!query) return;
+            try {
+                const res = await fetch(\`\${API_BASE}/literature-search\`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({query, filters: {type: currentFilter}, max_results: 20})
+                });
+                const data = await res.json();
+                if (data.results && data.results.length > 0) {
+                    document.getElementById('emptyState').style.display = 'none';
+                    const resultsContainer = document.getElementById('resultsContainer');
+                    resultsContainer.style.display = 'block';
+                    resultsContainer.innerHTML = \`
+                        <div style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--sarah-border-color);">
+                            <h3 style="color: var(--sarah-primary);">Found \${data.total_results} results</h3>
+                            \${data.medical_entities_extracted?.length ? \`<p style="color: var(--sarah-text-secondary); margin-top: 8px;"><strong>Extracted entities:</strong> \${data.medical_entities_extracted.join(', ')}</p>\` : ''}
+                        </div>
+                        \${data.results.map(paper => \`
+                            <div class="paper-card" onclick="window.open('https://pubmed.ncbi.nlm.nih.gov/\${paper.pmid}/', '_blank')">
+                                <div style="display: flex; justify-content: space-between; align-items: start;">
+                                    <div class="paper-title">\${paper.title}</div>
+                                    <span class="relevance-badge">\${(paper.relevance_score * 100).toFixed(0)}% match</span>
+                                </div>
+                                <div class="paper-authors">\${paper.authors.join(', ')}</div>
+                                <div class="paper-meta">
+                                    <span><i class="fas fa-book"></i> \${paper.journal}</span>
+                                    <span><i class="fas fa-calendar"></i> \${paper.year}</span>
+                                    <span><a href="https://pubmed.ncbi.nlm.nih.gov/\${paper.pmid}/" target="_blank" class="pmid-link" onclick="event.stopPropagation();">PMID: \${paper.pmid}</a></span>
+                                </div>
+                                <div class="paper-abstract">\${paper.abstract}</div>
+                            </div>
+                        \`).join('')}
+                        \${data.message ? \`<p style="margin-top: 20px; color: var(--sarah-text-secondary); font-style: italic;">\${data.message}</p>\` : ''}
+                    \`;
+                } else { alert('No results found'); }
+            } catch (error) { alert('Error searching literature: ' + error.message); }
+        }
+    </script>
 </body>
 </html>

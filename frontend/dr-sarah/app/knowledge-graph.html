@@ -2,9 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>knowledge graph - Dr. Sarah</title>
+    <title>Knowledge Graph - Dr. Sarah</title>
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .kg-container { max-width: 1600px; margin: 0 auto; }
+        .kg-layout { display: grid; grid-template-columns: 350px 1fr; gap: 24px; }
+        .kg-sidebar { background: white; border-radius: var(--sarah-radius-lg); padding: 24px; box-shadow: var(--sarah-shadow-md); height: fit-content; }
+        .kg-panel { background: white; border-radius: var(--sarah-radius-lg); box-shadow: var(--sarah-shadow-md); position: relative; height: 700px; }
+        #graph { width: 100%; height: 100%; }
+        .entity-input { display: flex; gap: 8px; margin-bottom: 16px; }
+        .entity-chip { background: var(--sarah-gradient-primary); color: white; padding: 8px 16px; border-radius: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 4px; }
+        .entity-chip button { background: none; border: none; color: white; cursor: pointer; }
+        .triplet-list { max-height: 400px; overflow-y: auto; }
+        .triplet-card { background: var(--sarah-bg-light); padding: 16px; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid var(--sarah-primary); }
+        .triplet-text { font-family: monospace; font-size: 0.9rem; margin-bottom: 8px; }
+        .triplet-meta { font-size: 0.8rem; color: var(--sarah-text-secondary); }
+        .graph-legend { position: absolute; bottom: 20px; left: 20px; background: white; padding: 16px; border-radius: 8px; box-shadow: var(--sarah-shadow-md); z-index: 10; }
+        .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.85rem; }
+        .legend-color { width: 16px; height: 16px; border-radius: 50%; }
+        .empty-state { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: var(--sarah-text-secondary); }
+        .empty-state i { font-size: 4rem; color: var(--sarah-border-color); margin-bottom: 20px; }
+    </style>
 </head>
 <body>
     <div class="dashboard-layout">
@@ -16,22 +36,102 @@
                 <li><a href="drug-checker.html"><i class="fas fa-pills"></i> Drug Checker</a></li>
                 <li><a href="clinical-support.html"><i class="fas fa-clipboard-check"></i> Clinical Support</a></li>
                 <li><a href="patient-analysis.html"><i class="fas fa-user-md"></i> Patient Analysis</a></li>
-                <li><a href="knowledge-graph.html"><i class="fas fa-project-diagram"></i> Knowledge Graph</a></li>
+                <li><a href="knowledge-graph.html" class="active"><i class="fas fa-project-diagram"></i> Knowledge Graph</a></li>
                 <li><a href="literature.html"><i class="fas fa-book-medical"></i> Literature</a></li>
             </ul></nav>
             <div class="sidebar-footer"><a href="profile.html"><i class="fas fa-user"></i> Profile</a><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></div>
         </aside>
         <main class="main-content">
-            <div class="page-header">
-                <h1 class="page-title">knowledge graph</h1>
-                <p class="page-subtitle">This feature is coming soon</p>
-            </div>
-            <div style="background: white; padding: 60px; border-radius: 20px; text-align: center; box-shadow: var(--sarah-shadow-md);">
-                <i class="fas fa-flask" style="font-size: 5rem; color: var(--sarah-primary); margin-bottom: 20px;"></i>
-                <h2 style="margin-bottom: 16px;">Under Development</h2>
-                <p style="color: var(--sarah-text-secondary); max-width: 600px; margin: 0 auto;">This feature is currently being developed. Check back soon!</p>
+            <div class="kg-container">
+                <div class="page-header">
+                    <h1 class="page-title">Medical Knowledge Graph</h1>
+                    <p class="page-subtitle">Explore 4M+ medical relationships and connections</p>
+                </div>
+                <div class="kg-layout">
+                    <div class="kg-sidebar">
+                        <h3 style="margin-bottom: 16px;">Query Entities</h3>
+                        <div class="entity-input">
+                            <input type="text" id="entityInput" class="sarah-input" placeholder="Enter entity (e.g., diabetes)">
+                            <button class="sarah-btn sarah-btn-primary" onclick="addEntity()"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div id="entitiesContainer" style="margin-bottom: 20px;"></div>
+                        <button class="sarah-btn sarah-btn-success" onclick="queryGraph()" id="queryBtn" style="width: 100%;" disabled><i class="fas fa-search"></i> Query Graph</button>
+                        <div id="tripletsList" class="triplet-list" style="margin-top: 24px;"></div>
+                    </div>
+                    <div class="kg-panel">
+                        <div id="emptyState" class="empty-state">
+                            <i class="fas fa-project-diagram"></i>
+                            <h3>No Graph Data</h3>
+                            <p>Add entities and click "Query Graph" to visualize medical relationships</p>
+                        </div>
+                        <svg id="graph"></svg>
+                        <div class="graph-legend" style="display: none;" id="legend">
+                            <div class="legend-item"><div class="legend-color" style="background: #667eea;"></div><span>Query Entity</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #10b981;"></div><span>Related Entity</span></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
+    <script>
+        const API_BASE = 'http://localhost:8000/api/dr-sarah'; let entities = [];
+        function addEntity() {
+            const input = document.getElementById('entityInput'); const entity = input.value.trim();
+            if (entity && !entities.includes(entity.toLowerCase())) { entities.push(entity.toLowerCase()); renderEntities(); input.value = ''; document.getElementById('queryBtn').disabled = entities.length === 0; }
+        }
+        function removeEntity(entity) { entities = entities.filter(e => e !== entity); renderEntities(); document.getElementById('queryBtn').disabled = entities.length === 0; }
+        function renderEntities() {
+            document.getElementById('entitiesContainer').innerHTML = entities.map(e => \`<span class="entity-chip">\${e}<button onclick="removeEntity('\${e}')">×</button></span>\`).join('');
+        }
+        document.getElementById('entityInput').addEventListener('keypress', e => { if (e.key === 'Enter') addEntity(); });
+        async function queryGraph() {
+            try {
+                const res = await fetch(\`\${API_BASE}/knowledge-graph\`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({entities})
+                });
+                const data = await res.json();
+                if (data.triplets && data.triplets.length > 0) {
+                    document.getElementById('emptyState').style.display = 'none';
+                    document.getElementById('legend').style.display = 'block';
+                    displayTriplets(data.triplets); visualizeGraph(data.triplets);
+                } else { alert('No relationships found for these entities'); }
+            } catch (error) { alert('Error querying graph: ' + error.message); }
+        }
+        function displayTriplets(triplets) {
+            document.getElementById('tripletsList').innerHTML = \`<h4 style="margin-bottom:12px;">Found Relationships</h4>\` + triplets.map(t => \`
+                <div class="triplet-card">
+                    <div class="triplet-text">\${t.head} → <em>\${t.relation}</em> → \${t.tail}</div>
+                    <div class="triplet-meta">Confidence: \${(t.confidence*100).toFixed(1)}% | Source: \${t.source}</div>
+                </div>
+            \`).join('');
+        }
+        function visualizeGraph(triplets) {
+            const svg = d3.select('#graph'); svg.selectAll('*').remove();
+            const width = document.querySelector('.kg-panel').clientWidth, height = 700;
+            svg.attr('width', width).attr('height', height);
+            const nodes = [], links = [], nodeMap = new Map();
+            triplets.forEach(t => {
+                if (!nodeMap.has(t.head)) { nodeMap.set(t.head, {id: t.head, isQuery: entities.includes(t.head)}); nodes.push(nodeMap.get(t.head)); }
+                if (!nodeMap.has(t.tail)) { nodeMap.set(t.tail, {id: t.tail, isQuery: entities.includes(t.tail)}); nodes.push(nodeMap.get(t.tail)); }
+                links.push({source: t.head, target: t.tail, relation: t.relation});
+            });
+            const simulation = d3.forceSimulation(nodes).force('link', d3.forceLink(links).id(d => d.id).distance(150))
+                .force('charge', d3.forceManyBody().strength(-400)).force('center', d3.forceCenter(width/2, height/2));
+            const link = svg.append('g').selectAll('line').data(links).join('line')
+                .attr('stroke', '#cbd5e1').attr('stroke-width', 2);
+            const node = svg.append('g').selectAll('circle').data(nodes).join('circle')
+                .attr('r', 12).attr('fill', d => d.isQuery ? '#667eea' : '#10b981').attr('stroke', '#fff').attr('stroke-width', 2)
+                .call(d3.drag().on('start', (e) => { if (!e.active) simulation.alphaTarget(0.3).restart(); e.subject.fx = e.subject.x; e.subject.fy = e.subject.y; })
+                    .on('drag', (e) => { e.subject.fx = e.x; e.subject.fy = e.y; })
+                    .on('end', (e) => { if (!e.active) simulation.alphaTarget(0); e.subject.fx = null; e.subject.fy = null; }));
+            const labels = svg.append('g').selectAll('text').data(nodes).join('text').text(d => d.id).attr('font-size', 10).attr('dx', 15).attr('dy', 4);
+            simulation.on('tick', () => {
+                link.attr('x1', d => d.source.x).attr('y1', d => d.source.y).attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+                node.attr('cx', d => d.x).attr('cy', d => d.y);
+                labels.attr('x', d => d.x).attr('y', d => d.y);
+            });
+        }
+    </script>
 </body>
 </html>

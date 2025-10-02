@@ -2,9 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>profile - Dr. Sarah</title>
+    <title>Profile - Dr. Sarah</title>
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-container { max-width: 1200px; margin: 0 auto; }
+        .profile-grid { display: grid; grid-template-columns: 350px 1fr; gap: 24px; }
+        .profile-card { background: white; border-radius: var(--sarah-radius-lg); padding: 32px; box-shadow: var(--sarah-shadow-md); text-align: center; }
+        .avatar { width: 120px; height: 120px; background: var(--sarah-gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; margin: 0 auto 20px; }
+        .profile-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .profile-email { color: var(--sarah-text-secondary); margin-bottom: 20px; }
+        .profile-badge { display: inline-block; padding: 8px 16px; background: var(--sarah-gradient-success); color: white; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+        .stat-item { text-align: center; padding: 16px; background: var(--sarah-bg-light); border-radius: 8px; }
+        .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--sarah-primary); }
+        .stat-label { font-size: 0.8rem; color: var(--sarah-text-secondary); margin-top: 4px; }
+        .section-card { background: white; border-radius: var(--sarah-radius-lg); padding: 32px; box-shadow: var(--sarah-shadow-md); margin-bottom: 24px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--sarah-border-color); }
+        .section-title { font-size: 1.25rem; font-weight: 700; color: var(--sarah-text-primary); }
+        .edit-btn { padding: 10px 20px; background: var(--sarah-bg-light); border: 2px solid var(--sarah-border-color); border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .edit-btn:hover { border-color: var(--sarah-primary); }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-weight: 600; margin-bottom: 8px; }
+        .interest-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .interest-tag { background: var(--sarah-bg-light); padding: 8px 16px; border-radius: 20px; border: 2px solid var(--sarah-border-color); display: flex; align-items: center; gap: 8px; }
+        .activity-list { display: flex; flex-direction: column; gap: 16px; }
+        .activity-item { display: flex; gap: 16px; padding: 16px; background: var(--sarah-bg-light); border-radius: 8px; }
+        .activity-icon { width: 40px; height: 40px; background: var(--sarah-gradient-primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; }
+        .activity-text { font-weight: 500; }
+        .activity-time { font-size: 0.85rem; color: var(--sarah-text-secondary); }
+    </style>
 </head>
 <body>
     <div class="dashboard-layout">
@@ -19,17 +46,53 @@
                 <li><a href="knowledge-graph.html"><i class="fas fa-project-diagram"></i> Knowledge Graph</a></li>
                 <li><a href="literature.html"><i class="fas fa-book-medical"></i> Literature</a></li>
             </ul></nav>
-            <div class="sidebar-footer"><a href="profile.html"><i class="fas fa-user"></i> Profile</a><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></div>
+            <div class="sidebar-footer"><a href="profile.html" class="active"><i class="fas fa-user"></i> Profile</a><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></div>
         </aside>
         <main class="main-content">
-            <div class="page-header">
-                <h1 class="page-title">profile</h1>
-                <p class="page-subtitle">This feature is coming soon</p>
-            </div>
-            <div style="background: white; padding: 60px; border-radius: 20px; text-align: center; box-shadow: var(--sarah-shadow-md);">
-                <i class="fas fa-flask" style="font-size: 5rem; color: var(--sarah-primary); margin-bottom: 20px;"></i>
-                <h2 style="margin-bottom: 16px;">Under Development</h2>
-                <p style="color: var(--sarah-text-secondary); max-width: 600px; margin: 0 auto;">This feature is currently being developed. Check back soon!</p>
+            <div class="profile-container">
+                <div class="page-header"><h1 class="page-title">My Profile</h1><p class="page-subtitle">Manage your account and preferences</p></div>
+                <div class="profile-grid">
+                    <div class="profile-card">
+                        <div class="avatar"><i class="fas fa-user"></i></div>
+                        <div class="profile-name">Dr. Jane Smith</div>
+                        <div class="profile-email">jane.smith@hospital.edu</div>
+                        <span class="profile-badge"><i class="fas fa-shield-alt"></i> Healthcare Professional</span>
+                        <div class="stats-grid">
+                            <div class="stat-item"><div class="stat-value">247</div><div class="stat-label">Queries</div></div>
+                            <div class="stat-item"><div class="stat-value">89</div><div class="stat-label">Analyses</div></div>
+                            <div class="stat-item"><div class="stat-value">42</div><div class="stat-label">Cases</div></div>
+                            <div class="stat-item"><div class="stat-value">156</div><div class="stat-label">Searches</div></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="section-card">
+                            <div class="section-header"><h2 class="section-title">Personal Information</h2><button class="edit-btn"><i class="fas fa-edit"></i> Edit</button></div>
+                            <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="sarah-input" value="Dr. Jane Smith" disabled></div>
+                            <div class="form-group"><label class="form-label">Email</label><input type="email" class="sarah-input" value="jane.smith@hospital.edu" disabled></div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                <div class="form-group"><label class="form-label">Specialty</label><input type="text" class="sarah-input" value="Internal Medicine" disabled></div>
+                                <div class="form-group"><label class="form-label">Institution</label><input type="text" class="sarah-input" value="General Hospital" disabled></div>
+                            </div>
+                        </div>
+                        <div class="section-card">
+                            <div class="section-header"><h2 class="section-title">Research Interests</h2></div>
+                            <div class="interest-tags">
+                                <div class="interest-tag"><span>Cardiology</span><button style="background:none;border:none;cursor:pointer;">×</button></div>
+                                <div class="interest-tag"><span>Diabetes</span><button style="background:none;border:none;cursor:pointer;">×</button></div>
+                                <div class="interest-tag"><span>Hypertension</span><button style="background:none;border:none;cursor:pointer;">×</button></div>
+                                <button class="sarah-btn sarah-btn-primary" style="padding: 8px 16px;"><i class="fas fa-plus"></i> Add Interest</button>
+                            </div>
+                        </div>
+                        <div class="section-card">
+                            <div class="section-header"><h2 class="section-title">Recent Activity</h2></div>
+                            <div class="activity-list">
+                                <div class="activity-item"><div class="activity-icon"><i class="fas fa-question-circle"></i></div><div><div class="activity-text">Medical Q&A: Drug interactions</div><div class="activity-time">2 hours ago</div></div></div>
+                                <div class="activity-item"><div class="activity-icon"><i class="fas fa-user-md"></i></div><div><div class="activity-text">Analyzed patient case</div><div class="activity-time">5 hours ago</div></div></div>
+                                <div class="activity-item"><div class="activity-icon"><i class="fas fa-book-medical"></i></div><div><div class="activity-text">Literature search</div><div class="activity-time">1 day ago</div></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>

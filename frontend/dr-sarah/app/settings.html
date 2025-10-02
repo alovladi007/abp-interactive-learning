@@ -2,9 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>settings - Dr. Sarah</title>
+    <title>Settings - Dr. Sarah</title>
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .settings-container { max-width: 1000px; margin: 0 auto; }
+        .settings-nav { background: white; border-radius: var(--sarah-radius-lg); padding: 8px; box-shadow: var(--sarah-shadow-sm); margin-bottom: 24px; display: flex; gap: 8px; }
+        .settings-tab { padding: 12px 24px; border: none; background: transparent; cursor: pointer; border-radius: 8px; font-weight: 600; color: var(--sarah-text-secondary); transition: all 0.2s; }
+        .settings-tab:hover { background: var(--sarah-bg-light); }
+        .settings-tab.active { background: var(--sarah-gradient-primary); color: white; }
+        .settings-panel { display: none; }
+        .settings-panel.active { display: block; }
+        .settings-card { background: white; border-radius: var(--sarah-radius-lg); padding: 32px; box-shadow: var(--sarah-shadow-md); margin-bottom: 24px; }
+        .card-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px solid var(--sarah-border-color); }
+        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--sarah-border-color); }
+        .setting-item:last-child { border-bottom: none; }
+        .setting-label { font-weight: 600; }
+        .setting-description { font-size: 0.85rem; color: var(--sarah-text-secondary); margin-top: 4px; }
+        .toggle-switch { position: relative; width: 56px; height: 28px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--sarah-border-color); transition: 0.3s; border-radius: 28px; }
+        .toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: 0.3s; border-radius: 50%; }
+        input:checked + .toggle-slider { background: var(--sarah-gradient-primary); }
+        input:checked + .toggle-slider:before { transform: translateX(28px); }
+    </style>
 </head>
 <body>
     <div class="dashboard-layout">
@@ -19,19 +40,56 @@
                 <li><a href="knowledge-graph.html"><i class="fas fa-project-diagram"></i> Knowledge Graph</a></li>
                 <li><a href="literature.html"><i class="fas fa-book-medical"></i> Literature</a></li>
             </ul></nav>
-            <div class="sidebar-footer"><a href="profile.html"><i class="fas fa-user"></i> Profile</a><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></div>
+            <div class="sidebar-footer"><a href="profile.html"><i class="fas fa-user"></i> Profile</a><a href="settings.html" class="active"><i class="fas fa-cog"></i> Settings</a></div>
         </aside>
         <main class="main-content">
-            <div class="page-header">
-                <h1 class="page-title">settings</h1>
-                <p class="page-subtitle">This feature is coming soon</p>
-            </div>
-            <div style="background: white; padding: 60px; border-radius: 20px; text-align: center; box-shadow: var(--sarah-shadow-md);">
-                <i class="fas fa-flask" style="font-size: 5rem; color: var(--sarah-primary); margin-bottom: 20px;"></i>
-                <h2 style="margin-bottom: 16px;">Under Development</h2>
-                <p style="color: var(--sarah-text-secondary); max-width: 600px; margin: 0 auto;">This feature is currently being developed. Check back soon!</p>
+            <div class="settings-container">
+                <div class="page-header"><h1 class="page-title">Settings</h1><p class="page-subtitle">Customize your Dr. Sarah experience</p></div>
+                <div class="settings-nav">
+                    <button class="settings-tab active" onclick="switchTab('general')">General</button>
+                    <button class="settings-tab" onclick="switchTab('notifications')">Notifications</button>
+                    <button class="settings-tab" onclick="switchTab('api')">API Keys</button>
+                    <button class="settings-tab" onclick="switchTab('privacy')">Privacy</button>
+                </div>
+                <div id="generalPanel" class="settings-panel active">
+                    <div class="settings-card">
+                        <h2 class="card-title">General Settings</h2>
+                        <div class="setting-item"><div><div class="setting-label">Dark Mode</div><div class="setting-description">Enable dark theme</div></div><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div><div class="setting-label">Auto-save Queries</div><div class="setting-description">Automatically save your medical queries</div></div><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div><div class="setting-label">Show Confidence Scores</div><div class="setting-description">Display AI confidence levels</div></div><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+                    </div>
+                </div>
+                <div id="notificationsPanel" class="settings-panel">
+                    <div class="settings-card">
+                        <h2 class="card-title">Notification Preferences</h2>
+                        <div class="setting-item"><div><div class="setting-label">Email Notifications</div><div class="setting-description">Receive updates via email</div></div><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div><div class="setting-label">New Guidelines Alerts</div><div class="setting-description">Get notified about new clinical guidelines</div></div><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+                    </div>
+                </div>
+                <div id="apiPanel" class="settings-panel">
+                    <div class="settings-card">
+                        <h2 class="card-title">API Configuration</h2>
+                        <div class="form-group"><label class="form-label">API Endpoint</label><input type="text" class="sarah-input" value="http://localhost:8000/api/dr-sarah" readonly></div>
+                        <div class="form-group"><label class="form-label">API Key</label><div style="display: flex; gap: 12px;"><input type="password" class="sarah-input" value="sk_xxxxxxxxxxxx" readonly style="flex: 1;"><button class="sarah-btn sarah-btn-secondary">Regenerate</button></div></div>
+                    </div>
+                </div>
+                <div id="privacyPanel" class="settings-panel">
+                    <div class="settings-card">
+                        <h2 class="card-title">Privacy & Data</h2>
+                        <div class="setting-item"><div><div class="setting-label">Data Collection</div><div class="setting-description">Allow anonymized usage data collection</div></div><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+                        <button class="sarah-btn sarah-btn-danger" style="margin-top: 20px;"><i class="fas fa-trash"></i> Delete All Data</button>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Panel').classList.add('active');
+        }
+    </script>
 </body>
 </html>
