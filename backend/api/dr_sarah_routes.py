@@ -269,6 +269,47 @@ async def query_knowledge_graph(entities: List[str]):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.post("/kgarevion")
+async def kgarevion_medical_qa(question: MedicalQuestion):
+    """
+    Process medical question using KGAREVION pipeline
+
+    **KGAREVION:** Knowledge Graph-Augmented Revision for Medical QA
+    **Pipeline:** Generate → Review → Revise → Answer
+
+    **Features:**
+    - Entity extraction from medical text
+    - Knowledge graph triplet generation
+    - Triplet verification using medical KG
+    - Iterative revision of false triplets
+    - Confidence-scored answers
+    """
+    try:
+        result = await dr_sarah.process_with_kgarevion(
+            question_text=question.question,
+            question_type="multiple_choice" if question.candidates else "open_ended",
+            candidates=question.candidates
+        )
+
+        return result
+
+    except Exception as e:
+        logger.error(f"KGAREVION processing error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/stats")
+async def get_stats():
+    """Get Dr. Sarah usage statistics for dashboard"""
+    # In production, fetch from database
+    return {
+        'questions_answered': 247,
+        'drugs_checked': 89,
+        'cases_analyzed': 42,
+        'literature_searches': 156
+    }
+
+
 @router.get("/medical-stats")
 async def get_medical_stats():
     """Get Dr. Sarah system statistics"""
@@ -278,6 +319,7 @@ async def get_medical_stats():
         'clinical_guidelines': len(dr_sarah.clinical_support.guidelines),
         'supported_entity_types': list(dr_sarah.ner.entity_patterns.keys()),
         'version': '1.0.0',
+        'kgarevion_enabled': True,
         'last_updated': '2024-10-02'
     }
 

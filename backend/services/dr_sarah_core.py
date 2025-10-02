@@ -1,6 +1,7 @@
 """
 Dr. Sarah - AI Medical Research Assistant
-Complete Medical AI System with NER, Knowledge Graph, and Clinical Decision Support
+Complete Medical AI System with KGAREVION, NER, Knowledge Graph, and Clinical Decision Support
+Implements the KGAREVION pipeline: Generate → Review → Revise → Answer
 """
 
 import os
@@ -11,6 +12,9 @@ from datetime import datetime
 import logging
 from dataclasses import dataclass
 import asyncio
+
+# Import KGAREVION pipeline
+from services.kgarevion import KGARevionPipeline, Question as KGQuestion
 
 logger = logging.getLogger(__name__)
 
@@ -509,3 +513,38 @@ class DrSarahCore:
             ],
             'recommendations': 'Please consult with the patient\'s healthcare provider for personalized medical advice.'
         }
+
+    async def process_with_kgarevion(self, question_text: str, question_type: str = "open_ended", candidates: Optional[List[str]] = None) -> Dict:
+        """
+        Process medical question using KGAREVION pipeline
+        Implements: Generate → Review → Revise → Answer
+        """
+        try:
+            # Initialize KGAREVION pipeline
+            pipeline = KGARevionPipeline()
+
+            # Create question object
+            question = KGQuestion(
+                text=question_text,
+                question_type=question_type,
+                candidates=candidates
+            )
+
+            # Process through KGAREVION pipeline
+            result = await pipeline.process_question(question)
+
+            # Clean up
+            await pipeline.close()
+
+            return result
+
+        except Exception as e:
+            logger.error(f"KGAREVION processing error: {e}", exc_info=True)
+            return {
+                "question": question_text,
+                "answer": "I encountered an error processing your question with the knowledge graph.",
+                "confidence": 0.0,
+                "error": str(e),
+                "verified_triplets": [],
+                "medical_entities": []
+            }
