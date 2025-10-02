@@ -563,13 +563,17 @@
                             </div>
                         </div>
                         
-                        <a href="emma-platform/index.html" class="btn btn-primary" style="width: 100%; text-align: center; text-decoration: none;">
+                        <button class="btn btn-primary" style="width: 100%;" onclick="openAIAdvisorChat('Emma')">
                             <i class="fas fa-graduation-cap"></i> Start Homework Help
-                        </a>
+                        </button>
                     </div>
                     
                     <!-- Max AI Research Assistant Card -->
-                    <div class="goal-card" style="border: 1px solid var(--border-color); background: var(--card-bg); opacity: 0.7;">
+                    <div class="goal-card" style="border: 2px solid #f59e0b; background: var(--card-bg);">
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: var(--success-color); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">
+                            <i class="fas fa-circle" style="font-size: 0.5rem; margin-right: 0.25rem;"></i>ACTIVE
+                        </div>
+
                         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
                             <div class="goal-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
                                 <i class="fas fa-microscope"></i>
@@ -579,14 +583,29 @@
                                 <p class="text-secondary" style="margin: 0.25rem 0 0 0; font-size: 0.9rem;">AI Research Assistant</p>
                             </div>
                         </div>
-                        
+
                         <p class="text-secondary" style="margin-bottom: 1.5rem;">
                             Literature review, citation management, and research methodology guidance for academic papers.
                         </p>
-                        
-                        <div style="text-align: center; padding: 2rem 0;">
-                            <span class="badge" style="background: var(--warning-bg); color: var(--warning-color);">Coming Soon</span>
+
+                        <div class="advisor-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.25rem; font-weight: 600; color: #f59e0b;">4.6</div>
+                                <div class="text-secondary" style="font-size: 0.8rem;">Rating</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.25rem; font-weight: 600; color: #f59e0b;">3.1k+</div>
+                                <div class="text-secondary" style="font-size: 0.8rem;">Researchers</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.25rem; font-weight: 600; color: #f59e0b;">24/7</div>
+                                <div class="text-secondary" style="font-size: 0.8rem;">Available</div>
+                            </div>
                         </div>
+
+                        <button class="btn btn-primary" style="width: 100%; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border: none;" onclick="openAIAdvisorChat('Max')">
+                            <i class="fas fa-search"></i> Start Research
+                        </button>
                     </div>
                     
                     <!-- Dr. Sarah AI Medical Research Assistant Card -->
