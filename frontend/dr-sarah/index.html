@@ -3,314 +3,438 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dr. Sarah - AI Medical Research Assistant</title>
-    <link rel="stylesheet" href="assets/css/main.css">
+    <title>Dr. Sarah - AI-Powered Medical Research Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+        * {
+            margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        .landing-container {
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header */
-        .landing-header {
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
-            margin-bottom: 60px;
         }
 
         .logo {
             display: flex;
             align-items: center;
             gap: 12px;
-            color: white;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0891b2;
+            text-decoration: none;
+        }
+
+        .logo i {
             font-size: 2rem;
-            font-weight: 700;
         }
 
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 2rem;
+            align-items: center;
         }
 
         .nav-links a {
-            color: white;
+            color: #64748b;
             text-decoration: none;
             font-weight: 500;
-            transition: opacity 0.2s;
+            transition: color 0.2s;
         }
 
         .nav-links a:hover {
-            opacity: 0.8;
+            color: #0891b2;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0891b2, #14b8a6);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(8, 145, 178, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(8, 145, 178, 0.4);
         }
 
         /* Hero Section */
         .hero {
-            text-align: center;
+            background: linear-gradient(135deg, #0891b2 0%, #14b8a6 100%);
             color: white;
-            padding: 80px 20px;
+            padding: 8rem 2rem;
+            text-align: center;
             position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.05)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,144C960,149,1056,139,1152,122.7C1248,107,1344,85,1392,74.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat;
+            background-size: cover;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            font-weight: 600;
         }
 
         .hero-title {
             font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.2;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
         }
 
         .hero-subtitle {
             font-size: 1.5rem;
             opacity: 0.95;
-            margin-bottom: 40px;
+            margin-bottom: 3rem;
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.6;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 20px;
+            gap: 1.5rem;
             justify-content: center;
-            margin-top: 40px;
+            flex-wrap: wrap;
         }
 
-        .hero-btn {
-            padding: 18px 40px;
-            font-size: 1.1rem;
-            border-radius: 50px;
+        .btn-hero {
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
             font-weight: 600;
+            font-size: 1.1rem;
             text-decoration: none;
             transition: all 0.3s;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.75rem;
         }
 
-        .btn-white {
+        .btn-hero-white {
             background: white;
-            color: #667eea;
+            color: #0891b2;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
-        .btn-white:hover {
+        .btn-hero-white:hover {
             transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
 
-        .btn-outline {
+        .btn-hero-outline {
             background: transparent;
             color: white;
             border: 2px solid white;
         }
 
-        .btn-outline:hover {
+        .btn-hero-outline:hover {
             background: white;
-            color: #667eea;
+            color: #0891b2;
         }
 
         /* Stats Section */
-        .stats-section {
+        .stats {
+            background: white;
+            padding: 4rem 2rem;
+            margin-top: -4rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            margin: 60px 0;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
         }
 
-        .stat-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 40px 30px;
-            border-radius: 20px;
+        .stat-item {
             text-align: center;
-            color: white;
-            transition: transform 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-8px);
         }
 
         .stat-value {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #0891b2, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
         }
 
         .stat-label {
             font-size: 1.1rem;
-            opacity: 0.9;
+            color: #64748b;
+            font-weight: 600;
         }
 
         /* Features Section */
-        .features-section {
-            background: white;
-            border-radius: 30px;
-            padding: 80px 60px;
-            margin: 40px 0;
+        .features {
+            padding: 6rem 2rem;
+            background: #f8fafc;
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
         }
 
         .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 60px;
-            background: var(--sarah-gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            color: #0f172a;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
 
         .feature-card {
-            padding: 30px;
-            border-radius: 20px;
-            background: var(--sarah-bg-secondary);
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             transition: all 0.3s;
+            border: 2px solid transparent;
         }
 
         .feature-card:hover {
             transform: translateY(-8px);
-            box-shadow: var(--sarah-shadow-xl);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: #0891b2;
         }
 
         .feature-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--sarah-gradient-primary);
-            border-radius: 20px;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #0891b2, #14b8a6);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
             color: white;
-            margin-bottom: 20px;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .feature-title {
             font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--sarah-text-primary);
+            margin-bottom: 1rem;
+            color: #0f172a;
         }
 
         .feature-description {
-            color: var(--sarah-text-secondary);
-            line-height: 1.6;
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 1.05rem;
         }
 
         /* CTA Section */
-        .cta-section {
-            background: var(--sarah-gradient-secondary);
-            border-radius: 30px;
-            padding: 80px 60px;
-            text-align: center;
+        .cta {
+            background: linear-gradient(135deg, #0891b2 0%, #14b8a6 100%);
             color: white;
-            margin: 40px 0;
+            padding: 6rem 2rem;
+            text-align: center;
         }
 
         .cta-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
         }
 
         .cta-subtitle {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             opacity: 0.95;
-            margin-bottom: 40px;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Footer */
         .footer {
-            text-align: center;
+            background: #0f172a;
             color: white;
-            padding: 40px 0;
-            opacity: 0.8;
+            padding: 2rem;
+            text-align: center;
         }
 
+        .footer p {
+            color: #94a3b8;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
             .hero-title {
                 font-size: 2.5rem;
             }
 
-            .stats-section,
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
             .features-grid {
                 grid-template-columns: 1fr;
             }
 
-            .landing-header {
-                flex-direction: column;
-                gap: 20px;
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="landing-container">
-        <header class="landing-header">
-            <div class="logo">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="#" class="logo">
                 <i class="fas fa-stethoscope"></i>
                 <span>Dr. Sarah</span>
-            </div>
-            <nav class="nav-links">
+            </a>
+            <div class="nav-links">
                 <a href="#features">Features</a>
                 <a href="#about">About</a>
-                <a href="app/dashboard.html">Dashboard</a>
-            </nav>
-        </header>
+                <a href="app/dashboard.html" class="btn-primary">Dashboard</a>
+            </div>
+        </div>
+    </nav>
 
-        <section class="hero">
-            <h1 class="hero-title">AI-Powered Medical<br>Research Assistant</h1>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-brain"></i> AI-Powered Medical Research Assistant
+            </div>
+            <h1 class="hero-title">Transform Medical Research with Dr. Sarah</h1>
             <p class="hero-subtitle">
-                Advanced medical intelligence combining BioBERT NER, knowledge graphs,
-                and clinical decision support to revolutionize healthcare research
+                Advanced medical intelligence combining BioBERT NER, knowledge graphs, and clinical decision support to revolutionize healthcare research
             </p>
             <div class="hero-buttons">
-                <a href="app/dashboard.html" class="hero-btn btn-white">
+                <a href="app/dashboard.html" class="btn-hero btn-hero-white">
                     <i class="fas fa-rocket"></i>
                     Get Started Free
                 </a>
-                <a href="#features" class="hero-btn btn-outline">
+                <a href="#features" class="btn-hero btn-hero-outline">
                     <i class="fas fa-play-circle"></i>
                     Watch Demo
                 </a>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="stats-section">
-            <div class="stat-card">
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
                 <div class="stat-value">4M+</div>
                 <div class="stat-label">Medical Relationships</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-item">
                 <div class="stat-value">99.2%</div>
                 <div class="stat-label">NER Accuracy</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-item">
                 <div class="stat-value">15K+</div>
                 <div class="stat-label">Healthcare Professionals</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-item">
                 <div class="stat-value">24/7</div>
                 <div class="stat-label">Availability</div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="features" class="features-section">
-            <h2 class="section-title">Powerful Medical AI Capabilities</h2>
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <div class="section-header">
+                <h2 class="section-title">Powerful Medical AI Capabilities</h2>
+                <p class="section-subtitle">
+                    Comprehensive suite of AI-powered tools designed for medical professionals
+                </p>
+            </div>
+
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -318,8 +442,7 @@
                     </div>
                     <h3 class="feature-title">Medical NER</h3>
                     <p class="feature-description">
-                        BioBERT-powered entity extraction identifying diseases, drugs, symptoms,
-                        genes, proteins, and treatments with 99%+ accuracy
+                        BioBERT-powered entity extraction identifying diseases, drugs, symptoms, genes, proteins, and treatments with 99%+ accuracy
                     </p>
                 </div>
 
@@ -329,8 +452,7 @@
                     </div>
                     <h3 class="feature-title">Knowledge Graph</h3>
                     <p class="feature-description">
-                        Neo4j-powered medical knowledge base with 4M+ verified relationships
-                        between medical entities and concepts
+                        Neo4j-powered medical knowledge base with 4M+ verified relationships between medical entities and concepts
                     </p>
                 </div>
 
@@ -340,8 +462,7 @@
                     </div>
                     <h3 class="feature-title">Drug Interactions</h3>
                     <p class="feature-description">
-                        Comprehensive drug-drug interaction checker with severity levels,
-                        mechanisms, and clinical management recommendations
+                        Comprehensive drug-drug interaction checker with severity levels, mechanisms, and clinical management recommendations
                     </p>
                 </div>
 
@@ -351,8 +472,7 @@
                     </div>
                     <h3 class="feature-title">Clinical Guidelines</h3>
                     <p class="feature-description">
-                        Evidence-based treatment recommendations from ADA, ACC/AHA, and ESC
-                        guidelines with contraindications
+                        Evidence-based treatment recommendations from ADA, ACC/AHA, and ESC guidelines with contraindications
                     </p>
                 </div>
 
@@ -362,8 +482,7 @@
                     </div>
                     <h3 class="feature-title">Patient Analysis</h3>
                     <p class="feature-description">
-                        Intelligent patient case analysis with differential diagnosis support
-                        and clinical reasoning
+                        Intelligent patient case analysis with differential diagnosis support and clinical reasoning
                     </p>
                 </div>
 
@@ -373,44 +492,28 @@
                     </div>
                     <h3 class="feature-title">Literature Search</h3>
                     <p class="feature-description">
-                        PubMed integration for latest medical research with AI-powered
-                        relevance ranking and summarization
+                        PubMed integration for latest medical research with AI-powered relevance ranking and summarization
                     </p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="cta-section">
-            <h2 class="cta-title">Ready to Transform Your Medical Research?</h2>
-            <p class="cta-subtitle">
-                Join thousands of healthcare professionals using Dr. Sarah to accelerate
-                medical discovery and improve patient outcomes
-            </p>
-            <a href="app/dashboard.html" class="hero-btn btn-white">
-                <i class="fas fa-rocket"></i>
-                Start Using Dr. Sarah
-            </a>
-        </section>
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2 class="cta-title">Ready to Transform Your Medical Research?</h2>
+        <p class="cta-subtitle">
+            Join thousands of healthcare professionals using Dr. Sarah to accelerate medical discovery and improve patient outcomes
+        </p>
+        <a href="app/dashboard.html" class="btn-hero btn-hero-white">
+            <i class="fas fa-arrow-right"></i>
+            Start Using Dr. Sarah
+        </a>
+    </section>
 
-        <footer class="footer">
-            <p>&copy; 2024 Dr. Sarah AI Medical Research Assistant. All rights reserved.</p>
-        </footer>
-    </div>
-
-    <script>
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Dr. Sarah AI Medical Research Assistant. All rights reserved.</p>
+    </footer>
 </body>
 </html>
