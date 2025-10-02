@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Career Paths Test - EUREKA Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .test-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            background: var(--success-bg);
+            color: var(--success-color);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        .test-error {
+            background: var(--danger-bg);
+            color: var(--danger-color);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1><i class="fas fa-flask"></i> Professional Career Paths Test</h1>
+        
+        <div class="test-section">
+            <h2>Test 1: Load Professional Categories</h2>
+            <button onclick="testCategories()" class="btn btn-primary">Test Categories</button>
+            <div id="categories-result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Test 2: Load Legal Subcategories</h2>
+            <button onclick="testLegalSubcategories()" class="btn btn-primary">Test Legal Paths</button>
+            <div id="legal-result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Test 3: Load Medical Subcategories</h2>
+            <button onclick="testMedicalSubcategories()" class="btn btn-primary">Test Medical Paths</button>
+            <div id="medical-result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Test 4: Get Career Details</h2>
+            <button onclick="testCareerDetails()" class="btn btn-primary">Test Career Details</button>
+            <div id="details-result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Test 5: Generate Learning Plan</h2>
+            <button onclick="testLearningPlan()" class="btn btn-primary">Test Learning Plan</button>
+            <div id="plan-result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Test 6: Search Functionality</h2>
+            <input type="text" id="search-input" placeholder="Search for careers..." style="width: 300px; padding: 0.5rem; margin-right: 1rem;">
+            <button onclick="testSearch()" class="btn btn-primary">Search</button>
+            <div id="search-result"></div>
+        </div>
+    </div>
+
+    <script src="professional-career-paths.js"></script>
+    <script>
+        function testCategories() {
+            try {
+                const categories = professionalCareerPaths.getCategories();
+                const result = document.getElementById('categories-result');
+                result.innerHTML = `
+                    <div class="test-result">
+                        <strong>✅ Success!</strong> Loaded ${categories.length} professional categories:<br>
+                        ${categories.map(cat => `• ${cat.name}`).join('<br>')}
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('categories-result').innerHTML = `
+                    <div class="test-error">
+                        <strong>❌ Error:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function testLegalSubcategories() {
+            try {
+                const subcategories = professionalCareerPaths.getSubcategories('legal');
+                const result = document.getElementById('legal-result');
+                result.innerHTML = `
+                    <div class="test-result">
+                        <strong>✅ Success!</strong> Loaded ${subcategories.length} legal career paths:<br>
+                        ${subcategories.map(sub => `• ${sub.name} (${sub.duration || 'Varies'})`).join('<br>')}
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('legal-result').innerHTML = `
+                    <div class="test-error">
+                        <strong>❌ Error:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function testMedicalSubcategories() {
+            try {
+                const subcategories = professionalCareerPaths.getSubcategories('medical');
+                const result = document.getElementById('medical-result');
+                result.innerHTML = `
+                    <div class="test-result">
+                        <strong>✅ Success!</strong> Loaded ${subcategories.length} medical career paths:<br>
+                        ${subcategories.map(sub => `• ${sub.name} (${sub.duration || 'Varies'})`).join('<br>')}
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('medical-result').innerHTML = `
+                    <div class="test-error">
+                        <strong>❌ Error:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function testCareerDetails() {
+            try {
+                const details = professionalCareerPaths.getCareerPathDetails('legal', 'lawyer');
+                const result = document.getElementById('details-result');
+                if (details) {
+                    result.innerHTML = `
+                        <div class="test-result">
+                            <strong>✅ Success!</strong> Retrieved career details for ${details.name}:<br>
+                            <strong>Programs:</strong> ${details.programs ? details.programs.join(', ') : 'N/A'}<br>
+                            <strong>Duration:</strong> ${details.duration || 'N/A'}<br>
+                            <strong>Salary Range:</strong> ${details.salaryRange || 'N/A'}<br>
+                            <strong>Specializations:</strong> ${details.specializations ? details.specializations.slice(0, 3).join(', ') + '...' : 'N/A'}
+                        </div>
+                    `;
+                } else {
+                    result.innerHTML = `
+                        <div class="test-error">
+                            <strong>❌ Error:</strong> No career details found
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('details-result').innerHTML = `
+                    <div class="test-error">
+                        <strong>❌ Error:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function testLearningPlan() {
+            try {
+                const plan = professionalCareerPaths.generateLearningPlan('dental', 'dentist', 'beginner');
+                const result = document.getElementById('plan-result');
+                if (plan) {
+                    result.innerHTML = `
+                        <div class="test-result">
+                            <strong>✅ Success!</strong> Generated learning plan for ${plan.careerPath}:<br>
+                            <strong>Duration:</strong> ${plan.duration}<br>
+                            <strong>Focus:</strong> ${plan.focus}<br>
+                            <strong>Steps:</strong><br>
+                            ${plan.steps.map(step => `• ${step}`).join('<br>')}
+                        </div>
+                    `;
+                } else {
+                    result.innerHTML = `
+                        <div class="test-error">
+                            <strong>❌ Error:</strong> No learning plan generated
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('plan-result').innerHTML = `
+                    <div class="test-error">
+                        <strong>❌ Error:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function testSearch() {
+            try {
+                const searchTerm = document.getElementById('search-input').value;
+                if (!searchTerm) {
+                    document.getElementById('search-result').innerHTML = `
+                        <div class="test-error">
+                            <strong>❌ Error:</strong> Please enter a search term
+                        </div>
+                    `;
+                    return;
+                }
+
+                const results = professionalCareerPaths.searchCareerPaths(searchTerm);
+                const result = document.getElementById('search-result');
+                
+                if (results.length > 0) {
+                    result.innerHTML = `
+                        <div class="test-result">
+                            <strong>✅ Success!</strong> Found ${results.length} results for "${searchTerm}":<br>
+                            ${results.map(r => `• ${r.name} (${r.type})`).join('<br>')}
+                        </div>
+                    `;
+                } else {
+                    result.innerHTML = `
+                        <div class="test-result">
+                            <strong>✅ Success!</strong> No results found for "${searchTerm}" - search function working correctly
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('search-result').innerHTML = `
+                    <div class="test-error">
+                        <strong>❌ Error:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Auto-run basic tests on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Professional Career Paths Test Page Loaded');
+            console.log('Available methods:', Object.getOwnPropertyNames(professionalCareerPaths));
+        });
+    </script>
+</body>
+</html>

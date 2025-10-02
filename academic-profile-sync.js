@@ -59,6 +59,29 @@ class AcademicProfileManager {
         this.syncToAcademicSetup();
     }
 
+    updateFromProfessionalPath(categoryId, subcategoryId) {
+        // Update profile with professional career path selections
+        this.profile.educationLevel = 'professional';
+        this.profile.currentLevel = 'Professional';
+        this.profile.professionalCategory = categoryId;
+        this.profile.professionalCareer = subcategoryId;
+        this.profile.primaryMajor = subcategoryId;
+        this.profile.careerPath = subcategoryId;
+        this.profile.lastUpdated = new Date().toISOString();
+        
+        // Get career path details for additional info
+        if (window.professionalCareerPaths) {
+            const careerDetails = professionalCareerPaths.getCareerPathDetails(categoryId, subcategoryId);
+            if (careerDetails) {
+                this.profile.primaryField = careerDetails.category;
+                this.profile.careerDescription = careerDetails.description || '';
+            }
+        }
+        
+        this.saveProfile();
+        this.syncToAcademicSetup();
+    }
+
     syncToAcademicSetup() {
         // Update Academic Setup page if it exists
         if (window.location.pathname.includes('academic-setup.html')) {
@@ -122,7 +145,28 @@ class AcademicProfileManager {
             'architecture': 'Architecture',
             'communications': 'Communications',
             'law': 'Law',
-            'criminal-justice': 'Criminal Justice'
+            'criminal-justice': 'Criminal Justice',
+            // Professional career paths
+            'lawyer': 'Lawyer/Attorney',
+            'paralegal': 'Paralegal',
+            'judge': 'Judge',
+            'physician': 'Physician/Doctor',
+            'nurse': 'Registered Nurse',
+            'pharmacist': 'Pharmacist',
+            'dentist': 'Dentist',
+            'dental-hygienist': 'Dental Hygienist',
+            'dental-assistant': 'Dental Assistant',
+            'mba': 'MBA Professional',
+            'cfa': 'Chartered Financial Analyst',
+            'cpa': 'Certified Public Accountant',
+            'software-engineer': 'Software Engineer',
+            'data-scientist': 'Data Scientist',
+            'cybersecurity': 'Cybersecurity Professional',
+            'professor': 'University Professor',
+            'teacher': 'K-12 Teacher',
+            'physical-therapist': 'Physical Therapist',
+            'occupational-therapist': 'Occupational Therapist',
+            'physician-assistant': 'Physician Assistant'
         };
         return majorNames[majorId] || majorId;
     }
@@ -220,7 +264,28 @@ class AcademicProfileManager {
             'full-stack': 'Full Stack Developer',
             'data-engineer': 'Data Engineer',
             'embedded': 'Embedded Systems Engineer',
-            'pre-med': 'Pre-Medical Track'
+            'pre-med': 'Pre-Medical Track',
+            // Professional career paths
+            'lawyer': 'Lawyer/Attorney',
+            'paralegal': 'Paralegal',
+            'judge': 'Judge',
+            'physician': 'Physician/Doctor',
+            'nurse': 'Registered Nurse',
+            'pharmacist': 'Pharmacist',
+            'dentist': 'Dentist',
+            'dental-hygienist': 'Dental Hygienist',
+            'dental-assistant': 'Dental Assistant',
+            'mba': 'MBA Professional',
+            'cfa': 'Chartered Financial Analyst',
+            'cpa': 'Certified Public Accountant',
+            'software-engineer': 'Software Engineer',
+            'data-scientist': 'Data Scientist',
+            'cybersecurity': 'Cybersecurity Professional',
+            'professor': 'University Professor',
+            'teacher': 'K-12 Teacher',
+            'physical-therapist': 'Physical Therapist',
+            'occupational-therapist': 'Occupational Therapist',
+            'physician-assistant': 'Physician Assistant'
         };
         return careerNames[this.profile.careerPath] || 'Your Career Path';
     }

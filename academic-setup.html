@@ -299,6 +299,32 @@
                 </div>
             </div>
 
+            <!-- Professional Career Paths (shown when Professional is selected) -->
+            <div class="section-card" id="professional-paths-section" style="margin-top: 2rem; display: none;">
+                <div class="card-header">
+                    <h2><i class="fas fa-briefcase"></i> Professional Career Paths</h2>
+                    <p class="text-secondary">Select your professional field and specialization</p>
+                </div>
+                
+                <div id="professional-categories" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                    <!-- Categories will be populated by JavaScript -->
+                </div>
+                
+                <div id="professional-subcategories" style="margin-top: 2rem; display: none;">
+                    <h3>Available Career Paths</h3>
+                    <div id="subcategories-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+                        <!-- Subcategories will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div id="career-details" style="margin-top: 2rem; display: none;">
+                    <h3>Career Path Details</h3>
+                    <div id="career-info" style="background: var(--secondary-bg); padding: 1.5rem; border-radius: 12px; margin-top: 1rem;">
+                        <!-- Career details will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
             <!-- Current Courses -->
             <div class="section-card" style="margin-top: 2rem;">
                 <div class="card-header">
@@ -593,9 +619,223 @@
     <script src="dashboard.js"></script>
     <script src="academic-profile-sync.js"></script>
     <script src="academic-api-client.js"></script>
+    <script src="professional-career-paths.js"></script>
     <script>
+        // Professional Career Paths Management
+        let selectedProfessionalCategory = null;
+        let selectedProfessionalCareer = null;
+
+        function initializeProfessionalPaths() {
+            // Add event listeners for education level selection
+            const educationLevelInputs = document.querySelectorAll('input[name="education-level"]');
+            educationLevelInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    if (this.value === 'professional') {
+                        showProfessionalPaths();
+                    } else {
+                        hideProfessionalPaths();
+                    }
+                });
+            });
+
+            // Load professional categories
+            loadProfessionalCategories();
+        }
+
+        function showProfessionalPaths() {
+            document.getElementById('professional-paths-section').style.display = 'block';
+            loadProfessionalCategories();
+        }
+
+        function hideProfessionalPaths() {
+            document.getElementById('professional-paths-section').style.display = 'none';
+            document.getElementById('professional-subcategories').style.display = 'none';
+            document.getElementById('career-details').style.display = 'none';
+            selectedProfessionalCategory = null;
+            selectedProfessionalCareer = null;
+        }
+
+        function loadProfessionalCategories() {
+            const categoriesContainer = document.getElementById('professional-categories');
+            const categories = professionalCareerPaths.getCategories();
+            
+            categoriesContainer.innerHTML = categories.map(category => `
+                <div class="professional-category-card" onclick="selectProfessionalCategory('${category.id}')" 
+                     style="background: white; border: 2px solid ${category.color}; border-radius: 12px; padding: 1.5rem; cursor: pointer; transition: all 0.3s ease;"
+                     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'"
+                     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="background: ${category.color}; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                            <i class="${category.icon}"></i>
+                        </div>
+                        <div>
+                            <h4 style="margin: 0; color: var(--text-primary);">${category.name}</h4>
+                            <p class="text-secondary" style="margin: 0.25rem 0 0 0; font-size: 0.9rem;">${category.description}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectProfessionalCategory(categoryId) {
+            selectedProfessionalCategory = categoryId;
+            selectedProfessionalCareer = null;
+            
+            // Highlight selected category
+            document.querySelectorAll('.professional-category-card').forEach(card => {
+                card.style.border = '2px solid var(--border-color)';
+                card.style.backgroundColor = 'white';
+            });
+            event.currentTarget.style.border = '2px solid var(--primary-accent)';
+            event.currentTarget.style.backgroundColor = 'rgba(102, 126, 234, 0.05)';
+            
+            // Load subcategories
+            loadProfessionalSubcategories(categoryId);
+        }
+
+        function loadProfessionalSubcategories(categoryId) {
+            const subcategoriesContainer = document.getElementById('subcategories-grid');
+            const subcategories = professionalCareerPaths.getSubcategories(categoryId);
+            
+            subcategoriesContainer.innerHTML = subcategories.map(subcategory => `
+                <div class="professional-career-card" onclick="selectProfessionalCareer('${categoryId}', '${subcategory.id}')"
+                     style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; cursor: pointer; transition: all 0.3s ease;"
+                     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'"
+                     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    <div style="display: flex; align-items: start; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="background: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%); color: white; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: var(--text-primary);">${subcategory.name}</h4>
+                            <p class="text-secondary" style="margin: 0 0 0.75rem 0; font-size: 0.85rem;">${subcategory.description || 'Professional career path'}</p>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                <span style="background: var(--success-bg); color: var(--success-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 500;">
+                                    ${subcategory.duration || 'Varies'}
+                                </span>
+                                <span style="background: var(--info-bg); color: var(--info-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 500;">
+                                    ${subcategory.salaryRange || 'Competitive'}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Show subcategories section
+            document.getElementById('professional-subcategories').style.display = 'block';
+            document.getElementById('career-details').style.display = 'none';
+        }
+
+        function selectProfessionalCareer(categoryId, subcategoryId) {
+            selectedProfessionalCareer = subcategoryId;
+            
+            // Highlight selected career
+            document.querySelectorAll('.professional-career-card').forEach(card => {
+                card.style.border = '1px solid var(--border-color)';
+                card.style.backgroundColor = 'white';
+            });
+            event.currentTarget.style.border = '2px solid var(--primary-accent)';
+            event.currentTarget.style.backgroundColor = 'rgba(102, 126, 234, 0.05)';
+            
+            // Show career details
+            showCareerDetails(categoryId, subcategoryId);
+        }
+
+        function showCareerDetails(categoryId, subcategoryId) {
+            const careerDetails = professionalCareerPaths.getCareerPathDetails(categoryId, subcategoryId);
+            const careerInfoContainer = document.getElementById('career-info');
+            
+            if (!careerDetails) return;
+            
+            const specializations = careerDetails.specializations ? careerDetails.specializations.join(', ') : 'Various specializations available';
+            const keySkills = careerDetails.keySkills ? careerDetails.keySkills.join(', ') : 'Professional skills required';
+            const courses = careerDetails.courses ? careerDetails.courses.join(', ') : 'Comprehensive curriculum';
+            
+            careerInfoContainer.innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div>
+                        <h4 style="margin: 0 0 1rem 0; color: var(--text-primary);">
+                            <i class="fas fa-info-circle" style="color: var(--primary-accent); margin-right: 0.5rem;"></i>
+                            Career Overview
+                        </h4>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Category:</strong> ${careerDetails.category}
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Programs:</strong> ${careerDetails.programs ? careerDetails.programs.join(', ') : 'Various programs available'}
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Duration:</strong> ${careerDetails.duration || 'Varies'}
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Salary Range:</strong> ${careerDetails.salaryRange || 'Competitive'}
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Career Path:</strong> ${careerDetails.careerPath || 'Progressive advancement'}
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="margin: 0 0 1rem 0; color: var(--text-primary);">
+                            <i class="fas fa-graduation-cap" style="color: var(--primary-accent); margin-right: 0.5rem;"></i>
+                            Requirements & Skills
+                        </h4>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Prerequisites:</strong><br>
+                            <span class="text-secondary">${careerDetails.prerequisites ? careerDetails.prerequisites.join(', ') : 'Standard requirements'}</span>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Key Skills:</strong><br>
+                            <span class="text-secondary">${keySkills}</span>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Specializations:</strong><br>
+                            <span class="text-secondary">${specializations}</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                    <h4 style="margin: 0 0 1rem 0; color: var(--text-primary);">
+                        <i class="fas fa-book" style="color: var(--primary-accent); margin-right: 0.5rem;"></i>
+                        Key Course Areas
+                    </h4>
+                    <div style="background: var(--primary-bg); padding: 1rem; border-radius: 8px;">
+                        <span class="text-secondary">${courses}</span>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <button class="btn btn-primary btn-lg" onclick="generateProfessionalLearningPlan('${categoryId}', '${subcategoryId}')">
+                        <i class="fas fa-rocket"></i> Generate Learning Plan
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('career-details').style.display = 'block';
+        }
+
+        function generateProfessionalLearningPlan(categoryId, subcategoryId) {
+            const learningPlan = professionalCareerPaths.generateLearningPlan(categoryId, subcategoryId, 'beginner');
+            
+            if (learningPlan) {
+                // Store the selected professional path in the academic profile
+                if (window.academicProfile) {
+                    academicProfile.profile.professionalCategory = categoryId;
+                    academicProfile.profile.professionalCareer = subcategoryId;
+                    academicProfile.profile.careerPath = learningPlan.careerPath;
+                    academicProfile.saveProfile();
+                }
+                
+                // Show success message and redirect to AI Path Advisor
+                alert(`Learning plan generated for ${learningPlan.careerPath}! Redirecting to AI Path Advisor...`);
+                window.location.href = 'ai-path-advisor.html';
+            }
+        }
+
         // Load and display profile data on page load
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize professional paths
+            initializeProfessionalPaths();
+            
             // Check if we have profile data
             const profile = academicProfile.profile;
             
