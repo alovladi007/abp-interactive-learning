@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Dashboard - Dr. Sarah</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .risk-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .risk-low {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--sarah-success);
+            border: 2px solid var(--sarah-success);
+        }
+
+        .risk-moderate {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--sarah-warning);
+            border: 2px solid var(--sarah-warning);
+        }
+
+        .risk-high {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--sarah-error);
+            border: 2px solid var(--sarah-error);
+        }
+
+        .risk-critical {
+            background: rgba(220, 38, 38, 0.2);
+            color: #dc2626;
+            border: 2px solid #dc2626;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .warning-card {
+            background: white;
+            border-left: 4px solid var(--sarah-warning);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: var(--sarah-border-radius-sm);
+            box-shadow: var(--sarah-shadow);
+        }
+
+        .emergency-card {
+            background: #fee;
+            border-left: 4px solid var(--sarah-error);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: var(--sarah-border-radius-sm);
+            box-shadow: var(--sarah-shadow-lg);
+            animation: emergencyPulse 1.5s infinite;
+        }
+
+        @keyframes emergencyPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .disclaimer-box {
+            background: rgba(59, 130, 246, 0.05);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            padding: 1.5rem;
+            border-radius: var(--sarah-border-radius);
+            margin-top: 1.5rem;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .safety-stat {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--sarah-border-radius);
+            border: 1px solid var(--sarah-border-color);
+            text-align: center;
+        }
+
+        .safety-stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .safety-stat-label {
+            color: var(--sarah-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--sarah-border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: -2.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid var(--sarah-primary);
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--sarah-border-radius);
+            border: 1px solid var(--sarah-border-color);
+            box-shadow: var(--sarah-shadow-sm);
+        }
+
+        .drug-alert {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(245, 158, 11, 0.05);
+            border-radius: var(--sarah-border-radius-sm);
+            margin-bottom: 0.75rem;
+        }
+
+        .drug-alert-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--sarah-warning);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .test-section {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--sarah-border-radius);
+            margin-top: 2rem;
+            border: 1px solid var(--sarah-border-color);
+        }
+
+        .test-input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .test-result {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: var(--sarah-border-radius-sm);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-stethoscope"></i>
+                <span>Dr. Sarah</span>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="medical-qa.html"><i class="fas fa-question-circle"></i> Medical Q&A</a></li>
+                    <li><a href="drug-checker.html"><i class="fas fa-pills"></i> Drug Checker</a></li>
+                    <li><a href="clinical-support.html"><i class="fas fa-clipboard-check"></i> Clinical Support</a></li>
+                    <li><a href="patient-analysis.html"><i class="fas fa-user-md"></i> Patient Analysis</a></li>
+                    <li><a href="knowledge-graph.html"><i class="fas fa-project-diagram"></i> Knowledge Graph</a></li>
+                    <li><a href="literature.html"><i class="fas fa-book-medical"></i> Literature</a></li>
+                    <li><a href="safety-dashboard.html" class="active"><i class="fas fa-shield-alt"></i> Safety Dashboard</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                <a href="training.html"><i class="fas fa-graduation-cap"></i> Training</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title"><i class="fas fa-shield-alt"></i> Medical Safety Dashboard</h1>
+                <p class="page-subtitle">Comprehensive safety validation and risk assessment for medical AI responses</p>
+            </div>
+
+            <!-- Safety Statistics -->
+            <div class="stat-grid">
+                <div class="safety-stat">
+                    <div class="safety-stat-value" style="color: var(--sarah-success);">247</div>
+                    <div class="safety-stat-label">Safe Responses</div>
+                </div>
+                <div class="safety-stat">
+                    <div class="safety-stat-value" style="color: var(--sarah-warning);">45</div>
+                    <div class="safety-stat-label">Moderate Risk</div>
+                </div>
+                <div class="safety-stat">
+                    <div class="safety-stat-value" style="color: var(--sarah-error);">12</div>
+                    <div class="safety-stat-label">High Risk Flagged</div>
+                </div>
+                <div class="safety-stat">
+                    <div class="safety-stat-value" style="color: #dc2626;">3</div>
+                    <div class="safety-stat-label">Emergency Detected</div>
+                </div>
+            </div>
+
+            <!-- Example Emergency Alert -->
+            <div class="sarah-card">
+                <h2 style="margin-bottom: 1.5rem;">
+                    <i class="fas fa-exclamation-triangle" style="color: var(--sarah-error);"></i>
+                    Recent Safety Alerts
+                </h2>
+
+                <div class="emergency-card">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="font-size: 2rem; color: var(--sarah-error);">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 1.2rem; color: var(--sarah-error);">
+                                CRITICAL EMERGENCY DETECTED
+                            </div>
+                            <div style="color: #666; font-size: 0.9rem;">2 hours ago</div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Question:</strong> "I'm having severe chest pain and difficulty breathing"
+                    </div>
+                    <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--sarah-error);">
+                        <strong style="color: var(--sarah-error);">⚠️ EMERGENCY:</strong> This may be a medical emergency.
+                        Seek immediate medical attention or call emergency services (911).
+                    </div>
+                </div>
+
+                <div class="warning-card">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="font-size: 2rem; color: var(--sarah-warning);">
+                            <i class="fas fa-pills"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 1.1rem;">
+                                High-Risk Drug Interaction
+                            </div>
+                            <div style="color: #666; font-size: 0.9rem;">5 hours ago</div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 0.75rem;">
+                        <strong>Question:</strong> "Can I take warfarin with aspirin?"
+                    </div>
+                    <div class="drug-alert">
+                        <div class="drug-alert-icon">
+                            <i class="fas fa-exclamation"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600;">Potential contraindication: warfarin with aspirin</div>
+                            <div style="color: #666; font-size: 0.9rem;">High bleeding risk - requires medical supervision</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Safety Validation Demo -->
+            <div class="test-section">
+                <h2 style="margin-bottom: 1.5rem;">
+                    <i class="fas fa-flask"></i> Test Safety Validation
+                </h2>
+                <p style="color: var(--sarah-text-secondary); margin-bottom: 1.5rem;">
+                    Enter a medical question to see real-time safety validation
+                </p>
+
+                <div class="test-input-group">
+                    <label class="sarah-label">Medical Question</label>
+                    <textarea
+                        id="testQuestion"
+                        class="sarah-textarea"
+                        placeholder="e.g., 'I have chest pain' or 'Can I take warfarin with aspirin?'"
+                        rows="3"></textarea>
+                </div>
+
+                <button class="sarah-btn sarah-btn-primary" onclick="testSafety()">
+                    <i class="fas fa-check-circle"></i>
+                    Run Safety Check
+                </button>
+
+                <div id="testResult" class="test-result"></div>
+            </div>
+
+            <!-- Safety Features Overview -->
+            <div class="sarah-card" style="margin-top: 2rem;">
+                <h2 style="margin-bottom: 1.5rem;">
+                    <i class="fas fa-shield-virus"></i> Safety Validation Features
+                </h2>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 style="margin-bottom: 0.5rem;">
+                                <i class="fas fa-ambulance"></i> Emergency Detection
+                            </h3>
+                            <p style="color: var(--sarah-text-secondary);">
+                                Identifies 30+ emergency conditions including chest pain, stroke symptoms,
+                                severe bleeding, and anaphylaxis
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 style="margin-bottom: 0.5rem;">
+                                <i class="fas fa-pills"></i> Drug Safety Checking
+                            </h3>
+                            <p style="color: var(--sarah-text-secondary);">
+                                Validates against ISMP high-alert medications and contraindications database
+                                covering 15+ drug categories
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 style="margin-bottom: 0.5rem;">
+                                <i class="fas fa-child"></i> Protected Populations
+                            </h3>
+                            <p style="color: var(--sarah-text-secondary);">
+                                Special screening for pediatric, pregnant, elderly, and immunocompromised patients
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 style="margin-bottom: 0.5rem;">
+                                <i class="fas fa-layer-group"></i> Risk Level Classification
+                            </h3>
+                            <p style="color: var(--sarah-text-secondary);">
+                                Four-tier system: LOW, MODERATE, HIGH, CRITICAL with automated escalation
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standard Disclaimers -->
+            <div class="disclaimer-box">
+                <h3 style="margin-bottom: 1rem;">
+                    <i class="fas fa-info-circle"></i> Medical Disclaimers
+                </h3>
+                <ul style="line-height: 2; color: var(--sarah-text-secondary);">
+                    <li>ℹ️ This information is for educational purposes only and not a substitute for professional medical advice</li>
+                    <li>👨‍⚕️ Always consult with a qualified healthcare provider for medical decisions</li>
+                    <li>🚨 Emergency medical situations require immediate professional medical attention</li>
+                    <li>💊 Medication decisions should always be made in consultation with your healthcare provider or pharmacist</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api/dr-sarah';
+
+        async function testSafety() {
+            const question = document.getElementById('testQuestion').value.trim();
+            if (!question) {
+                alert('Please enter a medical question');
+                return;
+            }
+
+            const resultDiv = document.getElementById('testResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div class="sarah-spinner" style="margin: 0 auto;"></div>
+                    <p style="margin-top: 1rem; color: var(--sarah-text-secondary);">
+                        Running safety validation...
+                    </p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`${API_BASE}/kgarevion`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: question,
+                        include_triplets: true,
+                        include_entities: true
+                    })
+                });
+
+                const data = await response.json();
+                displaySafetyResult(data);
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="sarah-alert sarah-alert-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Error: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function displaySafetyResult(data) {
+            const resultDiv = document.getElementById('testResult');
+            const safety = data.safety || {};
+
+            const riskClass = `risk-${safety.risk_level || 'low'}`;
+            const riskIcon = {
+                'low': 'fa-check-circle',
+                'moderate': 'fa-exclamation-circle',
+                'high': 'fa-exclamation-triangle',
+                'critical': 'fa-ambulance'
+            }[safety.risk_level] || 'fa-info-circle';
+
+            let html = `
+                <div style="background: white; padding: 2rem; border-radius: var(--sarah-border-radius); border: 2px solid var(--sarah-border-color);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                        <h3><i class="fas fa-shield-alt"></i> Safety Validation Result</h3>
+                        <div class="risk-indicator ${riskClass}">
+                            <i class="fas ${riskIcon}"></i>
+                            ${(safety.risk_level || 'low').toUpperCase()} RISK
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <strong>Answer:</strong>
+                        <div style="background: var(--sarah-bg-secondary); padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+                            ${data.answer || 'No answer generated'}
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <strong>Domain:</strong>
+                        <span class="sarah-badge sarah-badge-primary">
+                            <i class="fas fa-stethoscope"></i>
+                            ${safety.domain || 'general'}
+                        </span>
+                    </div>
+
+                    ${safety.warnings && safety.warnings.length > 0 ? `
+                        <div style="margin-bottom: 1.5rem;">
+                            <strong style="color: var(--sarah-warning);">
+                                <i class="fas fa-exclamation-triangle"></i> Warnings:
+                            </strong>
+                            <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                                ${safety.warnings.map(w => `<li style="margin-bottom: 0.5rem;">${w}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+
+                    ${safety.disclaimers && safety.disclaimers.length > 0 ? `
+                        <div style="background: rgba(59, 130, 246, 0.05); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--sarah-info);">
+                            <strong><i class="fas fa-info-circle"></i> Important Information:</strong>
+                            <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                                ${safety.disclaimers.map(d => `<li style="margin-bottom: 0.5rem;">${d}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+
+                    ${safety.requires_human_review ? `
+                        <div class="sarah-alert sarah-alert-warning" style="margin-top: 1rem;">
+                            <i class="fas fa-user-md"></i>
+                            <strong>Human Review Required:</strong> This response has been flagged for professional medical review.
+                        </div>
+                    ` : ''}
+
+                    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--sarah-border-color); font-size: 0.9rem; color: var(--sarah-text-secondary);">
+                        <strong>Safety Explanation:</strong> ${safety.safety_explanation || 'No explanation available'}
+                    </div>
+                </div>
+            `;
+
+            resultDiv.innerHTML = html;
+        }
+    </script>
+</body>
+</html>

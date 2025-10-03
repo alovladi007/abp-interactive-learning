@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KGAREVION Training - Dr. Sarah</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .training-container { max-width: 1600px; margin: 0 auto; }
+        .training-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 24px; }
+        .training-card { background: white; border-radius: var(--sarah-radius-lg); padding: 32px; box-shadow: var(--sarah-shadow-md); }
+        .card-title { font-size: 1.3rem; font-weight: 700; color: var(--sarah-text-primary); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
+        .metric-box { background: var(--sarah-bg-light); padding: 20px; border-radius: var(--sarah-radius-md); border-left: 4px solid var(--sarah-primary); }
+        .metric-label { font-size: 0.85rem; color: var(--sarah-text-secondary); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; }
+        .metric-value { font-size: 2rem; font-weight: 700; color: var(--sarah-primary); }
+        .metric-subtext { font-size: 0.9rem; color: var(--sarah-text-secondary); margin-top: 4px; }
+        .progress-bar-container { background: var(--sarah-border-color); height: 12px; border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
+        .progress-bar-fill { background: var(--sarah-gradient-primary); height: 100%; transition: width 0.3s; border-radius: 6px; }
+        .status-badge { display: inline-block; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem; font-weight: 600; }
+        .status-training { background: #dbeafe; color: #1e40af; }
+        .status-completed { background: #dcfce7; color: #166534; }
+        .status-idle { background: #f3f4f6; color: #6b7280; }
+        .controls-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+        .control-btn { padding: 14px 20px; border: none; border-radius: var(--sarah-radius-md); font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .control-btn-primary { background: var(--sarah-gradient-primary); color: white; }
+        .control-btn-secondary { background: var(--sarah-bg-light); color: var(--sarah-text-primary); border: 2px solid var(--sarah-border-color); }
+        .control-btn:hover { transform: translateY(-2px); box-shadow: var(--sarah-shadow-md); }
+        .control-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .chart-container { height: 300px; background: var(--sarah-bg-light); border-radius: var(--sarah-radius-md); padding: 20px; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; color: var(--sarah-text-secondary); }
+        .alignment-heatmap { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; margin-bottom: 16px; }
+        .heatmap-cell { aspect-ratio: 1; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; color: white; }
+        .alignment-legend { display: flex; gap: 16px; font-size: 0.85rem; color: var(--sarah-text-secondary); margin-top: 12px; }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-color { width: 16px; height: 16px; border-radius: 3px; }
+        .dataset-stats { display: grid; gap: 12px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 12px; background: var(--sarah-bg-light); border-radius: var(--sarah-radius-sm); }
+        .stat-row-label { font-weight: 600; color: var(--sarah-text-primary); }
+        .stat-row-value { color: var(--sarah-primary); font-weight: 700; }
+        .triplet-sample { background: white; border: 2px solid var(--sarah-border-color); border-radius: var(--sarah-radius-md); padding: 16px; margin-bottom: 12px; }
+        .triplet-parts { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .triplet-entity { background: var(--sarah-gradient-primary); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; }
+        .triplet-relation { background: var(--sarah-bg-light); color: var(--sarah-text-primary); padding: 8px 16px; border-radius: 20px; font-weight: 600; font-style: italic; }
+        .triplet-arrow { color: var(--sarah-text-secondary); font-size: 1.2rem; }
+        .triplet-score { font-size: 0.85rem; color: var(--sarah-text-secondary); }
+        .config-section { margin-bottom: 24px; }
+        .config-label { font-weight: 600; margin-bottom: 8px; color: var(--sarah-text-primary); display: block; }
+        .config-input { width: 100%; padding: 10px; border: 2px solid var(--sarah-border-color); border-radius: var(--sarah-radius-md); font-size: 0.95rem; }
+        .checkpoint-list { display: grid; gap: 8px; max-height: 300px; overflow-y: auto; }
+        .checkpoint-item { background: var(--sarah-bg-light); padding: 12px 16px; border-radius: var(--sarah-radius-md); display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s; }
+        .checkpoint-item:hover { background: rgba(8, 145, 178, 0.1); }
+        .checkpoint-item.active { background: var(--sarah-gradient-primary); color: white; }
+        .checkpoint-name { font-weight: 600; }
+        .checkpoint-date { font-size: 0.85rem; color: var(--sarah-text-secondary); }
+        .checkpoint-item.active .checkpoint-date { color: rgba(255, 255, 255, 0.8); }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header"><i class="fas fa-stethoscope"></i><span>Dr. Sarah</span></div>
+            <nav><ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                <li><a href="medical-qa-safe.html"><i class="fas fa-question-circle"></i> Medical Q&A</a></li>
+                <li><a href="drug-checker.html"><i class="fas fa-pills"></i> Drug Checker</a></li>
+                <li><a href="clinical-support.html"><i class="fas fa-clipboard-check"></i> Clinical Support</a></li>
+                <li><a href="patient-analysis.html"><i class="fas fa-user-md"></i> Patient Analysis</a></li>
+                <li><a href="knowledge-graph.html"><i class="fas fa-project-diagram"></i> Knowledge Graph</a></li>
+                <li><a href="literature.html"><i class="fas fa-book-medical"></i> Literature</a></li>
+                <li><a href="safety-dashboard.html"><i class="fas fa-shield-alt"></i> Safety Dashboard</a></li>
+            </ul></nav>
+            <div class="sidebar-footer">
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                <a href="training.html" class="active"><i class="fas fa-brain"></i> Training</a>
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="training-container">
+                <div class="page-header">
+                    <h1 class="page-title">KGAREVION Training Dashboard</h1>
+                    <p class="page-subtitle">Monitor token-level alignment and knowledge graph completion training</p>
+                </div>
+
+                <!-- Training Status & Controls -->
+                <div class="training-grid">
+                    <div class="training-card">
+                        <h2 class="card-title"><i class="fas fa-chart-line"></i>Training Progress</h2>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <span class="status-badge status-idle" id="trainingStatus">IDLE</span>
+                            <span style="color: var(--sarah-text-secondary); font-size: 0.9rem;" id="trainingTime">Not started</span>
+                        </div>
+
+                        <div class="metrics-grid">
+                            <div class="metric-box">
+                                <div class="metric-label">Current Epoch</div>
+                                <div class="metric-value" id="currentEpoch">0</div>
+                                <div class="metric-subtext">of <span id="totalEpochs">10</span> epochs</div>
+                            </div>
+                            <div class="metric-box" style="border-left-color: var(--sarah-medical-teal);">
+                                <div class="metric-label">Training Loss</div>
+                                <div class="metric-value" style="color: var(--sarah-medical-teal);" id="trainingLoss">-</div>
+                                <div class="metric-subtext" id="lossChange">-</div>
+                            </div>
+                            <div class="metric-box" style="border-left-color: var(--sarah-success);">
+                                <div class="metric-label">Validation Accuracy</div>
+                                <div class="metric-value" style="color: var(--sarah-success);" id="valAccuracy">-</div>
+                                <div class="metric-subtext">on test set</div>
+                            </div>
+                            <div class="metric-box" style="border-left-color: var(--sarah-medical-purple);">
+                                <div class="metric-label">Alignment Score</div>
+                                <div class="metric-value" style="color: var(--sarah-medical-purple);" id="alignmentScore">-</div>
+                                <div class="metric-subtext">token-KG alignment</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 16px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="font-weight: 600;">Overall Progress</span>
+                                <span style="color: var(--sarah-text-secondary);" id="progressPercent">0%</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <i class="fas fa-chart-area" style="font-size: 3rem; color: var(--sarah-border-color); margin-right: 16px;"></i>
+                            <div style="text-align: center;">
+                                <div style="font-weight: 600; margin-bottom: 8px;">Training Loss Curve</div>
+                                <div>Start training to see loss progression</div>
+                            </div>
+                        </div>
+
+                        <div class="controls-grid">
+                            <button class="control-btn control-btn-primary" onclick="startTraining()" id="startBtn">
+                                <i class="fas fa-play"></i> Start Training
+                            </button>
+                            <button class="control-btn control-btn-secondary" onclick="stopTraining()" id="stopBtn" disabled>
+                                <i class="fas fa-stop"></i> Stop Training
+                            </button>
+                            <button class="control-btn control-btn-secondary" onclick="pauseTraining()" id="pauseBtn" disabled>
+                                <i class="fas fa-pause"></i> Pause Training
+                            </button>
+                            <button class="control-btn control-btn-secondary" onclick="resetTraining()">
+                                <i class="fas fa-redo"></i> Reset Training
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="training-card">
+                        <h2 class="card-title"><i class="fas fa-cog"></i>Configuration</h2>
+
+                        <div class="config-section">
+                            <label class="config-label">Learning Rate</label>
+                            <input type="number" class="config-input" id="learningRate" value="0.0001" step="0.00001">
+                        </div>
+
+                        <div class="config-section">
+                            <label class="config-label">Batch Size</label>
+                            <input type="number" class="config-input" id="batchSize" value="32" step="1">
+                        </div>
+
+                        <div class="config-section">
+                            <label class="config-label">Max Epochs</label>
+                            <input type="number" class="config-input" id="maxEpochs" value="10" step="1">
+                        </div>
+
+                        <div class="config-section">
+                            <label class="config-label">Negative Samples</label>
+                            <input type="number" class="config-input" id="negativeSamples" value="5" step="1">
+                        </div>
+
+                        <div class="config-section">
+                            <label class="config-label">LoRA Rank</label>
+                            <input type="number" class="config-input" id="loraRank" value="8" step="1">
+                        </div>
+
+                        <div class="config-section">
+                            <label class="config-label">LoRA Alpha</label>
+                            <input type="number" class="config-input" id="loraAlpha" value="16" step="1">
+                        </div>
+
+                        <button class="control-btn control-btn-primary" style="width: 100%;" onclick="saveConfig()">
+                            <i class="fas fa-save"></i> Save Configuration
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Token Alignment Visualization -->
+                <div class="training-card" style="margin-bottom: 24px;">
+                    <h2 class="card-title"><i class="fas fa-project-diagram"></i>Token-Level Alignment Heatmap</h2>
+                    <p style="color: var(--sarah-text-secondary); margin-bottom: 20px;">
+                        Visualization of alignment between LLM tokens and KG embeddings for relation: <strong>"treats"</strong>
+                    </p>
+
+                    <div class="alignment-heatmap" id="alignmentHeatmap">
+                        <!-- Dynamically generated heatmap cells -->
+                    </div>
+
+                    <div class="alignment-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #ef4444;"></div>
+                            <span>Low (0.0-0.3)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #f59e0b;"></div>
+                            <span>Medium (0.3-0.6)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #10b981;"></div>
+                            <span>High (0.6-1.0)</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; padding: 16px; background: var(--sarah-bg-light); border-radius: var(--sarah-radius-md);">
+                        <div style="font-weight: 600; margin-bottom: 8px;">Example: "Metformin treats Type 2 Diabetes"</div>
+                        <div style="color: var(--sarah-text-secondary); font-size: 0.9rem;">
+                            Tokens: ["Met", "form", "in", "treats", "Type", "2", "Diabetes"]<br>
+                            Head Entity: Metformin | Relation: treats | Tail Entity: Type 2 Diabetes
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model Performance & Dataset Stats -->
+                <div class="training-grid">
+                    <div class="training-card">
+                        <h2 class="card-title"><i class="fas fa-trophy"></i>Model Performance</h2>
+
+                        <div class="dataset-stats">
+                            <div class="stat-row">
+                                <span class="stat-row-label">Triplet Verification Accuracy</span>
+                                <span class="stat-row-value">94.2%</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-row-label">KG Completion Task (Hits@10)</span>
+                                <span class="stat-row-value">87.5%</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-row-label">KG Completion Task (MRR)</span>
+                                <span class="stat-row-value">0.731</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-row-label">Baseline Comparison</span>
+                                <span class="stat-row-value">+12.3%</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-row-label">Average Inference Time</span>
+                                <span class="stat-row-value">342ms</span>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size: 1.1rem; font-weight: 700; margin: 24px 0 16px;">Sample Verified Triplets</h3>
+
+                        <div class="triplet-sample">
+                            <div class="triplet-parts">
+                                <span class="triplet-entity">Metformin</span>
+                                <span class="triplet-arrow">→</span>
+                                <span class="triplet-relation">treats</span>
+                                <span class="triplet-arrow">→</span>
+                                <span class="triplet-entity">Type 2 Diabetes</span>
+                            </div>
+                            <div class="triplet-score">
+                                <i class="fas fa-check-circle" style="color: var(--sarah-success);"></i>
+                                Verified | Confidence: 0.97
+                            </div>
+                        </div>
+
+                        <div class="triplet-sample">
+                            <div class="triplet-parts">
+                                <span class="triplet-entity">Aspirin</span>
+                                <span class="triplet-arrow">→</span>
+                                <span class="triplet-relation">interacts_with</span>
+                                <span class="triplet-arrow">→</span>
+                                <span class="triplet-entity">Warfarin</span>
+                            </div>
+                            <div class="triplet-score">
+                                <i class="fas fa-check-circle" style="color: var(--sarah-success);"></i>
+                                Verified | Confidence: 0.94
+                            </div>
+                        </div>
+
+                        <div class="triplet-sample">
+                            <div class="triplet-parts">
+                                <span class="triplet-entity">Hypertension</span>
+                                <span class="triplet-arrow">→</span>
+                                <span class="triplet-relation">causes</span>
+                                <span class="triplet-arrow">→</span>
+                                <span class="triplet-entity">Stroke</span>
+                            </div>
+                            <div class="triplet-score">
+                                <i class="fas fa-check-circle" style="color: var(--sarah-success);"></i>
+                                Verified | Confidence: 0.89
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="training-card">
+                        <h2 class="card-title"><i class="fas fa-database"></i>Dataset Overview</h2>
+
+                        <div class="dataset-stats" style="margin-bottom: 24px;">
+                            <div class="stat-row">
+                                <span class="stat-row-label">Total Samples</span>
+                                <span class="stat-row-value">156,420</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-row-label">Positive Samples</span>
+                                <span class="stat-row-value">26,070</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-row-label">Negative Samples</span>
+                                <span class="stat-row-value">130,350</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-row-label">Unique Entities</span>
+                                <span class="stat-row-value">8,742</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-row-label">Relation Types</span>
+                                <span class="stat-row-value">18</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-row-label">Train/Val/Test Split</span>
+                                <span class="stat-row-value">70/15/15</span>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 16px;">Model Checkpoints</h3>
+
+                        <div class="checkpoint-list">
+                            <div class="checkpoint-item active">
+                                <div>
+                                    <div class="checkpoint-name">checkpoint-epoch-10-best</div>
+                                    <div class="checkpoint-date">2025-10-02 14:23 UTC</div>
+                                </div>
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="checkpoint-item">
+                                <div>
+                                    <div class="checkpoint-name">checkpoint-epoch-8</div>
+                                    <div class="checkpoint-date">2025-10-02 12:15 UTC</div>
+                                </div>
+                                <i class="fas fa-save"></i>
+                            </div>
+                            <div class="checkpoint-item">
+                                <div>
+                                    <div class="checkpoint-name">checkpoint-epoch-5</div>
+                                    <div class="checkpoint-date">2025-10-02 09:42 UTC</div>
+                                </div>
+                                <i class="fas fa-save"></i>
+                            </div>
+                            <div class="checkpoint-item">
+                                <div>
+                                    <div class="checkpoint-name">checkpoint-epoch-3</div>
+                                    <div class="checkpoint-date">2025-10-02 07:18 UTC</div>
+                                </div>
+                                <i class="fas fa-save"></i>
+                            </div>
+                            <div class="checkpoint-item">
+                                <div>
+                                    <div class="checkpoint-name">checkpoint-initial</div>
+                                    <div class="checkpoint-date">2025-10-01 22:30 UTC</div>
+                                </div>
+                                <i class="fas fa-save"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api/dr-sarah';
+
+        // Generate alignment heatmap
+        function generateHeatmap() {
+            const heatmap = document.getElementById('alignmentHeatmap');
+            const tokens = ['Met', 'form', 'in', 'treats', 'Type', '2', 'Diab', 'etes'];
+            const scores = [0.45, 0.52, 0.38, 0.89, 0.67, 0.41, 0.72, 0.68]; // Simulated alignment scores
+
+            tokens.forEach((token, i) => {
+                const score = scores[i];
+                let bgColor;
+                if (score < 0.3) bgColor = '#ef4444';
+                else if (score < 0.6) bgColor = '#f59e0b';
+                else bgColor = '#10b981';
+
+                const cell = document.createElement('div');
+                cell.className = 'heatmap-cell';
+                cell.style.background = bgColor;
+                cell.textContent = token;
+                cell.title = `Token: ${token} | Alignment: ${score.toFixed(2)}`;
+                heatmap.appendChild(cell);
+            });
+        }
+
+        // Training control functions
+        let trainingInterval = null;
+        let currentEpoch = 0;
+        let isTraining = false;
+
+        function startTraining() {
+            if (isTraining) return;
+
+            isTraining = true;
+            document.getElementById('trainingStatus').className = 'status-badge status-training';
+            document.getElementById('trainingStatus').textContent = 'TRAINING';
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = false;
+            document.getElementById('pauseBtn').disabled = false;
+
+            const maxEpochs = parseInt(document.getElementById('maxEpochs').value);
+            document.getElementById('totalEpochs').textContent = maxEpochs;
+
+            trainingInterval = setInterval(() => {
+                currentEpoch++;
+                if (currentEpoch > maxEpochs) {
+                    stopTraining();
+                    return;
+                }
+
+                // Simulate training progress
+                document.getElementById('currentEpoch').textContent = currentEpoch;
+                const loss = (2.5 - (currentEpoch * 0.2) + Math.random() * 0.1).toFixed(4);
+                document.getElementById('trainingLoss').textContent = loss;
+                document.getElementById('lossChange').textContent = '↓ 0.15 from previous';
+
+                const accuracy = (0.75 + (currentEpoch * 0.02) + Math.random() * 0.01).toFixed(3);
+                document.getElementById('valAccuracy').textContent = (accuracy * 100).toFixed(1) + '%';
+
+                const alignment = (0.65 + (currentEpoch * 0.025) + Math.random() * 0.01).toFixed(3);
+                document.getElementById('alignmentScore').textContent = alignment;
+
+                const progress = (currentEpoch / maxEpochs * 100).toFixed(1);
+                document.getElementById('progressPercent').textContent = progress + '%';
+                document.getElementById('progressBar').style.width = progress + '%';
+
+                const timeRemaining = Math.max(0, (maxEpochs - currentEpoch) * 2);
+                document.getElementById('trainingTime').textContent = `~${timeRemaining} minutes remaining`;
+            }, 2000); // Simulate every 2 seconds
+        }
+
+        function stopTraining() {
+            if (!isTraining) return;
+
+            isTraining = false;
+            clearInterval(trainingInterval);
+
+            document.getElementById('trainingStatus').className = 'status-badge status-completed';
+            document.getElementById('trainingStatus').textContent = 'COMPLETED';
+            document.getElementById('trainingTime').textContent = 'Training completed';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            document.getElementById('pauseBtn').disabled = true;
+        }
+
+        function pauseTraining() {
+            if (!isTraining) return;
+
+            isTraining = false;
+            clearInterval(trainingInterval);
+
+            document.getElementById('trainingStatus').className = 'status-badge status-idle';
+            document.getElementById('trainingStatus').textContent = 'PAUSED';
+            document.getElementById('trainingTime').textContent = 'Training paused';
+            document.getElementById('startBtn').textContent = 'Resume Training';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = false;
+            document.getElementById('pauseBtn').disabled = true;
+        }
+
+        function resetTraining() {
+            stopTraining();
+            currentEpoch = 0;
+            document.getElementById('currentEpoch').textContent = '0';
+            document.getElementById('trainingLoss').textContent = '-';
+            document.getElementById('lossChange').textContent = '-';
+            document.getElementById('valAccuracy').textContent = '-';
+            document.getElementById('alignmentScore').textContent = '-';
+            document.getElementById('progressPercent').textContent = '0%';
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('trainingStatus').className = 'status-badge status-idle';
+            document.getElementById('trainingStatus').textContent = 'IDLE';
+            document.getElementById('trainingTime').textContent = 'Not started';
+            document.getElementById('startBtn').textContent = 'Start Training';
+        }
+
+        function saveConfig() {
+            const config = {
+                learning_rate: parseFloat(document.getElementById('learningRate').value),
+                batch_size: parseInt(document.getElementById('batchSize').value),
+                max_epochs: parseInt(document.getElementById('maxEpochs').value),
+                negative_samples: parseInt(document.getElementById('negativeSamples').value),
+                lora_rank: parseInt(document.getElementById('loraRank').value),
+                lora_alpha: parseInt(document.getElementById('loraAlpha').value)
+            };
+
+            console.log('Saving configuration:', config);
+            alert('Configuration saved successfully!');
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            generateHeatmap();
+        });
+    </script>
+</body>
+</html>
