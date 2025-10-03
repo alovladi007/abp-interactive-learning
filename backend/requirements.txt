@@ -61,3 +61,10 @@ httpx==0.26.0
 aiofiles==23.2.1
 python-magic==0.4.27
 tqdm==4.66.1
+
+# Medical AI - Data Integration
+neo4j==5.14.0
+pandas==2.1.4
+openpyxl==3.1.2
+pyarrow==14.0.1
+lxml==5.1.0

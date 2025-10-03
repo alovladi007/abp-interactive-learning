@@ -3,14 +3,20 @@ Dr. Sarah API Routes
 Medical AI Assistant REST API
 """
 
-from fastapi import APIRouter, HTTPException, BackgroundTasks
+from fastapi import APIRouter, HTTPException, BackgroundTasks, UploadFile, File
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict
 from datetime import datetime
 import logging
+import os
+import shutil
+from pathlib import Path
 
 from services.dr_sarah_core import DrSarahCore
 from services.medical_safety import MedicalSafetyValidator
+from services.medical_data_integrator import MedicalDataIntegrator
+from services.integration_jobs import jobs_manager, JobStatus
+from config.settings import settings
 
 logger = logging.getLogger(__name__)
 
@@ -408,7 +414,8 @@ async def dr_sarah_info():
             'Patient Case Analysis',
             'Medical Entity Extraction',
             'Knowledge Graph Querying',
-            'Medical Literature Search'
+            'Medical Literature Search',
+            'Medical Data Integration'
         ],
         'endpoints': {
             'POST /medical-qa': 'Answer medical questions',
@@ -418,6 +425,312 @@ async def dr_sarah_info():
             'POST /medical-ner': 'Extract medical entities',
             'POST /knowledge-graph': 'Query knowledge graph',
             'POST /literature-search': 'Search medical literature',
-            'GET /medical-stats': 'Get system statistics'
+            'GET /medical-stats': 'Get system statistics',
+            'POST /data-integration/start': 'Start data integration job',
+            'POST /data-integration/upload': 'Upload and integrate medical data files',
+            'GET /data-integration/status/{job_id}': 'Get integration job status',
+            'GET /data-integration/history': 'List integration jobs',
+            'GET /data-integration/preview': 'Preview file before integration'
         }
     }
+
+
+# ==================== DATA INTEGRATION ENDPOINTS ====================
+
+# Request/Response Models for Data Integration
+class DataIntegrationRequest(BaseModel):
+    directory_path: str = Field(..., description="Path to directory containing medical data files")
+    file_filters: Optional[List[str]] = Field(None, description="File extensions to filter (e.g., ['.csv', '.json'])")
+    batch_size: int = Field(1000, ge=1, le=10000, description="Batch size for processing")
+
+
+class FilePreviewRequest(BaseModel):
+    filepath: str = Field(..., description="Path to file to preview")
+    num_rows: int = Field(10, ge=1, le=100, description="Number of rows to preview")
+
+
+# Background task for data integration
+async def run_integration_job(job_id: str, directory_path: str):
+    """Background task to run data integration"""
+    try:
+        # Update job status to running
+        jobs_manager.update_job(job_id, status=JobStatus.RUNNING, progress=0.0)
+
+        # Create integrator
+        integrator = MedicalDataIntegrator(
+            neo4j_uri=settings.NEO4J_URI,
+            neo4j_user=settings.NEO4J_USER,
+            neo4j_password=settings.NEO4J_PASSWORD
+        )
+
+        # Progress callback
+        async def update_progress(files_processed, files_total, current_file):
+            progress = (files_processed / files_total * 100) if files_total > 0 else 0
+            jobs_manager.update_job(
+                job_id,
+                progress=progress,
+                current_file=current_file,
+                files_processed=files_processed,
+                files_total=files_total
+            )
+
+        # Run integration
+        result = await integrator.integrate_from_directory(
+            directory_path,
+            progress_callback=update_progress
+        )
+
+        # Update job with results
+        jobs_manager.update_job(
+            job_id,
+            status=JobStatus.COMPLETED,
+            progress=100.0,
+            entities_added=result.get('total_entities', 0),
+            relations_added=result.get('total_relations', 0),
+            result=result
+        )
+
+        # Cleanup
+        await integrator.close()
+
+        logger.info(f"Integration job {job_id} completed successfully")
+
+    except Exception as e:
+        logger.error(f"Integration job {job_id} failed: {e}")
+        jobs_manager.update_job(
+            job_id,
+            status=JobStatus.FAILED,
+            error=str(e)
+        )
+
+
+@router.post("/data-integration/start")
+async def start_data_integration(
+    request: DataIntegrationRequest,
+    background_tasks: BackgroundTasks
+):
+    """
+    Start medical data integration from a directory
+
+    **Process:**
+    1. Scans directory for supported medical data files
+    2. Identifies file types (PrimeKG, UMLS, clinical data, etc.)
+    3. Extracts entities and relations
+    4. Integrates into Neo4j knowledge graph
+
+    **Supported Formats:**
+    - CSV, TSV, JSON, XML, Parquet
+    - Compressed files (.gz, .zip)
+    - Excel files (.xlsx)
+
+    **Returns:**
+    - Job ID for tracking progress
+    """
+    try:
+        # Validate directory exists
+        if not os.path.exists(request.directory_path):
+            raise HTTPException(status_code=404, detail="Directory not found")
+
+        # Create integration job
+        job = jobs_manager.create_job(request.directory_path)
+
+        # Start background task
+        background_tasks.add_task(run_integration_job, job.job_id, request.directory_path)
+
+        logger.info(f"Started integration job {job.job_id} for {request.directory_path}")
+
+        return {
+            "job_id": job.job_id,
+            "status": job.status.value,
+            "directory_path": request.directory_path,
+            "started_at": job.started_at.isoformat(),
+            "message": "Integration job started successfully"
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error starting integration: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/data-integration/upload")
+async def upload_and_integrate(
+    background_tasks: BackgroundTasks,
+    file: UploadFile = File(...)
+):
+    """
+    Upload medical data file and trigger integration
+
+    **Supported Files:**
+    - Single CSV, JSON, XML, Parquet files
+    - ZIP archives containing multiple files
+    - Compressed files (.gz)
+
+    **Returns:**
+    - Job ID for tracking integration progress
+    """
+    try:
+        # Create upload directory if it doesn't exist
+        upload_dir = Path(settings.MEDICAL_DATA_UPLOAD_DIR)
+        upload_dir.mkdir(parents=True, exist_ok=True)
+
+        # Save uploaded file
+        file_path = upload_dir / file.filename
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+
+        logger.info(f"Uploaded file saved to {file_path}")
+
+        # If it's a zip file, extract it
+        if file.filename.endswith('.zip'):
+            extract_dir = upload_dir / file.filename.replace('.zip', '')
+            extract_dir.mkdir(exist_ok=True)
+
+            import zipfile
+            with zipfile.ZipFile(file_path, 'r') as zip_ref:
+                zip_ref.extractall(extract_dir)
+
+            integration_path = str(extract_dir)
+        else:
+            integration_path = str(upload_dir)
+
+        # Create integration job
+        job = jobs_manager.create_job(integration_path)
+
+        # Start background integration
+        background_tasks.add_task(run_integration_job, job.job_id, integration_path)
+
+        return {
+            "job_id": job.job_id,
+            "status": job.status.value,
+            "filename": file.filename,
+            "file_size": file.size if hasattr(file, 'size') else 0,
+            "started_at": job.started_at.isoformat(),
+            "message": "File uploaded and integration started"
+        }
+
+    except Exception as e:
+        logger.error(f"Error uploading file: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/data-integration/status/{job_id}")
+async def get_integration_status(job_id: str):
+    """
+    Get status of a data integration job
+
+    **Returns:**
+    - Job status (pending, running, completed, failed, cancelled)
+    - Progress percentage (0-100)
+    - Current file being processed
+    - Files processed count
+    - Entities and relations added
+    - Error messages (if any)
+    """
+    job = jobs_manager.get_job(job_id)
+
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    return job.to_dict()
+
+
+@router.get("/data-integration/history")
+async def get_integration_history(
+    limit: int = 50,
+    status: Optional[str] = None
+):
+    """
+    Get history of data integration jobs
+
+    **Query Parameters:**
+    - limit: Maximum number of jobs to return (default: 50)
+    - status: Filter by status (pending, running, completed, failed, cancelled)
+
+    **Returns:**
+    - List of integration jobs with status and statistics
+    """
+    try:
+        status_filter = JobStatus(status) if status else None
+        jobs = jobs_manager.list_jobs(limit=limit, status_filter=status_filter)
+
+        return {
+            "total": len(jobs),
+            "jobs": [job.to_dict() for job in jobs]
+        }
+
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid status value")
+    except Exception as e:
+        logger.error(f"Error fetching job history: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.delete("/data-integration/job/{job_id}")
+async def cancel_integration_job(job_id: str):
+    """
+    Cancel a running integration job
+
+    **Note:** This will stop the job but may not rollback already integrated data
+    """
+    success = jobs_manager.cancel_job(job_id)
+
+    if not success:
+        raise HTTPException(
+            status_code=400,
+            detail="Job not found or not in running state"
+        )
+
+    return {
+        "job_id": job_id,
+        "message": "Job cancelled successfully"
+    }
+
+
+@router.post("/data-integration/preview")
+async def preview_medical_file(request: FilePreviewRequest):
+    """
+    Preview file contents before integration
+
+    **Returns:**
+    - File metadata (type, source, format)
+    - Sample rows
+    - Detected columns
+    - Estimated entity/relation counts
+    """
+    try:
+        if not os.path.exists(request.filepath):
+            raise HTTPException(status_code=404, detail="File not found")
+
+        integrator = MedicalDataIntegrator(
+            neo4j_uri=settings.NEO4J_URI,
+            neo4j_user=settings.NEO4J_USER,
+            neo4j_password=settings.NEO4J_PASSWORD
+        )
+
+        preview = await integrator.preview_file(request.filepath, request.num_rows)
+
+        await integrator.close()
+
+        return preview
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error previewing file: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/data-integration/stats")
+async def get_integration_stats():
+    """
+    Get overall data integration statistics
+
+    **Returns:**
+    - Total jobs run
+    - Jobs by status
+    - Total entities integrated
+    - Total relations integrated
+    """
+    return jobs_manager.get_statistics()

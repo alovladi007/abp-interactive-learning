@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Integration - Dr. Sarah</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .integration-container { max-width: 1600px; margin: 0 auto; }
+        .integration-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+        .integration-card { background: white; border-radius: var(--sarah-radius-lg); padding: 32px; box-shadow: var(--sarah-shadow-md); }
+        .card-title { font-size: 1.3rem; font-weight: 700; color: var(--sarah-text-primary); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+        /* Upload Area */
+        .upload-area { border: 3px dashed var(--sarah-border-color); border-radius: var(--sarah-radius-lg); padding: 48px; text-align: center; transition: all 0.3s; cursor: pointer; margin-bottom: 24px; }
+        .upload-area:hover, .upload-area.dragover { border-color: var(--sarah-primary); background: rgba(8, 145, 178, 0.05); }
+        .upload-icon { font-size: 4rem; color: var(--sarah-primary); margin-bottom: 16px; }
+        .upload-text { font-size: 1.1rem; font-weight: 600; color: var(--sarah-text-primary); margin-bottom: 8px; }
+        .upload-subtext { color: var(--sarah-text-secondary); font-size: 0.9rem; }
+        .file-input { display: none; }
+
+        /* Directory Input */
+        .directory-input-group { display: flex; gap: 12px; margin-bottom: 16px; }
+        .directory-input { flex: 1; padding: 12px 16px; border: 2px solid var(--sarah-border-color); border-radius: var(--sarah-radius-md); font-size: 0.95rem; }
+        .start-btn { padding: 12px 24px; background: var(--sarah-gradient-primary); color: white; border: none; border-radius: var(--sarah-radius-md); font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .start-btn:hover { transform: translateY(-2px); box-shadow: var(--sarah-shadow-md); }
+        .start-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* Progress Section */
+        .progress-section { display: none; }
+        .progress-section.active { display: block; }
+        .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .progress-status { font-weight: 600; color: var(--sarah-primary); }
+        .progress-percent { font-size: 1.5rem; font-weight: 700; color: var(--sarah-primary); }
+        .progress-bar-container { background: var(--sarah-border-color); height: 20px; border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+        .progress-bar-fill { background: var(--sarah-gradient-primary); height: 100%; transition: width 0.3s; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 0.85rem; }
+
+        .progress-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 20px; }
+        .progress-stat { background: var(--sarah-bg-light); padding: 16px; border-radius: var(--sarah-radius-md); text-align: center; }
+        .progress-stat-value { font-size: 1.8rem; font-weight: 700; color: var(--sarah-primary); }
+        .progress-stat-label { font-size: 0.85rem; color: var(--sarah-text-secondary); margin-top: 4px; }
+
+        /* Job History */
+        .jobs-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        .jobs-table thead { background: var(--sarah-bg-light); }
+        .jobs-table th { padding: 12px 16px; text-align: left; font-weight: 600; color: var(--sarah-text-primary); border-bottom: 2px solid var(--sarah-border-color); }
+        .jobs-table td { padding: 12px 16px; border-bottom: 1px solid var(--sarah-border-color); }
+        .jobs-table tr:hover { background: var(--sarah-bg-light); }
+
+        .job-status { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; }
+        .job-status.pending { background: #e0e7ff; color: #3730a3; }
+        .job-status.running { background: #dbeafe; color: #1e40af; }
+        .job-status.completed { background: #dcfce7; color: #166534; }
+        .job-status.failed { background: #fee; color: #dc2626; }
+        .job-status.cancelled { background: #f3f4f6; color: #6b7280; }
+
+        .job-actions { display: flex; gap: 8px; }
+        .job-action-btn { padding: 6px 12px; border: none; border-radius: var(--sarah-radius-sm); cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.2s; }
+        .job-action-btn.view { background: var(--sarah-primary); color: white; }
+        .job-action-btn.cancel { background: var(--sarah-error); color: white; }
+        .job-action-btn:hover { opacity: 0.8; }
+
+        /* Stats Cards */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: white; border-radius: var(--sarah-radius-lg); padding: 24px; box-shadow: var(--sarah-shadow-md); text-align: center; }
+        .stat-icon { font-size: 2.5rem; color: var(--sarah-primary); margin-bottom: 12px; }
+        .stat-value { font-size: 2rem; font-weight: 700; color: var(--sarah-primary); }
+        .stat-label { font-size: 0.9rem; color: var(--sarah-text-secondary); margin-top: 8px; }
+
+        /* Supported Formats */
+        .formats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+        .format-badge { background: var(--sarah-bg-light); padding: 8px 12px; border-radius: var(--sarah-radius-sm); text-align: center; font-weight: 600; color: var(--sarah-text-primary); font-size: 0.9rem; }
+
+        /* Current File */
+        .current-file { background: var(--sarah-bg-light); padding: 12px 16px; border-radius: var(--sarah-radius-md); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+        .current-file-icon { font-size: 1.5rem; color: var(--sarah-primary); }
+        .current-file-name { flex: 1; font-weight: 600; color: var(--sarah-text-primary); }
+        .current-file-status { color: var(--sarah-text-secondary); font-size: 0.9rem; }
+
+        /* Empty State */
+        .empty-state { text-align: center; padding: 48px; color: var(--sarah-text-secondary); }
+        .empty-state-icon { font-size: 4rem; color: var(--sarah-border-color); margin-bottom: 16px; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header"><i class="fas fa-stethoscope"></i><span>Dr. Sarah</span></div>
+            <nav><ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                <li><a href="medical-qa-safe.html"><i class="fas fa-question-circle"></i> Medical Q&A</a></li>
+                <li><a href="drug-checker.html"><i class="fas fa-pills"></i> Drug Checker</a></li>
+                <li><a href="clinical-support.html"><i class="fas fa-clipboard-check"></i> Clinical Support</a></li>
+                <li><a href="patient-analysis.html"><i class="fas fa-user-md"></i> Patient Analysis</a></li>
+                <li><a href="knowledge-graph.html"><i class="fas fa-project-diagram"></i> Knowledge Graph</a></li>
+                <li><a href="literature.html"><i class="fas fa-book-medical"></i> Literature</a></li>
+                <li><a href="safety-dashboard.html"><i class="fas fa-shield-alt"></i> Safety Dashboard</a></li>
+                <li><a href="data-integration.html" class="active"><i class="fas fa-database"></i> Data Integration</a></li>
+            </ul></nav>
+            <div class="sidebar-footer">
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                <a href="training.html"><i class="fas fa-brain"></i> Training</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="integration-container">
+                <div class="page-header">
+                    <h1 class="page-title">Medical Data Integration</h1>
+                    <p class="page-subtitle">Integrate medical datasets into KGAREVION knowledge graph</p>
+                </div>
+
+                <!-- Statistics Overview -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-database"></i></div>
+                        <div class="stat-value" id="totalJobs">0</div>
+                        <div class="stat-label">Total Jobs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-value" id="completedJobs">0</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-cube"></i></div>
+                        <div class="stat-value" id="totalEntities">0</div>
+                        <div class="stat-label">Entities Integrated</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-project-diagram"></i></div>
+                        <div class="stat-value" id="totalRelations">0</div>
+                        <div class="stat-label">Relations Integrated</div>
+                    </div>
+                </div>
+
+                <!-- Integration Options -->
+                <div class="integration-grid">
+                    <!-- File Upload -->
+                    <div class="integration-card">
+                        <h2 class="card-title"><i class="fas fa-upload"></i>Upload Medical Data Files</h2>
+
+                        <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                            <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <div class="upload-text">Drop files here or click to browse</div>
+                            <div class="upload-subtext">Supports CSV, JSON, XML, Parquet, ZIP archives</div>
+                        </div>
+                        <input type="file" id="fileInput" class="file-input" accept=".csv,.json,.xml,.xlsx,.parquet,.zip,.gz,.tsv" multiple>
+
+                        <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 12px;">Supported Formats</h3>
+                        <div class="formats-grid">
+                            <div class="format-badge">CSV</div>
+                            <div class="format-badge">TSV</div>
+                            <div class="format-badge">JSON</div>
+                            <div class="format-badge">XML</div>
+                            <div class="format-badge">Parquet</div>
+                            <div class="format-badge">Excel (.xlsx)</div>
+                            <div class="format-badge">ZIP Archives</div>
+                            <div class="format-badge">GZIP (.gz)</div>
+                        </div>
+                    </div>
+
+                    <!-- Directory Integration -->
+                    <div class="integration-card">
+                        <h2 class="card-title"><i class="fas fa-folder-open"></i>Integrate from Directory</h2>
+
+                        <p style="color: var(--sarah-text-secondary); margin-bottom: 16px;">
+                            Provide a local directory path containing medical data files. The system will automatically detect and process all supported files.
+                        </p>
+
+                        <div class="directory-input-group">
+                            <input type="text" id="directoryPath" class="directory-input" placeholder="/path/to/medical-data" value="./downloaded_medical_data">
+                            <button class="start-btn" onclick="startDirectoryIntegration()">
+                                <i class="fas fa-play"></i> Start Integration
+                            </button>
+                        </div>
+
+                        <div style="background: var(--sarah-bg-light); padding: 16px; border-radius: var(--sarah-radius-md); margin-top: 16px;">
+                            <h3 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; color: var(--sarah-text-primary);">
+                                <i class="fas fa-info-circle"></i> Auto-Detection
+                            </h3>
+                            <ul style="color: var(--sarah-text-secondary); font-size: 0.9rem; margin-left: 20px;">
+                                <li>PrimeKG format (nodes, edges, embeddings)</li>
+                                <li>UMLS mappings (CUI codes)</li>
+                                <li>Drug databases</li>
+                                <li>Disease ontologies</li>
+                                <li>Clinical trial data</li>
+                                <li>Custom knowledge graph triplets</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Integration Progress -->
+                <div class="integration-card progress-section" id="progressSection">
+                    <h2 class="card-title"><i class="fas fa-spinner fa-spin"></i>Integration in Progress</h2>
+
+                    <div class="current-file" id="currentFileInfo">
+                        <div class="current-file-icon"><i class="fas fa-file"></i></div>
+                        <div class="current-file-name" id="currentFileName">Processing...</div>
+                        <div class="current-file-status" id="currentFileStatus">Initializing...</div>
+                    </div>
+
+                    <div class="progress-header">
+                        <div class="progress-status" id="progressStatus">Processing medical data files...</div>
+                        <div class="progress-percent" id="progressPercent">0%</div>
+                    </div>
+
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+                    </div>
+
+                    <div class="progress-stats">
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" id="filesProcessed">0</div>
+                            <div class="progress-stat-label">Files Processed</div>
+                        </div>
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" id="filesTotal">0</div>
+                            <div class="progress-stat-label">Total Files</div>
+                        </div>
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" id="entitiesAdded">0</div>
+                            <div class="progress-stat-label">Entities Added</div>
+                        </div>
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" id="relationsAdded">0</div>
+                            <div class="progress-stat-label">Relations Added</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job History -->
+                <div class="integration-card">
+                    <h2 class="card-title"><i class="fas fa-history"></i>Integration History</h2>
+
+                    <div id="jobHistoryContainer">
+                        <table class="jobs-table">
+                            <thead>
+                                <tr>
+                                    <th>Job ID</th>
+                                    <th>Path/File</th>
+                                    <th>Status</th>
+                                    <th>Progress</th>
+                                    <th>Entities</th>
+                                    <th>Relations</th>
+                                    <th>Started</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="jobHistoryTable">
+                                <tr>
+                                    <td colspan="8" class="empty-state">
+                                        <div class="empty-state-icon"><i class="fas fa-inbox"></i></div>
+                                        <div>No integration jobs yet</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api/dr-sarah';
+        let currentJobId = null;
+        let pollingInterval = null;
+
+        // Drag and drop handlers
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFileUpload(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFileUpload(e.target.files);
+        });
+
+        // Handle file upload
+        async function handleFileUpload(files) {
+            if (files.length === 0) return;
+
+            const file = files[0]; // Handle first file for now
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch(`${API_BASE}/data-integration/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(`Upload successful! Job ID: ${data.job_id}`);
+                    currentJobId = data.job_id;
+                    startPolling(currentJobId);
+                    loadJobHistory();
+                    loadStats();
+                } else {
+                    alert(`Upload failed: ${data.detail}`);
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                alert('Upload failed. Please try again.');
+            }
+        }
+
+        // Start directory integration
+        async function startDirectoryIntegration() {
+            const directoryPath = document.getElementById('directoryPath').value;
+
+            if (!directoryPath) {
+                alert('Please enter a directory path');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/data-integration/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ directory_path: directoryPath })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(`Integration started! Job ID: ${data.job_id}`);
+                    currentJobId = data.job_id;
+                    startPolling(currentJobId);
+                    loadJobHistory();
+                    loadStats();
+                } else {
+                    alert(`Integration failed: ${data.detail}`);
+                }
+            } catch (error) {
+                console.error('Integration error:', error);
+                alert('Integration failed. Please try again.');
+            }
+        }
+
+        // Poll job status
+        function startPolling(jobId) {
+            document.getElementById('progressSection').classList.add('active');
+
+            pollingInterval = setInterval(async () => {
+                try {
+                    const response = await fetch(`${API_BASE}/data-integration/status/${jobId}`);
+                    const job = await response.json();
+
+                    updateProgressUI(job);
+
+                    if (['completed', 'failed', 'cancelled'].includes(job.status)) {
+                        stopPolling();
+                        loadJobHistory();
+                        loadStats();
+                    }
+                } catch (error) {
+                    console.error('Polling error:', error);
+                }
+            }, 2000); // Poll every 2 seconds
+        }
+
+        function stopPolling() {
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+                pollingInterval = null;
+            }
+        }
+
+        // Update progress UI
+        function updateProgressUI(job) {
+            document.getElementById('progressPercent').textContent = `${Math.round(job.progress)}%`;
+            document.getElementById('progressBar').style.width = `${job.progress}%`;
+            document.getElementById('progressStatus').textContent = job.status.toUpperCase();
+            document.getElementById('filesProcessed').textContent = job.files_processed;
+            document.getElementById('filesTotal').textContent = job.files_total;
+            document.getElementById('entitiesAdded').textContent = job.entities_added.toLocaleString();
+            document.getElementById('relationsAdded').textContent = job.relations_added.toLocaleString();
+
+            if (job.current_file) {
+                document.getElementById('currentFileName').textContent = job.current_file.split('/').pop();
+                document.getElementById('currentFileStatus').textContent = `${job.files_processed} of ${job.files_total} files`;
+            }
+        }
+
+        // Load job history
+        async function loadJobHistory() {
+            try {
+                const response = await fetch(`${API_BASE}/data-integration/history?limit=20`);
+                const data = await response.json();
+
+                const tbody = document.getElementById('jobHistoryTable');
+                tbody.innerHTML = '';
+
+                if (data.jobs.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="8" class="empty-state">
+                                <div class="empty-state-icon"><i class="fas fa-inbox"></i></div>
+                                <div>No integration jobs yet</div>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                data.jobs.forEach(job => {
+                    const row = `
+                        <tr>
+                            <td><code style="font-size: 0.85rem;">${job.job_id.substring(0, 8)}...</code></td>
+                            <td>${job.directory_path.split('/').pop() || job.directory_path}</td>
+                            <td><span class="job-status ${job.status}">${job.status}</span></td>
+                            <td>${Math.round(job.progress)}%</td>
+                            <td>${job.entities_added.toLocaleString()}</td>
+                            <td>${job.relations_added.toLocaleString()}</td>
+                            <td>${new Date(job.started_at).toLocaleString()}</td>
+                            <td class="job-actions">
+                                <button class="job-action-btn view" onclick="viewJobDetails('${job.job_id}')">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            } catch (error) {
+                console.error('Error loading job history:', error);
+            }
+        }
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE}/data-integration/stats`);
+                const stats = await response.json();
+
+                document.getElementById('totalJobs').textContent = stats.total_jobs;
+                document.getElementById('completedJobs').textContent = stats.status_counts.completed || 0;
+                document.getElementById('totalEntities').textContent = stats.total_entities_integrated.toLocaleString();
+                document.getElementById('totalRelations').textContent = stats.total_relations_integrated.toLocaleString();
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // View job details
+        async function viewJobDetails(jobId) {
+            try {
+                const response = await fetch(`${API_BASE}/data-integration/status/${jobId}`);
+                const job = await response.json();
+
+                alert(JSON.stringify(job, null, 2));
+            } catch (error) {
+                console.error('Error loading job details:', error);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadJobHistory();
+            loadStats();
+            // Refresh history every 30 seconds
+            setInterval(() => {
+                if (!pollingInterval) {
+                    loadJobHistory();
+                    loadStats();
+                }
+            }, 30000);
+        });
+    </script>
+</body>
+</html>

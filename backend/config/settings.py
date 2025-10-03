@@ -69,7 +69,19 @@ class Settings(BaseSettings):
     
     # Monitoring
     SENTRY_DSN: Optional[str] = None
-    
+
+    # Medical AI - Neo4j Knowledge Graph
+    NEO4J_URI: str = "bolt://localhost:7687"
+    NEO4J_USER: str = "neo4j"
+    NEO4J_PASSWORD: str = "password"
+
+    # Medical Data Integration
+    MEDICAL_DATA_UPLOAD_DIR: str = "/tmp/medical-data-uploads"
+    MEDICAL_DATA_TEMP_DIR: str = "/tmp/medical-data-temp"
+    INTEGRATION_BATCH_SIZE: int = 1000
+    MAX_CONCURRENT_INTEGRATIONS: int = 3
+    CLEANUP_OLD_JOBS_DAYS: int = 7
+
     class Config:
         env_file = ".env"
         case_sensitive = True
