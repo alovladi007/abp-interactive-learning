@@ -16,8 +16,8 @@ from services.quality_control import qc_service
 from services.cdn import storage_service
 from services.stripe_service import payment_service
 
-# Import MARIA routes
-from api.maria_routes import router as maria_router
+# Import Dr. Sarah routes
+from api.dr_sarah_routes import router as dr_sarah_router
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -40,8 +40,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include MARIA router
-app.include_router(maria_router, prefix="/api/maria", tags=["MARIA Medical AI"])
+# Include Dr. Sarah router
+app.include_router(dr_sarah_router, prefix="/api/dr-sarah", tags=["Dr. Sarah Medical AI"])
 
 # Request/Response Models
 class GenerateVoiceRequest(BaseModel):

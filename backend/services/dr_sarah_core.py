@@ -1,5 +1,5 @@
 """
-MARIA - Machine Learning Augmented Research and Intelligent Analysis
+Dr. Sarah - AI Medical Research Assistant
 Complete Medical AI System with KGAREVION, NER, Knowledge Graph, and Clinical Decision Support
 Implements the KGAREVION pipeline: Generate → Review → Revise → Answer
 """
@@ -319,8 +319,8 @@ class ClinicalDecisionSupport:
         return results
 
 
-class MARIACore:
-    """Main MARIA - Machine Learning Augmented Research and Intelligent Analysis"""
+class DrSarahCore:
+    """Main Dr. Sarah AI Medical Assistant"""
 
     def __init__(self):
         self.ner = MedicalNER()
