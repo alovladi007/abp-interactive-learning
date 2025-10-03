@@ -608,21 +608,21 @@
                         </button>
                     </div>
                     
-                    <!-- Dr. Sarah AI Medical Research Assistant Card -->
+                    <!-- SARAH AI Medical Research Assistant Card -->
                     <div class="goal-card" style="border: 2px solid #1e40af; background: var(--card-bg); position: relative; overflow: hidden;">
                         <!-- Status Badge -->
                         <div style="position: absolute; top: 1rem; right: 1rem; background: var(--success-color); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">
                             <i class="fas fa-circle" style="font-size: 0.5rem; margin-right: 0.25rem;"></i>ACTIVE
                         </div>
-                        
+
                         <!-- Card Header -->
                         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
                             <div class="goal-icon" style="background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%);">
                                 <i class="fas fa-user-md"></i>
                             </div>
                             <div>
-                                <h3 style="margin: 0; color: var(--text-primary);">Dr. Sarah</h3>
-                                <p class="text-secondary" style="margin: 0.25rem 0 0 0; font-size: 0.9rem;">AI Medical Research Assistant</p>
+                                <h3 style="margin: 0; color: var(--text-primary);">SARAH</h3>
+                                <p class="text-secondary" style="margin: 0.25rem 0 0 0; font-size: 0.9rem;">System for Automated Reasoning and Analysis in Healthcare</p>
                             </div>
                         </div>
                         
@@ -675,10 +675,10 @@
                         
                         <!-- Action Buttons -->
                         <div style="display: flex; gap: 0.75rem;">
-                            <button class="btn btn-primary" style="flex: 1; background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%); border: none;" onclick="openAIAdvisorChat('Dr. Sarah')">
+                            <button class="btn btn-primary" style="flex: 1; background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%); border: none;" onclick="openAIAdvisorChat('SARAH')">
                                 <i class="fas fa-stethoscope"></i> Start Medical Research
                             </button>
-                            <button class="btn btn-outline" onclick="openAIAdvisorChat('Dr. Sarah')" style="border-color: #1e40af; color: #1e40af;">
+                            <button class="btn btn-outline" onclick="openAIAdvisorChat('SARAH')" style="border-color: #1e40af; color: #1e40af;">
                                 <i class="fas fa-comments"></i>
                             </button>
                         </div>
@@ -976,8 +976,8 @@
 
         // Function to open AI Advisor chat interfaces
         function openAIAdvisorChat(advisorName) {
-            if (advisorName === 'Dr. Sarah') {
-                // Open Dr. Sarah's Medical Research interface
+            if (advisorName === 'SARAH') {
+                // Open SARAH's Medical Research interface
                 window.open('frontend/dr-sarah.html', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
             } else if (advisorName === 'Louis') {
                 // Open Louis's AI Path Advisor
