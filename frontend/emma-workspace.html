@@ -3,171 +3,2531 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workspace - EMMA Platform</title>
-    <link rel="stylesheet" href="emma-assets/css/emma-styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>EMMA Workspace - Professional Computational Environment</title>
+
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/eclipse.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js"></script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #0066CC;
+            --secondary-color: #00A3E0;
+            --bg-light: #F8F9FA;
+            --bg-dark: #1E1E1E;
+            --cell-bg-light: #FFFFFF;
+            --cell-bg-dark: #2D2D2D;
+            --border-color: #DEE2E6;
+            --text-dark: #212529;
+            --text-light: #E8E8E8;
+            --sidebar-width: 280px;
+            --rightpanel-width: 320px;
+            --topbar-height: 60px;
+            --success-color: #28A745;
+            --warning-color: #FFC107;
+            --danger-color: #DC3545;
+            --info-color: #17A2B8;
+        }
+
+        body {
+            font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+
+        /* Top Navigation Bar */
+        .top-bar {
+            height: var(--topbar-height);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .logo-section h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .subject-selector {
+            flex: 1;
+            max-width: 300px;
+            margin: 0 20px;
+        }
+
+        .subject-selector select {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .subject-selector select option {
+            color: var(--text-dark);
+            background: white;
+        }
+
+        .tools-menu {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .tool-btn, .mode-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .tool-btn:hover, .mode-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .mode-btn.active {
+            background: rgba(255,255,255,0.4);
+            font-weight: 600;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-ring {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: conic-gradient(#FFD700 0deg, #FFD700 252deg, rgba(255,255,255,0.3) 252deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .theme-toggle {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            height: calc(100vh - var(--topbar-height));
+            margin-top: var(--topbar-height);
+        }
+
+        /* Left Sidebar */
+        .left-sidebar {
+            width: var(--sidebar-width);
+            background: var(--cell-bg-light);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        body.dark-mode .left-sidebar {
+            background: var(--cell-bg-dark);
+            border-right-color: #444;
+        }
+
+        .left-sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-section {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .sidebar-section {
+            border-bottom-color: #444;
+        }
+
+        .sidebar-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .tool-item, .problem-item, .recent-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tool-item:hover, .problem-item:hover, .recent-item:hover {
+            background: var(--bg-light);
+            transform: translateX(5px);
+        }
+
+        body.dark-mode .tool-item:hover,
+        body.dark-mode .problem-item:hover,
+        body.dark-mode .recent-item:hover {
+            background: var(--bg-dark);
+        }
+
+        .tool-item i {
+            font-size: 18px;
+            color: var(--primary-color);
+            width: 24px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 10px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        body.dark-mode .search-box {
+            background: var(--bg-dark);
+            border-color: #444;
+            color: var(--text-light);
+        }
+
+        .search-box:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            outline: none;
+        }
+
+        body.dark-mode .filter-select {
+            background: var(--bg-dark);
+            border-color: #444;
+            color: var(--text-light);
+        }
+
+        .random-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .random-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+
+        /* Main Work Area */
+        .main-work-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--bg-light);
+        }
+
+        body.dark-mode .main-work-area {
+            background: var(--bg-dark);
+        }
+
+        .work-mode {
+            display: none;
+        }
+
+        .work-mode.active {
+            display: block;
+        }
+
+        /* Notebook Mode */
+        .notebook-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--cell-bg-light);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode .notebook-header {
+            background: var(--cell-bg-dark);
+        }
+
+        .notebook-title {
+            font-size: 18px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            outline: none;
+            background: transparent;
+            color: inherit;
+        }
+
+        .notebook-title:focus {
+            border-color: var(--primary-color);
+            background: var(--bg-light);
+        }
+
+        body.dark-mode .notebook-title:focus {
+            background: var(--bg-dark);
+        }
+
+        .notebook-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .action-btn.secondary {
+            background: #6C757D;
+        }
+
+        .notebook-cell {
+            background: var(--cell-bg-light);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        body.dark-mode .notebook-cell {
+            background: var(--cell-bg-dark);
+            border-color: #444;
+        }
+
+        .notebook-cell:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
+        }
+
+        .notebook-cell.active {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 16px rgba(0, 102, 204, 0.2);
+        }
+
+        .cell-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: var(--bg-light);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .cell-toolbar {
+            background: var(--bg-dark);
+            border-bottom-color: #444;
+        }
+
+        .cell-run-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+
+        .cell-run-btn:hover {
+            background: #218838;
+        }
+
+        .cell-type-select {
+            padding: 6px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--cell-bg-light);
+            outline: none;
+        }
+
+        body.dark-mode .cell-type-select {
+            background: var(--cell-bg-dark);
+            border-color: #444;
+            color: var(--text-light);
+        }
+
+        .cell-menu-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #6C757D;
+            transition: all 0.2s;
+        }
+
+        .cell-menu-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .cell-input {
+            min-height: 100px;
+        }
+
+        .cell-input .CodeMirror {
+            height: auto;
+            min-height: 100px;
+            font-size: 14px;
+            font-family: 'Monaco', 'Consolas', monospace;
+        }
+
+        .cell-output {
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-light);
+            min-height: 50px;
+        }
+
+        body.dark-mode .cell-output {
+            background: rgba(0,0,0,0.2);
+            border-top-color: #444;
+        }
+
+        .cell-output.empty {
+            display: none;
+        }
+
+        .output-result {
+            margin-bottom: 10px;
+        }
+
+        .output-plot {
+            margin: 10px 0;
+        }
+
+        .output-steps {
+            background: rgba(0, 102, 204, 0.05);
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .step-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        body.dark-mode .step-item {
+            background: var(--cell-bg-dark);
+        }
+
+        .step-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .step-number {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-right: 5px;
+        }
+
+        .add-cell-btn {
+            text-align: center;
+            padding: 10px;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.2s;
+        }
+
+        .add-cell-btn:hover {
+            background: rgba(0, 102, 204, 0.1);
+            transform: scale(1.1);
+        }
+
+        /* Problem Viewer Mode */
+        .problem-viewer {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .problem-card {
+            background: var(--cell-bg-light);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode .problem-card {
+            background: var(--cell-bg-dark);
+        }
+
+        .problem-header {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .difficulty-badge.beginner {
+            background: #D4EDDA;
+            color: #155724;
+        }
+
+        .difficulty-badge.intermediate {
+            background: #FFF3CD;
+            color: #856404;
+        }
+
+        .difficulty-badge.advanced {
+            background: #F8D7DA;
+            color: #721C24;
+        }
+
+        .difficulty-badge.expert {
+            background: #D1ECF1;
+            color: #0C5460;
+        }
+
+        .topic-tag {
+            padding: 6px 12px;
+            background: rgba(0, 102, 204, 0.1);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .problem-statement {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--bg-light);
+            border-radius: 8px;
+        }
+
+        body.dark-mode .problem-statement {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .problem-input {
+            margin-bottom: 20px;
+        }
+
+        .problem-input textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            resize: vertical;
+            min-height: 100px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        body.dark-mode .problem-input textarea {
+            background: var(--bg-dark);
+            border-color: #444;
+            color: var(--text-light);
+        }
+
+        .problem-input textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .problem-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .problem-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .problem-btn.primary {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .problem-btn.primary:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
+        .problem-btn.secondary {
+            background: var(--info-color);
+            color: white;
+        }
+
+        .problem-btn.secondary:hover {
+            background: #138496;
+            transform: translateY(-2px);
+        }
+
+        .problem-btn.tertiary {
+            background: var(--warning-color);
+            color: #212529;
+        }
+
+        .problem-btn.tertiary:hover {
+            background: #E0A800;
+            transform: translateY(-2px);
+        }
+
+        .problem-result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .problem-result.show {
+            display: block;
+        }
+
+        .problem-result.correct {
+            background: #D4EDDA;
+            border-left: 4px solid var(--success-color);
+            color: #155724;
+        }
+
+        .problem-result.incorrect {
+            background: #F8D7DA;
+            border-left: 4px solid var(--danger-color);
+            color: #721C24;
+        }
+
+        .problem-hint {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(23, 162, 184, 0.1);
+            border-left: 4px solid var(--info-color);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .problem-hint.show {
+            display: block;
+        }
+
+        .problem-solution {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 102, 204, 0.05);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .problem-solution.show {
+            display: block;
+        }
+
+        /* Visualization Mode */
+        .visualization-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .viz-card {
+            background: var(--cell-bg-light);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        body.dark-mode .viz-card {
+            background: var(--cell-bg-dark);
+        }
+
+        .viz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .viz-card h4 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .viz-preview {
+            height: 200px;
+            background: var(--bg-light);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        body.dark-mode .viz-preview {
+            background: var(--bg-dark);
+        }
+
+        /* Right Panel */
+        .right-panel {
+            width: var(--rightpanel-width);
+            background: var(--cell-bg-light);
+            border-left: 1px solid var(--border-color);
+            overflow-y: auto;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        body.dark-mode .right-panel {
+            background: var(--cell-bg-dark);
+            border-left-color: #444;
+        }
+
+        .right-panel.collapsed {
+            transform: translateX(100%);
+        }
+
+        .panel-tabs {
+            display: flex;
+            background: var(--bg-light);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        body.dark-mode .panel-tabs {
+            background: var(--bg-dark);
+            border-bottom-color: #444;
+        }
+
+        .panel-tab {
+            flex: 1;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: #6C757D;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .panel-tab:hover {
+            background: rgba(0, 102, 204, 0.05);
+        }
+
+        .panel-tab.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .panel-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .panel-content.active {
+            display: block;
+        }
+
+        /* AI Chat */
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: var(--bg-light);
+            border-radius: 8px;
+        }
+
+        body.dark-mode .chat-messages {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            max-width: 85%;
+        }
+
+        .chat-message.user {
+            background: var(--primary-color);
+            color: white;
+            margin-left: auto;
+        }
+
+        .chat-message.assistant {
+            background: var(--cell-bg-light);
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .chat-message.assistant {
+            background: var(--bg-dark);
+            border-color: #444;
+        }
+
+        .chat-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            outline: none;
+        }
+
+        body.dark-mode .chat-input {
+            background: var(--bg-dark);
+            border-color: #444;
+            color: var(--text-light);
+        }
+
+        .chat-send-btn {
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chat-send-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .quick-questions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .quick-question-btn {
+            padding: 10px;
+            background: rgba(0, 102, 204, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .quick-question-btn:hover {
+            background: rgba(0, 102, 204, 0.2);
+            transform: translateX(5px);
+        }
+
+        /* Hints Panel */
+        .hint-item {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--info-color);
+        }
+
+        body.dark-mode .hint-item {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .hint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .hint-content {
+            display: none;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .hint-content {
+            border-top-color: #444;
+        }
+
+        .hint-content.show {
+            display: block;
+        }
+
+        /* History Panel */
+        .history-item {
+            padding: 12px;
+            background: var(--bg-light);
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        body.dark-mode .history-item {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .history-item:hover {
+            background: rgba(0, 102, 204, 0.1);
+            transform: translateX(5px);
+        }
+
+        .history-time {
+            font-size: 11px;
+            color: #6C757D;
+            margin-bottom: 5px;
+        }
+
+        .history-content {
+            font-size: 13px;
+            font-family: 'Monaco', 'Consolas', monospace;
+        }
+
+        /* Symbol Palette */
+        .symbol-palette {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .symbol-btn {
+            padding: 10px;
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        body.dark-mode .symbol-btn {
+            background: rgba(0,0,0,0.2);
+            border-color: #444;
+        }
+
+        .symbol-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 102, 204, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+
+        body.dark-mode ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            :root {
+                --sidebar-width: 240px;
+                --rightpanel-width: 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .left-sidebar, .right-panel {
+                position: fixed;
+                top: var(--topbar-height);
+                bottom: 0;
+                z-index: 999;
+            }
+
+            .left-sidebar {
+                left: 0;
+            }
+
+            .right-panel {
+                right: 0;
+            }
+
+            .tools-menu .tool-btn {
+                display: none;
+            }
+
+            .mode-btn {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+        }
+
+        /* Auto-save indicator */
+        .auto-save-indicator {
+            font-size: 12px;
+            color: #6C757D;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .auto-save-indicator.saving {
+            color: var(--warning-color);
+        }
+
+        .auto-save-indicator.saved {
+            color: var(--success-color);
+        }
+
+        /* Keyboard shortcuts help */
+        .shortcuts-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shortcuts-modal.show {
+            display: flex;
+        }
+
+        .shortcuts-content {
+            background: var(--cell-bg-light);
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        body.dark-mode .shortcuts-content {
+            background: var(--cell-bg-dark);
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .shortcut-item {
+            border-bottom-color: #444;
+        }
+
+        .shortcut-key {
+            background: var(--bg-light);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 12px;
+        }
+
+        body.dark-mode .shortcut-key {
+            background: var(--bg-dark);
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <h2>EMMA</h2>
-                <span class="nav-subtitle">Workspace</span>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="emma-platform.html">Home</a></li>
-                <li><a href="emma-workspace.html">Workspace</a></li>
-                <li><a href="emma-dashboard.html">Dashboard</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="index.html#subjects">Subjects</a></li>
-                <li><a href="index.html#pricing">Pricing</a></li>
-            </ul>
-            <div class="nav-buttons">
-                <button class="btn btn-outline">Save</button>
-                <button class="btn btn-primary">Run All</button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Workspace Container -->
-    <div class="workspace-container">
-        <!-- Sidebar -->
-        <div class="workspace-sidebar">
-            <h3>Notebooks</h3>
-            <ul style="list-style: none; padding: 0;">
-                <li style="padding: 0.5rem 0; border-bottom: 1px solid #dee2e6;">
-                    <a href="#" style="text-decoration: none; color: #0066CC; font-weight: 500;">Calculus Practice</a>
-                </li>
-                <li style="padding: 0.5rem 0; border-bottom: 1px solid #dee2e6;">
-                    <a href="#" style="text-decoration: none; color: #212529;">Linear Algebra</a>
-                </li>
-                <li style="padding: 0.5rem 0; border-bottom: 1px solid #dee2e6;">
-                    <a href="#" style="text-decoration: none; color: #212529;">Physics Problems</a>
-                </li>
-                <li style="padding: 0.5rem 0; border-bottom: 1px solid #dee2e6;">
-                    <a href="#" style="text-decoration: none; color: #212529;">Statistics Analysis</a>
-                </li>
-            </ul>
-            <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;">New Notebook</button>
+    <!-- Top Navigation Bar -->
+    <div class="top-bar">
+        <div class="logo-section" onclick="window.location.href='emma-platform.html'">
+            <h1>EMMA</h1>
+            <span style="font-size: 12px; opacity: 0.9;">Workspace</span>
         </div>
 
-        <!-- Main Workspace -->
-        <div class="workspace-main">
-            <div style="margin-bottom: 2rem;">
-                <h1 style="margin-bottom: 0.5rem;">Calculus Practice</h1>
-                <p style="color: #6c757d;">Last edited: Today at 2:45 PM</p>
+        <div class="subject-selector">
+            <select id="subjectSelect">
+                <option value="algebra">Algebra</option>
+                <option value="calculus">Calculus</option>
+                <option value="linear-algebra">Linear Algebra</option>
+                <option value="statistics">Statistics</option>
+                <option value="physics">Physics</option>
+                <option value="chemistry">Chemistry</option>
+                <option value="biology">Biology</option>
+                <option value="computer-science">Computer Science</option>
+            </select>
+        </div>
+
+        <div class="tools-menu">
+            <button class="tool-btn" onclick="openCalculator()">
+                <i class="fas fa-calculator"></i> Calculator
+            </button>
+            <button class="tool-btn" onclick="openGraphing()">
+                <i class="fas fa-chart-line"></i> Graph
+            </button>
+            <button class="tool-btn" onclick="openSolver()">
+                <i class="fas fa-cog"></i> Solver
+            </button>
+        </div>
+
+        <div class="tools-menu">
+            <button class="mode-btn active" data-mode="notebook">Notebook</button>
+            <button class="mode-btn" data-mode="problems">Problems</button>
+            <button class="mode-btn" data-mode="visualizations">Visualizations</button>
+        </div>
+
+        <div class="user-section">
+            <div class="auto-save-indicator" id="autoSaveIndicator">
+                <i class="fas fa-cloud"></i>
+                <span>Saved</span>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="progress-ring" title="70% Complete">70%</div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <div class="left-sidebar" id="leftSidebar">
+            <!-- Toolbox Section -->
+            <div class="sidebar-section">
+                <h3>Toolbox</h3>
+                <div class="tool-item" onclick="insertTool('calculator')">
+                    <i class="fas fa-calculator"></i>
+                    <span>Basic Calculator</span>
+                </div>
+                <div class="tool-item" onclick="insertTool('graphing')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Graphing Calculator</span>
+                </div>
+                <div class="tool-item" onclick="insertTool('solver')">
+                    <i class="fas fa-cogs"></i>
+                    <span>Equation Solver</span>
+                </div>
+                <div class="tool-item" onclick="insertTool('matrix')">
+                    <i class="fas fa-table"></i>
+                    <span>Matrix Calculator</span>
+                </div>
+                <div class="tool-item" onclick="insertTool('statistics')">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Statistics Tools</span>
+                </div>
+                <div class="tool-item" onclick="insertTool('converter')">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Unit Converter</span>
+                </div>
+                <div class="tool-item" onclick="insertTool('geometry')">
+                    <i class="fas fa-shapes"></i>
+                    <span>Geometry Tools</span>
+                </div>
+                <div class="tool-item" onclick="insertTool('code')">
+                    <i class="fas fa-code"></i>
+                    <span>Code Editor</span>
+                </div>
             </div>
 
-            <!-- Notebook Cells -->
-            <div class="notebook-cell">
-                <div class="cell-input">
-                    <textarea placeholder="Enter mathematical expression or code...">integrate(x^2 + 3*x + 2, x)</textarea>
+            <!-- Problem Library -->
+            <div class="sidebar-section">
+                <h3>Problem Library</h3>
+                <input type="text" class="search-box" placeholder="Search problems..." id="problemSearch">
+
+                <div class="filter-group">
+                    <label class="filter-label">Difficulty</label>
+                    <select class="filter-select" id="difficultyFilter">
+                        <option value="all">All Levels</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                        <option value="expert">Expert</option>
+                    </select>
                 </div>
-                <div class="cell-output">
-                    <p style="font-family: monospace; color: #212529;">
-                        <strong>Output:</strong><br>
-                        (x³/3) + (3x²/2) + 2x + C
-                    </p>
+
+                <div class="filter-group">
+                    <label class="filter-label">Topic</label>
+                    <select class="filter-select" id="topicFilter">
+                        <option value="all">All Topics</option>
+                        <option value="equations">Equations</option>
+                        <option value="functions">Functions</option>
+                        <option value="derivatives">Derivatives</option>
+                        <option value="integrals">Integrals</option>
+                        <option value="matrices">Matrices</option>
+                    </select>
                 </div>
-                <div class="cell-controls">
-                    <button class="btn btn-primary" style="padding: 0.375rem 1rem; font-size: 0.875rem;">Run</button>
-                    <button class="btn btn-outline" style="padding: 0.375rem 1rem; font-size: 0.875rem;">Clear</button>
-                    <button class="btn btn-outline" style="padding: 0.375rem 1rem; font-size: 0.875rem;">Delete Cell</button>
-                </div>
+
+                <button class="random-btn" onclick="loadRandomProblem()">
+                    <i class="fas fa-random"></i> Random Problem
+                </button>
             </div>
 
-            <div class="notebook-cell">
-                <div class="cell-input">
-                    <textarea placeholder="Enter mathematical expression or code...">diff(sin(x)*cos(x), x)</textarea>
-                </div>
-                <div class="cell-output">
-                    <p style="font-family: monospace; color: #212529;">
-                        <strong>Output:</strong><br>
-                        cos(2x)
-                    </p>
-                    <div style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 6px; border: 1px solid #dee2e6;">
-                        <strong style="color: #0066CC;">Step-by-Step Solution:</strong><br>
-                        1. Apply product rule: d/dx[sin(x)·cos(x)]<br>
-                        2. = cos(x)·cos(x) + sin(x)·(-sin(x))<br>
-                        3. = cos²(x) - sin²(x)<br>
-                        4. = cos(2x) (using double angle identity)
+            <!-- Recent Activity -->
+            <div class="sidebar-section">
+                <h3>Recent Activity</h3>
+                <div class="recent-item" onclick="loadRecent(1)">
+                    <i class="fas fa-file-alt"></i>
+                    <div>
+                        <div style="font-size: 13px;">Quadratic Equations</div>
+                        <div style="font-size: 11px; color: #6C757D;">2 hours ago</div>
                     </div>
                 </div>
-                <div class="cell-controls">
-                    <button class="btn btn-primary" style="padding: 0.375rem 1rem; font-size: 0.875rem;">Run</button>
-                    <button class="btn btn-outline" style="padding: 0.375rem 1rem; font-size: 0.875rem;">Clear</button>
-                    <button class="btn btn-outline" style="padding: 0.375rem 1rem; font-size: 0.875rem;">Delete Cell</button>
+                <div class="recent-item" onclick="loadRecent(2)">
+                    <i class="fas fa-file-alt"></i>
+                    <div>
+                        <div style="font-size: 13px;">Calculus Notebook</div>
+                        <div style="font-size: 11px; color: #6C757D;">Yesterday</div>
+                    </div>
+                </div>
+                <div class="recent-item" onclick="loadRecent(3)">
+                    <i class="fas fa-bookmark"></i>
+                    <div>
+                        <div style="font-size: 13px;">Matrix Operations</div>
+                        <div style="font-size: 11px; color: #6C757D;">3 days ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Work Area -->
+        <div class="main-work-area">
+            <!-- Notebook Mode -->
+            <div class="work-mode active" id="notebookMode">
+                <div class="notebook-header">
+                    <input type="text" class="notebook-title" value="Untitled Notebook" id="notebookTitle">
+                    <div class="notebook-actions">
+                        <button class="action-btn secondary" onclick="showShortcuts()">
+                            <i class="fas fa-keyboard"></i> Shortcuts
+                        </button>
+                        <button class="action-btn secondary" onclick="exportNotebook()">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <button class="action-btn" onclick="saveNotebook()">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Symbol Palette -->
+                <div class="symbol-palette" id="symbolPalette">
+                    <button class="symbol-btn" onclick="insertSymbol('∫')">∫</button>
+                    <button class="symbol-btn" onclick="insertSymbol('∑')">∑</button>
+                    <button class="symbol-btn" onclick="insertSymbol('√')">√</button>
+                    <button class="symbol-btn" onclick="insertSymbol('∂')">∂</button>
+                    <button class="symbol-btn" onclick="insertSymbol('∞')">∞</button>
+                    <button class="symbol-btn" onclick="insertSymbol('π')">π</button>
+                    <button class="symbol-btn" onclick="insertSymbol('≤')">≤</button>
+                    <button class="symbol-btn" onclick="insertSymbol('≥')">≥</button>
+                    <button class="symbol-btn" onclick="insertSymbol('≠')">≠</button>
+                    <button class="symbol-btn" onclick="insertSymbol('±')">±</button>
+                    <button class="symbol-btn" onclick="insertSymbol('×')">×</button>
+                    <button class="symbol-btn" onclick="insertSymbol('÷')">÷</button>
+                </div>
+
+                <div id="notebookCells">
+                    <!-- Cells will be dynamically added here -->
+                </div>
+
+                <div class="add-cell-btn" onclick="addCell()">
+                    <i class="fas fa-plus-circle"></i>
                 </div>
             </div>
 
-            <div class="notebook-cell">
-                <div class="cell-input">
-                    <textarea placeholder="Enter mathematical expression or code...">solve(x^2 - 5*x + 6 = 0, x)</textarea>
-                </div>
-                <div class="cell-output">
-                    <p style="font-family: monospace; color: #212529;">
-                        <strong>Output:</strong><br>
-                        x = 2, x = 3
-                    </p>
-                </div>
-                <div class="cell-controls">
-                    <button class="btn btn-primary" style="padding: 0.375rem 1rem; font-size: 0.875rem;">Run</button>
-                    <button class="btn btn-outline" style="padding: 0.375rem 1rem; font-size: 0.875rem;">Clear</button>
-                    <button class="btn btn-outline" style="padding: 0.375rem 1rem; font-size: 0.875rem;">Delete Cell</button>
+            <!-- Problem Viewer Mode -->
+            <div class="work-mode" id="problemsMode">
+                <div class="problem-viewer" id="problemViewer">
+                    <!-- Problems will be dynamically loaded here -->
                 </div>
             </div>
 
-            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;">+ Add New Cell</button>
+            <!-- Visualization Mode -->
+            <div class="work-mode" id="visualizationsMode">
+                <div class="visualization-gallery" id="vizGallery">
+                    <!-- Visualizations will be dynamically loaded here -->
+                </div>
+            </div>
         </div>
 
         <!-- Right Panel -->
-        <div class="workspace-panel">
-            <h3>Help & Resources</h3>
-
-            <div style="margin-bottom: 2rem;">
-                <h4 style="font-size: 1rem; margin-bottom: 0.75rem;">Quick Commands</h4>
-                <ul style="list-style: none; padding: 0; font-size: 0.875rem; color: #6c757d;">
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #dee2e6;">
-                        <code>integrate(f, x)</code> - Integration
-                    </li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #dee2e6;">
-                        <code>diff(f, x)</code> - Differentiation
-                    </li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #dee2e6;">
-                        <code>solve(eq, x)</code> - Solve equations
-                    </li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #dee2e6;">
-                        <code>limit(f, x, a)</code> - Limits
-                    </li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #dee2e6;">
-                        <code>plot(f, x)</code> - Plot function
-                    </li>
-                </ul>
+        <div class="right-panel" id="rightPanel">
+            <div class="panel-tabs">
+                <button class="panel-tab active" data-panel="chat">
+                    <i class="fas fa-comments"></i><br>AI Chat
+                </button>
+                <button class="panel-tab" data-panel="hints">
+                    <i class="fas fa-lightbulb"></i><br>Hints
+                </button>
+                <button class="panel-tab" data-panel="steps">
+                    <i class="fas fa-list-ol"></i><br>Steps
+                </button>
+                <button class="panel-tab" data-panel="history">
+                    <i class="fas fa-history"></i><br>History
+                </button>
             </div>
 
-            <div style="margin-bottom: 2rem;">
-                <h4 style="font-size: 1rem; margin-bottom: 0.75rem;">Recent Topics</h4>
-                <div style="background: #f8f9fa; padding: 0.75rem; border-radius: 6px; margin-bottom: 0.5rem;">
-                    <p style="margin: 0; font-size: 0.875rem; font-weight: 500;">Derivatives</p>
-                    <p style="margin: 0; font-size: 0.75rem; color: #6c757d;">75% complete</p>
+            <!-- AI Chat Panel -->
+            <div class="panel-content active" id="chatPanel">
+                <div class="quick-questions">
+                    <button class="quick-question-btn" onclick="askQuick('Explain this')">
+                        Explain this
+                    </button>
+                    <button class="quick-question-btn" onclick="askQuick('Show me an example')">
+                        Show me an example
+                    </button>
+                    <button class="quick-question-btn" onclick="askQuick('Why is this wrong?')">
+                        Why is this wrong?
+                    </button>
                 </div>
-                <div style="background: #f8f9fa; padding: 0.75rem; border-radius: 6px; margin-bottom: 0.5rem;">
-                    <p style="margin: 0; font-size: 0.875rem; font-weight: 500;">Integration</p>
-                    <p style="margin: 0; font-size: 0.75rem; color: #6c757d;">45% complete</p>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-message assistant">
+                        Hello! I'm your AI assistant. Ask me anything about your problem!
+                    </div>
+                </div>
+
+                <div class="chat-input-group">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Ask a question...">
+                    <button class="chat-send-btn" onclick="sendChatMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
                 </div>
             </div>
 
-            <div>
-                <h4 style="font-size: 1rem; margin-bottom: 0.75rem;">AI Assistant</h4>
-                <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
-                    <p style="font-size: 0.875rem; margin-bottom: 0.75rem;">Need help with a problem?</p>
-                    <button class="btn btn-primary" style="width: 100%; font-size: 0.875rem;">Ask AI</button>
+            <!-- Hints Panel -->
+            <div class="panel-content" id="hintsPanel">
+                <div class="hint-item">
+                    <div class="hint-header" onclick="toggleHint(1)">
+                        <span>Hint 1: Start with the basics</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="hint-content" id="hint1">
+                        Identify the type of equation you're working with. Is it linear, quadratic, or something else?
+                    </div>
+                </div>
+                <div class="hint-item">
+                    <div class="hint-header" onclick="toggleHint(2)">
+                        <span>Hint 2: Look for patterns</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="hint-content" id="hint2">
+                        Check if the equation can be factored or if you need to use a formula.
+                    </div>
+                </div>
+                <div class="hint-item">
+                    <div class="hint-header" onclick="toggleHint(3)">
+                        <span>Hint 3: Apply the method</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="hint-content" id="hint3">
+                        Use the quadratic formula: x = (-b ± √(b² - 4ac)) / 2a
+                    </div>
+                </div>
+            </div>
+
+            <!-- Steps Panel -->
+            <div class="panel-content" id="stepsPanel">
+                <div class="output-steps">
+                    <div class="step-item">
+                        <span class="step-number">Step 1:</span>
+                        Identify coefficients: a = 1, b = -5, c = 6
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">Step 2:</span>
+                        Calculate discriminant: Δ = b² - 4ac = 25 - 24 = 1
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">Step 3:</span>
+                        Apply quadratic formula: x = (5 ± √1) / 2
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">Step 4:</span>
+                        Simplify: x₁ = 3, x₂ = 2
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Panel -->
+            <div class="panel-content" id="historyPanel">
+                <div id="historyList">
+                    <!-- History items will be added here -->
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="emma-assets/js/emma-app.js"></script>
+    <!-- Keyboard Shortcuts Modal -->
+    <div class="shortcuts-modal" id="shortcutsModal">
+        <div class="shortcuts-content">
+            <h2 style="margin-bottom: 20px;">Keyboard Shortcuts</h2>
+            <div class="shortcut-item">
+                <span>Run cell</span>
+                <span class="shortcut-key">Shift + Enter</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Run cell and insert below</span>
+                <span class="shortcut-key">Ctrl + Enter</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Save notebook</span>
+                <span class="shortcut-key">Ctrl + S</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Toggle comment</span>
+                <span class="shortcut-key">Ctrl + /</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Add cell below</span>
+                <span class="shortcut-key">B</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Delete cell</span>
+                <span class="shortcut-key">D D</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Toggle theme</span>
+                <span class="shortcut-key">Ctrl + T</span>
+            </div>
+            <button class="action-btn" onclick="closeShortcuts()" style="margin-top: 20px; width: 100%;">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // MathJax Configuration
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+
+        // NotebookManager Class
+        class NotebookManager {
+            constructor() {
+                this.cells = [];
+                this.activeCell = null;
+                this.autoSaveInterval = null;
+                this.init();
+            }
+
+            init() {
+                // Load saved notebook or create new one
+                const saved = localStorage.getItem('emma_notebook');
+                if (saved) {
+                    this.loadNotebook(JSON.parse(saved));
+                } else {
+                    this.addCell();
+                }
+
+                // Setup auto-save
+                this.startAutoSave();
+            }
+
+            addCell(type = 'code', content = '', insertAfter = null) {
+                const cellId = 'cell_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                const cell = {
+                    id: cellId,
+                    type: type,
+                    content: content,
+                    output: null
+                };
+
+                if (insertAfter) {
+                    const index = this.cells.findIndex(c => c.id === insertAfter);
+                    this.cells.splice(index + 1, 0, cell);
+                } else {
+                    this.cells.push(cell);
+                }
+
+                this.renderCell(cell);
+                return cellId;
+            }
+
+            renderCell(cell) {
+                const container = document.getElementById('notebookCells');
+                const cellDiv = document.createElement('div');
+                cellDiv.className = 'notebook-cell';
+                cellDiv.id = cell.id;
+                cellDiv.innerHTML = `
+                    <div class="cell-toolbar">
+                        <button class="cell-run-btn" onclick="notebookManager.runCell('${cell.id}')">
+                            <i class="fas fa-play"></i> Run
+                        </button>
+                        <select class="cell-type-select" onchange="notebookManager.changeCellType('${cell.id}', this.value)">
+                            <option value="code" ${cell.type === 'code' ? 'selected' : ''}>Code</option>
+                            <option value="markdown" ${cell.type === 'markdown' ? 'selected' : ''}>Markdown</option>
+                        </select>
+                        <button class="cell-menu-btn" onclick="notebookManager.showCellMenu('${cell.id}')">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <button class="cell-menu-btn" onclick="notebookManager.deleteCell('${cell.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="cell-input" id="${cell.id}_input"></div>
+                    <div class="cell-output ${cell.output ? '' : 'empty'}" id="${cell.id}_output">
+                        ${cell.output || ''}
+                    </div>
+                `;
+
+                container.appendChild(cellDiv);
+
+                // Initialize CodeMirror
+                const editor = CodeMirror(document.getElementById(`${cell.id}_input`), {
+                    value: cell.content,
+                    mode: cell.type === 'code' ? 'python' : 'markdown',
+                    theme: document.body.classList.contains('dark-mode') ? 'dracula' : 'eclipse',
+                    lineNumbers: true,
+                    matchBrackets: true,
+                    autoCloseBrackets: true,
+                    extraKeys: {
+                        'Shift-Enter': () => this.runCell(cell.id),
+                        'Ctrl-Enter': () => {
+                            this.runCell(cell.id);
+                            this.addCell('code', '', cell.id);
+                        },
+                        'Ctrl-S': () => this.saveNotebook()
+                    }
+                });
+
+                cell.editor = editor;
+
+                // Focus on new cell
+                setTimeout(() => editor.focus(), 100);
+            }
+
+            async runCell(cellId) {
+                const cell = this.cells.find(c => c.id === cellId);
+                if (!cell) return;
+
+                const content = cell.editor.getValue();
+                const outputDiv = document.getElementById(`${cellId}_output`);
+
+                // Show loading
+                outputDiv.innerHTML = '<div class="loading-spinner"></div> Computing...';
+                outputDiv.classList.remove('empty');
+
+                try {
+                    if (cell.type === 'markdown') {
+                        // Render markdown with MathJax
+                        outputDiv.innerHTML = this.renderMarkdown(content);
+                        MathJax.typesetPromise([outputDiv]);
+                    } else {
+                        // Send to EMMA API
+                        const result = await this.executeCode(content);
+                        outputDiv.innerHTML = result;
+
+                        // Render math if present
+                        if (MathJax) {
+                            MathJax.typesetPromise([outputDiv]);
+                        }
+
+                        // Add to history
+                        addToHistory(content, result);
+                    }
+
+                    cell.output = outputDiv.innerHTML;
+                } catch (error) {
+                    outputDiv.innerHTML = `<div style="color: var(--danger-color);">
+                        <strong>Error:</strong> ${error.message}
+                    </div>`;
+                }
+            }
+
+            async executeCode(code) {
+                // Determine the type of query
+                if (code.startsWith('plot ') || code.startsWith('graph ')) {
+                    return await this.visualize(code);
+                } else if (code.startsWith('solve ')) {
+                    return await this.solve(code);
+                } else {
+                    return await this.query(code);
+                }
+            }
+
+            async query(text) {
+                try {
+                    const response = await fetch('/api/emma/query', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ query: text })
+                    });
+
+                    if (!response.ok) throw new Error('API request failed');
+
+                    const data = await response.json();
+                    return this.formatResponse(data);
+                } catch (error) {
+                    console.error('Query error:', error);
+                    return this.fallbackResponse(text);
+                }
+            }
+
+            async solve(equation) {
+                const cleanEq = equation.replace('solve ', '').trim();
+
+                try {
+                    const response = await fetch('/api/emma/solve', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ equation: cleanEq })
+                    });
+
+                    if (!response.ok) throw new Error('API request failed');
+
+                    const data = await response.json();
+                    return this.formatSolution(data);
+                } catch (error) {
+                    console.error('Solve error:', error);
+                    return this.fallbackSolve(cleanEq);
+                }
+            }
+
+            async visualize(command) {
+                const cleanCmd = command.replace(/^(plot|graph)\s+/, '').trim();
+
+                try {
+                    const response = await fetch('/api/emma/visualize', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ expression: cleanCmd })
+                    });
+
+                    if (!response.ok) throw new Error('API request failed');
+
+                    const data = await response.json();
+                    return this.createPlot(data);
+                } catch (error) {
+                    console.error('Visualize error:', error);
+                    return this.fallbackPlot(cleanCmd);
+                }
+            }
+
+            formatResponse(data) {
+                let html = '<div class="output-result">';
+
+                if (data.result) {
+                    html += `<div style="font-size: 18px; margin-bottom: 15px;">$$${data.result}$$</div>`;
+                }
+
+                if (data.steps && data.steps.length > 0) {
+                    html += '<div class="output-steps">';
+                    data.steps.forEach((step, i) => {
+                        html += `
+                            <div class="step-item">
+                                <span class="step-number">Step ${i + 1}:</span>
+                                ${step}
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                }
+
+                html += '</div>';
+                return html;
+            }
+
+            formatSolution(data) {
+                let html = '<div class="output-result">';
+
+                if (data.solutions && data.solutions.length > 0) {
+                    html += '<h4>Solutions:</h4>';
+                    data.solutions.forEach((sol, i) => {
+                        html += `<div style="font-size: 16px; margin: 10px 0;">$$x_{${i + 1}} = ${sol}$$</div>`;
+                    });
+                }
+
+                if (data.steps && data.steps.length > 0) {
+                    html += '<div class="output-steps" style="margin-top: 20px;">';
+                    data.steps.forEach((step, i) => {
+                        html += `
+                            <div class="step-item">
+                                <span class="step-number">Step ${i + 1}:</span>
+                                ${step}
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                }
+
+                html += '</div>';
+                return html;
+            }
+
+            createPlot(data) {
+                const plotId = 'plot_' + Date.now();
+                const html = `<div id="${plotId}" class="output-plot" style="width: 100%; height: 400px;"></div>`;
+
+                setTimeout(() => {
+                    const plotDiv = document.getElementById(plotId);
+                    if (plotDiv && data.plotData) {
+                        Plotly.newPlot(plotId, data.plotData.data, data.plotData.layout, {
+                            responsive: true
+                        });
+                    }
+                }, 100);
+
+                return html;
+            }
+
+            fallbackResponse(text) {
+                // Provide a basic response when API is unavailable
+                return `<div class="output-result">
+                    <div style="padding: 15px; background: rgba(255, 193, 7, 0.1); border-left: 4px solid var(--warning-color); border-radius: 6px;">
+                        <strong>Note:</strong> Running in offline mode. Connect to backend for full functionality.
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <strong>Input:</strong> <code>${text}</code>
+                    </div>
+                </div>`;
+            }
+
+            fallbackSolve(equation) {
+                // Basic quadratic solver for demonstration
+                const quadMatch = equation.match(/x\^2\s*([+-]\s*\d+)x\s*([+-]\s*\d+)\s*=\s*0/);
+
+                if (quadMatch) {
+                    const b = parseFloat(quadMatch[1].replace(/\s/g, ''));
+                    const c = parseFloat(quadMatch[2].replace(/\s/g, ''));
+                    const discriminant = b * b - 4 * c;
+
+                    if (discriminant >= 0) {
+                        const x1 = (-b + Math.sqrt(discriminant)) / 2;
+                        const x2 = (-b - Math.sqrt(discriminant)) / 2;
+
+                        return `
+                            <div class="output-result">
+                                <h4>Solutions:</h4>
+                                <div style="font-size: 16px; margin: 10px 0;">$$x_1 = ${x1.toFixed(2)}$$</div>
+                                <div style="font-size: 16px; margin: 10px 0;">$$x_2 = ${x2.toFixed(2)}$$</div>
+                                <div class="output-steps" style="margin-top: 20px;">
+                                    <div class="step-item">
+                                        <span class="step-number">Step 1:</span>
+                                        Identify coefficients: a = 1, b = ${b}, c = ${c}
+                                    </div>
+                                    <div class="step-item">
+                                        <span class="step-number">Step 2:</span>
+                                        Calculate discriminant: Δ = ${discriminant.toFixed(2)}
+                                    </div>
+                                    <div class="step-item">
+                                        <span class="step-number">Step 3:</span>
+                                        Apply quadratic formula
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+
+                return this.fallbackResponse(`solve ${equation}`);
+            }
+
+            fallbackPlot(expression) {
+                const plotId = 'plot_' + Date.now();
+                const html = `<div id="${plotId}" class="output-plot" style="width: 100%; height: 400px;"></div>`;
+
+                setTimeout(() => {
+                    // Create sample plot
+                    const x = [];
+                    const y = [];
+                    for (let i = -10; i <= 10; i += 0.1) {
+                        x.push(i);
+                        y.push(Math.sin(i));
+                    }
+
+                    Plotly.newPlot(plotId, [{
+                        x: x,
+                        y: y,
+                        type: 'scatter',
+                        mode: 'lines',
+                        name: expression
+                    }], {
+                        title: expression,
+                        xaxis: { title: 'x' },
+                        yaxis: { title: 'y' },
+                        paper_bgcolor: 'rgba(0,0,0,0)',
+                        plot_bgcolor: 'rgba(0,0,0,0)'
+                    }, {
+                        responsive: true
+                    });
+                }, 100);
+
+                return html;
+            }
+
+            renderMarkdown(text) {
+                // Basic markdown rendering
+                let html = text
+                    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                    .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+                    .replace(/\*(.*)\*/gim, '<em>$1</em>')
+                    .replace(/\n/gim, '<br>');
+                return html;
+            }
+
+            changeCellType(cellId, newType) {
+                const cell = this.cells.find(c => c.id === cellId);
+                if (!cell) return;
+
+                cell.type = newType;
+                cell.editor.setOption('mode', newType === 'code' ? 'python' : 'markdown');
+            }
+
+            deleteCell(cellId) {
+                const index = this.cells.findIndex(c => c.id === cellId);
+                if (index === -1) return;
+
+                if (this.cells.length === 1) {
+                    alert('Cannot delete the last cell');
+                    return;
+                }
+
+                this.cells.splice(index, 1);
+                document.getElementById(cellId).remove();
+                this.saveNotebook();
+            }
+
+            showCellMenu(cellId) {
+                // Show context menu with options
+                const options = ['Insert cell above', 'Insert cell below', 'Copy cell', 'Clear output'];
+                const choice = prompt('Options:\n1. Insert cell above\n2. Insert cell below\n3. Copy cell\n4. Clear output\n\nEnter number:');
+
+                switch(choice) {
+                    case '1':
+                        const index = this.cells.findIndex(c => c.id === cellId);
+                        this.addCell('code', '', this.cells[index - 1]?.id);
+                        break;
+                    case '2':
+                        this.addCell('code', '', cellId);
+                        break;
+                    case '3':
+                        const cell = this.cells.find(c => c.id === cellId);
+                        if (cell) {
+                            this.addCell(cell.type, cell.editor.getValue(), cellId);
+                        }
+                        break;
+                    case '4':
+                        const outputDiv = document.getElementById(`${cellId}_output`);
+                        outputDiv.innerHTML = '';
+                        outputDiv.classList.add('empty');
+                        break;
+                }
+            }
+
+            saveNotebook() {
+                const notebookData = {
+                    title: document.getElementById('notebookTitle').value,
+                    cells: this.cells.map(cell => ({
+                        id: cell.id,
+                        type: cell.type,
+                        content: cell.editor.getValue(),
+                        output: cell.output
+                    }))
+                };
+
+                localStorage.setItem('emma_notebook', JSON.stringify(notebookData));
+                showAutoSaveStatus('saved');
+            }
+
+            loadNotebook(data) {
+                document.getElementById('notebookTitle').value = data.title || 'Untitled Notebook';
+
+                data.cells.forEach(cellData => {
+                    this.addCell(cellData.type, cellData.content);
+                });
+            }
+
+            startAutoSave() {
+                this.autoSaveInterval = setInterval(() => {
+                    this.saveNotebook();
+                }, 30000); // Auto-save every 30 seconds
+            }
+
+            exportNotebook() {
+                const format = prompt('Export as:\n1. PDF\n2. HTML\n3. LaTeX\n\nEnter number:');
+
+                switch(format) {
+                    case '1':
+                        alert('PDF export will be available soon!');
+                        break;
+                    case '2':
+                        this.exportAsHTML();
+                        break;
+                    case '3':
+                        alert('LaTeX export will be available soon!');
+                        break;
+                }
+            }
+
+            exportAsHTML() {
+                const title = document.getElementById('notebookTitle').value;
+                let html = `<!DOCTYPE html>
+<html>
+<head>
+    <title>${title}</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; }
+        .cell { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .cell-input { background: #f5f5f5; padding: 10px; border-radius: 4px; font-family: monospace; }
+        .cell-output { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>${title}</h1>
+`;
+
+                this.cells.forEach(cell => {
+                    html += `
+    <div class="cell">
+        <div class="cell-input">${cell.editor.getValue()}</div>
+        ${cell.output ? `<div class="cell-output">${cell.output}</div>` : ''}
+    </div>
+`;
+                });
+
+                html += `
+</body>
+</html>`;
+
+                const blob = new Blob([html], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${title}.html`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        // Initialize NotebookManager
+        let notebookManager;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            notebookManager = new NotebookManager();
+            initializeProblems();
+            initializeVisualizations();
+            setupEventListeners();
+        });
+
+        // Helper Functions
+        function addCell() {
+            notebookManager.addCell();
+        }
+
+        function saveNotebook() {
+            notebookManager.saveNotebook();
+            alert('Notebook saved successfully!');
+        }
+
+        function exportNotebook() {
+            notebookManager.exportNotebook();
+        }
+
+        function insertSymbol(symbol) {
+            const activeCell = document.activeElement.closest('.notebook-cell');
+            if (activeCell) {
+                const cellId = activeCell.id;
+                const cell = notebookManager.cells.find(c => c.id === cellId);
+                if (cell && cell.editor) {
+                    const doc = cell.editor.getDoc();
+                    const cursor = doc.getCursor();
+                    doc.replaceRange(symbol, cursor);
+                    cell.editor.focus();
+                }
+            }
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+
+            // Update CodeMirror themes
+            notebookManager.cells.forEach(cell => {
+                if (cell.editor) {
+                    cell.editor.setOption('theme', isDark ? 'dracula' : 'eclipse');
+                }
+            });
+
+            // Update icon
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+
+            // Save preference
+            localStorage.setItem('emma_theme', isDark ? 'dark' : 'light');
+        }
+
+        // Load theme preference
+        if (localStorage.getItem('emma_theme') === 'dark') {
+            toggleTheme();
+        }
+
+        function showAutoSaveStatus(status) {
+            const indicator = document.getElementById('autoSaveIndicator');
+            const icon = indicator.querySelector('i');
+            const text = indicator.querySelector('span');
+
+            if (status === 'saving') {
+                indicator.className = 'auto-save-indicator saving';
+                icon.className = 'fas fa-spinner fa-spin';
+                text.textContent = 'Saving...';
+            } else {
+                indicator.className = 'auto-save-indicator saved';
+                icon.className = 'fas fa-cloud';
+                text.textContent = 'Saved';
+            }
+        }
+
+        function showShortcuts() {
+            document.getElementById('shortcutsModal').classList.add('show');
+        }
+
+        function closeShortcuts() {
+            document.getElementById('shortcutsModal').classList.remove('show');
+        }
+
+        // Mode switching
+        function setupEventListeners() {
+            // Mode buttons
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const mode = btn.dataset.mode;
+                    switchMode(mode);
+
+                    // Update active state
+                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+
+            // Panel tabs
+            document.querySelectorAll('.panel-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const panel = tab.dataset.panel;
+                    switchPanel(panel);
+
+                    // Update active state
+                    document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                });
+            });
+
+            // Chat input
+            document.getElementById('chatInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendChatMessage();
+                }
+            });
+
+            // Close shortcuts modal on outside click
+            document.getElementById('shortcutsModal').addEventListener('click', (e) => {
+                if (e.target.id === 'shortcutsModal') {
+                    closeShortcuts();
+                }
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    notebookManager.saveNotebook();
+                    showAutoSaveStatus('saved');
+                }
+                if (e.ctrlKey && e.key === 't') {
+                    e.preventDefault();
+                    toggleTheme();
+                }
+            });
+        }
+
+        function switchMode(mode) {
+            document.querySelectorAll('.work-mode').forEach(m => m.classList.remove('active'));
+
+            switch(mode) {
+                case 'notebook':
+                    document.getElementById('notebookMode').classList.add('active');
+                    break;
+                case 'problems':
+                    document.getElementById('problemsMode').classList.add('active');
+                    break;
+                case 'visualizations':
+                    document.getElementById('visualizationsMode').classList.add('active');
+                    break;
+            }
+        }
+
+        function switchPanel(panel) {
+            document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
+
+            switch(panel) {
+                case 'chat':
+                    document.getElementById('chatPanel').classList.add('active');
+                    break;
+                case 'hints':
+                    document.getElementById('hintsPanel').classList.add('active');
+                    break;
+                case 'steps':
+                    document.getElementById('stepsPanel').classList.add('active');
+                    break;
+                case 'history':
+                    document.getElementById('historyPanel').classList.add('active');
+                    break;
+            }
+        }
+
+        // Chat functions
+        async function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            const messagesDiv = document.getElementById('chatMessages');
+
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-message user';
+            userMsg.textContent = message;
+            messagesDiv.appendChild(userMsg);
+
+            input.value = '';
+
+            // Scroll to bottom
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            // Get AI response
+            try {
+                const response = await fetch('/api/emma/query', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: message })
+                });
+
+                const data = await response.json();
+
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'chat-message assistant';
+                aiMsg.innerHTML = data.answer || 'I can help you with that! Try running it in a notebook cell for a detailed solution.';
+                messagesDiv.appendChild(aiMsg);
+
+                if (MathJax) {
+                    MathJax.typesetPromise([aiMsg]);
+                }
+            } catch (error) {
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'chat-message assistant';
+                aiMsg.textContent = 'I\'m here to help! Try asking about math concepts, formulas, or problem-solving strategies.';
+                messagesDiv.appendChild(aiMsg);
+            }
+
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function askQuick(question) {
+            document.getElementById('chatInput').value = question;
+            sendChatMessage();
+        }
+
+        // Hint functions
+        function toggleHint(num) {
+            const hint = document.getElementById(`hint${num}`);
+            hint.classList.toggle('show');
+        }
+
+        // History functions
+        function addToHistory(input, output) {
+            const historyList = document.getElementById('historyList');
+            const item = document.createElement('div');
+            item.className = 'history-item';
+
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+
+            item.innerHTML = `
+                <div class="history-time">${timeStr}</div>
+                <div class="history-content">${input.substring(0, 50)}${input.length > 50 ? '...' : ''}</div>
+            `;
+
+            item.onclick = () => {
+                notebookManager.addCell('code', input);
+            };
+
+            historyList.insertBefore(item, historyList.firstChild);
+
+            // Keep only last 20 items
+            while (historyList.children.length > 20) {
+                historyList.removeChild(historyList.lastChild);
+            }
+        }
+
+        // Problem functions
+        function initializeProblems() {
+            const problems = [
+                {
+                    difficulty: 'intermediate',
+                    topic: 'Quadratic Equations',
+                    statement: 'Solve the equation: $$x^2 - 5x + 6 = 0$$',
+                    solution: 'x = 2 or x = 3',
+                    hints: [
+                        'This is a quadratic equation in standard form',
+                        'Try factoring the expression',
+                        'The equation factors as (x-2)(x-3) = 0'
+                    ]
+                },
+                {
+                    difficulty: 'beginner',
+                    topic: 'Linear Equations',
+                    statement: 'Solve for x: $$2x + 5 = 13$$',
+                    solution: 'x = 4',
+                    hints: [
+                        'Isolate the term with x',
+                        'Subtract 5 from both sides',
+                        'Divide by 2'
+                    ]
+                }
+            ];
+
+            currentProblem = problems[0];
+            loadProblem(currentProblem);
+        }
+
+        let currentProblem = null;
+
+        function loadProblem(problem) {
+            const viewer = document.getElementById('problemViewer');
+            viewer.innerHTML = `
+                <div class="problem-card">
+                    <div class="problem-header">
+                        <span class="difficulty-badge ${problem.difficulty}">${problem.difficulty}</span>
+                        <span class="topic-tag">${problem.topic}</span>
+                    </div>
+                    <div class="problem-statement">${problem.statement}</div>
+                    <div class="problem-input">
+                        <textarea id="problemAnswer" placeholder="Enter your solution..."></textarea>
+                    </div>
+                    <div class="problem-actions">
+                        <button class="problem-btn primary" onclick="checkAnswer()">Check Answer</button>
+                        <button class="problem-btn secondary" onclick="showHint()">Show Hint</button>
+                        <button class="problem-btn tertiary" onclick="showSolution()">Show Solution</button>
+                        <button class="problem-btn" onclick="loadRandomProblem()">Try Another</button>
+                    </div>
+                    <div class="problem-result" id="problemResult"></div>
+                    <div class="problem-hint" id="problemHint"></div>
+                    <div class="problem-solution" id="problemSolution"></div>
+                </div>
+            `;
+
+            if (MathJax) {
+                MathJax.typesetPromise([viewer]);
+            }
+        }
+
+        function checkAnswer() {
+            const answer = document.getElementById('problemAnswer').value.trim();
+            const result = document.getElementById('problemResult');
+
+            if (!answer) {
+                alert('Please enter an answer');
+                return;
+            }
+
+            // Simple check (in real app, would use backend)
+            const isCorrect = answer.includes('2') && answer.includes('3');
+
+            result.className = 'problem-result show ' + (isCorrect ? 'correct' : 'incorrect');
+            result.innerHTML = isCorrect
+                ? '<strong>Correct!</strong> Well done! Your solution is correct.'
+                : '<strong>Not quite.</strong> Try reviewing the hints or check your work.';
+        }
+
+        let currentHintIndex = 0;
+
+        function showHint() {
+            const hintDiv = document.getElementById('problemHint');
+
+            if (!currentProblem || !currentProblem.hints) return;
+
+            if (currentHintIndex < currentProblem.hints.length) {
+                hintDiv.innerHTML = `
+                    <strong>Hint ${currentHintIndex + 1}:</strong> ${currentProblem.hints[currentHintIndex]}
+                `;
+                hintDiv.classList.add('show');
+                currentHintIndex++;
+            } else {
+                hintDiv.innerHTML = '<strong>No more hints available.</strong> Try showing the solution.';
+            }
+        }
+
+        function showSolution() {
+            const solDiv = document.getElementById('problemSolution');
+
+            if (!currentProblem) return;
+
+            solDiv.innerHTML = `
+                <h4>Solution:</h4>
+                <div class="output-steps">
+                    <div class="step-item">
+                        <span class="step-number">Step 1:</span>
+                        Identify the quadratic equation: x² - 5x + 6 = 0
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">Step 2:</span>
+                        Factor the expression: (x - 2)(x - 3) = 0
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">Step 3:</span>
+                        Apply zero product property: x - 2 = 0 or x - 3 = 0
+                    </div>
+                    <div class="step-item">
+                        <span class="step-number">Step 4:</span>
+                        Solve: x = 2 or x = 3
+                    </div>
+                </div>
+                <div style="margin-top: 15px; font-size: 16px;">
+                    <strong>Answer:</strong> $$x = 2 \\text{ or } x = 3$$
+                </div>
+            `;
+            solDiv.classList.add('show');
+
+            if (MathJax) {
+                MathJax.typesetPromise([solDiv]);
+            }
+        }
+
+        function loadRandomProblem() {
+            currentHintIndex = 0;
+            initializeProblems();
+        }
+
+        // Visualization functions
+        function initializeVisualizations() {
+            const gallery = document.getElementById('vizGallery');
+            const visualizations = [
+                { title: 'Function Plotter', description: '2D function graphing' },
+                { title: '3D Surface Plot', description: 'Three-dimensional visualization' },
+                { title: 'Parametric Curves', description: 'Parametric equations' },
+                { title: 'Vector Fields', description: 'Vector field visualization' },
+                { title: 'Polar Plots', description: 'Polar coordinate graphing' },
+                { title: 'Statistical Distributions', description: 'Probability distributions' }
+            ];
+
+            gallery.innerHTML = visualizations.map(viz => `
+                <div class="viz-card" onclick="openVisualization('${viz.title}')">
+                    <h4>${viz.title}</h4>
+                    <div class="viz-preview">
+                        <i class="fas fa-chart-area" style="font-size: 48px; color: var(--primary-color);"></i>
+                    </div>
+                    <p style="font-size: 13px; color: #6C757D;">${viz.description}</p>
+                </div>
+            `).join('');
+        }
+
+        function openVisualization(title) {
+            alert(`Opening ${title}... This feature will launch an interactive visualization tool.`);
+        }
+
+        // Tool functions
+        function insertTool(tool) {
+            let code = '';
+
+            switch(tool) {
+                case 'calculator':
+                    code = '# Basic Calculator\n2 + 2';
+                    break;
+                case 'graphing':
+                    code = 'plot y = x^2';
+                    break;
+                case 'solver':
+                    code = 'solve x^2 - 5x + 6 = 0';
+                    break;
+                case 'matrix':
+                    code = '# Matrix Operations\ndeterminant [[1,2],[3,4]]';
+                    break;
+                case 'statistics':
+                    code = '# Statistics\nmean [1, 2, 3, 4, 5]';
+                    break;
+                case 'converter':
+                    code = '# Unit Conversion\nconvert 100 celsius to fahrenheit';
+                    break;
+                case 'geometry':
+                    code = '# Geometry\narea circle radius=5';
+                    break;
+                case 'code':
+                    code = '# Python Code\ndef fibonacci(n):\n    return n if n <= 1 else fibonacci(n-1) + fibonacci(n-2)';
+                    break;
+            }
+
+            notebookManager.addCell('code', code);
+            switchMode('notebook');
+        }
+
+        function openCalculator() {
+            insertTool('calculator');
+        }
+
+        function openGraphing() {
+            insertTool('graphing');
+        }
+
+        function openSolver() {
+            insertTool('solver');
+        }
+
+        function loadRecent(id) {
+            alert(`Loading recent item ${id}...`);
+        }
+    </script>
 </body>
 </html>
