@@ -1,5 +1,5 @@
 """
-Dr. Sarah - AI Medical Research Assistant
+SARAH - System for Automated Reasoning and Analysis in Healthcare
 Complete Medical AI System with KGAREVION, NER, Knowledge Graph, and Clinical Decision Support
 Implements the KGAREVION pipeline: Generate → Review → Revise → Answer
 """
@@ -320,7 +320,7 @@ class ClinicalDecisionSupport:
 
 
 class DrSarahCore:
-    """Main Dr. Sarah AI Medical Assistant"""
+    """Main SARAH - System for Automated Reasoning and Analysis in Healthcare"""
 
     def __init__(self):
         self.ner = MedicalNER()

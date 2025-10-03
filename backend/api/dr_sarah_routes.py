@@ -1,5 +1,6 @@
 """
-Dr. Sarah API Routes
+SARAH API Routes
+System for Automated Reasoning and Analysis in Healthcare
 Medical AI Assistant REST API
 """
 
@@ -339,7 +340,7 @@ async def kgarevion_medical_qa(question: MedicalQuestion):
 
 @router.get("/stats")
 async def get_stats():
-    """Get Dr. Sarah usage statistics for dashboard"""
+    """Get SARAH usage statistics for dashboard"""
     # In production, fetch from database
     return {
         'questions_answered': 247,
@@ -351,7 +352,7 @@ async def get_stats():
 
 @router.get("/medical-stats")
 async def get_medical_stats():
-    """Get Dr. Sarah system statistics"""
+    """Get SARAH system statistics"""
     return {
         'total_knowledge_triplets': len(dr_sarah.knowledge_graph.knowledge_base),
         'drug_interactions_database': len(dr_sarah.drug_checker.interactions),
@@ -402,9 +403,9 @@ async def search_medical_literature(search: MedicalLiteratureSearch):
 
 @router.get("/")
 async def dr_sarah_info():
-    """Dr. Sarah API information"""
+    """SARAH API information"""
     return {
-        'name': 'Dr. Sarah - AI Medical Research Assistant',
+        'name': 'SARAH - AI Medical Research Assistant',
         'version': '1.0.0',
         'description': 'Advanced medical AI with NER, knowledge graph, and clinical decision support',
         'capabilities': [
