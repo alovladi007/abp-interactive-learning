@@ -10,11 +10,13 @@ from datetime import datetime
 import logging
 
 from services.dr_sarah_core import DrSarahCore
+from services.medical_safety import MedicalSafetyValidator
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
 dr_sarah = DrSarahCore()
+safety_validator = MedicalSafetyValidator()
 
 
 # Request/Response Models
@@ -272,10 +274,10 @@ async def query_knowledge_graph(entities: List[str]):
 @router.post("/kgarevion")
 async def kgarevion_medical_qa(question: MedicalQuestion):
     """
-    Process medical question using KGAREVION pipeline
+    Process medical question using KGAREVION pipeline with safety validation
 
     **KGAREVION:** Knowledge Graph-Augmented Revision for Medical QA
-    **Pipeline:** Generate → Review → Revise → Answer
+    **Pipeline:** Generate → Review → Revise → Answer → Safety Check
 
     **Features:**
     - Entity extraction from medical text
@@ -283,13 +285,44 @@ async def kgarevion_medical_qa(question: MedicalQuestion):
     - Triplet verification using medical KG
     - Iterative revision of false triplets
     - Confidence-scored answers
+    - **Medical safety validation**
+    - Emergency condition detection
+    - Drug interaction checking
+    - Risk level assessment
     """
     try:
+        # Process through KGAREVION pipeline
         result = await dr_sarah.process_with_kgarevion(
             question_text=question.question,
             question_type="multiple_choice" if question.candidates else "open_ended",
             candidates=question.candidates
         )
+
+        # Perform safety validation
+        safety_result = safety_validator.validate_response(
+            question=question.question,
+            answer=result.get('answer', ''),
+            confidence_score=result.get('confidence', 0.0)
+        )
+
+        # Add safety information to response
+        result['safety'] = {
+            'is_safe': safety_result.is_safe,
+            'risk_level': safety_result.risk_level.value,
+            'warnings': safety_result.warnings,
+            'disclaimers': safety_result.required_disclaimers,
+            'requires_human_review': safety_result.requires_human_review,
+            'domain': safety_result.domain.value,
+            'safety_explanation': safety_result.explanation
+        }
+
+        # Log high-risk responses
+        if safety_result.risk_level.value in ['high', 'critical']:
+            logger.warning(
+                f"High-risk medical response generated: "
+                f"Risk={safety_result.risk_level.value}, "
+                f"Question='{question.question[:100]}...'"
+            )
 
         return result
 
