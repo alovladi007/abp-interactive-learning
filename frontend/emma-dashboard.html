@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EMMA Platform</title>
+    <link rel="stylesheet" href="emma-assets/css/emma-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h2>EMMA</h2>
+                <span class="nav-subtitle">Dashboard</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="workspace.html">Workspace</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#subjects">Subjects</a></li>
+                <li><a href="index.html#pricing">Pricing</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn btn-outline">Settings</button>
+                <button class="btn btn-primary">Profile</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div style="background: #f8f9fa; min-height: calc(100vh - 70px); padding: 2rem 0;">
+        <div class="container">
+            <div style="margin-bottom: 2rem;">
+                <h1>Student Dashboard</h1>
+                <p style="color: #6c757d;">Track your progress and performance across all subjects</p>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Problems Solved</h3>
+                    <div class="metric-value">1,247</div>
+                    <div class="metric-label">+89 this week</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%;"></div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Success Rate</h3>
+                    <div class="metric-value">87%</div>
+                    <div class="metric-label">+3% from last month</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 87%;"></div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Study Streak</h3>
+                    <div class="metric-value">23</div>
+                    <div class="metric-label">days in a row</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%;"></div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Time Spent</h3>
+                    <div class="metric-value">42h</div>
+                    <div class="metric-label">this month</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 55%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subject Progress -->
+            <div style="margin-top: 3rem;">
+                <h2 style="margin-bottom: 1.5rem;">Subject Progress</h2>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="font-size: 2rem;">📐</div>
+                            <div>
+                                <h3 style="margin: 0;">Algebra</h3>
+                                <p style="margin: 0; font-size: 0.875rem; color: #6c757d;">342 problems solved</p>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%;"></div>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.875rem; color: #0066CC;">85% complete</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="font-size: 2rem;">📈</div>
+                            <div>
+                                <h3 style="margin: 0;">Calculus</h3>
+                                <p style="margin: 0; font-size: 0.875rem; color: #6c757d;">198 problems solved</p>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 62%;"></div>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.875rem; color: #0066CC;">62% complete</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="font-size: 2rem;">🔢</div>
+                            <div>
+                                <h3 style="margin: 0;">Linear Algebra</h3>
+                                <p style="margin: 0; font-size: 0.875rem; color: #6c757d;">156 problems solved</p>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%;"></div>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.875rem; color: #0066CC;">45% complete</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="font-size: 2rem;">📊</div>
+                            <div>
+                                <h3 style="margin: 0;">Statistics</h3>
+                                <p style="margin: 0; font-size: 0.875rem; color: #6c757d;">223 problems solved</p>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 71%;"></div>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.875rem; color: #0066CC;">71% complete</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="font-size: 2rem;">⚛️</div>
+                            <div>
+                                <h3 style="margin: 0;">Physics</h3>
+                                <p style="margin: 0; font-size: 0.875rem; color: #6c757d;">189 problems solved</p>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 58%;"></div>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.875rem; color: #0066CC;">58% complete</p>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="font-size: 2rem;">🧪</div>
+                            <div>
+                                <h3 style="margin: 0;">Chemistry</h3>
+                                <p style="margin: 0; font-size: 0.875rem; color: #6c757d;">97 problems solved</p>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 38%;"></div>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.875rem; color: #0066CC;">38% complete</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div style="margin-top: 3rem;">
+                <h2 style="margin-bottom: 1.5rem;">Recent Activity</h2>
+                <div class="dashboard-card">
+                    <div style="border-bottom: 1px solid #dee2e6; padding-bottom: 1rem; margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h4 style="margin: 0;">Completed Calculus Assignment</h4>
+                                <p style="margin: 0; font-size: 0.875rem; color: #6c757d;">Derivatives and Applications</p>
+                            </div>
+                            <div style="font-size: 0.875rem; color: #6c757d;">2 hours ago</div>
+                        </div>
+                    </div>
+
+                    <div style="border-bottom: 1px solid #dee2e6; padding-bottom: 1rem; margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h4 style="margin: 0;">Solved 15 Algebra Problems</h4>
+                                <p style="margin: 0; font-size: 0.875rem; color: #6c757d;">Quadratic Equations</p>
+                            </div>
+                            <div style="font-size: 0.875rem; color: #6c757d;">5 hours ago</div>
+                        </div>
+                    </div>
+
+                    <div style="border-bottom: 1px solid #dee2e6; padding-bottom: 1rem; margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h4 style="margin: 0;">Started Linear Algebra Module</h4>
+                                <p style="margin: 0; font-size: 0.875rem; color: #6c757d;">Matrices and Vectors</p>
+                            </div>
+                            <div style="font-size: 0.875rem; color: #6c757d;">Yesterday</div>
+                        </div>
+                    </div>
+
+                    <div style="padding-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h4 style="margin: 0;">Earned Achievement Badge</h4>
+                                <p style="margin: 0; font-size: 0.875rem; color: #6c757d;">23-Day Study Streak</p>
+                            </div>
+                            <div style="font-size: 0.875rem; color: #6c757d;">2 days ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div style="margin-top: 3rem; margin-bottom: 3rem;">
+                <h2 style="margin-bottom: 1.5rem;">Recommended for You</h2>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">📈</div>
+                        <h3>Advanced Integration</h3>
+                        <p style="color: #6c757d; margin-bottom: 1rem;">Based on your calculus progress, try these advanced integration problems.</p>
+                        <button class="btn btn-primary" style="font-size: 0.875rem;">Start Practice</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🔢</div>
+                        <h3>Eigenvalue Problems</h3>
+                        <p style="color: #6c757d; margin-bottom: 1rem;">Strengthen your linear algebra skills with eigenvalue practice.</p>
+                        <button class="btn btn-primary" style="font-size: 0.875rem;">Start Practice</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">📊</div>
+                        <h3>Hypothesis Testing</h3>
+                        <p style="color: #6c757d; margin-bottom: 1rem;">Continue your statistics journey with hypothesis testing.</p>
+                        <button class="btn btn-primary" style="font-size: 0.875rem;">Start Practice</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="emma-assets/js/emma-app.js"></script>
+</body>
+</html>
