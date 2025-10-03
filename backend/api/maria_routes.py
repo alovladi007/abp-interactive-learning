@@ -1,5 +1,6 @@
 """
-Dr. Sarah API Routes
+MARIA API Routes
+Machine Learning Augmented Research and Intelligent Analysis
 Medical AI Assistant REST API
 """
 
@@ -12,7 +13,7 @@ import os
 import shutil
 from pathlib import Path
 
-from services.dr_sarah_core import DrSarahCore
+from services.maria_core import MARIACore
 from services.medical_safety import MedicalSafetyValidator
 from services.medical_data_integrator import MedicalDataIntegrator
 from services.integration_jobs import jobs_manager, JobStatus
@@ -21,7 +22,7 @@ from config.settings import settings
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
-dr_sarah = DrSarahCore()
+maria = MARIACore()
 safety_validator = MedicalSafetyValidator()
 
 
@@ -67,7 +68,7 @@ async def medical_question_answering(question: MedicalQuestion):
     - "Which protein is associated with breast cancer?"
     """
     try:
-        result = await dr_sarah.process_medical_query(question.question)
+        result = await maria.process_medical_query(question.question)
 
         # Filter response based on request
         if not question.include_triplets:
@@ -103,7 +104,7 @@ async def analyze_patient_case(case: PatientCase):
             'gender': case.gender
         }
 
-        result = await dr_sarah.analyze_patient_case(case_data)
+        result = await maria.analyze_patient_case(case_data)
         return result
 
     except Exception as e:
@@ -122,7 +123,7 @@ async def check_drug_interactions(request: DrugInteractionCheck):
     - Clinical management recommendations
     """
     try:
-        interactions = dr_sarah.drug_checker.check_multiple(request.drugs)
+        interactions = maria.drug_checker.check_multiple(request.drugs)
 
         return {
             'drugs_checked': request.drugs,
@@ -158,7 +159,7 @@ async def search_clinical_guidelines(request: ClinicalGuidelineSearch):
     """
     try:
         # First try exact match
-        recommendation = dr_sarah.clinical_support.get_recommendations(request.condition)
+        recommendation = maria.clinical_support.get_recommendations(request.condition)
 
         if recommendation:
             return {
@@ -171,7 +172,7 @@ async def search_clinical_guidelines(request: ClinicalGuidelineSearch):
             }
 
         # If no exact match, search
-        results = dr_sarah.clinical_support.search_guidelines(request.condition)
+        results = maria.clinical_support.search_guidelines(request.condition)
 
         if not results:
             return {
@@ -211,7 +212,7 @@ async def extract_medical_entities(text: str):
     - Medical tests
     """
     try:
-        entities = dr_sarah.ner.extract_entities(text)
+        entities = maria.ner.extract_entities(text)
 
         # Group entities by type
         entities_by_type = {}
@@ -248,14 +249,14 @@ async def query_knowledge_graph(entities: List[str]):
     """
     try:
         # Convert strings to entity objects for processing
-        from backend.services.dr_sarah_core import MedicalEntity
+        from backend.services.maria_core import MedicalEntity
 
         entity_objects = [
             MedicalEntity(text=e, entity_type='unknown', start=0, end=len(e), confidence=1.0)
             for e in entities
         ]
 
-        triplets = dr_sarah.knowledge_graph.find_triplets(entity_objects)
+        triplets = maria.knowledge_graph.find_triplets(entity_objects)
 
         return {
             'query_entities': entities,
@@ -298,7 +299,7 @@ async def kgarevion_medical_qa(question: MedicalQuestion):
     """
     try:
         # Process through KGAREVION pipeline
-        result = await dr_sarah.process_with_kgarevion(
+        result = await maria.process_with_kgarevion(
             question_text=question.question,
             question_type="multiple_choice" if question.candidates else "open_ended",
             candidates=question.candidates
@@ -339,7 +340,7 @@ async def kgarevion_medical_qa(question: MedicalQuestion):
 
 @router.get("/stats")
 async def get_stats():
-    """Get Dr. Sarah usage statistics for dashboard"""
+    """Get MARIA usage statistics for dashboard"""
     # In production, fetch from database
     return {
         'questions_answered': 247,
@@ -351,12 +352,12 @@ async def get_stats():
 
 @router.get("/medical-stats")
 async def get_medical_stats():
-    """Get Dr. Sarah system statistics"""
+    """Get MARIA system statistics"""
     return {
-        'total_knowledge_triplets': len(dr_sarah.knowledge_graph.knowledge_base),
-        'drug_interactions_database': len(dr_sarah.drug_checker.interactions),
-        'clinical_guidelines': len(dr_sarah.clinical_support.guidelines),
-        'supported_entity_types': list(dr_sarah.ner.entity_patterns.keys()),
+        'total_knowledge_triplets': len(maria.knowledge_graph.knowledge_base),
+        'drug_interactions_database': len(maria.drug_checker.interactions),
+        'clinical_guidelines': len(maria.clinical_support.guidelines),
+        'supported_entity_types': list(maria.ner.entity_patterns.keys()),
         'version': '1.0.0',
         'kgarevion_enabled': True,
         'last_updated': '2024-10-02'
@@ -372,7 +373,7 @@ async def search_medical_literature(search: MedicalLiteratureSearch):
     """
     try:
         # Extract medical entities from query
-        entities = dr_sarah.ner.extract_entities(search.query)
+        entities = maria.ner.extract_entities(search.query)
 
         # Mock literature results
         mock_results = [
@@ -402,9 +403,9 @@ async def search_medical_literature(search: MedicalLiteratureSearch):
 
 @router.get("/")
 async def dr_sarah_info():
-    """Dr. Sarah API information"""
+    """MARIA API information"""
     return {
-        'name': 'Dr. Sarah - AI Medical Research Assistant',
+        'name': 'MARIA - AI Medical Research Assistant',
         'version': '1.0.0',
         'description': 'Advanced medical AI with NER, knowledge graph, and clinical decision support',
         'capabilities': [

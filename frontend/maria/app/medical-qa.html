@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Q&A - Dr. Sarah</title>
+    <title>Medical Q&A - MARIA</title>
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -38,7 +38,7 @@
 <body>
     <div class="dashboard-layout">
         <aside class="sidebar">
-            <div class="sidebar-header"><i class="fas fa-stethoscope"></i><span>Dr. Sarah</span></div>
+            <div class="sidebar-header"><i class="fas fa-stethoscope"></i><span>MARIA</span></div>
             <nav><ul class="sidebar-nav">
                 <li><a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
                 <li><a href="medical-qa-safe.html" class="active"><i class="fas fa-question-circle"></i> Medical Q&A</a></li>
@@ -77,8 +77,8 @@
                         </div>
                         <div class="chat-messages" id="chatMessages">
                             <div class="message assistant">
-                                <div class="message-header">Dr. Sarah</div>
-                                <div>Hello! I'm Dr. Sarah, your AI Medical Research Assistant. I can help you with medical questions, drug interactions, clinical guidelines, and more. Ask me anything!</div>
+                                <div class="message-header">MARIA</div>
+                                <div>Hello! I'm MARIA, your AI Medical Research Assistant. I can help you with medical questions, drug interactions, clinical guidelines, and more. Ask me anything!</div>
                             </div>
                         </div>
                         <div class="chat-input-area">
@@ -112,13 +112,13 @@
         }
         function addMessage(role, content) {
             const div = document.createElement('div'); div.className = \`message \${role}\`;
-            div.innerHTML = \`<div class="message-header">\${role === 'user' ? 'You' : 'Dr. Sarah'}</div><div>\${content}</div>\`;
+            div.innerHTML = \`<div class="message-header">\${role === 'user' ? 'You' : 'MARIA'}</div><div>\${content}</div>\`;
             document.getElementById('chatMessages').appendChild(div);
             div.scrollIntoView({behavior: 'smooth'});
         }
         function addLoadingMessage() {
             const div = document.createElement('div'); const id = 'loading-' + Date.now(); div.id = id; div.className = 'message assistant';
-            div.innerHTML = '<div class="message-header">Dr. Sarah</div><div class="loading"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div>';
+            div.innerHTML = '<div class="message-header">MARIA</div><div class="loading"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div>';
             document.getElementById('chatMessages').appendChild(div); return id;
         }
         function removeMessage(id) { document.getElementById(id)?.remove(); }
@@ -133,7 +133,7 @@
                 entities = \`<div style="margin-top:10px;font-size:0.85rem;color:#666;"><strong>Entities:</strong> \${data.medical_entities.map(e => e.text).join(', ')}</div>\`;
             }
             const div = document.createElement('div'); div.className = 'message assistant';
-            div.innerHTML = \`<div class="message-header">Dr. Sarah<span class="confidence-badge \${confClass}">\${Math.round(conf*100)}% confidence</span></div>
+            div.innerHTML = \`<div class="message-header">MARIA<span class="confidence-badge \${confClass}">\${Math.round(conf*100)}% confidence</span></div>
                 <div>\${data.answer}\${triplets}\${entities}<div style="margin-top:10px;font-size:0.8rem;color:#999;">Processed in \${data.processing_time_ms}ms</div></div>\`;
             document.getElementById('chatMessages').appendChild(div); div.scrollIntoView({behavior: 'smooth'});
         }
